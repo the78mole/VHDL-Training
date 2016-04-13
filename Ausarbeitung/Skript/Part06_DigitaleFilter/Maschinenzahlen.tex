@@ -1,0 +1,33 @@
+In allen bisherigen Versuchen sind wir von einer exakten Darstellung ausgegangen der Abtastwerte und Filterkoeffizienten ausgegangen. 
+\medskip Reale Anwendungen dagegen besitzen aufgrund der endlichen Wortlänge eine viel geringere Genauigkeit. Durch die quantisierung der Zahlen kommt es zu einer Vielzahl von möglichen Fehlerquellen. So zum Beispiel:
+\begin{itemize}
+	\item Quantisierungsfehler bei der AD-Wandlung
+	\item Quantisierungsfehler bei der Darstellung von Filterkoeffizienten
+	\begin{itemize}
+		\item Entwurfsspezifikationen können verletzt werden
+		\item Filter werden instabil
+	\end{itemize}
+	\item Arithmetikfehler innerhalb des Filters
+	\begin{itemize}
+		\item mögliche Wortlängenverkürzungen innerhalb des Filters
+		\item Möglicher Überlauf nach einer Addition
+	\end{itemize}
+\end{itemize}
+
+Um die angesprochenen Fehler verstehen zu können ist es nötig, genauer auf die Darstellung digitaler Zahlen einzugehen. 
+
+%
+%
+\subsection{Zahlendarstellung auf Digitalrechnern}
+%
+%
+
+Eine digitale Verarbeitung von Zahlen, Abtastwerten u.a. bedingt die Verwendung eines für einen Rechner verständlichen Zahlensystems. Dieses basieren auf einem dualen System mit er Basis 2 - man spricht auch von Maschinenzahlen. Diese können - je nach Einsatzbereich und gewünschter Genauigkeit in unterschiedlichen Formaten dargestellt werden. 
+
+Für hochgenaue Anwendungen eignet sich das Gleit- oder Fließkomma-Format\footnote{auch Floating-Point-Format}. Es bietet eine sehr genaue Darstellung von Zahlen, kombiniert mit einem großen Wertebereich. Da Fließkomma-Prozessoren allerdings wesentlich aufwendiger (und dadurch auch teurer) zu realisieren sind verwendet man für Anwendung, bei denen es auf niedrige Entwicklungs- und Fertigungskosten ankommt die ungenauere, aber technisch leicht realisierbare Darstellung im Festkommaformat \footnote{Fixed-Point-Format}.
+
+In Rechenwerken werden duale Zahlen üblicherweise im Zweierkomplement dargestellt, da dieses eine einfache Realisierung von arithmetischen Operationen vorzeichenbehafteter Zahlen erlaubt:
+\begin{equation}
+	x&=a_{B-1}...a_1a_0\cdot
+	 &=2^{B-1}\bigl -a_{B-1}2^0+\sum_{i=1}^{B-1}a_{B-1-i}2^{-i} \bigr
+\end{equation}

@@ -1,0 +1,39 @@
+[Device]
+Family=ep5g00p
+PartType=LFECP20E
+PartName=LFECP20E-3F484C
+SpeedGrade=-3
+Package=FPBGA484
+OperatingCondition=COM
+Status=P
+
+[IP]
+VendorName=Lattice Semiconductor Corporation
+CoreType=LPM
+CoreStatus=Demo
+CoreName=Multiplier
+CoreRevision=3.0
+ModuleName=Multi_Shifter
+SourceFormat=Schematic/VHDL
+ParameterFileVersion=1.0
+Date=11/26/2006
+Time=00:53:38
+
+[Parameters]
+Verilog=0
+VHDL=1
+EDIF=1
+Destination=Synplicity
+Expression=BusA(0 to 7)
+Order=Big Endian [MSB:LSB]
+IO=0
+pmi_implemenntation=DSP
+pmi_const_coeff=No
+pmi_coeff_value=2
+pmi_dataa_width=8
+pmi_datab_width=16
+pmi_datap_width=24
+pmi_sign=Unsigned
+pmi_additional_pipeline=1
+pmi_input_reg=No
+pmi_output_reg=No

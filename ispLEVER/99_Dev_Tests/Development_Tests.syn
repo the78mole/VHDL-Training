@@ -1,0 +1,11 @@
+JDF B
+// Created by Version 5.1 
+PROJECT Development_Tests
+DESIGN development_tests Normal
+DEVKIT LFECP33E-3F484C
+ENTRY Schematic/VHDL
+MODULE ..\common_files\fs_clock_gen.vhd
+MODSTYLE FS_CLOCK_GEN Normal
+MODULE toplevel.vhd
+MODSTYLE toplevel Normal
+SYNTHESIS_TOOL Synplify

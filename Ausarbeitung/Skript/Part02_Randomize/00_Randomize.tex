@@ -1,0 +1,274 @@
+\section{Versuch 2: Zufallsfolgengenerator}\label{sec:randomize}
+
+%
+%
+%\subsection{PRN-Schieberegister}
+%
+%
+
+\subsection{Konzept}\label{subsec:randomize:idea}
+
+Zur Validierung von digitalen Schaltungen ist es oft wünschenswert, die Stimuli\footnote{Steuernde Eingabe eines Systems} möglichst zufällig aber dennoch reproduzierbar zu erzeugen. Durch die zufälligen Folgen wird so eine möglichst gleichmäßige Verteilung über den Wertebereich erreicht, der eine gute Testabdeckung\footnote{Testabdeckung beschreibt das Verhältnis von möglichen Fehlern zu den getesteten Zuständen}\index{Testabdeckung} ermöglicht. Durch Verwendung von Pseudo-Zufallsfolgen-Generatoren können somit die zu erwartenden Ergebnisse allein durch Kenntnis des Startwertes ermittelt werden.
+
+
+\subsection{Realisierungsmöglichkeiten}\label{subsec:randomize:possibilities}
+
+Es gibt verschiedene Möglichkeiten eine sich ständig wiederholende Zufallsfolge zu erzeugen. Im einfachsten Fall generiert man einen Vektor, der die gewünschte Folge enthält und ruft ihn immer wieder auf. Zugegebenermaßen ist diese Methode alles andere als elegant. Im Praktikum werden wir eine schönere Möglichkeit verwenden, indem wir PRN-Sequenzen\footnote{Pseudo-Random-Noise Sequenzen}\index{PRN-Sequenz} durch ein Schieberegister erzeugen lassen.
+
+\subsubsection{PRN-Schieberegister}\index{PRN-Schieberegister}\label{subsec:randomize:prnshiftreg}
+
+PRN-Sequenzen sind keine echten Zufallszahlen, sondern pseudo Zufallszahlen. Es sind Signale, die den Anschein einer zufälligen Folge von Nullen und Einsen erwecken, aber - bei der gleichen Anfangsbelegung der Schieberegister - reproduzierbare Ergebnisse liefern. Diese Tatsache kann man sich später zur Validierung der empfangenen Daten zunutze machen.
+
+Zur Erzeugung der PRN-Folgen greifen wir auf ein N-Bit-Schieberegister zurück, bei dem der Eingang durch eine XOR-Verknüpfung aus beliebigen Bits des Schieberegisters gebildet wird (vgl. Abb. \ref{abb:prnschieberegister}).
+
+\begin{figure}[ht]
+	\centering 
+	%\psfrag{01}{MATLAB Workspace}
+	\includegraphics[width=10cm]{bilder/sender/prn_register}
+	\caption{PRN-Schieberegister}
+	\label{abb:prnschieberegister}\index{PRN-Schieberegister}
+\end{figure}
+
+Auf diese Weise lässt sich mit einem N-Bit-Schieberegister eine $2^N-1$ Bit lange Folge erzeugen. Wie man gut im Beispiel auf Seite \pageref{abb:prnschieberegisterbsp} erkennen kann, beginnt das Register nach einem vollständigen Durchlauf wieder von vorne (siehe Abb. \ref{abb:prnschieberegisterbsp}). Anwendung in der Praxis findet diese Technik zum Beispiel beim Satellitenortungssystem GPS\footnote{GPS - Global Positioning System} zur Erzeugung der CA-Codes\footnote{Verwendet zur Identifizierung einzelner Satelliten} der einzelnen Satelliten (Detailierte Informationen zur Verwendung in GPS \cite{satnav}). 
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{Initialisierung}
+	\psfrag{02}{Schritt 1}
+	\psfrag{03}{Schritt 2}
+	\psfrag{04}{Schritt $2^N-1$}
+	\psfrag{05}{t}
+	\includegraphics[width=10cm]{bilder/sender/prn_register_bsp}
+	\caption{PRN-Schieberegisterdurchlauf}
+	\label{abb:prnschieberegisterbsp}
+\end{figure}
+
+%
+%
+\subsection{MATLAB: Programmierung}\label{subsec:randomize:matlab:prn}
+%
+%
+
+\paragraph{Vorbemerkung zur MATLAB-Programmierung:}
+Um ein Gefühl für MATLAB zu bekommen werden sie in den ersten Versuchen den Großteil der Skripte und Funktionen vorgegeben bekommen und nur die wichtigen Stellen selbst programmieren müssen. Da sie aber den Umgang mit MATLAB erlernen sollen, werden sie im weiteren Verlauf des Praktikums immer mehr dazu angehalten werden, die notwendigen Skripte und Funktionen selbst zu erstellen. Die ersten Versuche sollen ihnen hierfür als anschauliches Beispiel dienen.
+
+\paragraph{Los geht´s mit den ersten Gehversuchen in MATLAB:}
+Vervollständigen sie die im Verzeichnis \pathtomatlab{sender\textbackslash PRNSequenzgenerator} vorliegende MATLAB-Funktion \textit{PRNseq.m}, mit deren Hilfe - wie oben beschrieben - ein pseudozufälliger Datenstrom erzeugt werden kann.
+
+Überprüfen sie die Arbeitsweise ihrer Funktion, indem sie diese in einem MATLAB-Skript aufrufen, ihr die nötigen Parameter übergeben und sich den ausgegebenen Vektor als Balkendiagramm darstellen lassen. Dies erreichen sie in MATLAB mit der Plot-Funktion \textit{bar.m}. 
+
+Lassen sie sich außerdem die Anzahl der ausgegebenen Einsen und Nullen im Com\-mand-Win\-dow anzeigen.
+
+\subsection{VHDL: Realisierung}\label{subsec:randomize:vhdl}
+
+%
+%
+\subsubsection{VHDL-Basics: Signale}\label{subsec:vhdlbasics:signals}
+%
+%
+
+Bisher wuden ausschließlich Signale verwendet, die durch die Entity bereits vorgegeben bzw. deklariert waren. Sogenannte Signale ermöglichen es, neue Namen zu definieren, die dann mit Werten belegt werden können. Für den Anfang werden lediglich die zwei schon bekannten Typen benötigt.
+
+\advise{Bei der Bezeichnung der Signale empfiehlt es sich, dem Signalnamen ein Kürzel voranzustellen, welches Auskunft über dessen Typ gibt. Alle Signale sollten klein geschrieben werden, um sie besser von Ports unterscheiden zu können.}
+
+\begin{table}[hb]
+	\centering
+	\begin{tabular}{|cl|}\hline
+		\emph{Präfix} & \emph{Bedeutung} \\ \hline
+		sl & \textbf{\textcolor{red}{S}}ignal std\_\textbf{\textcolor{red}{l}}ogic \\
+		sv & \textbf{\textcolor{red}{S}}ignal std\_logic\_\textbf{\textcolor{red}{v}}ector \\ \hline
+	\end{tabular}
+	\label{tab:typeprefixes}
+	\caption{Vorgeschlagene Präfixe der bisher bekannten Typen}
+\end{table}
+
+Um einem Vektor einen Wert zuweisen zu können, wird eine Möglichkeit benötigt, Arrayelemente verknüpfen zu können, um nicht jedem Element in einer eigenen Anweisung einen Wert zuweisen zu müssen. Hierzu gibt es mehrere Möglichkeiten, von denen je nach Anwendungsfall die geeignete auszuwählen ist.
+
+\begin{verbatim}
+...
+architecture ...
+...
+  signal sv_bus: std_logic_vector(2 downto 0);
+begin
+...
+  sv_bus(0) <= '1';
+  sv_bus <= (others => '1'); -- Allen Elementen wird '1' zugewiesen
+  sv_bus <= "010";           
+  sv_bus <= '1' & '0' & '1';
+  sv_bus <= '0' & "01"
+  sv_bus(2 downto 1) <= "01";
+...
+end;
+\end{verbatim}
+
+Signale haben in der gesamten architecture Gültigkeit. 
+
+\subsubsection{VHDL-Basics: Sequentielle Prozesse}\label{subsec:vhdlbasics:seqprocesses}
+
+Prozesse sind Teile des Sourcecodes, die synchron ablaufen sollen. Bisher wurden lediglich asynchrone Konstrukte (concurrent statements) verwendet. Besagte Prozesse sind im Grunde nichts anderes als ein großes concurrent statement. Mehrere Prozesse sind daher zueinander nebenläufig, werden also gleichzeitig ausgeführt.
+
+\advise{Prozesse sind nicht vergleichbar mit Programmteilen aus dem Software-Sektor, in denen jeder Befehl nacheinander abgearbeitet wird. In Prozessen passiert alles gleichzeitig!}
+
+Ein Prozess wird wie folgt beschrieben:
+
+\begin{verbatim}
+...
+  [<name> :] process [(<SIGNAL1>, <SIGNAL2>)]
+  begin
+...
+    -- CODE
+...
+  end;
+...
+\end{verbatim}
+
+Der Name des Prozesses ist optional. Die sogenannte \textit{sensitivity list}\footnote{sensitivity list: Signalnamen in Klammern hinter \emph{process}. Bedingte Abarbeitung des Prozesses in der Simulation, bedingt durch die aufgeführten Signale.} gibt die Signale an, auf die der Prozess reagieren soll. Dies ist lediglich für die Simulation von Bedeutung, die den Prozess nur dann abarbeitet, wenn eines der genannten Signale seinen Wert ändert, die Synthese beachtet diese Liste nicht sondern orientiert sich am Code im Prozess selbst.
+
+Um den Prozess synchron auszuführen, benötigt man noch ein Clock- und ggf. ein Reset-Signal. Jeder sequentielle Prozess reagiert zumindest die Flankenänderung des Clock-Signals. Ein Reset ist optional, sollte aber verwendet werden, um einen definierten Zustand nach dem Einschalten zu erhalten.
+
+Ein typischer sequentieller Prozess sieht folgendermaßen aus:
+
+\begin{verbatim}
+...
+  seq_proc : process (CLK, nRESET)
+  begin
+    if nRESET = '0' then
+      -- CODE
+    elseif rising_edge(CLK) then
+      -- CODE
+    end if;
+  end;
+\end{verbatim}
+
+\advise{Meist verwendet man einen invertierten RESET. Dies folgt daraus, dass alle Signale im Einschaltzustand üblicherweise '0'-Pegel besitzen. Diese Invertierung kennzeichnet man gewöhnlich durch das "`n"' vor dem Signalnamen. Es stellt eine weitere freiwillige, aber sinnvolle Konvention für die Programmierung in VHDL dar.}
+
+Alternativ für das oben verwendete \textit{rising\_edge}-Makro, wird manchmal folgendes schlechter lesbare Konstrukt eingesetzt:
+
+\begin{verbatim}
+...
+    elsif CLK'event and CLK = '1' then
+...
+\end{verbatim}
+
+Dies folgt daraus, dass einige Tools das \textit{rising\_edge}-Marko nicht kennen. Sollte bei der Synthese aufgrund dieses Makros ein Fehler auftreten, wenden sie sich bitte an den Betreuer. Die Meldung müsste aussagen, dass die Synthese diese Funktion nicht kennt.
+
+\advise{Wir verwenden in unserem Praktikum das Makro \textit{rising\_edge} um die Lesbarkeit des Codes zu verbessern.}
+
+\subsubsection{VHDL-Basics: if-then-else}\label{subsec:vhdlbasics:ifthenelse}
+
+Im vorherigen Abschnitt wurde bereits das if-then-else-Konstrukt verwendet. Dies ist nicht nur für die Clock-Flanken-Erkennung nützlich sondern ermöglicht auch das Programmieren bedingter Zuweisungen. Allerdings ist es nur in Prozessen zulässig. In concurrent statements muss man sich auf when-else, wie beim Multiplexer verwendet wurde.
+
+Das if-then-else-Konstrukt ist wie folgt definiert:
+
+\begin{verbatim}
+...
+  if <BEDINGUNG> then
+    -- CODE
+  [elsif <BEDINGUNG> then
+    -- CODE ]
+  [else
+    -- CODE ]
+  end if;
+...
+\end{verbatim}
+
+\advise{Immer alle Fälle abdecken, ansonsten \emph{else} verwenden. Ausnahme: Clock-Flankenerkennung.}
+
+\subsection{VHDL: Beschreibung der Hardware}\label{subsec:randomize:HWdesc}
+
+\paragraph{Aufgabe 1: PRN-Schieberegister}
+
+Es soll ein PRN-Schieberegister verwirklicht werden. In der Datei\\ \verb|02_Randomize\prn_shifter.vhd| \\
+finden sie den benötigten, vorgefertigten Sourcecode, um ein solches PRN-Schieberegister zu programmieren. Das Register soll 16 Bit lang sein, und das XOR-Element soll zwischen Ausgang und der 6. Stelle eingefügt werden (vgl. \ref{fig:PRN16}).
+
+\begin{figure}
+	\centering
+		\includegraphics{bilder/sender/PRN16}
+	\caption{16-stufiges Schieberegister mit XOR-Rückkopplung}
+	\label{fig:PRN16}
+\end{figure}
+\develnote{TODO: 16-Bit PRN-Schieberegister Grafik PRN16 einfügen}
+
+Als kleine Hilfestellung sei noch erwähnt, dass sie Ausgabe-Ports (out) nur zuweisen, nicht jedoch lesen können. Es ist daher nötig, ein Signal zu definieren, mit dem sie im Code arbeiten können und dem Ausgangs-Port dann den Wert dieses Signals zuzuweisen.
+
+\paragraph{Aufgabe 2: Anfangszustand}
+
+Welchen Anfangswert muss das Schieberegister haben bzw. darf es nicht haben, um die Funktion sicherzustellen
+\answergame{5}{Nicht (others => '0'), um die Verifikation zu vereinfachen, sollte der Betreuer bei Fehlern die Studenten anweisen, den Anfangswert auf (others => '1') zu setzen. Dann ergibt sich die Folge: TODO
+
+%\paragraph{Aufgabe 2: Definierter Anfangswert}
+% Diese Aufgabe flog zugunsten des besseren Lerneffekts.
+%
+%Was passiert, wenn Sie den Anfangswert des Schieberegister auf \\ 
+%\verb|(other => '0')|\\
+%setzen?
+
+\subsection{MODELSIM: Simulation der Beschreibung}\label{subsec:randomize:behavesim}
+
+\subsubsection{Einführung in Modelsim}\label{subsubsec:modelsim:introduction}
+
+Modelsim ist ein Simulationstool, mit dessen Hilfe sie eine VHDL-Be\-schrei\-bung in praktisch jeder Abstraktionsebene durchführen können. Es unterstützt die be\-ha\-vioral-Be\-schrei\-bung, die syntetisierte Neztliste und auch die implementierte Beschreibung auf Gatterebene mit allen Timings. Es ist also eine vollständige Simulation eines Moduls möglich. Die Simulation der kompletten Hardware kann jedoch nur selten erfolgen, da einerseits die Stimuli oft nicht hinreichend genau bekannt sind und die Simulation selbst äußerst viel Zeit und Rechenaufwand beanspruchen würde.
+
+\advise{Einzelne Module können schnell mit der Simulation verifiziert werden. Komplette Hardware nur eingeschränkt bzw. gar nicht}
+
+Für die Simulation muss eine sogenannte Testbench generiert werden. Viele Hersteller-Tools besitzen dafür ein grafisches Frontend mit, das jedoch bei weitem nicht die Möglichkeiten einer VHDL-Testbench bietet. Daher werden im Praktikum ausschließlich eine VHDL-Dateien verwendet, die keinerlei Ports nach außen haben und das DUT\footnote{DUT: Device Under Test}, also unser Modul, als Komponente einbindet. Die Generierung der Stimuli und auch ggf. die Auswertung der Antworten erfolgt ebenfalls in VHDL. In der Simulation sind im Gegensatz zur Synthese alle VHDL-Konstrukte erlaubt, was es uns gestattet, auf einer sehr hohen Abstraktionsebene zu programmieren.
+
+\ifthenelse{\xemacs}{% XEmacs wird verwendet !!!
+Da wir als Editor XEmacs verwenden, können wir praktisch in wenigen Sekunden eine komplette Testbench bauen, da dieser Editor, wie beinahe für alle größeren Aufgabe, ein Template bereit stellt. Hierzu klicken wir in unserem Sourcefile mit der rechten Maustaste auf die Port-Deklaration und wählen im Menü \emph{Port$\rightarrow$Copy}. Anschließend erstellen wir die Testbench mit \emph{Port$\rightarrow$Paste as Testbench}
+
+XEmacs erzeugt darufhin ein neues File mit dem Namen der Entity mit dem Zusatz \verb|_tb|, was auf deren Natur als Testbench hinweisen soll. Nach einigen Fragen, die von XEmacs gestellt werden, ist die Testbench fertig und bereit zur Verwendung. Einige kleine Korrekturen können noch nötig sein. Meist ist das CLK-Signal zweimal deklariert. XEmacs generiert für jeden gemappten Port ein eigenes Signal. Das CLK-Signal ist jedoch intern auch schon in der Testbench deklariert und wird als globaler Clock verwendet. Durch auskommentieren einer dieser Deklarationen haben wir diesen Fehler schon beseitigt. Er tritt auf, weil man im Normalfall nicht den Namen CLK für den Clock in einem Modul verwendet sondern diesem besser einen aussagekräftigeren Namen gibt, der andeutet, woher dieser stammt (z.B. CLK\_ADC\_SCLK: Der Source-Clock für unseren ADC).
+}{% XEmacs wird nicht verwendet!!!
+Um nicht für jede zu testende Datei eine eigene Testbench bauen zu müssen, bietet die Entwicklungsumgebung von ispLEVER einen Testbench-Generator an, mit dessen Hilfe schnell eine eigene Testbench erzeugt werden kann. Dazu das zu testende VHDL-Modul im Hierarchie-Fenster von ispLEVER anwählen und im Aktionsfenster den Punkt 
+\includegraphics{bilder/sender/ispLeverGenTestbench} auswählen. Die Ausgabe im Fenster ist anschließend in eine Datei zu kopieren und mit geeigneten Stimuli zu versehen.}
+
+Importieren sie nun die Testbench-Datei in ispLever,wobei sich diese unter dem zu testenden VHDL-File einordnet. Um Modelsim zu starten, wählen sie die Testbench in ispLever aus und starten sie die Aktion \includegraphics{bilder/sender/ispLeverSimulate}
+wie in Abb. \ref{fig:simtestbench}
+
+\begin{figure}
+	\centering
+		\includegraphics{bilder/sender/sim_testbench}
+	\caption{Testbench simulieren}
+	\label{fig:simtestbench}
+\end{figure}
+
+Nun startet Modelsim (vgl. Abb \ref{fig:modelsim}) und sie können anfangen, ihre Beschreibung zu simulieren. Mit den Standardeinstellungen gestartet, wird bereits $1 \mu s$ simuliert, sofern keine syntaktischen Fehler in der Beschreibung vorhanden sind. Sollte dies der Fall sein, so korrigieren sie die fehlerhafte VHDL-Datei und lassen sie diese erneut von Modelsim compilieren. Entweder sie schließen Modelsim und starten es über ispLEVER erneut oder sie recompilieren in Modelsim die Datei neu (vgl. Abb. \ref{fig:recompile}). Sie finden die Datei im Reiter \textbf{Work} im linken Teil des Modelsim-Fensters und mittels der rechten Maustaste erhalten sie ein Kontexmenü mit dem entsprechenden Befehl \textbf{recompile}. Anschließend sollten sie den Befehl \textbf{restart} auswählen um die compilierten Versionen in den Speicher zu laden und erneut einen Zeitschritt mittels \textbf{run} simulieren lassen.
+
+\begin{figure}
+	\centering
+		\includegraphics[width=0.95\textwidth]{bilder/sender/modelsim.eps}
+	\caption{Modelsim nach dem Start mittels ispLEVER}
+	\label{fig:modelsim}
+\end{figure}
+
+\begin{figure}
+	\centering
+		\includegraphics[width=0.95\textwidth]{bilder/sender/recompile.eps}
+	\caption{Erneutes Compilieren einer VHDL-Datei}
+	\label{fig:recompile}
+\end{figure}
+
+Alternativ können sie die Befehle auch in das Kommandofenster eintragen und mit Enter bestätigen bzw. mit \verb|;| mehrere Befehle voneinander Trennen. Mit der \keybutton{$\uparrow$}-Taste können sie die Historie der Befehle durchblättern. So sind wiederkehrende Befehlsfolgen sehr einfach mit wenigen Tastendrücken zu wiederholen. Beispielsweise mittels \\
+\verb|vcom ...; restart; run 10 us| \\
+mit einem Befehl, der in der Historie auch schnell wieder gefunden werden kann. 
+
+Sollten sie noch weitere Fragen zu Modelsim haben, so wenden sie sich an den Betreuer. Eigentlich sollten keine Probleme mit der Bedienung von Modelsim entstehen. Behalten sie jedoch stets im Hinterkopf, dass Simulation und Hardware nur dann übereinstimmen, wenn einerseits die Timings von der Synthese eingehalten werden können und andererseits die Simulation die von ihr benötigten Parameter auch erhält (z.B. die sensitivity list). Würde man beispielsweise das Taktsignal nicht in die sensitivity list eintragen, dan wäre die Sumlation nicht funktionsfähig, die Hardware würde allerdings ohne Einschränkungen funktionieren.
+
+\paragraph{Aufgabe 3: Simulation}
+
+Simulieren sie nun mit Hilfe der oben beschriebenen Prozedur den von ihnen programmierten Zufallszahlengenerator.
+
+\subsection{TEST: Praxis}\label{subsec:randomize:test}
+
+\paragraph{Aufgabe 4: Digitales Rauschen}
+
+War ihre Simulation erfolgreich, so synthetisieren sie ihre Beschreibung und generieren sie das Bitfile.
+
+Nun wird das generierte File in das FPGA geladen. Mit Hilfe des Tasters S1 kann ein Takt erzeugt werden, während der Inhalt des Schieberegisters HEX-Codiert auf den LED-7-Segment-Anzeigen dargestellt wird. Es besteht alternativ zum Taster die Möglichkeit, einen langsamen, automatisch generierten Takt mittels des Schalters 0 des 8-Dip-Switch zu aktivieren.
+
+Jeweils 4 bit (ein BDC-Wort) wurden zu einer Stelle zusammengefasst. Die Anzeige stellt somit Werte zwischen 0 und F dar. Zusätzlich werden alle Bits auf den Pegelanzeigen dargestellt. Die Linke bildet die niederwertigen (7 downto 0) Bits, die Rechte die höherwertigen (15 downto 8).
+
+\paragraph{Aufgabe 5: Qualität des Rauschens}
+
+Schalten sie nun den automatischen Takt ein. Wie würden sie die Qualität des Rauschens beurteilen? Nur die letzte LED hat hierfür eine Relevanz.
+
+\answergame{4}{Das Rauschen ist gleichverteilt und der Zeitabstand zweier Wiederholungen sehr groß. Somit ist das Rauschen von guter Qualität.}

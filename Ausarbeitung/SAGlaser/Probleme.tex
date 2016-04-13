@@ -1,0 +1,47 @@
+\chapter{Probleme}\label{chap:problems}
+
+In diesem Kapitel sollen die Probleme, die beim Entwurf des Praktikums aufgetreten und die bei der Durchführung des Praktikums zu erwarten sind, diskutiert werden.
+
+\section{Entwurf}
+
+\subsection{Organisation}
+
+Durch die Vergabe einer weiteren Studienarbeit, was im Zuge der Suche eines Entwicklungssystems auch diskutiert wurde, die lediglich den Entwurf des Entwicklungssystem als Aufgabe gehabt hätte, wären keine zeitlichen Engpässe entstanden. Auch die Verifikation der Hardware hätte besser duchgeführt werden können. Die Entscheidung, das FPGA zuerst bestücken zu lassen wäre sicher nicht getroffen, sondern im Vorfeld die Funktion der Schaltnetzteile sichergestellt worden, was ein Überleben der FPGAs zur Folge gehabt hätte.
+
+Die nachträgliche Einbeziehung von unvorhersehbaren Einschränkungen behinderte das Vorankommen des Systementwurfs. Diese Vorgaben erforderten nach Fertigstellung der Platine noch erheblichen Zeitaufwand, um die Verfügbarkeitsprüfung die im Vorfeld stattgefunden hatte, nochmals mit anderen Rahmenbedingungen durchzuführen. Die Wahl des Distributors fiel im ersten Anlauf aufgrund des Preises, der parametrischen Suchfunktion und der Verfügbarkeit der meisten Bauteile auf Digi-Key. Anfangs war nicht klar, dass die Bestellung bei diesem Distributor Schwierigkeiten bereiten würde. Die Bezahlung per Kreditkarte oder eine Liquiditätsprüfung die von Digi-Key vorausgesetzt werden, waren schließlich die Kriterien, die diesen Distributor ausschlossen. Da die gesamte Verfügbarkeitsprüfung darauf beruhte verzögerte sich die Bearbeitung der Studienarbeit erheblich.
+
+\subsection{Hardware}
+
+Als negativ erwies sich die frühzeitige Bestückung des FPGAs, welches gleich zu Anfang von einer Fremdfirma aufgebracht wurde. Dies erschwerte die Inbetriebnahme der Schaltnetzteile und hatte schließlich die Zerstörung des FPGA zur Folge. Die Qualität des Lötstopplacks der einen Platine, der einen Versatz von etwa $100\mu m$ aufweist, kann auch ein Grund für die Zerstörung des ersten FPGA gewesen sein. Das Problem der möglichen Kurzschlüsse unter dem FPGA hätte durch die Wahl eines besseren Herstellers sicher umgangen werden können. Die Verwendung von Kupfergefüllten Durchkontaktierungen bietet sowohl unter dem FPGA, als auch bei der Verwendung von Schaltkreisen mit thermischer Kopplung zur Platine (z.B. Schaltregler) erhebliche Vorteile. Trotz dieser Nachteile kann ich die Beweggründe nachvollziehen, warum diese Einsparungen gemacht wurden.
+
+Der schon genannte Schaltregler für die Bereitstellung der $3,3V$-Versorgung sollte bei einem Redesign auch durch ein fertiges Modul ersetzt werden. Hier bietet sich der, bereits für die Kernspannung des FPGA verwendete, PTH12000W an.
+
+Da die Hardware aus vorgenannten Gründen nicht zur Verfügung steht, war eine Verifikation der VHDL-Quellen nur mittels Simulation möglich und eine Funktion in der Hardware ist nicht sichergestellt. Besonders die Interaktion mit der übrigen Hardware ist dadurch betroffen.
+
+\subsection{Pflege des Quellcodes}
+
+Es wurde versucht, den Quellcode ausreichend zu dokumentieren, um eine schnelle Einarbeitung zu ermöglichen. Da sich die Wartung wegen der unterschiedlichen Versionen für den pflegenden Programmierer, den Betreuer und den Studenten schwierig gestaltet und eine Änderung in bis zu drei verschiedenen Quellen propagiert werden muss, wurde ein Skript erstellt, das diese Arbeit erleichtert. Hierzu ist ActivePerl, welches im Entwicklungs-Verzeichnis abgelegt ist, zu installieren. Das Skript analysiert die Quellcodes im Verzeichnis \verb|ispLEVER| und reagiert auf wenige Steuerkommandos, die als Kommentare in den Quellcode eingefügt werden. Sind keine Steuerkommandos in der Datei vorhanden, so wird diese in das Studenten- und in das Betreuer-Verzeichnis kopiert, taucht der Kommentar \verb|--NOCOPY| auf, so findet sich die Datei im Betreuer-, nicht aber im Studenten-Verzeichnis. Mit den beiden Kommentaren \verb|--STARTL| und \verb|--STOPL| kann ein Bereich markiert werden, der in der Studentenversion des Quellcodes fehlt und mit \verb|--WRITE HERE| die Stelle markiert, die der Student ergänzen soll. Beispiele finden sich im \verb|ispLEVER|-Verzeichnis praktisch in jedem Unterverzeichnis, in dem die VHDL-Dateien für die Versuche liegen und sind auch im Anhang zu finden.
+
+\section{Praktikumsverlauf}
+
+Im Verlauf des Praktikums sind einige Probleme zu erwarten, die hier aufgrund der fehlenden Erfahrung nur abgeschätzt werden können.
+
+Ein unumgängliches Problem wird sicher die lange Synthesezeit darstellen, die je nach Leistungsfähigkeit der zur Verfügung stehenden PCs und der Komplexität des Codes bis zu 20 Minuten in Anspruch nehmen kann. Eine Möglichkeit bestünde darin, für jeden Versuch unterschiedliche toplevel zu verwenden, die bei den ersten Versuchen nur die nötigen Module der Abstraktionsschicht einbinden. Der entscheidenste Geschwindigkeitsfaktor bleibt allerdings der Code der Studenten. Da das FPGA sehr viele Ressource bereitstellt, kann bei ungeschickter Programmierung erheblich Logik erzeugt werden, den die Synthese versucht, mit allen Mitteln in das FPGA zu integrieren. Meist erkennt man den Fehler erst, wenn die Synthese nach einer längeren, erfolglosen Phase den Versuch abbricht. Die im Normalfall zu erwartenden Synthesezeiten auf den Praktikumsrechnern, die zum Zeitpunkt der Studienarbeit zur Verfügung stehen, sollte allerdings 5 Minuten nicht übersteigen, im Regelfall etwa bei 3 Minuten liegen. tark abhängig ist die vom Hauptspeicher (mindestens 768 MB, besser 1 GB).
+
+Unangenehm fiel teilweise auch die Entwicklungssoftware ispLEVER auf, die manche Module nicht kompilieren konnte und mit einer gravierenden Fehlermeldung endete, die auf einen Softwarefehler schließen lässt, nicht zuletzt, weil gebeten wird die ausgegebene Fehlermeldung an den Hersteller weiterzuleiten. Abhilfe schaffte in einen Fall die Verwendung einer Variablen anstatt eines Signals. In einem anderen Fall sorgte die Vertauschung einiger Programmzeilen, ebenfalls ohne Auswirkung auf die Funktion, für einen erfolgreichen Syntheselauf. Diese Tatsache sollte den Betreuern in jedem Fall mitgeteilt werden. Die Betreuer wiederum sollten dies an Lattice weitergeben.
+
+VHDL an sich bietet auch genügend Potenzial, Beschreibungen zu erzeugen, die nicht synthetisierbar sind. Letztlich ist nur eine kleine Untermenge der möglichen Konstrukte derzeit synthetisierbar. Die bisherige Erfahrung mit VHDL-Neulingen zeigt, dass das Verständnis der Hardware sich erst im Laufe der Zeit einstellt und Fehler aufgrund der Verwendung beispielsweise von \verb|wait for 10 ns| nicht verstanden werden. Zwar wird im Skriptum bereits auf sehr viele dieser Fallen hingewiesen, ganz ausschließen lassen sie sich aber nicht.
+
+Auch die Verwendung von
+\begin{itemize}
+	\item Vergleichen auf ganze Wertebereiche,
+	\item von \verb|for|-Schleifen im falschen Kontext,
+	\item zu wenigen Registern über Hirarchieebenen hinweg und
+	\item Integer-Typen im Port-Teil einer Entity
+\end{itemize}
+um nur einige zu nennen, führen nicht unmittelbar zu einem Fehler. Oft bemerkt man diese nur bei genauer Analyse der Ausgabe der Synthese und sie können nie ganz ausgeschlossen werden. Selbst erfahrene Programmierer bemerken oft erst an der Angabe der verbrauchten Ressourcen, dass ein Fehler dieses Typs vorliegt. Eben diese Konstrukte können die Synthesezeit (genauer die Place-and-Route-Zeit) erhöhen bzw. die zum Abbruch führen.
+
+Auch mit der Hardware könnten im Verlauf des Praktikums Probleme entstehen, sofern der Entwurf dieser Arbeit weiter verfolgt wird. Bei Teilnehmern des Praktikums ist praktisch mit allen Enventualitäten zu rechnen und man kann nicht ausschließen, dass Kurzschlüsse provoziert werden, die Versorgungsspannung verpolt oder der Lausprecher-Ausgang des Leistungsverstärkers mit dem Mikrofoneingang verbunden wird. Schaltungstechnisch wurde dem mit unterschiedlichen Maßnahmen Rechnung getragen. So ist in den Versorgungsspannungseingang eine Leistungsdiode integriert, die den Stromfluss bei falscher Polung unterbindet. Die Eingänge der Schaltung sind mit Schutzbeschaltungen versehen, die den Wert der Spannung auf erträgliche Werte begrenzen. Lediglich eine Übersteuerung wäre die Folge, eine Zerstörung ist beinahe unmöglich. Die Verwendung des BGA-Gehäuses bietet bei dieser Betrachtungsweise sogar Vorteile, da die Anschlüsse nur sehr schwer zugänglich sind. Auch die wenigen Bauteile an der Unterseite und die Verwendung von SMD-Bauelementen, bis auf wenige Ausnahmen, tragen zur Robustheit der Hardware bei. Beschädigungen sollte selbst bei unsachgemäßer Handhabung die Ausnahme bleiben.
+
+
+Die Liste der zu erwartenden Probleme ist sicher endlos fortsetzbar, die wichtigsten und häufigsten dürften allerdings enthalten sein.

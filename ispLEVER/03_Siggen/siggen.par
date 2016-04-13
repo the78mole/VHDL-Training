@@ -1,0 +1,171 @@
+PAR: Place And Route ispLever_v60_PROD_Build (36).
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.
+Sun Nov 26 05:23:27 2006
+
+C:/ispTOOLS6_0_STRT/ispfpga\bin\nt\par -f siggen.p2t siggen_map.ncd siggen.dir
+siggen.prf
+
+Preference file: siggen.prf.
+
+Level/      Number      Timing      Run         NCD
+Cost [ncd]  Unrouted    Score       Time        Status
+----------  --------    --------    -----       ------------
+5_1   *     0           0           06:54       Complete        
+
+
+* : Design saved.
+
+par done!
+
+Lattice Place and Route Report for Design "siggen_map.ncd"
+Sun Nov 26 05:23:27 2006
+
+PAR: Place And Route ispLever_v60_PROD_Build (36).
+Command line: C:/ispTOOLS6_0_STRT/ispfpga\bin\nt\par -f siggen.p2t siggen_map.ncd siggen.dir
+siggen.prf
+Preference file: siggen.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file siggen_map.ncd.
+   "toplevel" is an NCD, version 3.1, vendor LATTICE, device LFECP20E,
+package FPBGA484, speed 3
+Loading device for application par from file 'ep5g49x58.nph' in environment
+C:/ispTOOLS6_0_STRT/ispfpga.
+Package: Version 1.10, Status: FINAL
+Speed Hardware Data: version 9.999
+
+
+Ignore Preference Error(s):  Yes
+Dumping design to file C:/DOKUME~1/sidaglas/LOKALE~1/Temp/neo_3.
+Device utilization summary:
+
+
+   PIO               85/400          21% used
+                     85/360          23% bonded
+
+   IOLOGIC            1/400          <1% used
+   SLICE             54/9856         <1% used
+
+   GSR                1/1           100% used
+   PLL3               1/4            25% used
+
+
+Number of Signals: 153
+Number of Connections: 436
+The following 3 signals are selected to use the primary clock routing resources:
+    clockgen_main_1/sl_clk_98m304 (driver: clockgen_main_1/PLLBInst_0, clk load #: 1)
+    DA_SCKI_c (driver: clockgen_main_1/PLLBInst_0, clk load #: 23)
+    CLK_c (driver: CLK, clk load #: 13)
+
+The following 1 signal is selected to use the DCS clock routing resource:
+    CLK_c (driver: CLK, clk load #: 13)
+
+No signal is selected as secondary clock.
+
+Signal sl_nreset is selected as Global Set/Reset.
+Starting Placer Phase 0.
+.......
+Finished Placer Phase 0.  REAL time: 2 mins 
+
+Starting Placer Phase 1.
+Placer score = 45429.
+..........................
+Placer score = 27121.
+Finished Placer Phase 1.  REAL time: 4 mins 33 secs 
+
+Starting Placer Phase 2.
+.
+Placer score =  25284
+Finished Placer Phase 2.  REAL time: 4 mins 38 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 1 out of 4 (25%)
+  PLL        : 1 out of 4 (25%)
+  DCS        : 1 out of 8 (12%)
+
+Global Clocks:
+  PRIMARY "clockgen_main_1/sl_clk_98m304" from PLL_CLKOP "PLL3_R40C1.CLKOP", driver "clockgen_main_1/PLLBInst_0", clk load = 1
+  PRIMARY "DA_SCKI_c" from PLL_CLKOK "PLL3_R40C1.CLKOK", driver "clockgen_main_1/PLLBInst_0", clk load = 23
+  PRIMARY DCS "CLK_c" from CLK_PIN "J1", driver "CLK", clk load = 13
+
+  PRIMARY  : 3 out of 4 (75%)
+     DCS   : 1 out of 2 (50%)
+  SECONDARY: 0 out of 4 (0%)
+
+--------------- End of Clock Report ---------------
+
+
+Total placer CPU time: 2 mins 51 secs 
+
+Dumping design to file siggen.dir/5_1.ncd.
+
+
+DSP Utilization Summary:
+-------------------------------------
+DSP Block #:                 1    2    3    4    5    6    7
+# of MULT36X36                                              
+# of MULT18X18                                              
+# of MULT18X18MAC                                           
+# of MULT18X18ADDSUB                                        
+# of MULT18X18ADDSUBSUM                                     
+# of MULT9X9                                                
+# of MULT9X9MAC                                             
+# of MULT9X9ADDSUB                                          
+# of MULT9X9ADDSUBSUM                                       
+
+DSP Block  1    Component_Type         Instance_Name     
+
+DSP Block  2    Component_Type         Instance_Name     
+
+DSP Block  3    Component_Type         Instance_Name     
+
+DSP Block  4    Component_Type         Instance_Name     
+
+DSP Block  5    Component_Type         Instance_Name     
+
+DSP Block  6    Component_Type         Instance_Name     
+
+DSP Block  7    Component_Type         Instance_Name     
+
+0 connections routed; 437 unrouted.
+Starting router resource preassignment
+Clock Skew Minimization: OFF
+Completed router resource preassignment. Real time: 6 mins 28 secs 
+Starting iterative routing.
+
+For each routing iteration the number inside the parenthesis is the
+total time (in picoseconds) the design is failing the timing constraints.
+For each routing iteration the router will attempt to reduce this number
+until the number of routing iterations is completed or the value is 0
+meaning the design has fully met the timing constraints.
+
+End of iteration 1
+437 successful; 0 unrouted; (0) real time: 6 mins 47 secs 
+Dumping design to file siggen.dir/5_1.ncd.
+Total CPU time 3 mins 25 secs 
+Total REAL time: 6 mins 48 secs 
+Completely routed.
+End of route.  437 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+Timing score: 0 
+
+Total REAL time to completion: 6 mins 54 secs 
+
+
+All signals are completely routed.
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.

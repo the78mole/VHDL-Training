@@ -1,0 +1,6 @@
+
+
+MODULE stud_toplevel
+
+	SUBMODULE bandpass
+		INSTANCE bandpass_1

@@ -1,0 +1,16 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                            %
+%                   Settings and Macros                      %
+%                                                            %
+% This files includes Settings and Macros needed for this    %
+% Document.                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\pathtovhdl}{../../ispLEVER/}
+
+\newcommand{\lstvhdl}[2]{%
+\lstinputlisting[language=VHDL,
+basicstyle={\sffamily\footnotesize},
+caption={#2}
+]{\pathtovhdl#1}
+}

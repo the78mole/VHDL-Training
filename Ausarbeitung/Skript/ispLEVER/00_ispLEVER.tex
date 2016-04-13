@@ -1,0 +1,104 @@
+\cleardoublepage
+\chapter{ispLEVER}\label{chap:ispLEVER}
+\thispagestyle{empty}
+
+%
+%
+%
+\section{Die Oberfläche}
+%
+%
+%
+
+\begin{figure}[ht]
+	\centering
+	\psfrag{T}{external tools bar}
+	\psfrag{F}{devices \& sources window}
+	\psfrag{O}{process window}
+	\psfrag{L}{console/log window}
+	\includegraphics[width=0.95\textwidth]{ispLEVER/bilder/Environment}
+	\caption{Die ispLEVER-Oberfläche}
+	\label{fig:ispLEVER-Environment}
+\end{figure}
+
+ispLEVER ist das von Lattice\footnote{http://www.latticesemi.com/} zur Verfügung gestellte Tool zur Programmierung derer isp\footnote{\textbf{isp} Abk. In-System Programmable}-Bausteine. Der Aufbau der Oberfläche (vgl. Abb. \ref{fig:ispLEVER-Environment}) gestaltet sich übersichtlich. 
+
+Aus Zeitgründen können wir im Praktikum leider nicht genauer darauf eingehen, wie die Hardware zu konfigurieren ist. Diese Konfiguration beinhaltet die Zuweisung der Pins zu den Ports im Toplevel, die IO-Standards\footnote{z.B. LVCMOS 3.3V, 2.5V; LVTTL,...} und vieles nützliche mehr.
+
+Auch die einzelnen Tools\footnote{z.B. Floorplanner, IPexpress, ...}, die für die Erstellung des Praktikums Verwendung fanden, können allenfalls beiläufig erwähnt werden. Ein kurzer Blick hinter die Kulissen schadet jedoch nicht, solange man nach den Veränderungen nicht abspeichert.
+
+Die grundlegenden Funktionen dürften wohl jedem bekannt sein, der schon mit Windows gearbeitet hat. Im Grunde ist jedoch alles bereits voreingestellt, um direkt mit dem Schreiben des Sourcecodes anfangen zu können. Zum Editieren eines bestimmten Codes sollte man einfach auf die entsprechende Datei im source window doppelklicken und die Datei öffnet sich im eingestellten Editor.
+
+\ifthenelse{\xemacs}% 
+{% if XEmacs
+%
+%
+%
+	\section{VHDL-Editor: XEmacs}\label{sec:editor}\index{XEmacs}\index{Editor}
+%
+%
+%
+Wir verwenden als Editor XEmacs, da es derzeit keinen besseren VHDL-Editor gibt. Sicher ist er ein wenig	gewöhnungsbedürftig, da er aus der Unix-Welt stammt, allerdings kann man ihn auch komplett mit der Maus bedienen, was vielen nach einiger Zeit jedoch schon zu lästig vorkommen dürfte, weshalb wir gleich einige Shortcuts vorstellen möchten.
+		
+		
+		\begin{figure}[ht]
+			\centering
+				\psfrag{T}{Der Minibuffer}
+				\includegraphics[width=0.95\textwidth]{ispLEVER/bilder/XEmacs_Environment}
+			\caption{Die XEmacs Oberfläche}
+			\label{fig:XEmacs-Environment}
+		\end{figure}
+
+		\subsection{Tastenkombinationen}
+		
+Im XEmacs werden Tastenkombinationen (s.a. Tabelle \ref{tab:shortcuts}) bei den einzelnen Menüpunkten mit	angezeigt. Dabei bedeutet \textbf{C-} schlicht \specialbutton{Strg} und \textbf{M-} dementsprechend	\specialbutton{Alt}. Somit bedeutet C-c C-b folgende	Kombination: \specialbutton{Strg} drücken, danach	\keybutton{c} und danach \keybutton{b} und letztendlich \specialbutton{Strg} wieder loslassen. Eine weitere	sehr wichtige Taste ist	\specialbutton{Tab}. Diese vervollständigt automatisch angefangene Wörter. Schreibt man z.B. \emph{ent} und	betätigt \specialbutton{Tab}, so wird daraus umgehend \emph{entity}. Die Funktion	verwendet von der aktuellen	Position ausgehend das im Dokument aufwärts nächste passende Wort. Mehrmaliges betätigen liefert weitere	Möglichkeiten.
+			
+			\begin{table}[ht]
+				\begin{tabular}{|c|l|}\hline
+					\textbf{Shortcut} & Beschreibung \\\hline
+					\specialbutton{Esc} & Verlässt den aktuellen Modus; ggf. mehrmals nötig \\
+					\specialbutton{Tab} & Vervollständigt das aktuelle Wort; mehrmals findet Alternativen \\\hline
+					\textbf{C-x C-s} & Datei (Buffer) speichern \\
+					\textbf{C-x s} & Alle Dateien (Buffer) speichern \\
+					\textbf{C-c C-b} & \emph{Beautifying}, rückt den Code entsprechend der Syntax ein (sehr hilfreich)\\
+					\textbf{C-s} & \emph{Schnellsuche}; mehrmals findet nächstes Vorkommen \\\hline
+				\end{tabular}
+				\caption{Wenige grundlegende Shortcuts}
+				\label{tab:shortcuts}
+			\end{table}
+		
+		\subsection{Minibuffer}
+		
+Eine weiterer wichtiger Teil des XEmacs ist dessen Minibuffer. Das ist die unterste einzelne Zeile. In dieser findet die gesamte Interaktion mit dem XEmacs statt (z.B. bei der Schnellsuche). Um die Fähigkeiten dessen zu demonstrieren, sollte man einfach einmal in der \emph{architecture} des VHDL-Codes \emph{process} eingeben und anschließend ein Leerzeichen tippen. Schaut man in den Minibuffer, so stellt XEmacs dem Benutzer eine Frage.	Beantwortet man diese, so gelangt man weiter in diesem sogenannten Template.
+		
+		\subsection{Templates}
+		
+Diese Templates wurden irgendwann wahrscheinlich von VHDL-Programmieren implmentiert, um das programmieren in VHDL zu erleichtern, zu beschleunigen und vor allem um weniger Fehler zu machen. Bei diesen Templates wird man regelrecht an der Hand geführt und auch auf angenehme Weise dazu angehalten, ein wenig Dokumentation in den Code zu schreiben.
+			
+Um nun bei obigem Beispiel zu bleiben, bietet uns XEmacs im Folgenden mehrere Eingabemöglichkeiten, von denen wir jedoch nicht alle nutzen müssen. Bestätigen wir nur mit \specialbutton{Enter}, ohne eine Antwort auf die Frage im Minibuffer gegeben zu haben, so wird davon ausgegangen, dass	wir diesen Teil nicht wollen (z.B. möchten wir kein Label vergeben). Dementsprechend wird der Platzhalter wieder	gelöscht und das Template wird fortgesetzt. Abbrechen eines Templates erfolgt durch mehrmaliges drücken von \specialbutton{Esc}.
+}{%
+%
+%
+%else not XEmacs
+%
+%
+%
+	\section{Der VHDL-Editor}\label{sec:editor}\index{Editor}
+%
+%
+%
+Derin ispLever integrierte Text Editor (vgl. Abb. \ref{fig:ispLeverTE}) stellt sich sehr übersichtlich dar. Er bietet Syntax Highlighting, Templates und Macrofunktionen für wiederkehrende Aufgaben. Eine genaue Ausführung dieser speziellen Funktionen soll im Rahmen des Praktikums nicht erfolgen.
+
+\begin{figure}
+	\centering
+		\includegraphics[width=0.95\linewidth]{bilder/global/ispLeverTextEditor.eps}
+	\caption{Der integrierte Text Editor von ispLever}
+	\label{fig:ispLeverTE}
+\end{figure}
+
+
+}%endif XEmacs
+
+\section{Wie geht es weiter?}
+
+In der ersten Übung wird genauer anhand eines Beispiels darauf eingegangen, wie der VHDL-Code zu simulieren ist und wie man diesen dann in die Hardware überträgt.

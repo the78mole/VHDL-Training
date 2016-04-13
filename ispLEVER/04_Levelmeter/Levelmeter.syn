@@ -1,0 +1,10 @@
+JDF B
+// Created by Version 6.0 
+PROJECT Levelmeter
+DESIGN levelmeter Normal
+DEVKIT LFECP20E-3F484C
+ENTRY Schematic/VHDL
+MODULE ..\common_files\toplevel.vhd
+MODSTYLE toplevel Normal
+SYNTHESIS_TOOL Synplify
+TOPMODULE toplevel

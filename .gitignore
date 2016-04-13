@@ -1,0 +1,15 @@
+/Hardware/Angebote
+*.bit
+work
+syntmp
+multiplexer.dir
+.tmp_log
+.recordref
+/rsync_home2mobile_local.bat
+/rsync_home2moles.bat
+/rsync_home2uni.bat
+/rsync_home2uni_exclude_Ausarbeitung.bat
+/rsync_mobile2home_local.bat
+/rsync_moles2home.bat
+/rsync_uni2home.bat
+transcript

@@ -1,0 +1,16 @@
+. toplevel ..\common_files\toplevel.vhd p:\studienarbeit\isplever\common_files\toplevel.vhd
+segment_decoder_4 segment_decoder  p:\studienarbeit\isplever\04_levelmeter\
+reset_gen_1 reset_gen  p:\studienarbeit\isplever\04_levelmeter\
+clockgen_1 clockgen  p:\studienarbeit\isplever\04_levelmeter\
+clockgen_main_1 clockgen_main  p:\studienarbeit\isplever\04_levelmeter\
+stud_toplevel_1 stud_toplevel  p:\studienarbeit\isplever\04_levelmeter\
+chatter_suppress_1 chatter_suppress  p:\studienarbeit\isplever\04_levelmeter\
+chatter_suppress_2 chatter_suppress  p:\studienarbeit\isplever\04_levelmeter\
+i2s_transmitter_1 i2s_transmitter  p:\studienarbeit\isplever\04_levelmeter\
+i2s_receiver_1 i2s_receiver  p:\studienarbeit\isplever\04_levelmeter\
+gain_control_1 gain_control  p:\studienarbeit\isplever\04_levelmeter\
+bargraph_decoder_1 bargraph_decoder  p:\studienarbeit\isplever\04_levelmeter\
+bargraph_decoder_2 bargraph_decoder  p:\studienarbeit\isplever\04_levelmeter\
+segment_decoder_1 segment_decoder  p:\studienarbeit\isplever\04_levelmeter\
+segment_decoder_2 segment_decoder  p:\studienarbeit\isplever\04_levelmeter\
+segment_decoder_3 segment_decoder  p:\studienarbeit\isplever\04_levelmeter\

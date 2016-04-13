@@ -1,0 +1,141 @@
+\cleardoublepage
+\chapter{VHDL-Referenz}\label{chap:VHDLRef}
+\thispagestyle{empty}
+
+\section{Einführung}\label{sec:vhdlref:intro}
+
+Da auf die einzelnen Konstrukte von VHDL, die in diesem Praktikum verwendet werden, in den jeweiligen Kapiteln genauer eingegangen wird, soll an dieser Stelle lediglich eine Kurzreferenz zur Verfügung gestellt werden, die ein schnelles Nachschlagen der Konstrukte erlaubt. Eine genaue Beschreibung finden sie in \cite{vhdlonline} bzw. \cite{dgvhdl} oder den entsprechenden Kapiteln dieses Skripts. Eine weitere gute Referenz ist \cite{esperan}.
+
+\section{Basiskonstrukte}\label{sec:vhdlref:basic}
+
+\subsection{Libraries}\label{subsec:vhdlref:basic:libs}
+
+\begin{verbatim}
+library <LIB>;
+use <LIB>.<PACKAGE>.<FUNCTION|all>;
+use ...
+\end{verbatim}
+
+vgl.: \ref{subsec:vhdl:basics:libraries} S.\pageref{subsec:vhdl:basics:libraries}
+
+\subsection{Entity}\label{subsec:vhdlref:basic:entity}
+
+\begin{verbatim}
+entity <NAME> is
+  generic (
+    <GENERICS>
+  );
+  port (
+    <PORTS>
+  );
+end <NAME>;
+\end{verbatim}
+
+vgl.: \ref{subsec:vhdlbasics:entity} S.\pageref{subsec:vhdlbasics:entity}
+
+\subsection{Architecture}\label{subsec:vhdlref:basic:architecture}
+
+\begin{verbatim}
+architecture <NAME> of <ENTITY> is
+  <DECLARATIONS>
+begin
+  <INSTANTIATIONS>
+end <NAME>;
+\end{verbatim}
+
+vgl.: \ref{subsec:vhdlbasics:architecture} S.\pageref{subsec:vhdlbasics:architecture}
+
+\subsection{Signale und Konstanten}\label{subsec:vhdlref:basic:signalsandconstants}
+
+\begin{verbatim}
+signal <NAME>: <TYPE> [range <RANGE>] [:= <INITIALIZATION>];
+constant <NAME>: <TYPE> [range <RANGE>] [:= <INITIALIZATION>];
+\end{verbatim}
+
+vgl.: \ref{subsec:vhdlbasics:signals} S.\pageref{subsec:vhdlbasics:signals} und \ref{subsubsec:vhdlbasics:constants} S. \pageref{subsubsec:vhdlbasics:constants}
+
+\subsection{Typen}\label{subsec:vhdlref:basic:types}
+
+\begin{verbatim}
+type <NAME> is array of (<RANGE>) <TYPE>;
+type <NAME> is record 
+  <ELEMENT(S)> 
+end record;
+subtype <NAME> is <TYPE>;
+\end{verbatim}
+
+vgl.: \ref{subsubsec:vhdlbasics:numbertypes} S.\pageref{subsubsec:vhdlbasics:numbertypes}
+
+\subsection{Typenkonvertierung}\label{subsec:vhdlref:basic:typeconv}
+
+\begin{verbatim}
+conv_interger(<ELEMENT>);
+conv_unsigned(<ELEMENT>,<LENGTH>);
+conv_signed(<ELEMENT>,<LENGTH>);
+conv_std_logic_vector(<ELEMENT>,<LENGTH>);
+\end{verbatim}
+
+vgl.: \ref{subsubsec:vhdlbasics:typeconversion} S.\pageref{subsubsec:vhdlbasics:typeconversion}
+
+Verwandte Datentypen können auch folgendermaßen umgewandelt werden:
+
+\begin{verbatim}
+interger(<ELEMENT>);
+natural(<ELEMENT>);
+unsigned(<ELEMENT>);
+signed(<ELEMENT>);
+std_logic_vector(<ELEMENT>);
+\end{verbatim}
+
+
+\subsection{Prozesse}
+
+\begin{samepage}
+\begin{verbatim}
+  [<name> :] process [(sensitivity list)]
+    [variable <NAME>: <TYPE> [:= <INITIALIZATION>]];
+  begin
+...
+    -- CODE
+...
+  end;
+\end{verbatim}
+\end{samepage}
+
+vgl.: \ref{subsec:vhdlbasics:seqprocesses} S.\pageref{subsec:vhdlbasics:seqprocesses}
+
+\subsection{Kontrollstrukturen}
+
+\subsubsection{if-then-else}
+
+\begin{verbatim}
+  if <BEDINGUNG> then
+    -- CODE
+  [elsif <BEDINGUNG> then
+    -- CODE ]
+  [else
+    -- CODE ]
+  end if;
+\end{verbatim}
+
+vgl.: \ref{subsec:vhdlbasics:ifthenelse} S.\pageref{subsec:vhdlbasics:ifthenelse}
+
+
+\subsubsection{when-else}
+
+\begin{verbatim}
+  <SIGNAL> <= <SIGNAL> when <CONDITION> [else 
+              <SIGNAL> when <CONDITION>];
+\end{verbatim}
+
+vgl.: \ref{subsec:vhdlbasics:concurrent} S.\pageref{subsec:vhdlbasics:concurrent}
+
+
+\subsubsection{case-when}
+
+\begin{verbatim}
+  case (<EXPRESSION>) is
+    when <CHOICE> => <SEQUENTIAL STATEMENTS>;
+    [when <CHOICE> => <SEQUENTIAL STATEMENTS>;]
+  end case;
+\end{verbatim}

@@ -1,0 +1,231 @@
+%% Buchvorlage unter Verwendung der Book-Klasse des KOMA-Script      %%
+%% Basierend auf einer TeXNicCenter-Vorlage von Mark Müller          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Wählen Sie die Optionen aus, indem Sie % vor der Option entfernen  
+% Dokumentation des KOMA-Script-Packets: scrguide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optionen zum Layout des Buchs                                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[
+a4paper,							% alle weiteren Papierformat einstellbar
+%landscape,						% Querformat
+12pt,								% Schriftgröße (12pt, 11pt (Standard))
+BCOR12mm,							% Bindekorrektur, bspw. 1 cm
+%DIVcalc,							% führt die Satzspiegelberechnung neu aus
+%											  s. scrguide 2.4
+%oneside,							% einseitiges Layout
+%twocolumn,						% zweispaltiger Satz
+%openany,							% Kapitel können auch auf linken Seiten beginnen
+%halfparskip*,				% Absatzformatierung s. scrguide 3.1
+headsepline,					% Trennline zum Seitenkopf	
+footsepline,					% Trennline zum Seitenfuß
+%notitlepage,					% in-page-Titel, keine eigene Titelseite
+%chapterprefix,				% vor Kapitelüberschrift wird "Kapitel Nummer" gesetzt
+%appendixprefix,			% Anhang wird "Anhang" vor die Überschrift gesetzt 
+%normalheadings,			% Überschriften etwas kleiner (smallheadings)
+%idxtotoc,						% Index im Inhaltsverzeichnis
+%liststotoc,					% Abb.- und Tab.verzeichnis im Inhalt
+%bibtotoc,						% Literaturverzeichnis im Inhalt
+%leqno,								% Nummerierung von Gleichungen links
+%fleqn,								% Ausgabe von Gleichungen linksbündig
+%draft								% überlangen Zeilen in Ausgabe gekennzeichnet
+]
+{scrbook}
+
+%% deutsche Anpassung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[ngerman]{babel}		
+\usepackage[T1]{fontenc}							
+\usepackage[latin1]{inputenc}		
+
+%\pagestyle{headings}	% lebender Kolumnentitel  
+\setkomafont{sectioning}{\normalfont \bfseries}
+
+\usepackage{vmargin}  %Bestimmt die Seitengeometrie
+\setmarginsrb{2.5cm}{1.5cm}{2.5cm}{1.5cm}%
+							{7mm}{1.2cm}{4mm}{1.5cm}
+%\renewcommand{\familydefault}{\sfdefault}
+\usepackage{helvet}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{floatflt}
+
+\usepackage{textcomp}
+\usepackage{pifont}
+\usepackage{marvosym}
+\usepackage{graphicx}
+\usepackage{psfrag}
+%\usepackage{graphfig}
+
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\usepackage{listings}
+\usepackage{amsmath}
+
+\usepackage{url}
+\usepackage{eurosym}
+
+%\usepackage{pdfpages}
+
+\hypersetup{
+	pdftitle={Ausarbeitung eines Praktikums zur Vorlesung ADS},
+	pdfauthor={\textcopyright\ LTE Daniel Glaser},
+	bookmarksopen=true,
+	bookmarksopenlevel=1
+}
+
+%\usepackage[svgnames, table, hyperref]{xcolor}
+%\usepackage{marvosym}
+\usepackage{makeidx}
+\usepackage{makebox}
+\usepackage{fancybox}
+\usepackage{multicol}
+
+\setlength{\columnsep}{1em}
+%% Bibliographiestil %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{natbib}
+
+\include{owncommands}
+
+\begin{document}
+%% Dateiendungen für Grafiken %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ==> Sie können hiermit die Dateiendung einer Grafik weglassen.
+%% ==> Aus "\includegraphics{titel.eps}" wird "\includegraphics{titel}".
+%% ==> Wenn Sie nunmehr 2 inhaltsgleiche Grafiken "titel.eps" und
+%% ==> "titel.pdf" erstellen, wird jeweils nur die Grafik eingebunden,
+%% ==> die von ihrem Compiler verarbeitet werden kann.
+%% ==> pdfLaTeX benutzt "titel.pdf". LaTeX benutzt "titel.eps".
+%\DeclareGraphicsExtensions{.eps}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ihr Buch                                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Schmutztitel-Seite %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\extratitle{Schmutztitel}
+
+%% eigene Titelseitengestaltung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+%\begin{titlepage}
+%Einsetzen der TXC Vorlage "Deckblatt" möglich
+%\end{titlepage}
+
+
+%% Angaben zur Standardformatierung des Titels %%%%%%%%%%%%%%%%%%%%%%%%
+\titlehead{\begin{center}Friedrich-Alexander-Universität Erlangen-Nürnberg, \\Lehrstuhl für Technische Elektronik, \\Prof. Dr.-Ing. Dr.-Ing habil. Robert Weigel\end{center}}
+\subject{\mdseries{\large{Studienarbeit im Fach\\Elektrotechnik, Elektronik und Informationstechnik}}}
+\title{Ausarbeitung eines Praktikums \\zur Vorlesung \\Architekturen Digitaler Signalverarbeitung \\ \medskip \large{- Hardwareentwurf, VHDL-Programmierung, Simulation und Inbetriebnahme -}}
+%\author{Daniel Glaser}
+\author{}
+%\and{Der Name des Co-Autoren}
+%\thanks{}			% entspr. \footnote im Fließtext
+%\date{30.11.2006}							% falls anderes, als das aktuelle gewünscht
+\date{}
+\publishers{Bearbeiter: \\ Daniel Glaser \\ \medskip Betreuer: \\ Prof. Dr.techn. Mario Huemer \\ Dipl.-Ing. Alexander Kölpin \\ \medskip Beginn: 22.05.2006 \\ Abgabe: 22.11.2006}
+
+%% Rückseite der Titelseite %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\uppertitleback{Titelrückseitenkopf}
+%\lowertitleback{Titelrückseitenfuß}
+
+%% Widmungsseite %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\dedication{}
+
+\begin{spacing}{1}
+\maketitle 						% Titelei wird erzeugt
+\end{spacing}
+
+%% Der Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter					% Vorspann (z.B. römische Seitenzahlen)
+
+\chapter{Erklärung}\label{chap:statement}
+
+Ich versichere, dass ich die Arbeit ohne fremde Hilfe und ohne Benutzung anderer als der angegebenen Quellen angefertigt habe, und dass die Arbeit in gleicher oder in ähnlicher Form noch keiner anderen Prüfungsbehörde vorgelegen hat und von dieser als Teil einer Prüfungsleistung angenommen wurde. Alle Ausführungen, die wörtlich oder sinngemäß übernommen wurden, sind als solche gekennzeichnet.
+
+\vspace{5em}
+
+\begin{minipage}{0.45\linewidth}
+	\begin{flushleft}
+		Erlangen, den 22. November 2006
+	\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+	\begin{flushright}
+		Daniel Glaser
+	\end{flushright}
+\end{minipage}
+
+\chapter{Zusammenfassung}\label{chap:abstract}
+
+In der Vorlesung "`Architekturen der Digitalen Signalverarbeitung"' am Lehrstuhl für Technische Elektronik der Friedrich-Alexander-Universität Erlangen-Nürnberg werden Architekturen behandelt, mittels derer, früher analog durchgeführte Signalverarbeitungsschritte, effizient in digitaler Hardware bewältigt werden können. Dabei kommen zur digitalen Verarbeitung immer häufiger FPGAs zum Einsatz.
+
+Die Studierenden sollen in Form eines Praktikums die Schritte von der Konzeption über die MATLAB-Simulation, der VHDL-Beschreibung bis hin zur Erprobung in der Praxis mittels FPGA durchlaufen.
+
+Die vorliegende Studienarbeit beschäftigt sich mit dem Entwurf einer flexiblen Hardware, die für die Praktikumsversuche notwendig ist und der Vermittlung des Wissens, um ausgehend von der Konzeption und der Simulation in MATLAB zu einer funktionierenden Hardware zu gelangen. Weiterhin werden die Probleme beim Entwurf der Hardware, potenzielle Probleme im Verlauf des Praktikums, Abweichungen von der MATLAB-Simulation und mögliche Lösungen hierzu diskutiert.
+
+Der Teil der Simulation in MATLAB ist Aufgabe einer anderen Studienarbeit.
+
+%% Erzeugung von Verzeichnissen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{spacing}{1}
+\tableofcontents			% Inhaltsverzeichnis
+%\listoftables				% Tabellenverzeichnis
+%\listoffigures				% Abbildungsverzeichnis
+\end{spacing}
+
+
+\mainmatter						% Hauptteil
+%\setpartpreamble[Position][Breite]{Text}
+%\setpartpreamble[u, r][6cm]{Dies ist ein Beispiel für eine Part-Präambel.}
+
+\part{Ausarbeitung}\label{part:composition}
+
+\include{Einleitung}
+
+\include{Zielsetzung}
+
+\include{Vorgaben}
+
+\include{Konzeptauswahl}
+
+\include{Entwicklungssystem}
+
+\include{Praktikumskonzept}
+
+\include{VHDL-Programmierung}
+
+%\include{Aufbau und Inbetriebnahme} % entfällt, da durch Probleme abgedeckt
+
+\include{Probleme}
+
+\include{Ergebnisse}
+
+\include{Schluss}
+
+\appendix							% Beginn des Anhangs
+
+\part{Anhang}\label{part:appendix}
+
+\include{Schaltplan}
+
+\include{VHDLsrc}
+
+\chapter{Praktikumsanleitung}\label{chap:labtutorial}
+
+Das Praktikumsskript wurde vom Bearbeiter dieser Studienarbeit und Andreas Schedel, der den MATLAB-Teil übernahm, zu etwa gleichen Teilen erstellt. Um den Zusammenhang des Stoffes zu wahren, wurden die Teile, die nicht im Rahmen dieser Studienarbeit entstanden, im Text belassen. Nicht immer kann genau unterschieden werden, welche Teile wem zuzurechnen sind. Dies trifft insbesondere auf die Einleitung zu.
+
+Dieses Skript findet sich auf der beiliegenden CD.
+
+%\includepdf{../Skript/ADS-Praktikum.pdf}
+
+%\backmatter					% Nachspann 
+
+%% Bibliographie unter Verwendung von dinnat %%%%%%%%%%%%%%%%%%%%%%%%%%
+%\setbibpreamble{Präambel}		% Text vor dem Verzeichnis
+%\bibliographystyle{dinat}
+%\bibliography{bibliographie}	% Sie benötigen einen *.bib-Datei
+
+\bibliographystyle{IEEEtranS}
+\bibliography{IEEEabrv,refs}
+
+
+\end{document}
+

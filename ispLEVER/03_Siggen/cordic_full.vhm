@@ -1,0 +1,224 @@
+--
+-- Written by Synplicity
+-- Sun Nov 26 04:40:21 2006
+--
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity OB is
+port(
+  I :  in std_logic;
+  O :  out std_logic);
+end OB;
+
+architecture beh of OB is
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  O <= I;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity VHI is
+port(
+  Z :  out std_logic);
+end VHI;
+
+architecture beh of VHI is
+  signal GND : std_logic ;
+begin
+  Z <= '1';
+  GND <= '0';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity VLO is
+port(
+  Z :  out std_logic);
+end VLO;
+
+architecture beh of VLO is
+  signal VCC : std_logic ;
+begin
+  Z <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity cordic_full is
+port(
+  CLK_IN :  in std_logic;
+  nRESET :  in std_logic;
+  DVAL_IN :  in std_logic;
+  DVAL_OUT :  out std_logic;
+  MODE :  in std_logic;
+  PARAM_M : in std_logic_vector (1 downto 0);
+  X_IN : in std_logic_vector (7 downto 0);
+  Y_IN : in std_logic_vector (7 downto 0);
+  Z_IN : in std_logic_vector (7 downto 0);
+  X_OUT : out std_logic_vector (7 downto 0);
+  Y_OUT : out std_logic_vector (7 downto 0);
+  Z_OUT : out std_logic_vector (7 downto 0));
+end cordic_full;
+
+architecture beh of cordic_full is
+  signal N_27 : std_logic ;
+  signal N_26 : std_logic ;
+  signal N_25 : std_logic ;
+  signal N_24 : std_logic ;
+  signal N_23 : std_logic ;
+  signal N_22 : std_logic ;
+  signal N_21 : std_logic ;
+  signal N_20 : std_logic ;
+  signal N_19 : std_logic ;
+  signal N_18 : std_logic ;
+  signal N_17 : std_logic ;
+  signal N_16 : std_logic ;
+  signal N_15 : std_logic ;
+  signal N_14 : std_logic ;
+  signal N_13 : std_logic ;
+  signal N_12 : std_logic ;
+  signal N_11 : std_logic ;
+  signal N_10 : std_logic ;
+  signal N_9 : std_logic ;
+  signal N_8 : std_logic ;
+  signal N_7 : std_logic ;
+  signal N_6 : std_logic ;
+  signal N_5 : std_logic ;
+  signal N_4 : std_logic ;
+  signal N_3 : std_logic ;
+  signal N_2 : std_logic ;
+  signal VCC : std_logic ;
+  signal GND : std_logic ;
+  component VLO
+    port(
+      Z : out std_logic  );
+  end component;
+  component VHI
+    port(
+      Z : out std_logic  );
+  end component;
+  component OB
+    port(
+      I : in std_logic;
+      O : out std_logic  );
+  end component;
+  component GSR
+    port(
+      GSR : in std_logic  );
+  end component;
+  component PUR
+    port(
+      PUR : in std_logic  );
+  end component;
+begin
+  II_GND: VLO port map (
+      Z => GND);
+  II_VCC_0: VHI port map (
+      Z => VCC);
+  \II_Z_OUT_pad[7]\: OB port map (
+      I => GND,
+      O => Z_OUT(7));
+  \II_Z_OUT_pad[6]\: OB port map (
+      I => GND,
+      O => Z_OUT(6));
+  \II_Z_OUT_pad[5]\: OB port map (
+      I => GND,
+      O => Z_OUT(5));
+  \II_Z_OUT_pad[4]\: OB port map (
+      I => GND,
+      O => Z_OUT(4));
+  \II_Z_OUT_pad[3]\: OB port map (
+      I => GND,
+      O => Z_OUT(3));
+  \II_Z_OUT_pad[2]\: OB port map (
+      I => GND,
+      O => Z_OUT(2));
+  \II_Z_OUT_pad[1]\: OB port map (
+      I => GND,
+      O => Z_OUT(1));
+  \II_Z_OUT_pad[0]\: OB port map (
+      I => GND,
+      O => Z_OUT(0));
+  \II_Y_OUT_pad[7]\: OB port map (
+      I => GND,
+      O => Y_OUT(7));
+  \II_Y_OUT_pad[6]\: OB port map (
+      I => GND,
+      O => Y_OUT(6));
+  \II_Y_OUT_pad[5]\: OB port map (
+      I => GND,
+      O => Y_OUT(5));
+  \II_Y_OUT_pad[4]\: OB port map (
+      I => GND,
+      O => Y_OUT(4));
+  \II_Y_OUT_pad[3]\: OB port map (
+      I => GND,
+      O => Y_OUT(3));
+  \II_Y_OUT_pad[2]\: OB port map (
+      I => GND,
+      O => Y_OUT(2));
+  \II_Y_OUT_pad[1]\: OB port map (
+      I => GND,
+      O => Y_OUT(1));
+  \II_Y_OUT_pad[0]\: OB port map (
+      I => GND,
+      O => Y_OUT(0));
+  \II_X_OUT_pad[7]\: OB port map (
+      I => GND,
+      O => X_OUT(7));
+  \II_X_OUT_pad[6]\: OB port map (
+      I => GND,
+      O => X_OUT(6));
+  \II_X_OUT_pad[5]\: OB port map (
+      I => GND,
+      O => X_OUT(5));
+  \II_X_OUT_pad[4]\: OB port map (
+      I => GND,
+      O => X_OUT(4));
+  \II_X_OUT_pad[3]\: OB port map (
+      I => GND,
+      O => X_OUT(3));
+  \II_X_OUT_pad[2]\: OB port map (
+      I => GND,
+      O => X_OUT(2));
+  \II_X_OUT_pad[1]\: OB port map (
+      I => GND,
+      O => X_OUT(1));
+  \II_X_OUT_pad[0]\: OB port map (
+      I => GND,
+      O => X_OUT(0));
+  II_DVAL_OUT_pad: OB port map (
+      I => GND,
+      O => DVAL_OUT);
+  II_GSR_INST: GSR port map (
+      GSR => VCC);
+  II_PUR_INST: PUR port map (
+      PUR => VCC);
+end beh;
+

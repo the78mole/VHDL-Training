@@ -1,0 +1,203 @@
+PAR: Place And Route ispLever_v61_PROD_Build (37).
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Nov 16 01:35:24 2006
+
+C:/ispTOOLS6_1_STRT/ispfpga\bin\nt\par -f multiplexer.p2t multiplexer_map.ncd
+multiplexer.dir multiplexer.prf
+
+Preference file: multiplexer.prf.
+
+Level/      Number      Timing      Run         NCD
+Cost [ncd]  Unrouted    Score       Time        Status
+----------  --------    --------    -----       ------------
+5_1   *     0           0           01:32       Complete        
+
+
+* : Design saved.
+
+par done!
+
+Lattice Place and Route Report for Design "multiplexer_map.ncd"
+Thu Nov 16 01:35:24 2006
+
+PAR: Place And Route ispLever_v61_PROD_Build (37).
+Command line: C:/ispTOOLS6_1_STRT/ispfpga\bin\nt\par -f multiplexer.p2t multiplexer_map.ncd
+multiplexer.dir multiplexer.prf
+Preference file: multiplexer.prf.
+Placement level-cost: 5-1.
+Routing Iterations: 6
+
+Loading design for application par from file multiplexer_map.ncd.
+Design name: toplevel
+NCD version: 3.2
+Vendor:      LATTICE
+Device:      LFECP20E
+Package:     FPBGA484
+Speed:       3
+Loading device for application par from file 'ep5g49x58.nph' in environment
+C:/ispTOOLS6_1_STRT/ispfpga.
+Package: Version 1.4, Status: FINAL
+Speed Hardware Data: version 9.999
+
+
+Ignore Preference Error(s):  Yes
+WARNING - par: Net, clockgen_main_1/CLKOS, is not present in the design.
+          Occurred in "USE SECONDARY NET "clockgen_main_1/CLKOS" QUADRANT_TL
+          QUADRANT_TR QUADRANT_BL QUADRANT_BR ; ". Disabled this preference.
+WARNING - par: Preference parsing results:  1 semantic error detected
+Dumping design to file C:/DOKUME~1/Natali/LOKALE~1/Temp/neo_3.
+Device utilization summary:
+
+
+   PIO               90/400          22% used
+                     90/360          25% bonded
+
+   IOLOGIC            3/400          <1% used
+   SLICE            191/9856          1% used
+
+   PLL3               1/4            25% used
+
+
+Number of Signals: 458
+Number of Connections: 1102
+The following 2 signals are selected as primary clocks :
+    DA_SCKI_c (driver: clockgen_main_1/PLLBInst_0, clk load #: 110; quadrants: TL/TR/BL/BR)
+    clockgen_main_1/sl_clk_98m304 (driver: clockgen_main_1/PLLBInst_0, clk load #: 1; quadrants: TL/TR/BL/BR)
+
+The following 1 signal is selected to use the secondary clock resources :
+    CLK_c (driver: CLK, clk load #: 1, sr load #: 0, ce load #: 0; quadrants: TL/TR/BL/BR)
+
+No signal is selected as Global Set/Reset.
+.Starting Placer Phase 0.
+................
+Finished Placer Phase 0.  REAL time: 26 secs 
+
+Starting Placer Phase 1.
+Placer score = 74513.
+..........................................
+Placer score = 76281.
+Finished Placer Phase 1.  REAL time: 1 mins 1 secs 
+
+Starting Placer Phase 2.
+.
+Placer score =  60057
+Finished Placer Phase 2.  REAL time: 1 mins 3 secs 
+
+
+------------------ Clock Report ------------------
+
+Global Clock Resources:
+  CLK_PIN    : 1 out of 4 (25%)
+  PLL        : 1 out of 4 (25%)
+  DCS        : 0 out of 8 (0%)
+
+Quadrant TL Clocks:
+  PRIMARY "DA_SCKI_c" from PLL_CLKOK "PLL3_R10C1.CLKOK", driver "clockgen_main_1/PLLBInst_0", clk load = 110
+  PRIMARY "clockgen_main_1/sl_clk_98m304" from PLL_CLKOP "PLL3_R10C1.CLKOP", driver "clockgen_main_1/PLLBInst_0", clk load = 1
+  SECONDARY "CLK_c" from CLK_PIN "J1", driver "CLK", clk load = 1, ce load = 0, sr load = 0
+
+  PRIMARY  : 2 out of 4 (50%)
+     DCS   : 0 out of 2 (0%)
+  SECONDARY: 1 out of 4 (25%)
+
+Quadrant TR Clocks:
+  PRIMARY "DA_SCKI_c" from PLL_CLKOK "PLL3_R10C1.CLKOK", driver "clockgen_main_1/PLLBInst_0", clk load = 110
+  PRIMARY "clockgen_main_1/sl_clk_98m304" from PLL_CLKOP "PLL3_R10C1.CLKOP", driver "clockgen_main_1/PLLBInst_0", clk load = 1
+  SECONDARY "CLK_c" from CLK_PIN "J1", driver "CLK", clk load = 1, ce load = 0, sr load = 0
+
+  PRIMARY  : 2 out of 4 (50%)
+     DCS   : 0 out of 2 (0%)
+  SECONDARY: 1 out of 4 (25%)
+
+Quadrant BL Clocks:
+  PRIMARY "DA_SCKI_c" from PLL_CLKOK "PLL3_R10C1.CLKOK", driver "clockgen_main_1/PLLBInst_0", clk load = 110
+  PRIMARY "clockgen_main_1/sl_clk_98m304" from PLL_CLKOP "PLL3_R10C1.CLKOP", driver "clockgen_main_1/PLLBInst_0", clk load = 1
+  SECONDARY "CLK_c" from CLK_PIN "J1", driver "CLK", clk load = 1, ce load = 0, sr load = 0
+
+  PRIMARY  : 2 out of 4 (50%)
+     DCS   : 0 out of 2 (0%)
+  SECONDARY: 1 out of 4 (25%)
+
+Quadrant BR Clocks:
+  PRIMARY "DA_SCKI_c" from PLL_CLKOK "PLL3_R10C1.CLKOK", driver "clockgen_main_1/PLLBInst_0", clk load = 110
+  PRIMARY "clockgen_main_1/sl_clk_98m304" from PLL_CLKOP "PLL3_R10C1.CLKOP", driver "clockgen_main_1/PLLBInst_0", clk load = 1
+  SECONDARY "CLK_c" from CLK_PIN "J1", driver "CLK", clk load = 1, ce load = 0, sr load = 0
+
+  PRIMARY  : 2 out of 4 (50%)
+     DCS   : 0 out of 2 (0%)
+  SECONDARY: 1 out of 4 (25%)
+
+--------------- End of Clock Report ---------------
+
+
+
+DSP Utilization Summary:
+-------------------------------------
+DSP Block #:                 1    2    3    4    5    6    7
+# of MULT36X36                                              
+# of MULT18X18                                              
+# of MULT18X18MAC                                           
+# of MULT18X18ADDSUB                                        
+# of MULT18X18ADDSUBSUM                                     
+# of MULT9X9                                                
+# of MULT9X9MAC                                             
+# of MULT9X9ADDSUB                                          
+# of MULT9X9ADDSUBSUM                                       
+
+DSP Block  1    Component_Type         Instance_Name     
+
+DSP Block  2    Component_Type         Instance_Name     
+
+DSP Block  3    Component_Type         Instance_Name     
+
+DSP Block  4    Component_Type         Instance_Name     
+
+DSP Block  5    Component_Type         Instance_Name     
+
+DSP Block  6    Component_Type         Instance_Name     
+
+DSP Block  7    Component_Type         Instance_Name     
+
+Total placer CPU time: 1 mins 2 secs 
+
+Dumping design to file multiplexer.dir/5_1.ncd.
+
+0 connections routed; 1102 unrouted.
+Starting router resource preassignment
+Clock Skew Minimization: OFF
+Completed router resource preassignment. Real time: 1 mins 24 secs 
+Starting iterative routing.
+
+For each routing iteration the number inside the parenthesis is the
+total time (in picoseconds) the design is failing the timing constraints.
+For each routing iteration the router will attempt to reduce this number
+until the number of routing iterations is completed or the value is 0
+meaning the design has fully met the timing constraints.
+
+End of iteration 1
+1102 successful; 0 unrouted; (0) real time: 1 mins 30 secs 
+Dumping design to file multiplexer.dir/5_1.ncd.
+Total CPU time 1 mins 27 secs 
+Total REAL time: 1 mins 31 secs 
+Completely routed.
+End of route.  1102 routed (100.00%); 0 unrouted.
+Checking DRC ... 
+No errors found.
+Timing score: 0 
+
+Total REAL time to completion: 1 mins 32 secs 
+
+
+All signals are completely routed.
+
+PAR completed successfully, with 1 Preference error (ignored).
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.

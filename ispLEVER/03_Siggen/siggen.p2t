@@ -1,0 +1,9 @@
+-w
+-i 6
+-l 5
+-n 1
+-t 1
+-s 1
+-c 0
+-e 0
+-exp parPlcInLimit=0:parPlcInNeighborSize=1:parPathBased=OFF:parHold=OFF

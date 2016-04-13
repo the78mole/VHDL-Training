@@ -1,0 +1,205 @@
+\documentclass[ngerman,twoside, a4paper,12pt]{scrreprt}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{psfrag}		 % Um Formeln in Bilder zu schreiben
+%\usepackage{graphfig}
+\usepackage{makeidx}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{pifont}
+\usepackage{floatflt}
+%\usepackage{pst-pdf}
+%\usepackage{pst-all}
+%\usepackage{pst-add}
+%\usepackage{picins}
+\usepackage{makebox}
+\usepackage{fancybox}
+\usepackage{listings}   %nötig zum Einbinden von Listings (Quellcode)
+\usepackage{vmargin}  %Bestimmt die Seitengeometrie
+%\setmargins{2.5cm}{1.5cm}{16.2cm}{22.5cm}%
+\setmarginsrb{2.5cm}{1.5cm}{2.5cm}{1.5cm}%
+							{7mm}{1.2cm}{4mm}{1.5cm}
+% Setzen der geometrischen Größen: {links}{oben}{rechts}{unten}%
+%																	 {kopfhöhe}{kopfabstand}{fußhöhe}{fußabstand}
+\setkomafont{sectioning}{\normalfont \bfseries}
+\usepackage{fancyhdr}
+
+
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\hypersetup{
+	pdftitle={Skript ADS-Praktikum},
+	pdfauthor={\textcopyright\ LTE Andreas Schedel \& Daniel Glaser},
+	bookmarksopen=true,
+	bookmarksopenlevel=1
+}
+
+\usepackage[svgnames, table, hyperref]{xcolor}
+\usepackage{marvosym}
+\usepackage{graphicx}
+
+\usepackage[ngerman]{babel}
+% Legt fest, wie viele Ebenen tief die Nummerierung bei Aufzählungen sind
+\setcounter{secnumdepth}{3}
+
+\usepackage{multido}
+
+\usepackage{shorttoc}
+
+\usepackage{ifthen}
+
+\include{DEFINES/globals}
+
+\makeatletter
+\makeindex
+
+\DeclareInputText{128}{\EUR}
+
+\makeatother
+
+\begin{document}
+
+	\pagenumbering{roman}
+	%\singlespacing
+	\pagestyle{empty}
+	%\title{Praktikum zu Architekturen der digitalen Signalverarbeitung}
+	%\maketitle
+	
+	
+	% Titelseite
+	\begin{center}
+		\large{Friedrich-Alexander-Universität Erlangen-Nürnberg\\%
+				Lehrstuhl für Technische Elektronik\\%
+				Prof.~Dr.-Ing.~Dr.-Ing.~habil.~Robert~Weigel\\}
+		\vspace{5.5cm}
+		\LARGE{\textbf{\textsc{Praktikum zur Vorlesung}\\%
+									 \textit{Architekturen der Digitalen Signalverarbeitung}\\%
+									 \textsc{ADS}}}\\
+		\ifthenelse{\printsolution}%
+				{
+					\vspace{1cm}
+					\LARGE{\textbf{\textsc{Musterlösung}}}\\
+					\vspace{9.0cm}
+				}%
+				{
+					\vspace{11.1cm}
+				}
+		\large{\textbf{Realisierung einer digitalen Übertragungsstrecke von der %
+		 							 Systemsimulation bis zur fertigen Hardware}}\\
+		\vspace{0.5cm}
+		\large{A. Schedel / D. Glaser}
+		
+	\end{center}
+	
+	\clearpage
+	
+%	\large{Wichtige TODO}
+%	
+%	\begin{itemize}
+%		\item Modelsim Beschreibung und Screenshots
+%	\end{itemize}
+%	
+%	\clearpage
+	
+	\pagestyle{fancy}
+	\fancyhf{}   %Löscht Kopf- und Fußzeilen-Vorbelegung
+	% Fußzeilenformatierung
+	\fancyfoot[EL,OR]{\thepage}
+	% Kopfzeilenformatierung
+	\fancyhead[EL]{\small \nouppercase{\leftmark}}
+	\fancyhead[OR]{\small \nouppercase{\rightmark}}
+	%\renewcommand{\chaptermark[1]}{\markboth{\thechapter \textsc{#1}{}}{}}
+	%\renewcommand{\sectionmark[1]}{\markboth{\thesection \ \textsc{#1}{}}{}}
+	\renewcommand{\headrulewidth}{0.4pt} % Linie unter der Kopfzeile
+	
+	
+	%Legt fest, bis zu welcher Tiefe das Inhaltsverzeichnis aufgebaut werden soll.
+	\setcounter{tocdepth}{3}
+
+	% Baut ein Inhaltsverzeichnis
+	\cleardoublepage
+	\shorttoc{Übersicht}{0}
+	\cleardoublepage
+	\tableofcontents{}
+	\thispagestyle{empty}
+	
+	%\mainmatter
+	
+	\cleardoublepage
+	\pagenumbering{arabic}
+	
+	% Einführung
+	\cleardoublepage
+	\part{Einführung}\label{part:introduction}
+	
+	\include{Einfuehrung/Einfuehrung}
+	
+%	\part{Grundlegendes}\label{part:Basics}
+%		\include{Basics/Basics}
+	
+% Sender
+	
+	\include{Part00_Sender_Einfuehrung/00_Sender_Einfuehrung}
+	\include{Part01_Erste_Schritte/00_Erste_Schritte}
+	\include{Part02_Randomize/00_Randomize}
+	\include{Part03_Cordic/00_Cordic}
+	\include{Part04_Pegel/00_Pegel}
+	\include{Part05_Modulator/00_Modulator}
+	
+% Empfänger
+			
+	\include{Part06_Empfaenger/00_Empfaenger}
+	\include{Part06_DigitaleFilter/00_DigitaleFilter}
+	\include{Part06_DigitaleFilter/01_DigitaleFilter}
+	\include{Part06_MATLAB_Empfaenger/00_Bandpass}
+	\include{Part06_MATLAB_Empfaenger/01_quad_u_TPfilterung}
+	\include{Part06_MATLAB_Empfaenger/02_Signalrückgewinnung}
+	\include{Part07_Bandpass/00_Bandpass}
+	\include{Part08_Filteropt/00_Filteropt}
+	\include{Part09_Demodulator/00_Demodulator}
+	\include{Part10_Tiefpass/00_Tiefpass}
+	\include{Part11_Sigregen/00_Sigregen}
+		
+	\cleardoublepage
+	\chapter{Gesamtsystem}\label{chap:completesystem}
+	\thispagestyle{empty}
+			
+	\include{Part12_MATLAB_RealeUebertragung/00_Real}
+	
+	\include{Part13_Loop/00_Loop}
+			
+	\include{Part14_Chat/00_Chat}
+			
+%		\section{Versuch 15: Zusatzübung Logikanalyzer}
+%			\develnote{Dies kann von den Studenten bei Interesse noch ausprobiert werden, soll aber nicht zum Pflichtumfang gehören und ggf. zum Spaß dienen.}
+%			\include{Part15_ispTracy/00_logikanalyzer}
+				
+	\begin{appendix}
+		\part{Anhang}\label{part:appendix}
+		\thispagestyle{empty}
+	
+		\include{MATLAB_tutorial/MATLAB-tutorial}
+	
+		\include{ispLEVER/00_ispLEVER}
+	
+		\include{VHDL_Ref/vhdl00}
+
+%	\cleardoublepage
+% \chapter{VHDL-Tutorial}\label{chap:VHDLTutorial}
+%	\include{VHDL_tutorial/vhdl_top}
+
+	\end{appendix}
+	\cleardoublepage
+	
+	
+	\listoffigures
+	\listoftables
+	
+	\bibliographystyle{IEEEtranS}
+	\bibliography{IEEEabrv,refs}
+%	\bibliography{refs}
+	
+%	\printindex
+
+\end{document}

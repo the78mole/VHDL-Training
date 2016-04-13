@@ -1,0 +1,95 @@
+%
+%
+%
+\chapter{Einführung und Überblick}\label{sec:Einführung}
+%
+%
+%
+Zu Beginn einer jeden Neuentwicklung steht eine Idee. Um die Realisierbarkeit dieser Idee zu überprüfen versucht man sie mittels eines mathematischen Modells zu beschreiben, und eventuell auftretende Probleme abzuschätzen. Die mathematische Beschreibung lässt sich dann mit Programmen wie MATLAB in der Simulation überprüfen. 
+
+In unserem Fall ist der Ausgangspunkt das in Abbildung \ref{abb:Blockschaltbild01} dargestellte Blockschaltbild. In diesem werden die beiden obersten Abstraktionsebenen der Funktion dargestellt. \begin{figure}[h]
+	\centering 
+%	\psfrag{01}{MATLAB Workspace}
+%	\psfrag{02}{Command-Window} 
+%	\psfrag{03}{Command-History}
+	\includegraphics[width=11cm]{bilder/einführung/blockschaltbild01}
+	\caption{Blockschaltbild Übertragungsstrecke}
+	\label{abb:Blockschaltbild01}
+\end{figure}
+\paragraph{Sender}Der Bitstromgenerator erzeugt eine (vorerst beliebige) Folge von Nullen und Einsen. Vom Sender werden jetzt zwei freilaufende Sinussignale erzeugt, von denen das eine mit dem Bitstrom und das andere mit dem negierten Bitstrom multipliziert wird. Die resultierenden Signale werden additiv überlagert. Jetzt wird für eine Null die Sinusschwingung des Generators 2 und für eine Eins die Schwingung des Generators 1 ausgegeben. 
+\paragraph{Kanal}
+\paragraph{Empfänger}Im Empfangsteil sollen die beiden Signale mittels zweier Bandpässe wieder separiert werden. Danach wird mittels der Hüllkurvendemodulatoren und der anschliessenden Glättung durch die beiden Tiefpässe das ursprüngliche Signal wieder rekonstruiert. 
+
+\medskip Ziel dieses Kapitels ist es nun, ein komplettes (und funktionsfähiges) Modell der Übertragungsstrecke in MATLAB aufzubauen und die Funktion der Schaltung zu validieren.
+
+%
+%
+%
+\chapter{Sender}\label{sec:Sender}
+%
+%
+%
+
+
+%
+%
+\section{Erzeugen einer zufälligen Bitfolge}\label{subsec:Bitfolge}
+%
+%
+
+
+%
+%
+\section{Erzeugen der Trägerschwingungen}\label{subsec:Trägerschwingungen}
+%
+%
+
+%
+\subsection{Grundlagen}\label{subsec:Grundlagen_Signalgeneration}
+%
+
+%
+\subsection{Programmierung in MATLAB}\label{subsec:Siggen_programmierung}
+%
+
+
+
+%
+%
+%
+\chapter{Empfänger}\label{sec:Empfänger}
+%
+%
+%
+
+
+%
+%
+\section{Filterdesign}\label{subsec:Filterdesign}
+%
+%
+
+
+%
+\subsection{Grundlagen digitaler Filter}\label{subsec:digitalefilter}
+%
+
+
+%
+\subsection{Entwurf in MATLAB}
+%
+
+
+%
+%
+\section{Hüllkurvendemodulation}\label{subsec:Hüllkurvendemodulation}
+%
+%
+
+
+%
+%
+\section{Problematik Floating-Point / Fixed-Point}\label{sec:floating_fixed_point}
+%
+%
+

@@ -1,0 +1,1 @@
+.xemacs --> Dokumente und Einstellungen\USER\.xemacs

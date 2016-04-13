@@ -1,0 +1,68 @@
+\section{Versuch 14: Chat-Session}
+	\develnote{Übertragung durch die Luft und mit dem Terminal-Programm die Funktion testen}
+
+\subsection{Konzept}
+
+Es soll eine bidirektionale Verbindung zwischen 2 entfernten PCs mit Hilfe des SPATES hergestellt werden. Das SPATES arbeitet als MODEM\footnote{MODEM: Modulator/Demodulator} und Zugriffpunkt auf den physikalischen Übertragungskanal. Da ein akustischer Kanal wie im Praktikumsraum mit den vielen auftretenden Reflexionen und Störungen sich negativ auf die Kanalkapazität auswirkt, können keine hohen Datenübertragungsraten erwartet werden.
+
+\subsection{VHDL: Beschreibung der Hardware}
+
+Hat das vorherige Experiment gut funktioniert, können wir durch einfache Anpassung der Frequenzen von Sender und Empfänger die Veränderungen am Quellcode abschließen und erneut implementieren. Auch eine Simulation dürfte hier überflüssig sein.
+
+\subsection{TEST: Praxis}
+
+Verbinden Sie zunächst Ihr SPATES über gekreuzte Signalwege, jeweils Eingang auf Ausgang, mit dem SPATES der Nachbargruppe über die Line-In- und Line-Out-Buchsen. 
+
+\prohibit{Bitte nicht die Speaker- oder MIC-Buchsen verwenden, da sonst der Eingang zerstört werden könnte!}
+
+\paragraph{Aufgabe 1}
+Starten Sie nun eine Terminal-Session mit Ihrer Nachbargruppe und beobachten Sie, ob bei der Übertragung Fehler auftreten.
+
+\paragraph{Aufgabe 2}
+Verbinden Sie nun den Lausprecher mit dem SPATES und testen Sie die Übertragung durch die Luft. Beobachten Sie auch hier die Häufigkeit von Fehlern.
+
+\paragraph{Aufgabe 3}
+Erhöhen Sie nun schrittweise die Übertragungsgeschwindigkeit in den Ter\-mi\-nal-Einstellungen Dafür sind folgende Schritte auf beiden PCs nötig:
+
+\develnote{evtl. noch ein paar Icons einfügen}
+
+\begin{enumerate}
+	\item Verbindung beenden \includegraphics{Part14_Chat/conclose.eps}
+	\item Eigenschaften \includegraphics{Part14_Chat/conproperties.eps}
+	\item Konfigurieren der seriellen Schnittstelle s. Abb. \ref{fig:conconfig}
+	\item Übetragungsgeschwindigkeit einstellen s. Abb. \ref{fig:baudrate}
+	\item Die Dialoge verlassen und Verbindung herstellen \includegraphics{Part14_Chat/conopen.eps}
+\end{enumerate}
+
+\begin{figure}[ht]
+	\centering
+	\begin{minipage}[c]{.41\linewidth}
+		\centering
+			\includegraphics[height=18em]{Part14_Chat/conconfig.eps}
+		\caption{HyperTerm-Eigenschaften}
+		\label{fig:conconfig}
+	\end{minipage}
+	\begin{minipage}[c]{.10\linewidth}
+		\hfill
+	\end{minipage}
+	\begin{minipage}[c]{.41\linewidth}
+		\centering
+			\includegraphics[height=18em]{Part14_Chat/baudrate}
+		\caption{Einstellen der Übertragungsrate}
+		\label{fig:baudrate}
+	\end{minipage}
+\end{figure}
+
+Bis zu welcher maximalen Übertragungsgeschwindigkeit ist eine Datenübertragung mit tolerierbarer Fehlerrate möglich? Welche 4 Modulationsfrequenzen Frequenzen wurden bei Ihnen zugeteil?
+
+\answergame{3}{Tja, das kommt ganz drauf an}
+
+Welche einfachen Änderungen können Sie durchführen, um die Übertragungsgeschwindigkeit zu steigern?
+
+\answergame{3}{Erhöhen der Modulationsfrequenzen}
+
+Welche grundlegenden Änderungen wären nötig, um im gleichen Frequenzbereich und der gleichen Übertagungsstrecke wesentlich höhere Übertragungsraten zu realisieren?
+
+\answergame{3}{Anderes Modulationsverfahren, Fehlerkorrektur-Mechanismen,...}
+
+Sollte noch etwas Zeit sein, können sie versuchen, eine gemeinsame Modulationsfrequenz für alle SPATES zu verwenden.

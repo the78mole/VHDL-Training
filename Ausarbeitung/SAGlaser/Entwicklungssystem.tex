@@ -1,0 +1,231 @@
+\chapter{Auswahl einer Entwicklungsplattform}
+
+\section{Rahmenbedingungen}
+
+Beim Entwicklungssystem lag, wie in den Vorgaben bereits erwähnt, das Hauptaugenmerk auf dem Preis. Die Hardware muss bestimmten Mindestanforderungen genügen, um die Konzepte umsetzen zu können. Hierzu eignen sich praktisch alle FPGAs die zusätzliche Hardwareeinheiten bereitstellen, sogenannte DSP-Einheiten, welche die Signalverarbeitung unterstützen. Diese DSP-Einheiten bestehen zumeist aus Multiplizierern mit Wortbreiten bis 36 Bit und zusätzlichen Addierern. Von diesen Einheiten muss eine gewisse Anzahl im FPGA zur Verfügung stehen, um die geforderten Aufgaben implementieren zu können. Erste Schätzungen beliefen sich hier auf eine Untergrenze von zwanzig Multiplizierern, um beispielsweise ein Filter ohne mehrfache Nutzung der Hardware implementieren zu können.
+
+Ein weiterer Gesichtspunkt ist die Anzahl der implementierbaren Logikfunktionen. Diese wird häufig durch die Anzahl der \textbf{L}ook-\textbf{U}p \textbf{T}ables (LUT) angegeben und sollte, ausgehend von Erfahrungswerten und einer Reserve um lange Synthesezeiten zu vermeiden, bei etwa 20.000 (20k) LUTs liegen.
+
+\section{Kernkomponente: FPGA}
+
+Bei der Wahl des FPGA kamen aufgrund der Vorgaben bei Preis und Hersteller und der benötigten Ressourcen nur die Familien ECP \cite{hbecp} und ECP2 \cite{hbecp2} in Betracht. Leider waren die ECP2-FPGAs, da es sich um eine neue Familie handelt, nicht im Zeitraum der Studienarbeit verfügbar. Unter Beachtung der vorgenannten Bedingungen bleiben lediglich der ECP20 und der ECP33. Aus Kostengründen wurde der ECP20 im 484fpBGA\footnote{fp: fine pitch $\widehat{=} 1,0\textnormal{mm}$; BGA: \textbf{B}all \textbf{G}rid \textbf{A}rray} gewählt.
+
+\section{Entwicklungssystem}
+
+Grundsätzlich kann man zwischen dem Kauf und der eigenen Entwicklung eines Systems wählen. Bei geringen Stückzahlen oder Einzelstücken ist es meist finanziell vorteilhaft, ein bestehendes System zu erwerben und gegebenenfalls mit den erwünschten Komponenten zu erweitern, sofern nur wenige Erweiterungen nötig sind und das System dies unterstützt.
+
+\subsection{Verfügbare Systeme}
+
+Das einzig derzeit verfügbare Entwicklungssystem (LFECP20E-H-EV) für das angestrebte FPGA LFECP20E bewegt sich im Preissegment bei 1300\$ (bei deutschen Distributoren konnte der Preis nicht ermittelt werden) und scheidet daher von vorne herein aus. Weiterhin handelt es sich bei diesem System um eine PCI-Einsteckkarte mit wenigen zusätzlichen Funktionen, die für das gewünschte Ziel nützlich sind. Die Hardware müsste um viele Komponenten erweitert werden. 
+
+\subsection{Entwicklung einer Plattform}
+
+Eine andere Möglichkeit ist die eigene Entwicklung eines Systems. Dies ist mit erheblichem Arbeitsaufwand verbunden, angesichts der wenigen Alternativen, allerdings die einzig gangbare. Der geschätzte finanzielle Aufwand bei Fertigung zweier Prototypen liegt bei etwa 300-400 EURO und die Fertigung von 15 Stück, im Folgenden Kleinserie genannt, für das Praktikum bei etwa 200 EURO.
+
+\section{Schaltungsentwurf}
+
+Einige der wichtigsten Aspekte beim Schaltungsentwurf sind die Auswahl der Bauelemente, die Prüfung der Verfügbarkeit und die richtige Verschaltung der Komponenten. Um eine ausreichende Reserve für die spätere Schaltung und eine Funktion des Prototyps möglichst sicherzustellen, fiel die Auswahl immer auf Bauelemente, die die erforderlichen Daten auch bei schlechten Bedingungen einhalten. Die Verwendung von günstigeren Bauteilen in der Kleinserie zur Kosteneinsparung kann nach Verifikation der Schaltung erfolgen, da so unnötige Iterationsstufen beim Prototypen vermieden werden können.
+
+\subsection{FPGA}
+
+Anhand der Angaben im Datenblatt der ECP-Familie \cite{dsecp} ist ein Teil der Beschaltung des FPGA bereits vorgegeben. Besonders in Bezug auf die Konfiguration existieren feste Beziehungen zu Anschlüssen des Gehäuses (vgl. S. \pageref{fig:schematic5}). Weiterhin sind die frei konfigurierbaren Anschlüsse in Bänke aufgeteilt, die eine unterschiedliche Versorgungsspannung ermöglichen. Die Konzentration von funktional zusammengehörigen Signalen auf eine Bank bietet auch bei der späteren Synthese (genauer dem Place and Route) Vorteile. Durch die freie Belegung der meisten Anschlüsse vereinfacht sich meist das Layout erheblich.
+
+\subsubsection{Konfiguration}
+
+Die Konfiguration des FPGA kann immer durch den nach IEEE1149.1 (JTAG\footnote{Joint Test Action Gorup}) standardisierten Anschluss erfolgen. Wahlweise stehen noch weitere Möglichkeiten der Konfiguration zur Verfügung, wovon SPI-Slave\footnote{FPGA liest aktiv die Konfiguration aus einem Flash-Speicher mit SPI-Schnittstelle (Serial Peripherial Interface)} optional verfügbar ist, um ein Testprogramm implementieren zu können, mit dessen Hilfe die Studenten bei Beginn des Praktikums die Funktion der Hardware überprüfen können. Der Flash-Speicher muss mindestens 8MBit Speicher besitzen, um unkomprimierte Konfigurationsdaten aufnehmen zu können. Er ist vorgesehen, wird aber für den Entwurf noch nicht bestückt.
+
+\subsubsection{Spannungsversorgung}
+
+Für die Funktion des FPGA müssen bestimmte Spannungen zur Verfügung gestellt werden, andere sind optional und für die Grundfunktion nicht notwendig. Zu den benötigten zählen die Core-Spannung\footnote{Kern des FPGA}, deren Nominalwert $1,2V$ beträgt und deren enge Toleranz eine genaue Planung und Kalkulation. Die PLL hängt ebenfalls von dieser Versorgung ab. $3,3V$ müssen auch zwingend zur Verfügung gestellt werden, um die Schnittstellen zur Konfiguration zu betreiben. Auch die Versorgung wichtiger ($\textnormal{VCC}_{\textnormal{aux}}$), und später benötigter Komponenten (Versorgung einiger IO-Bänke) des Bausteins hängen von dieser Versorgung ab. Die Strombelastung der Core-Spannung hängt stark von der Taktfrequenz und der Menge der Gatter, sowie deren Schalthäufigkeit ab und kann im Vorfeld nur geschätzt werden. Aus Erfahrungen mit SpartanIII-FPGAs der Firma Xilinx, die dem ECP am nächsten kommen, kann von einer maximalen Stromaufnahme im Betrieb von 3A ausgegangen werden. Die Ruhestromaufnahme ohne Konfigurationsdaten beträgt nur wenige mA, während der Konfiguration typisch 60mA. Die Belastung der $3,3V$-Versorgung kann mit wenigen mA in Ruhe und 40-100mA im Vergleich zu der Belastung durch weitere Systemkomponenten, die im Folgenden behandelt werden, vernachlässigt werden.
+
+\subsection{Audio-Eingang}
+
+\subsubsection{Analog-Digital-Umsetzer}
+
+Der Audio-Eingang gliedert sich in einen analogen und einen digitalen Teil, deren Trennung durch einen AD-Umsetzer erfolgt. Durch den Einsatz eines Umsetzers aus dem sogenannten Consumer\footnote{Nicht-professioneller Anwendungsbereich}-Bereich, kann eine sehr kosteneffiziente und dennoch hochwertige Lösung erzielt werden. Höherwertige Umsetzer dieser Klasse bieten Wandlungsraten ($f_r$) von 96kHz und Auflösungen (N) von 24 Bit. Die Schwierigkeit lag in der Beschaffung eines Umsetzers mit $3,3V$-Schnittstelle auf der Digitalseite, da das FPGA keine höheren Spannungspegel erlaubt. Lediglich Texas Instruments bot noch wenige günstige Schaltkreise an, die die gewünschten Eigenschaften besitzen. Nach Elimination der AD-Umsetzer, die ungeeignete Schnittstellen oder ungünstige Wandlungsraten besitzen, bleiben lediglich drei in der engeren Auswahl (vgl. Tab. \ref{tab:auswahl-adc}).
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|c|c|c|c|c|r|}\hline
+	\textbf{Bezeichnung} & \textbf{ADCs} & \textbf{N} & \textbf{SNR} & \textbf{Eingänge} 
+	& $f_{r}$ & \textbf{Interface} & \textbf{\euro{}} (1k) \\\hline
+	PCM1802			&	2	& 24 & 105 & 2 & 96 & $I^2S$ & 3.35\\\hline
+	PCM1803(A)	& 2	& 24 & 103 & 2 & 96 & $I^2S$ & 1.10\\\hline
+	PCM1808			& 2 & 24 & 101 & 2 & 96 & $I^2S$ & 1.00\\\hline
+	\end{tabular}
+	\caption{Auswahl von geeigneten AD-Umsetzern}
+	\label{tab:auswahl-adc}
+\end{table}
+
+Aufgrund des geringfügig besseren Signal-Rausch-Abstandes (SNR) und der besseren Verfügbarkeit, findet der PCM1803(A) \cite{pcm1803} Verwendung. Die Prüfung der Verfügbarkeit erfolgte durch Digi-Key (möglicher Distributor), der gute Preise und eine große Auswahl bietet.
+
+Die externe Beschaltung und die Dimensionierung der Elemente ist im Datenblatt bereits vorgegeben. Die Grenzfrequenz des Anti-Aliasing-Filters beträgt rund $45 kHz$. Die Wandlungsrate liegt bei 96kHz. Da der Wandler nach dem Sigma-Delta-Verfahren arbeitet und vom Noise-Shaping-Verfahren Gebrauch macht, ist die Grenzfrequenz des Filters ausreichend. Entsprechend einem 64-fach Oversampling\footnote{Die Abtastung geschieht mit einem Vielfachen der Wandlungsrate} muss dieses Filter erst bei 3 MHz eine genügend hohe Dämpfung aufweisen. Ein RC-Filter erster Ordnung genügt diesen Anforderungen. Weiterhin ist noch ein Hochpass vor den AD-Umsetzer zu schalten, um Gleichspannungsanteile zu blockieren. Der Eingangspegel für Vollaussteuerung beträgt $0,506dbV$. Der zugehörige Schaltplan ist auf S. \pageref{fig:schematic1} zu finden.
+
+\subsubsection{Mikrofon}
+
+Durch die Vorgabe, die Luft als Übertragungsmedium zu verwenden, ergibt sich zwangsweise die Wandlung des Schalldrucks in ein elektrisches Signal mittels eines Mikrofons. Aus Kostengründen wurde hier eine Elektret-Mikrofonkapsel von Conrad Electronic gewählt, die die erforderliche Bandbreite besitzt, um die oberen Frequenzen des hörbaren Spektrums noch nutzen zu können. Ein Hersteller ist leider nicht angegeben, der Austausch gegen andere Kapseln sollte jedoch ohne Weiteres möglich sein. Die Schätzung der erwarteten Schallpegel und eine Umrechnung in Schalldruck, der laut Datenblatt \cite{conrad_mikrofon} einen Spannungspegel von $-40dBV\pm20dB$ erwarten lässt, gibt einen groben Anhaltspunkt für die Dimensionierung. Ausgehend von dieser Betrachtung und der enormen Dynamik des Signals ist ein regelbarer Vorverstärker unerläßlich.
+
+\subsubsection{Mikrofonvorverstärker}
+
+Aufgrund der schon genannten Dynamik ist eine Regelung der Verstärkung wünschenswert. Idealerweise erfolgt die Regelung automatisch. Da allerdings nur eine grobe Abschätzung der Pegel exisitiert, wird für den Prototyp der digital einstellbare Mikrofonvorverstärker PGA2500 von Texas Instruments verwendet, einer der wenigen digital einstellbaren Mikrofonvorverstärker, die eine $3,3V$-tolerante Schnittstelle besitzen. Der hohe Preis von 9,95\$ (bei 1k) ist einer der entscheidenden Nachteile dieser Lösung. Die Regelung der Verstärkung kann bei dieser Lösung im FPGA erfolgen, die in einem weiten Bereich von $10$ bis $65dB$ eingestellt oder auf $0dB$ festgelegt werden kann.
+
+\subsubsection{Pegelanpassung}
+
+Die erforderlichen Pegel an den Ein- und Ausgängen der verwendeten Komponenten und der Anschlüsse müssen aufeinander abgestimmt werden. Teilweise ist eine Verstärkung vorzunehmen, teilweise eine Abschwächung. Der Pegelverlauf entlang des Signalweges ist dem Pegelplan in Abb. \ref{fig:audioin-pegel} zu entnehmen. Der externe Standard-Pegel im Consumer-Audio-Bereich beträgt $-10dBV$, was einem Pegel von $3dBm$ bei einer Last von $50\Omega$ entspricht.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.6\linewidth]{bilder/audioin-pegel}
+	\caption{Pegelplan des Audio-Eingangs}
+	\label{fig:audioin-pegel}
+\end{figure}
+
+Die zur aktiven Pegelanpassung verwendeten Operationsverstärker OPA2134 \cite{opa2134} sind ebenfalls von Texas Instruments und besitzen ausgezeichnete technische Daten. Speziell für den professionellen Audio-Bereich entwickelt, zeichnet sich das Bauteil durch sehr geringe Verzerrungen und niedriges Rauschen im Vergleich zu anderen Operationsverstärkern aus. Da der Standardtyp TL082 \cite{tl082} Pinkompatibel zum OPA2134 ist, kann in einer späteren Version auf diesen gewechselt werden um die Kosten zu minimieren, falls die Störunempfindlichkeit des gesamten Entwurfs dies zulässt.
+
+Das Einstecken eines externen Mikrofons oder eines Gerätes an den Line-In entkoppelt den jeweils vorigen Schaltungsteil mittels eines in die Klinkenbuchse integrierten Schalters.
+
+\subsubsection{Spannungsversorgung}
+
+Die Versorgung des analogen Eingangs gestaltet sich wie gewohnt mittels einer symmetrischen Spannung von $\pm 5V$. Der AD-Umsetzer setzt diese Spannung voraus, die Operationsverstärker tolerieren diese Spannung mit Einschränkungen bei der maximalen Amplitude, die allerdings oberhalb des Aussteuerungsbereichs des AD-Umsetzers liegt. Sollten diese maximalen Pegel erreicht werden, befindet sich der AD-Umsetzer ohnehin in der Übersteuerung. Werden die genormten Pegel an den Eingängen eingehalten, sollte dieser Fall nie eintreten. Wegen der Widerstände und der begrenzenden Z-Dioden an den Eingängen, die von außerhalb des Systems kommen, sollte es nur schwer möglich sein, die Baugruppen zu schädigen.
+
+\subsection{Audio-Ausgang}
+
+\subsubsection{Digital-Analog-Umsetzer}
+
+Der Audio-Ausgang beinhaltet die DA-Umsetzung und die Leistungs-Verstärkung zur Ansteuerung eines Lautsprechers (siehe S. \pageref{fig:schematic2}). Die erforderlichen digitalen Pegel von $3,3V$ und die gewünschte Umsetzrate von $192kHz$ schränken die Auswahl der verfügbaren DA-Umsetzer erneut ein. Unter Beachtung finanzieller Aspekte bleiben einige Modelle von Texas Instruments übrig. Diese Auswahl findet sich in Tabelle \ref{tab:dac-auswahl}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{|l|c|c|c|c|c|c|r|}\hline
+	\textbf{Bezeichnung} & \textbf{ADCs} & \textbf{N} & 
+	\textbf{SNR} & \textbf{Ausgänge} & $f_{r}$ & 
+	\textbf{Interface} & \textbf{Preis (1k)} \\\hline
+	PCM1730		& 2	& 24 & 117 & 2 & 192 & I2S & 5.00 \\\hline
+	PCM1739		& 2 & 24 & 106 & 2 & 192 & I2S & 3.70	\\\hline
+	PCM1793		& 2	& 24 & 113 & 2 & 192 & I2S & 2.10	\\\hline
+	PCM1798		& 2 & 24 & 123 & 2 & 192 & I2S & 6.50	\\\hline
+	\end{tabular}
+	\caption{Auswahl von geeigneten DA-Umsetzern}
+	\label{tab:dac-auswahl}
+\end{table}
+
+Nach einer Verfügbarkeitsprüfung wurde die Entscheidung zugunsten des PCM1730 \cite{pcm1730} gefällt, der hinsichtlich des Preises einen guten Kompromiss darstellt. Durch Verwendung eines DA-Umsetzers von TI mit gleicher Schnittstelle kann eine einfache Überprüfung der Funktion erfolgen, indem der Signalweg im FPGA durchgeschleift und ein Takt zugeführt wird. Der Umsetzer besitzt zwei differentielle Stromausgänge, die eine hervorragende Störresistenz aufweisen.
+
+\paragraph{I-U-Wandlung und Anti-Alias-Filterung}
+
+Um die Stromsignale weiterverarbeiten zu können, müssen diese in eine proportionale Spannung umgesetzt und einer Anti-Alias-Filterung unterzogen werden. Dies geschieht pro Kanal mittels dreier Operationsverstärker. Je zwei pro Kanal für die Strom-Spannungs-Wandlung und einer für die Umsetzung des symmetrischen Signals in ein unsymmetrisches. Der OPA2134 bzw. der TL082 sind für diesen Zweck auch sehr gut geeignet. Das Anti-Alias-Filter ist in der Empfehlung des Datenblattes bereits integriert. Die Grenzfrequenz beträgt laut Datenblatt 45kHz. Da nur 8-fach Oversampling vorliegt, muss das Filter geringfügig bessere Steilheit der Dämpfung aufweisen als dies beim AD-Umsetzer nötig war. Um den Umsetzer zu verifizieren wurde eine Simulation in PSpice durchgeführt. Die Schaltung der Simulation findet sich in Abb. \ref{fig:IV-sch}, der berechnete Frequenzgang in Abb. \ref{fig:IV-diag}.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.9\linewidth]{bilder/DA-IV-Conv-Filter-sch}
+	\caption{Schaltung des I/U-Wandlers mit Anit-Alias-Filter}
+	\label{fig:IV-sch}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.9\linewidth]{bilder/DA-IV-Conv-Filter-diag}
+	\caption{Frequenzgang des I/U-Wandlers mit Anit-Alias-Filter}
+	\label{fig:IV-diag}
+\end{figure}
+
+
+\subsubsection{Leistungsverstärker}
+
+Um nicht auf Lautsprecher mit integriertem Verstärker und einem zusätzlichen Netzteil angewiesen zu sein, ist der Leistungsverstärker auf dem System integriert. Auch hier gibt es viele Alternativen. Sowohl ein Mono-Lautsprecher, als auch der Anschluss eines Stereo-Lautsprechers mittels 3,5mm-Klinkenstecker sollen möglich sein.
+
+Ein aufgrund der Versorgungsspannung, des Preises, der einfachen externen Beschaltung und der Möglichkeit, sowohl einen Mono- als auch Stereo-Lautsprecher betreiben zu können, geeigneter Verstärker ist der TPA0213 \cite{tpa0213} von Texas Instrument. Der Verstärker liefert bis zu $2W$ an $4\Omega$ und kann mittels externer Beschaltung automatisch beim Einstecken eines Stereo-Lautsprechers in den Stereo-Betrieb umgeschatet werden.
+
+Durch die gemeinsame Masse bei Stereo-Lautsprechern kann nur unsymmetrische Ansteuerung erfolgen. Im Mono-Betrieb erfolgt gegenphasige Aussteuerung der beiden Lautsprecheranschlüsse. Damit kann die vierfache Leistung ($P \sim V^2$) eines Stereo-Kanals zur Verfügung gestellt werden.
+
+\subsubsection{Pegelanpassung}
+
+Der Ausgang des Strom-Spannungs-Wandlers liefert eine Aus\-gangs\-span\-nung von $6,2V_{SS}$, Consumer-Audio liegt bei $1V_{SS}$. Eine Pegelanpassung findet hierfür nicht statt, da der Leistungsverstärker nur eine sehr geringe Spannungsverstärkung ($2,5V/V$ Mono, $1,25V/V$ Stereo) besitzt und auf große Eingangspegel angewiesen ist. Falls Consumer-Pegel gewünscht sind, erfolgt dies durch Skalierung auf digitaler Seite. Eine Übersteuerung des Ausganges zu Versuchszwecken ist somit gezielt möglich. Durch Berechnung der erforderlichen Werte und Ersetzen der Widerstände und Kapazitäten im Strom-Spannungswandler kann eine Anpassung auf den Consumer-Pegel erfolgen. Ist sowohl der Consumer-Pegel, als auch die maximale Ausgangsleistung des Leistungsverstärkers gewünscht, so kann dies mittels zweier weiterer Operationsverstärker erfolgen.
+
+Der Pegel für den Leistungsverstärker kann mittels eines Stereo-Potentiometers von Hand eingestellt werden. Dies ist sinnvoll, um die Lautstärke schnell den Bedürfnissen anpassen zu können.
+
+\subsection{Bedienelemente}
+
+Als Bedienelemente kommen Taster und Schalter zum Einsatz (vgl. S. \pageref{fig:schematic4}). Um nicht unnötig Platz auf der Platine zu verschwenden und den Aufwand des Montierens zu minimieren, werden SMD-Bauteile verwendet. Als Taster finden Standard-SMD-Taster Verwendung. Weiter kommt ein 8-fach DIP-Schalter zum Einsatz. Die Bedienelemente schalten gegen Masse, haben also einen invertierenden Charakter.
+
+Da Taster sehr stark zum Prellen neigen und so für viele hochfrequente Impulse und zusätzliche Störungen sorgen, wird den Tastern ein einfacher RC-Tiefpass mit $\tau = R \cdot C = 4,7 ms$ nachgeschaltet.
+
+Als Anzeigeelemente wurden zwei Pegel-, drei Status- und vier 7-Segment-Anzeigen gewählt. Die 7-Segment-Anzeigen dienen der einfachen Darstellung von Zahlen, die Statusanzeigen bestehen aus je einer grünen, gelben und roten LED zur Anzeige von Betriebszuständen durch den Nutzer, die Pegelanzeigen enthalten je eine rote, zwei gelbe und fünf grüne LEDs, auf denen die Audio-Pegel anschaulich dargestellt werden können.
+
+\subsection{PC-Schnittstelle}
+
+Die Anbindung an einen PC kann am Einfachsten durch die serielle Schnittstelle erfolgen. Diese kann im Verlauf des Praktikums als digitale Signalquelle für die Modulation verwendet werden, wenn die Übertragung in der Praxis getestet werden soll. Da die verwendete Schnittstelle des PC nach EIA-232, auch bekannt als RS232, Pegel von $\pm5-15V$ verwendet, muss ein Pegelwandler eingesetzt werden. Hierfür gibt er eine unüberschaubare Menge an Derivaten von verschiedensten Herstellern, die ihrerseits eine Wandlung und die Erzeugung der benötigten Spannung aus einer einzelnen durchführen. Einer der bekanntesten Vertreter ist der MAX232 ($5V$-Versorgung). Ein weiterer Vertreter, der für eine Versorgung von $3,3V$ ausgelegt ist und mit kleineren Kondensatoren ($0,1\mu F$ statt $1\mu F$) zur Hilfsspannungserzeugung auskommt, ist der MAX3232 und baugleiche Typen anderer Hersteller. Auf Grund des Preises und der Verfügbarkeit wird der SP3232 \cite{sp3232} von Sipex verwendet. Die genaue Beschaltung kann dem Datenblatt entnommen werden und findet sich auch auf S. \pageref{fig:schematic5} wieder.
+
+\subsection{Erweiterungen}
+
+Um Signale aus dem FPGA nach Außen führen, sie mit dem Oszilloskop messen und später eine einfache Möglichkeit zu haben, andere Komponenten an das FPGA anbinden zu können, wurden zwei Erweiterungssteckplätze integriert. Diese sind jeweils an eine Bank angebunden und erlauben die Auswahl verschiedener Logikpegel. (vgl. S. \pageref{fig:schematic5})
+
+\subsection{Spannungsversorgung}
+
+Die Versorgung des Systems erfolgt durch die vorhandenen Labornetzgeräte, die zwei Spannungen von $15V$ mit je $1A$ liefern können. Die geschätzte Leistungsaufnahme der gesamten Schaltung, basierend auf der Summe aller Einzelleistungen und der Wirkungsgrade der Schaltregler, sollte 30W nicht übersteigen. Indem man die Ausgangsspannungen in Reihe schaltet, können die Netzgeräte die erforderliche Leistung bereit stellen. Daraus folgt die Auslegung der Eingangsspannung auf $35V$.
+
+Nach der Festlegung der einzelnen Komponenten des Systems steht fest, welche Spannungen und Strombelastbarkeiten benötigt werden. Indem schon frühzeitig bedacht wurde, welche Spannungen unabdingbar sind, konnte der Aufwand für die Versorgung minimiert werden. Tabelle \ref{tab:supplies} gibt die Strombelastbarkeiten der benötigten Spannungsversorgungsebenen wieder. Die Werte beziehen sich auf die tatsächliche Belastbarkeit der Versorgungen. Zuvor wurde ermittelt, welche Werte sich im ungünstigsten Fall ergeben und danach die Komponenten ausgesucht. Unter Beachtung der Störempfindlichkeit der verschiedenen Schaltungsteile wurde eine Auswahl zwischen Schalt- und Linearregler getroffen. (vgl. S. \pageref{fig:schematic3})
+
+\begin{table}
+	\centering
+	\begin{tabular}{|c|l|c|c|}
+		\hline\textbf{Spannung} & \textbf{Verwendung} & \textbf{Belastbarkeit} & \textbf{Quelle}\\\hline
+		$+12V$ & Vers. des $+1,2V$- und $+2,5V$-Reglers & 2,7A & extern \\
+		$+3,3V$ & Vers. der digitalen Peripherie & 2,1A & extern \\
+		$+2,5V$ & Für Erweiterungen (optional) & 6A & $+12V$ \\
+		$+1,2V$ & VCore des FPGA & 3A (6A) & $+12V$ \\
+		$+5,2V$ & Vers. der analogen Komponenten & 1,7A & extern \\
+		$-7V$ & Negative Hilfsspannung & 300mA & $+5,2V$ \\
+		$+5V_{MA}$ & Versorgung des Mikrofon-Vorverstärkers & 100mA & $+5,2V$ \\
+		$-5_{VD}$ & Neg. Digitalhilfssp. für Mikrofonvorverst. & 100mA & $-7V$ \\
+		$+5V_{AD}$ & Positive Vers. des AD-Wandler-Teils & 100mA & $+5,2V$ \\
+		$-5V_{AD}$ & Negative Vers. des AD-Wandler-Teils & 100mA & $-7V$ \\
+		$+5V_{DA}$ & Positive Vers. des DA-Wandler-Teils & 100mA & $+5,2V$ \\
+		$-5V_{DA}$ & Negative Vers. des DA-Wandler-Teils & 100mA & $-7V$ \\\hline
+	\end{tabular}
+	\caption{Versorgungsspannungen}
+	\label{tab:supplies}
+\end{table}
+
+Aufgrund positiver Erfahrungen mit den Schaltregler-Modulen PTH12000W \cite{pth12000} von Texas Instruments kam dieser für die Versorgung des FPGA-Kerns (VCore=$1,2V$) zum Einsatz. Die Eingangsspannung dieser Schaltregler beträgt $12V$. Die Erzeugung dieser obliegt dem nachfolgenden Konzept. Durch Beschaltung mit einem Widerstand kann die Ausgangsspannung in einem weiten Bereich eingestellt werden. Im Falle der $1,2V$ entfällt dieser Widerstand. Optional kann noch eine weitere Spannung ($2,5V$) zur Verfügung gestellt werden, allerdings wird das Modul vorerst nicht bestückt. Leider sind diese Schaltregler derzeit sehr begehrt und haben lange Lieferzeiten. Der Distributor Farnell konnte noch in genügender Anzahl liefern. Der Preis des Moduls in kleinen Stückzahlen ist mit etwa 12 EURO vergleichsweise teuer.
+
+Die Spannungen $3,3V$, $5,2V$ und $12V$ werden durch eine eigene Lösung erzeugt. Zum Einsatz kommt der universelle Schaltregler TPS5430 \cite{tps5430} ebenfalls von Texas Instrument, da dieser preisgünstig ist, wenig externe Bauteile erfordert (integrierter MOSFET) und eine Software zur Verfügung gestellt wird, mit der man alle nötigen Dimensionierungen durchführen kann. Die Schaltfrequenz von 500kHz ist ein guter Kompromiss zwischen möglicher Störausstrahlung und Größe der induktiven und kapazitiven Elemente. Die Software erfordert die Eingabe der Eckdaten wie Eingangsspannungsbereich, maximale Belastung und erforderliche maximale Restwelligkeit. Es erfolgt die Ausgabe eines Schaltplanes mit allen Bauteilwerten, ein Referenzlayout und die simulierte Welligkeit der Ausgangsspannung im Zeitbereich. Entgegen der Empfehlung der Software kam die preisgünstige Schottky-Diode STPS340U \cite{stps340u} von STMicroelectronics zum Einsatz.
+
+Die negative Versorgungsspannung, die für die analogen Komponenten nötig ist, wird zweistufig erzeugt. In der ersten Stufe erfolgt die Invertierung der $5,2V$ zu $-7V$ mittels des Schaltreglers TSP6755 \cite{tps6755} ebenfalls von Texas Instruments. In der zweiten Stufe erfolgt die Regelung mittels linearer Standard-Regler 79L05 \cite{79l05} mit 100mA Belastbarkeit, die für eine bessere Qualität der Spannung sorgen. Sowohl der analoge Eingang, als auch der analoge Ausgang erhalten eigene Linearregler für eine bessere Trennung der analogen Signale und eine ausreichende Versorgung. Ein Regler kann den erforderlichen Strom für beide Teile nicht zur Verfügung stellen. Der Mikrofonvorverstärker benötigt ebenfalls noch eine negative Hilfsspannung, die auch durch einen 79L05 zur Verfügung gestellt wird.
+
+Die positive Versorgung der analogen Komponenten erfolgt ebenfalls getrennt nach Ein- und Ausgang. Der Leistungsverstärker erhält hingegen eine direkte Versorgung durch die $5,2V$, da dieser einen relativ großen Strombedarf hat und keine besonderen Ansprüche an die Qualität stellt. Die empfindlicheren Komponenten werden nochmals durch Linearregler mit besonders geringem Spannungsabfall von der $5,2V$-Versorgung entkoppelt. Dabei stehen zwei pinkompatible Schaltkreise zur Verfügung. Der TPS73250 \cite{tps73250} von Texas Instruments und der XC6201P502MRN \cite{xc6201} von Torex Semiconductor Ltd., deren Daten nahezu identisch sind.
+
+Mit den Spannungsversorgungen sind alle Aufgaben des Systementwurfs auf Schaltungsebene abgeschlossen. Die übrigen Komponenten wie Steckverbinder und andere mechanische Komponenten sollen hier nicht ausgeführt werden.
+
+\section{Platzierung und Entflechtung}
+
+Aufgrund der Verwendung des genannten FPGAs, welches nur im \textbf{B}all \textbf{G}rid \textbf{A}rray (BGA) verfügbar ist, war klar, dass das Layout sehr aufwändig werden würde. Aus Kostengründen entschied man sich für eine Pltine mit zwei Kupferlagen. Nach Rücksprache mit ILFA Feinstleitertechnik und weiterer Unterredung mit dem Betreuer schied auch diese Alternative aus, die die Möglichkeit gefüllter Durchkontaktierungen bedeutet hätte. Diese können unter den Balls verwendet werden und erhöhen somit die Qualität der Verbindungen und reduzieren die Wahrscheinlichkeit von Kurzschlüssen deutlich. Die Wahl fiel zugunsten des günstigsten Leiterplattenherstellers PCB-Pool, der nur Standard-Durchkontaktierungen mit Bohrloch und relativ ungenaue Strukturen von $150\mu m$ anbietet. Beim Layout waren mehrere kritische Bereiche von Bedeutung. Die Platzierung der Bauteile erfolgte parallel zur Entflechtung, um ein möglichst effizientes Layout zu erreichen.
+
+\subsection{Spannungsversorgung}
+
+Die Spannungsversorgung des FPGA erforderte die intensivste Betrachtung. Aus dem Datenblatt kann der Betriebsspannungsbereich der Kern-Spannung entnommen werden. Diese sollte für einen zuverlässigen Betrieb im Bereich $1,14 - 1,26V$ liegen. Dabei ist jedoch der Spannungsabfall auf den Zuleitungen (VCore und Masse) nicht zu vernachlässigen, da erhebliche Ströme auftreten können. Ausgehend von einer geschätzten, maximalen Stromaufnahme von $3A$ bei $60mV$ erlaubtem Spannungsabfall darf der maximale Widerstand der Zuleitung $20m\Omega$ nicht überschreiten. Bei $35\mu m$ Kupferdicke und $1mm$ Leiterbahnbreite entspricht dies einer maximalen Länge von $40mm$, Übergangswiderstände der Anschlüsse nicht eingerechnet. Des weiteren sind hohe Stromspitzen weit über $3A$ zu erwarten, die obige Abschätzung nicht beinhaltet. Um diese abzufangen bedarf es einiger niederohmiger Kondensatoren, die diesen kurzzeitigen Strom liefern können. Diese sollten in umittelbarer Nähe der Versorgungsanschlüsse des FPGA liegen.
+
+Die Versorgung aller weiteren Komponenten ist unkritisch und lediglich mit breiteren Leiterbahnen ausgeführt, um den Spannungsabfall gering zu halten.
+
+Die Masse bedarf wiederum genauerer Betrachtung, da diese unmittelbaren Einfluss auf die Störemfindlichkeit und die Störaussendung hat. Um Störungen von den analogen Signalleitungen fern zu halten, ist eine möglichst flächendeckende Verteilung der Masse notwendig, die Störungen einfängt und abführt. Im digitalen Teil ist aufgrund der hohen Stromspitzen und der Verringerung der Störaussendung die Verwendung einer Massefläche empfehlenswert. Aufgrund dieser gegensätzlichen Anforderungen wird die Masse von analogem und digitalem Teil strikt getrennt und erst im Bereich der Systemspannungsversorgung zusammengeführt. Dazu ist die Leiterplatte in verschiedene Bereiche aufgeteilt. Da eine zweiseitige Leiterplatte Verwendung findet, konnte keine eigene Lage für die Massen verwendet werden. Daher ist jede freie Fläche, die zugänglich und groß genug für eine Durchkontaktierung ist, mit der entsprechenden Masse verbunden. Signale wurden sofern möglich auf der Oberseite geführt, um eine durchgängige Masse zumindest auf der Rückseite zu erreichen. Die gesamten Masseflächen wurden an ihren Rändern mit Durchkontaktierungen versehen, um einen geringen Widerstand zu garantieren.
+
+Das Layout im Bereich der Schaltregler entspricht den Empfehlungen der Datenblätter.
+
+\subsection{Analoge Signale}
+
+Das Layout der analogen Signale folgt den Regeln möglichst hoher Störresistenz. Dies bedeutet kurze Signalwege und ausreichenden Abstand zu digitalen Schaltungsteilen. Signale mit sehr niedrigem Pegel (Mikrofon) sind möglichst separat geführt und mit möglichst niederohmiger Masse umgeben.
+
+\subsection{Digitale Signale}
+
+Die digitalen Signale bedürfen bezüglich des Layouts nur weniger Überlegungen. Für Signale mit Informationscharakter wurde die kleinste Leiterbahnbreite gewählt. Taktleitungen sind nach Möglichkeit mit Masse umgeben, um deren Störabstrahlung in den analogen Bereich zu minimieren. Signale deren Anschluss am FPGA lediglich einer Bank zugeordnet sind und deren Belegung innerhalb der Bank frei wählbar ist, wurden auf direktem Weg an die Bank herangeführt, im Schaltplan den günstigsten Anschlüssen zugeordnet und anschließend im Layout fertiggestellt. Ohne diesen Freiheitsgrad wäre eine Entflechtung auf zwei Ebenen unmöglich gewesen.
+
+Nach Fertigstellung des Layouts und der Festlegung der einzelnen Komponenten konnte mit der Programmierung in VHDL begonnen werden. Das Ergebnis der Platzierung und Verdrahtung is in Abb. \ref{fig:sim:spates-3d} zu sehen. 
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.9\linewidth]{bilder/ADSP-SPATES_schraeg_links_vorne}
+	\caption{3D-Ansicht des Modells aus Target3001!}
+	\label{fig:sim:spates-3d}
+\end{figure}
+
+

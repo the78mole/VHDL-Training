@@ -1,0 +1,644 @@
+PAD Specification File
+***************************
+
+PART TYPE:        LFECP20E
+SPEED GRADE:      3
+PACKAGE:          FPBGA484
+Package: Version 1.10, Status: FINAL
+
+Mon Nov 27 03:08:35 2006
+
+Pinout by Port Name:
++-----------------------------------------+--------------------+--------------------+--------------------------+
+|  Port Name                              |  Pin/Bank          |  Buffer Type       |  Properties              |
++-----------------------------------------+--------------------+--------------------+--------------------------+
+| AD_BYPAS                                | C12/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| AD_FMT_0                                | D8/0               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| AD_FMT_1                                | T1/6               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| AD_MODE_0                               | J4/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| AD_MODE_1                               | H5/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| AD_OSR                                  | A6/0               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| AD_SCKI                                 | E5/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| AD_nPDWN                                | B4/0               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_0                         | T14/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_1                         | U16/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_2                         | U15/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_3                         | AB18/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_4                         | AA18/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_5                         | AA16/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_6                         | AB19/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_LEFT_7                         | Y15/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_0                        | AB17/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_1                        | W15/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_2                        | AB15/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_3                        | AB16/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_4                        | W16/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_5                        | AA13/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_6                        | Y14/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| BARGRAPH_RIGHT_7                        | Y13/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| CLK                                     | J1/7               | LVCMOS25_IN        | SLEW:FAST PULL:UP        |
+| DA_BCK                                  | F5/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_DEMP_0                               | V4/6               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_DEMP_1                               | J2/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_DIN                                  | Y18/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_FMT_0                                | G1/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_FMT_1                                | K1/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_FMT_2                                | M21/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_LRCK                                 | R1/6               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_MUTE                                 | A15/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_SCKI                                 | P18/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| DA_nRST                                 | A8/0               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| MA_SCLK                                 | Y10/5              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| MA_SDI                                  | AA6/5              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| MA_ZCEN                                 | E7/0               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| MA_nCS                                  | AA8/5              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| MA_nDCEN                                | G2/7               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| PA_nEN                                  | B19/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| RS232_DTR                               | L4/6               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| RS232_TX                                | W9/5               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED1_0                          | G20/2              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED1_1                          | N21/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED1_2                          | F18/2              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED1_3                          | G18/2              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED1_4                          | AB20/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED1_5                          | N20/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED1_6                          | AA17/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED1_7                          | V14/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED2_0                          | Y11/5              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED2_1                          | U13/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED2_2                          | M19/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED2_3                          | P21/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED2_4                          | F17/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED2_5                          | N18/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED2_6                          | AB14/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED2_7                          | V16/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED3_0                          | T18/3              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED3_1                          | B9/0               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED3_2                          | V17/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED3_3                          | D11/0              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED3_4                          | W17/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED3_5                          | B17/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED3_6                          | V15/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED3_7                          | AA15/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED4_0                          | C15/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED4_1                          | D14/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED4_2                          | J22/2              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED4_3                          | T13/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED4_4                          | A20/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED4_5                          | V11/5              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP OPENDRAIN:ON 
+| SEGMENT_LED4_6                          | AA14/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| SEGMENT_LED4_7                          | AB13/4             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_GREEN_0                          | F13/1              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_GREEN_1                          | Y19/4              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_GREEN_2                          | M2/6               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_RED_0                            | AA11/5             | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_RED_1                            | P5/6               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_RED_2                            | AB7/5              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_YELLOW_0                         | F20/2              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_YELLOW_1                         | J20/2              | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
+| STATUS_YELLOW_2                         | B5/0               | LVCMOS25_OUT       | DRIVE:12mA SLEW:FAST PULL:UP 
++-----------------------------------------+--------------------+--------------------+--------------------------+
+
+Vccio by Bank:
++--------------------+--------------------+
+|  Bank              |  Vccio             |
++--------------------+--------------------+
+| 0                  | 2.5V               |
+| 1                  | 2.5V               |
+| 2                  | 2.5V               |
+| 3                  | 2.5V               |
+| 4                  | 2.5V               |
+| 5                  | 2.5V               |
+| 6                  | 2.5V               |
+| 7                  | 2.5V               |
++--------------------+--------------------+
+
+Vref by Bank:
++--------------------+---------+--------------------+-------------------------------+
+|  Vref              |  Pin    |  Bank # / Vref #   |  Load                         |
++--------------------+---------+--------------------+-------------------------------+
++--------------------+---------+--------------------+-------------------------------+
+
+Pinout by Pin Number:
++--------------------+--------------------+--------------------+--------------------+
+|  Pin/Bank          |  Pin Info          |  Preference        |  Buffer Type       |
++--------------------+--------------------+--------------------+--------------------+
+| A3/0               |                    |                    |                    |
+| A4/0               |                    |                    |                    |
+| A5/0               |                    |                    |                    |
+| A6/0               | AD_OSR             |                    | LVCMOS25_OUT       |
+| A7/0               |                    |                    |                    |
+| A8/0               | DA_nRST            |                    | LVCMOS25_OUT       |
+| A9/0               |                    |                    |                    |
+| A10/0              |                    |                    |                    |
+| A11/0              |                    |                    |                    |
+| A12/1              |                    |                    |                    |
+| A13/1              |                    |                    |                    |
+| A14/1              |                    |                    |                    |
+| A15/1              | DA_MUTE            |                    | LVCMOS25_OUT       |
+| A16/1              |                    |                    |                    |
+| A17/1              |                    |                    |                    |
+| A18/1              |                    |                    |                    |
+| A19/1              |                    |                    |                    |
+| A20/1              | SEGMENT_LED4_4     |                    | LVCMOS25_OUT       |
+| AA1/6              |                    |                    |                    |
+| AA2/6              |                    |                    |                    |
+| AA3/5              |                    |                    |                    |
+| AA4/5              |                    |                    |                    |
+| AA5/5              |                    |                    |                    |
+| AA6/5              | MA_SDI             |                    | LVCMOS25_OUT       |
+| AA7/5              |                    |                    |                    |
+| AA8/5              | MA_nCS             |                    | LVCMOS25_OUT       |
+| AA9/5              |                    |                    |                    |
+| AA10/5             |                    |                    |                    |
+| AA11/5             | STATUS_RED_0       |                    | LVCMOS25_OUT       |
+| AA12/4             |                    |                    |                    |
+| AA13/4             | BARGRAPH_RIGHT_5   |                    | LVCMOS25_OUT       |
+| AA14/4             | SEGMENT_LED4_6     |                    | LVCMOS25_OUT       |
+| AA15/4             | SEGMENT_LED3_7     |                    | LVCMOS25_OUT       |
+| AA16/4             | BARGRAPH_LEFT_5    |                    | LVCMOS25_OUT       |
+| AA17/4             | SEGMENT_LED1_6     |                    | LVCMOS25_OUT       |
+| AA18/4             | BARGRAPH_LEFT_4    |                    | LVCMOS25_OUT       |
+| AA19/4             |                    |                    |                    |
+| AA20/4             |                    |                    |                    |
+| AA21/3             |                    |                    |                    |
+| AA22/3             |                    |                    |                    |
+| AB3/5              |                    |                    |                    |
+| AB4/5              |                    |                    |                    |
+| AB5/5              |                    |                    |                    |
+| AB6/5              |                    |                    |                    |
+| AB7/5              | STATUS_RED_2       |                    | LVCMOS25_OUT       |
+| AB8/5              |                    |                    |                    |
+| AB9/5              |                    |                    |                    |
+| AB10/5             |                    |                    |                    |
+| AB11/5             |                    |                    |                    |
+| AB12/4             |                    |                    |                    |
+| AB13/4             | SEGMENT_LED4_7     |                    | LVCMOS25_OUT       |
+| AB14/4             | SEGMENT_LED2_6     |                    | LVCMOS25_OUT       |
+| AB15/4             | BARGRAPH_RIGHT_2   |                    | LVCMOS25_OUT       |
+| AB16/4             | BARGRAPH_RIGHT_3   |                    | LVCMOS25_OUT       |
+| AB17/4             | BARGRAPH_RIGHT_0   |                    | LVCMOS25_OUT       |
+| AB18/4             | BARGRAPH_LEFT_3    |                    | LVCMOS25_OUT       |
+| AB19/4             | BARGRAPH_LEFT_6    |                    | LVCMOS25_OUT       |
+| AB20/4             | SEGMENT_LED1_4     |                    | LVCMOS25_OUT       |
+| AB21/3             |                    |                    |                    |
+| B1/7               |                    |                    |                    |
+| B2/7               |                    |                    |                    |
+| B3/0               |                    |                    |                    |
+| B4/0               | AD_nPDWN           |                    | LVCMOS25_OUT       |
+| B5/0               | STATUS_YELLOW_2    |                    | LVCMOS25_OUT       |
+| B6/0               |                    |                    |                    |
+| B7/0               |                    |                    |                    |
+| B8/0               |                    |                    |                    |
+| B9/0               | SEGMENT_LED3_1     |                    | LVCMOS25_OUT       |
+| B10/0              |                    |                    |                    |
+| B11/0              |                    |                    |                    |
+| B12/1              |                    |                    |                    |
+| B13/1              |                    |                    |                    |
+| B14/1              |                    |                    |                    |
+| B15/1              |                    |                    |                    |
+| B16/1              |                    |                    |                    |
+| B17/1              | SEGMENT_LED3_5     |                    | LVCMOS25_OUT       |
+| B18/1              |                    |                    |                    |
+| B19/1              | PA_nEN             |                    | LVCMOS25_OUT       |
+| B20/1              |                    |                    |                    |
+| B21/2              |                    |                    |                    |
+| B22/2              |                    |                    |                    |
+| C1/7               |                    |                    |                    |
+| C2/7               |                    |                    |                    |
+| C3/7               |                    |                    |                    |
+| C4/0               |                    |                    |                    |
+| C5/0               |                    |                    |                    |
+| C6/0               |                    |                    |                    |
+| C7/0               |                    |                    |                    |
+| C8/0               |                    |                    |                    |
+| C9/0               |                    |                    |                    |
+| C10/0              |                    |                    |                    |
+| C11/0              |                    |                    |                    |
+| C12/1              | AD_BYPAS           |                    | LVCMOS25_OUT       |
+| C13/1              |                    |                    |                    |
+| C14/1              |                    |                    |                    |
+| C15/1              | SEGMENT_LED4_0     |                    | LVCMOS25_OUT       |
+| C16/1              |                    |                    |                    |
+| C17/1              |                    |                    |                    |
+| C18/1              |                    |                    |                    |
+| C19/1              |                    |                    |                    |
+| C20/2              |                    |                    |                    |
+| C21/2              |                    |                    |                    |
+| C22/2              |                    |                    |                    |
+| D1/7               |                    |                    |                    |
+| D2/7               |                    |                    |                    |
+| D3/7               |                    |                    |                    |
+| D4/7               |                    |                    |                    |
+| D5/0               |                    |                    |                    |
+| D6/0               |                    |                    |                    |
+| D7/0               |                    |                    |                    |
+| D8/0               | AD_FMT_0           |                    | LVCMOS25_OUT       |
+| D9/0               |                    |                    |                    |
+| D10/0              |                    |                    |                    |
+| D11/0              | SEGMENT_LED3_3     |                    | LVCMOS25_OUT       |
+| D12/1              |                    |                    |                    |
+| D13/1              |                    |                    |                    |
+| D14/1              | SEGMENT_LED4_1     |                    | LVCMOS25_OUT       |
+| D15/1              |                    |                    |                    |
+| D16/1              |                    |                    |                    |
+| D17/1              |                    |                    |                    |
+| D18/1              |                    |                    |                    |
+| D19/2              |                    |                    |                    |
+| D20/2              |                    |                    |                    |
+| D21/2              |                    |                    |                    |
+| D22/2              |                    |                    |                    |
+| E1/7               |                    |                    |                    |
+| E2/7               |                    |                    |                    |
+| E3/7               |                    |                    |                    |
+| E4/7               |                    |                    |                    |
+| E5/7               | AD_SCKI            |                    | LVCMOS25_OUT       |
+| E6/0               |                    |                    |                    |
+| E7/0               | MA_ZCEN            |                    | LVCMOS25_OUT       |
+| E8/0               |                    |                    |                    |
+| E9/0               |                    |                    |                    |
+| E10/0              |                    |                    |                    |
+| E11/0              |                    |                    |                    |
+| E12/0              |                    |                    |                    |
+| E13/1              |                    |                    |                    |
+| E14/1              |                    |                    |                    |
+| E15/1              |                    |                    |                    |
+| E16/1              |                    |                    |                    |
+| E17/1              |                    |                    |                    |
+| E18/2              |                    |                    |                    |
+| E19/2              |                    |                    |                    |
+| E20/2              |                    |                    |                    |
+| E21/2              |                    |                    |                    |
+| E22/2              |                    |                    |                    |
+| F1/7               |                    |                    |                    |
+| F2/7               |                    |                    |                    |
+| F3/7               |                    |                    |                    |
+| F4/7               |                    |                    |                    |
+| F5/7               | DA_BCK             |                    | LVCMOS25_OUT       |
+| F6/0               |                    |                    |                    |
+| F7/0               |                    |                    |                    |
+| F8/0               |                    |                    |                    |
+| F9/0               |                    |                    |                    |
+| F10/0              |                    |                    |                    |
+| F11/1              |                    |                    |                    |
+| F12/1              |                    |                    |                    |
+| F13/1              | STATUS_GREEN_0     |                    | LVCMOS25_OUT       |
+| F14/1              |                    |                    |                    |
+| F15/1              |                    |                    |                    |
+| F16/1              |                    |                    |                    |
+| F17/1              | SEGMENT_LED2_4     |                    | LVCMOS25_OUT       |
+| F18/2              | SEGMENT_LED1_2     |                    | LVCMOS25_OUT       |
+| F19/2              |                    |                    |                    |
+| F20/2              | STATUS_YELLOW_0    |                    | LVCMOS25_OUT       |
+| F21/2              |                    |                    |                    |
+| F22/2              |                    |                    |                    |
+| G1/7               | DA_FMT_0           |                    | LVCMOS25_OUT       |
+| G2/7               | MA_nDCEN           |                    | LVCMOS25_OUT       |
+| G3/7               |                    |                    |                    |
+| G4/7               |                    |                    |                    |
+| G5/7               |                    |                    |                    |
+| G6/0               |                    |                    |                    |
+| G9/0               |                    |                    |                    |
+| G10/0              |                    |                    |                    |
+| G13/1              |                    |                    |                    |
+| G14/1              |                    |                    |                    |
+| G17/1              |                    |                    |                    |
+| G18/2              | SEGMENT_LED1_3     |                    | LVCMOS25_OUT       |
+| G19/2              |                    |                    |                    |
+| G20/2              | SEGMENT_LED1_0     |                    | LVCMOS25_OUT       |
+| G21/2              |                    |                    |                    |
+| G22/2              |                    |                    |                    |
+| H1/7               |                    |                    |                    |
+| H2/7               |                    |                    |                    |
+| H3/7               |                    |                    |                    |
+| H4/7               |                    |                    |                    |
+| H5/7               | AD_MODE_1          |                    | LVCMOS25_OUT       |
+| H6/7               |                    |                    |                    |
+| H17/2              |                    |                    |                    |
+| H18/2              |                    |                    |                    |
+| H19/2              |                    |                    |                    |
+| H20/2              |                    |                    |                    |
+| H21/2              |                    |                    |                    |
+| H22/2              |                    |                    |                    |
+| J1/7               | CLK                |                    | LVCMOS25_IN        |
+| J2/7               | DA_DEMP_1          |                    | LVCMOS25_OUT       |
+| J3/7               |                    |                    |                    |
+| J4/7               | AD_MODE_0          |                    | LVCMOS25_OUT       |
+| J5/7               |                    |                    |                    |
+| J18/2              |                    |                    |                    |
+| J19/2              |                    |                    |                    |
+| J20/2              | STATUS_YELLOW_1    |                    | LVCMOS25_OUT       |
+| J21/2              |                    |                    |                    |
+| J22/2              | SEGMENT_LED4_2     |                    | LVCMOS25_OUT       |
+| K1/7               | DA_FMT_1           |                    | LVCMOS25_OUT       |
+| K2/7               |                    |                    |                    |
+| K3/7               |                    |                    |                    |
+| K4/7               |                    |                    |                    |
+| K5/7               |                    |                    |                    |
+| K18/2              |                    |                    |                    |
+| K19/2              |                    |                    |                    |
+| K20/2              |                    |                    |                    |
+| K21/3              |                    |                    |                    |
+| K22/3              |                    |                    |                    |
+| L1/6               |                    |                    |                    |
+| L2/6               |                    |                    |                    |
+| L4/6               | RS232_DTR          |                    | LVCMOS25_OUT       |
+| L5/6               |                    |                    |                    |
+| L18/2              |                    |                    |                    |
+| L19/2              |                    |                    |                    |
+| L20/3              |                    |                    |                    |
+| L21/3              |                    |                    |                    |
+| L22/3              |                    |                    |                    |
+| M1/6               |                    |                    |                    |
+| M2/6               | STATUS_GREEN_2     |                    | LVCMOS25_OUT       |
+| M3/6               |                    |                    |                    |
+| M4/6               |                    |                    |                    |
+| M5/6               |                    |                    |                    |
+| M18/3              |                    |                    |                    |
+| M19/3              | SEGMENT_LED2_2     |                    | LVCMOS25_OUT       |
+| M20/3              |                    |                    |                    |
+| M21/3              | DA_FMT_2           |                    | LVCMOS25_OUT       |
+| M22/3              |                    |                    |                    |
+| N1/6               |                    |                    |                    |
+| N2/6               |                    |                    |                    |
+| N3/6               |                    |                    |                    |
+| N4/6               |                    |                    |                    |
+| N5/6               |                    |                    |                    |
+| N18/3              | SEGMENT_LED2_5     |                    | LVCMOS25_OUT       |
+| N19/3              |                    |                    |                    |
+| N20/3              | SEGMENT_LED1_5     |                    | LVCMOS25_OUT       |
+| N21/3              | SEGMENT_LED1_1     |                    | LVCMOS25_OUT       |
+| N22/3              |                    |                    |                    |
+| P1/6               |                    |                    |                    |
+| P2/6               |                    |                    |                    |
+| P3/6               |                    |                    |                    |
+| P4/6               |                    |                    |                    |
+| P5/6               | STATUS_RED_1       |                    | LVCMOS25_OUT       |
+| P18/3              | DA_SCKI            |                    | LVCMOS25_OUT       |
+| P19/3              |                    |                    |                    |
+| P20/3              |                    |                    |                    |
+| P21/3              | SEGMENT_LED2_3     |                    | LVCMOS25_OUT       |
+| P22/3              |                    |                    |                    |
+| PB2A/5             |                    |                    |                    |
+| PB2B/5             |                    |                    |                    |
+| PB3A/5             |                    |                    |                    |
+| PB3B/5             |                    |                    |                    |
+| PB4A/5             |                    |                    |                    |
+| PB4B/5             |                    |                    |                    |
+| PB5A/5             |                    |                    |                    |
+| PB5B/5             |                    |                    |                    |
+| PB6A/5             |                    |                    |                    |
+| PB6B/5             |                    |                    |                    |
+| PB7A/5             |                    |                    |                    |
+| PB7B/5             |                    |                    |                    |
+| PB8A/5             |                    |                    |                    |
+| PB8B/5             |                    |                    |                    |
+| PB9A/5             |                    |                    |                    |
+| PB9B/5             |                    |                    |                    |
+| PL38A/6            |                    |                    |                    |
+| PL38B/6            |                    |                    |                    |
+| PL39A/6            |                    |                    |                    |
+| PL39B/6            |                    |                    |                    |
+| PR38A/3            |                    |                    |                    |
+| PR38B/3            |                    |                    |                    |
+| PR39A/3            |                    |                    |                    |
+| PR39B/3            |                    |                    |                    |
+| PT2A/0             |                    |                    |                    |
+| PT2B/0             |                    |                    |                    |
+| PT3A/0             |                    |                    |                    |
+| PT3B/0             |                    |                    |                    |
+| PT4A/0             |                    |                    |                    |
+| PT4B/0             |                    |                    |                    |
+| PT5A/0             |                    |                    |                    |
+| PT5B/0             |                    |                    |                    |
+| PT6A/0             |                    |                    |                    |
+| PT6B/0             |                    |                    |                    |
+| PT7A/0             |                    |                    |                    |
+| PT7B/0             |                    |                    |                    |
+| PT8A/0             |                    |                    |                    |
+| PT8B/0             |                    |                    |                    |
+| PT9A/0             |                    |                    |                    |
+| PT9B/0             |                    |                    |                    |
+| R1/6               | DA_LRCK            |                    | LVCMOS25_OUT       |
+| R2/6               |                    |                    |                    |
+| R3/6               |                    |                    |                    |
+| R4/6               |                    |                    |                    |
+| R5/6               |                    |                    |                    |
+| R6/6               |                    |                    |                    |
+| R17/3              |                    |                    |                    |
+| R18/3              |                    |                    |                    |
+| R19/3              |                    |                    |                    |
+| R21/3              |                    |                    |                    |
+| R22/3              |                    |                    |                    |
+| T1/6               | AD_FMT_1           |                    | LVCMOS25_OUT       |
+| T2/6               |                    |                    |                    |
+| T3/6               |                    |                    |                    |
+| T6/5               |                    |                    |                    |
+| T9/5               |                    |                    |                    |
+| T10/5              |                    |                    |                    |
+| T13/4              | SEGMENT_LED4_3     |                    | LVCMOS25_OUT       |
+| T14/4              | BARGRAPH_LEFT_0    |                    | LVCMOS25_OUT       |
+| T17/4              |                    |                    |                    |
+| T18/3              | SEGMENT_LED3_0     |                    | LVCMOS25_OUT       |
+| T22/3              |                    |                    |                    |
+| TCK/6              |                    |                    |                    |
+| TDI/6              |                    |                    |                    |
+| TDO/6              |                    |                    |                    |
+| TMS/6              |                    |                    |                    |
+| U3/6               |                    |                    |                    |
+| U4/6               |                    |                    |                    |
+| U6/5               |                    |                    |                    |
+| U7/5               |                    |                    |                    |
+| U8/5               |                    |                    |                    |
+| U9/5               |                    |                    |                    |
+| U10/5              |                    |                    |                    |
+| U11/4              |                    |                    |                    |
+| U12/4              |                    |                    |                    |
+| U13/4              | SEGMENT_LED2_1     |                    | LVCMOS25_OUT       |
+| U14/4              |                    |                    |                    |
+| U15/4              | BARGRAPH_LEFT_2    |                    | LVCMOS25_OUT       |
+| U16/4              | BARGRAPH_LEFT_1    |                    | LVCMOS25_OUT       |
+| U17/4              |                    |                    |                    |
+| U20/3              |                    |                    |                    |
+| U21/3              |                    |                    |                    |
+| U22/3              |                    |                    |                    |
+| V1/6               |                    |                    |                    |
+| V2/6               |                    |                    |                    |
+| V3/6               |                    |                    |                    |
+| V4/6               | DA_DEMP_0          |                    | LVCMOS25_OUT       |
+| V5/6               |                    |                    |                    |
+| V6/5               |                    |                    |                    |
+| V7/5               |                    |                    |                    |
+| V8/5               |                    |                    |                    |
+| V9/5               |                    |                    |                    |
+| V10/5              |                    |                    |                    |
+| V11/5              | SEGMENT_LED4_5     |                    | LVCMOS25_OUT       |
+| V12/5              |                    |                    |                    |
+| V13/4              |                    |                    |                    |
+| V14/4              | SEGMENT_LED1_7     |                    | LVCMOS25_OUT       |
+| V15/4              | SEGMENT_LED3_6     |                    | LVCMOS25_OUT       |
+| V16/4              | SEGMENT_LED2_7     |                    | LVCMOS25_OUT       |
+| V17/4              | SEGMENT_LED3_2     |                    | LVCMOS25_OUT       |
+| V19/3              |                    |                    |                    |
+| V20/3              |                    |                    |                    |
+| V21/3              |                    |                    | PROHIBITED         |
+| V22/3              |                    |                    |                    |
+| W1/6               |                    |                    |                    |
+| W2/6               |                    |                    |                    |
+| W3/6               |                    |                    |                    |
+| W4/6               |                    |                    |                    |
+| W5/5               |                    |                    |                    |
+| W6/5               |                    |                    |                    |
+| W7/5               |                    |                    |                    |
+| W8/5               |                    |                    |                    |
+| W9/5               | RS232_TX           |                    | LVCMOS25_OUT       |
+| W10/5              |                    |                    |                    |
+| W11/5              |                    |                    |                    |
+| W12/4              |                    |                    |                    |
+| W13/4              |                    |                    |                    |
+| W14/4              |                    |                    |                    |
+| W15/4              | BARGRAPH_RIGHT_1   |                    | LVCMOS25_OUT       |
+| W16/4              | BARGRAPH_RIGHT_4   |                    | LVCMOS25_OUT       |
+| W17/4              | SEGMENT_LED3_4     |                    | LVCMOS25_OUT       |
+| W18/4              |                    |                    |                    |
+| W19/3              |                    |                    |                    |
+| W20/3              |                    |                    |                    |
+| W21/3              |                    |                    |                    |
+| W22/3              |                    |                    | PROHIBITED         |
+| Y1/6               |                    |                    |                    |
+| Y2/6               |                    |                    |                    |
+| Y3/6               |                    |                    |                    |
+| Y4/5               |                    |                    |                    |
+| Y5/5               |                    |                    |                    |
+| Y6/5               |                    |                    |                    |
+| Y7/5               |                    |                    |                    |
+| Y8/5               |                    |                    |                    |
+| Y9/5               |                    |                    |                    |
+| Y10/5              | MA_SCLK            |                    | LVCMOS25_OUT       |
+| Y11/5              | SEGMENT_LED2_0     |                    | LVCMOS25_OUT       |
+| Y12/4              |                    |                    |                    |
+| Y13/4              | BARGRAPH_RIGHT_7   |                    | LVCMOS25_OUT       |
+| Y14/4              | BARGRAPH_RIGHT_6   |                    | LVCMOS25_OUT       |
+| Y15/4              | BARGRAPH_LEFT_7    |                    | LVCMOS25_OUT       |
+| Y16/4              |                    |                    |                    |
+| Y17/4              |                    |                    |                    |
+| Y18/4              | DA_DIN             |                    | LVCMOS25_OUT       |
+| Y19/4              | STATUS_GREEN_1     |                    | LVCMOS25_OUT       |
+| Y20/3              |                    |                    |                    |
+| Y21/3              |                    |                    |                    |
+| Y22/3              |                    |                    |                    |
++--------------------+--------------------+--------------------+--------------------+
+
+sysCONFIG Pins:
+  ~ Config_Mode: SLAVE_SERIAL
+  ~ Persistent : OFF
++--------------------+--------------------+--------------------+--------------------+
+|  Pad Name          | sysCONFIG Pin Name |  Pin/Bank          |  Buffer Type       |
++--------------------+--------------------+--------------------+--------------------+
+| PR42B              | DI                 | V21/4              |                    |
+| PR42A              | DOUT,CSON          | W22/4              |                    |
++--------------------+--------------------+--------------------+--------------------+
+
+
+Locate Preferences for each Pin: 
+
+LOCATE  COMP  "AD_BYPAS"  SITE  "C12";
+LOCATE  COMP  "AD_FMT_0"  SITE  "D8";
+LOCATE  COMP  "AD_FMT_1"  SITE  "T1";
+LOCATE  COMP  "AD_MODE_0"  SITE  "J4";
+LOCATE  COMP  "AD_MODE_1"  SITE  "H5";
+LOCATE  COMP  "AD_OSR"  SITE  "A6";
+LOCATE  COMP  "AD_SCKI"  SITE  "E5";
+LOCATE  COMP  "AD_nPDWN"  SITE  "B4";
+LOCATE  COMP  "BARGRAPH_LEFT_0"  SITE  "T14";
+LOCATE  COMP  "BARGRAPH_LEFT_1"  SITE  "U16";
+LOCATE  COMP  "BARGRAPH_LEFT_2"  SITE  "U15";
+LOCATE  COMP  "BARGRAPH_LEFT_3"  SITE  "AB18";
+LOCATE  COMP  "BARGRAPH_LEFT_4"  SITE  "AA18";
+LOCATE  COMP  "BARGRAPH_LEFT_5"  SITE  "AA16";
+LOCATE  COMP  "BARGRAPH_LEFT_6"  SITE  "AB19";
+LOCATE  COMP  "BARGRAPH_LEFT_7"  SITE  "Y15";
+LOCATE  COMP  "BARGRAPH_RIGHT_0"  SITE  "AB17";
+LOCATE  COMP  "BARGRAPH_RIGHT_1"  SITE  "W15";
+LOCATE  COMP  "BARGRAPH_RIGHT_2"  SITE  "AB15";
+LOCATE  COMP  "BARGRAPH_RIGHT_3"  SITE  "AB16";
+LOCATE  COMP  "BARGRAPH_RIGHT_4"  SITE  "W16";
+LOCATE  COMP  "BARGRAPH_RIGHT_5"  SITE  "AA13";
+LOCATE  COMP  "BARGRAPH_RIGHT_6"  SITE  "Y14";
+LOCATE  COMP  "BARGRAPH_RIGHT_7"  SITE  "Y13";
+LOCATE  COMP  "CLK"  SITE  "J1";
+LOCATE  COMP  "DA_BCK"  SITE  "F5";
+LOCATE  COMP  "DA_DEMP_0"  SITE  "V4";
+LOCATE  COMP  "DA_DEMP_1"  SITE  "J2";
+LOCATE  COMP  "DA_DIN"  SITE  "Y18";
+LOCATE  COMP  "DA_FMT_0"  SITE  "G1";
+LOCATE  COMP  "DA_FMT_1"  SITE  "K1";
+LOCATE  COMP  "DA_FMT_2"  SITE  "M21";
+LOCATE  COMP  "DA_LRCK"  SITE  "R1";
+LOCATE  COMP  "DA_MUTE"  SITE  "A15";
+LOCATE  COMP  "DA_SCKI"  SITE  "P18";
+LOCATE  COMP  "DA_nRST"  SITE  "A8";
+LOCATE  COMP  "MA_SCLK"  SITE  "Y10";
+LOCATE  COMP  "MA_SDI"  SITE  "AA6";
+LOCATE  COMP  "MA_ZCEN"  SITE  "E7";
+LOCATE  COMP  "MA_nCS"  SITE  "AA8";
+LOCATE  COMP  "MA_nDCEN"  SITE  "G2";
+LOCATE  COMP  "PA_nEN"  SITE  "B19";
+LOCATE  COMP  "RS232_DTR"  SITE  "L4";
+LOCATE  COMP  "RS232_TX"  SITE  "W9";
+LOCATE  COMP  "SEGMENT_LED1_0"  SITE  "G20";
+LOCATE  COMP  "SEGMENT_LED1_1"  SITE  "N21";
+LOCATE  COMP  "SEGMENT_LED1_2"  SITE  "F18";
+LOCATE  COMP  "SEGMENT_LED1_3"  SITE  "G18";
+LOCATE  COMP  "SEGMENT_LED1_4"  SITE  "AB20";
+LOCATE  COMP  "SEGMENT_LED1_5"  SITE  "N20";
+LOCATE  COMP  "SEGMENT_LED1_6"  SITE  "AA17";
+LOCATE  COMP  "SEGMENT_LED1_7"  SITE  "V14";
+LOCATE  COMP  "SEGMENT_LED2_0"  SITE  "Y11";
+LOCATE  COMP  "SEGMENT_LED2_1"  SITE  "U13";
+LOCATE  COMP  "SEGMENT_LED2_2"  SITE  "M19";
+LOCATE  COMP  "SEGMENT_LED2_3"  SITE  "P21";
+LOCATE  COMP  "SEGMENT_LED2_4"  SITE  "F17";
+LOCATE  COMP  "SEGMENT_LED2_5"  SITE  "N18";
+LOCATE  COMP  "SEGMENT_LED2_6"  SITE  "AB14";
+LOCATE  COMP  "SEGMENT_LED2_7"  SITE  "V16";
+LOCATE  COMP  "SEGMENT_LED3_0"  SITE  "T18";
+LOCATE  COMP  "SEGMENT_LED3_1"  SITE  "B9";
+LOCATE  COMP  "SEGMENT_LED3_2"  SITE  "V17";
+LOCATE  COMP  "SEGMENT_LED3_3"  SITE  "D11";
+LOCATE  COMP  "SEGMENT_LED3_4"  SITE  "W17";
+LOCATE  COMP  "SEGMENT_LED3_5"  SITE  "B17";
+LOCATE  COMP  "SEGMENT_LED3_6"  SITE  "V15";
+LOCATE  COMP  "SEGMENT_LED3_7"  SITE  "AA15";
+LOCATE  COMP  "SEGMENT_LED4_0"  SITE  "C15";
+LOCATE  COMP  "SEGMENT_LED4_1"  SITE  "D14";
+LOCATE  COMP  "SEGMENT_LED4_2"  SITE  "J22";
+LOCATE  COMP  "SEGMENT_LED4_3"  SITE  "T13";
+LOCATE  COMP  "SEGMENT_LED4_4"  SITE  "A20";
+LOCATE  COMP  "SEGMENT_LED4_5"  SITE  "V11";
+LOCATE  COMP  "SEGMENT_LED4_6"  SITE  "AA14";
+LOCATE  COMP  "SEGMENT_LED4_7"  SITE  "AB13";
+LOCATE  COMP  "STATUS_GREEN_0"  SITE  "F13";
+LOCATE  COMP  "STATUS_GREEN_1"  SITE  "Y19";
+LOCATE  COMP  "STATUS_GREEN_2"  SITE  "M2";
+LOCATE  COMP  "STATUS_RED_0"  SITE  "AA11";
+LOCATE  COMP  "STATUS_RED_1"  SITE  "P5";
+LOCATE  COMP  "STATUS_RED_2"  SITE  "AB7";
+LOCATE  COMP  "STATUS_YELLOW_0"  SITE  "F20";
+LOCATE  COMP  "STATUS_YELLOW_1"  SITE  "J20";
+LOCATE  COMP  "STATUS_YELLOW_2"  SITE  "B5";
+
+#PLL
+LOCATE  COMP  "clockgen_main_1/PLLBInst_0"  SITE  "PLL3_R40C1" ;
+
+
+
+
+PAR: Place And Route ispLever_v60_PROD_Build (36).
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.
+Mon Nov 27 03:08:38 2006
+

@@ -1,0 +1,184 @@
+% Die Übung Erste Schritte stellt einen einfachen Multiplexer dar
+
+\section{Versuch 1: Erste Schritte}\label{sec:firststeps}
+	\develnote{In diesem Teil bauen wir einen einfachen Multiplexer}
+
+\subsection{Konzept}\label{subsec:firststeps:concept}
+
+In diesem Versuch soll eine einfache Umschaltung von verschiedenen Quellen auf eine Senke realisieren. Es soll ein Signal aus 2 Sinusschwingungen, dem AD-Umsetzer und Stumm ausgewählt und dies auf den DA-Umsetzer durchgeschaltet werden können (vgl. Abb. \ref{fig:8-bit-4-to-1-mux}).
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics{bilder/sender/8-bit-4-to-1-mux}
+	\caption{8-bit 4-zu-1-Multiplexer}
+	\label{fig:8-bit-4-to-1-mux}
+\end{figure}
+
+\subsection{Realisierungsmöglichkeiten}\label{subsec:firststeps:possibilities}
+
+Grunsätzlich hat man in VHDL Möglichkeiten, getaktete (synchrone) und nicht getaktete (asynchrone) Vorgänge zu beschreiben. Dazu benötigen wir wenige grundlegende Konstrukte. In vielen Fällen ist eine asynchrone Schaltung einfach durch ein Register am Ausgang in eine synchrone Schaltung umzuwandeln (vgl. Abb. \ref{fig:asynchron-synchron}). Man sollte allerdings bedenken, dass die Optimierung nur innerhalb einer Hierarchieebene effizient funktioniert. Wegen der besseren Testbarkeit wird der gesamte Code in Module gegliedert und eine Hierarchie aufgebaut. Die ist günstig für die Synthese und die Optimierungsalgorithmen die dieser zugrunde liegen. Werden nun lange Signalwege ohne Register über mehrere Modulgrenzen hinweggeführt, so kann der Algorithmus der Synthese nicht so effizient arbeiten. Daher sollten an den Grenzen der Module nach Möglichkeit Register verwendet werden. Für weitere Informationen zur effizienten Programmierung, siehe \cite{hbecp}, Abschnitt "`HDL Synthesis Coding Guidelines for Lattice Semiconductor FPGAs"'. Diese Empfehlungen treffen nicht nur auf die FPGAs von Lattice zu, sondern sind allgemein anwendbar.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics{bilder/sender/asynchron_synchron}
+	\caption{Synchrone Schaltung}
+	\label{fig:asynchron-synchron}
+\end{figure}
+
+
+\subsection{VHDL: Realisierung}\label{subsec:firststeps:vdhl:realisations}
+
+\subsubsection{VHDL-Basics: Libraries}\label{subsec:vhdl:basics:libraries}
+
+Libraries in VHDL dienen hauptsächlich zur Definition von Typen, Funktionen und für die Definition der Resolution Functions. Typen geben an, wie die Informationen eines Signals oder einer Variablen dargestellt werden und welchen Wertebereich diese besitzen. Funktionen sind vergleichbar den Funktionen in Software. Es ist möglich sie mit Parametern aufzurufen und einen Wert zurück zu erhalten. Dies kommt beispielsweise bei der Umwandlung von Typen in andere zum Einsatz. Der meistgebräuchlichste Typ bei der Beschreibung für FPGAs ist der std\_ulogic-\index{std\_ulogic} bzw. der std\_logic-Datentyp\index{std\_logic}, wobei der std\_ulogic unresolved\index{unresolved} und der std\_logic resolved\index{resolved} ist. Resolved bedeutet, dass es möglich ist, ein Signal von mehreren Treibern ansteuern zu können, wie es bei einem Bussystem der Fall ist, unresolved Typen können hierzu nicht verwendet werden. Die möglichen Werte der beiden genannten Typen sind Tabelle \ref{tab:std-logic} zu entnehmen.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{|c|c|l|} \hline
+		\textbf{Wert} & \textbf{Bezeichnung} & \textbf{Erklärung} \\ \hline
+		\textbf{'U'} & Not initialized 	& Dem Signal wurde noch kein Wert zugewiesen \\
+		\textbf{'X'} & Forcing Unknown 	& Das Signal wird gegenläufig getrieben \\
+		\textbf{'0'} & Forcing 0 				& Dies entspricht einem LOW-Pegel \\
+		\textbf{'1'} & Forcing 1 				& Dies entspricht einem HIGH-Pegel \\
+		\textbf{'Z'} & High Impedance 	& Das Signal wird nicht getrieben \\
+		\textbf{'W'} & Weak Unknown 		& Das Signal wird schwach auf Unknown gehalten \\
+		\textbf{'L'} & Weak 0 					& Das Signal wird schwach auf LOW-Pegel gehalten \\
+		\textbf{'H'} & Weak 1 					& Das Signal wird schwach auf HIGH-Pegel gehalten \\
+		\textbf{'-'} & Don't care 			& Der Wert des Signals ist zu ignorieren \\\hline
+	\end{tabular}
+	\caption{Der Typ std\_logic}
+	\label{tab:std-logic}
+\end{table}
+
+Diese Werte sind in der Library \texttt{ieee.std\_logic\_1164} definiert. Einige weitere wichtige Libraries werden im Folgenden in die Projekte eingebunden:
+
+\begin{verbatim}
+library ieee
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_signed.all;
+use ieee.numeric_bit.all;
+\end{verbatim}
+
+Teilweise kann deren Quellcode in den Dateien, welche vom Herstellertool mitgeliefert wurden, eingesehen werden. Bei ispLEVER sind diese im Verzeichnis \\ \verb|C:\ispTOOLS5_1\synpbase\lib\vhd\| \\ zu finden.
+
+Weitere Typen lernen Sie zu gegebener Zeit kennen.
+
+\subsubsection{VHDL-Basics: Die Entity}\label{subsec:vhdlbasics:entity}
+
+Da der Multiplexer angeschlossen werden muss, definieren wir eine entity, die gerne mit dem Sockel eines ICs verglichen wird. Eine Entity wird folgendermaßen beschrieben:
+
+\begin{verbatim}
+entity <NAME> is
+	
+	[generic ( <VARNAME>: <VARTYPE> := <STD_VALUE>[; <VARNAME> ...]);]
+	port ( <SIGNAL>: <DIRECTION> <TYPE>[; <SIGNAL>:]);
+
+end;		
+\end{verbatim}
+
+Für die \textit{DIRECTION}\footnote{Signalrichtung} sind vorläufig nur \texttt{in} und \texttt{out} interessant.
+
+Damit ist festgelegt, wie ein Modul aussieht und einzubinden ist. Die Generics dienen dazu, das Modul konfigurierbar zu machen und sind nicht notwendig, der \textit{port} hingegen beschreibt die Pins und ist somit unabdingbar. Um nicht jedes Bit einzeln verdrahten zu mussen, wirde ein weiterer Typ eingeführt: std\_logic\_vector
+
+Dabei handelt es sich um ein Array von std\_logic mit dem ein einfacher Bus dargestellt werden. Die Größe dieses Arrays kann folgendermaßen festgelegt werden:
+
+\begin{verbatim}
+...
+  my_bus: in std_logic_vector(31 downto 0);
+...
+\end{verbatim}
+
+\advise{Üblicherweise werden Vektoren immer absteigend definiert (MSB soll links sein, auch bekannt als \textit{little endian}). Im Praktikum wollen wir uns deshalb auf \texttt{downto} beschränken.}
+
+\subsubsection{VHDL-Basics: Die Architecture}\label{subsec:vhdlbasics:architecture}
+
+Die \textit{architecture} wird benötigt, um der Entity Leben einzuhauchen. Mit VHDL beschreibt man, wie sich das Modul verhalten soll. Bisher wurden nur die Anschlüsse definiert.
+
+\begin{verbatim}
+architecture <NAME> of <ENTITYNAME> is
+  [DECLARATIONS]
+begin
+  [INSTANTIATIONS]
+end;
+\end{verbatim}
+
+In Fall des Multiplexers bekommt diese den Namen \textit{multiplexer\_behavioral} und die Entity \textit{my\_multiplexer}. Für die Simulation sind hier in der Beschreibung keine Grenzen gesetzt, solange es sich um korrekte VHDL-Syntax handelt. Will man die Beschreibung jedoch synthetisieren und implementieren\footnote{Abrebitsschritte vom VHDL-Code zur lauffähigen Hardwarearchitektur}, so müssen bestimmte Regeln eingehalten werden. Diese Regeln sind jedoch von Tool zu Tool unterschiedlich. Unter Umständen ist es mit manchen Tools möglich, eigentlich unerlaubte Anweisungen dennoch mit vielen Tricks in lauffähige Hardware umzusetzen. Es sollte jedoch unbedingt auf diese Tricks verzichtet werden, da die Portabilität, Zuverlässigkeit und auch die Geschwindigkeit stark darunter leiden können.
+
+\subsubsection{VHDL-Basics: Concurrent Statements}\label{subsec:vhdlbasics:concurrent}
+
+Generell gibt es, wie weiter oben erwähnt, bei digitaler Hardware zwei Vorgehensweisen: Asynchron und synchron. Der Multiplexer ist im einfachsten Fall eine asynchrone Schaltung. Diese ansynchronen Teile bezeichnet man in VHDL als \texttt{concurrent statement}, da diese nebenläufig, also alle gleichzeitig, abgearbeitet werden.
+
+Ein solches Statement schreibt man direkt in die architecture. Dem linken Teil wird das Ergebnis des rechten Teils zugewiesen.
+
+\begin{samepage}
+\begin{verbatim}
+...
+  OUT_1 <= IN_1;           -- Einfache Verbindung
+  OUT_2 <= IN_1 or IN_2;   -- Logische ODER-Verknüpfung
+  OUT_3 <= not IN_3;       -- Invertierung
+...
+\end{verbatim}
+\end{samepage}
+
+Weiterhin stehen Ihnen alle nachfolgenden logischen Operationen zur Verfügung.
+
+\begin{description}
+	\item[xor] Verknüpft den linken mit dem rechten Ausdruck über die XOR-Funktion
+	\item[and] Eine UND-Verknüpfung des linken und rechten Ausdrucks
+	\item[or] Die ODER-Verknüpfung
+	\item[not] Invertiert den rechts stehenden Ausdruck
+\end{description}
+
+\advise{Auch \textit{concurrent statements} haben eine Verzögerung, wenn Logik im rechten Anweisungsteil enthalten ist.}	
+
+In Concurrent Statements können auch Multiplexer realisiert werden.
+
+\begin{samepage}
+\begin{verbatim}
+...
+  OUT_1 <= IN_1 when SEL_1 = '1' else 
+           IN_2 when SEL_2 = '1' else '0';
+...
+\end{verbatim}
+\end{samepage}
+
+\subsection{VHDL: Beschreibung der Hardware}\label{subsec:firststeps:HWdesc}
+
+\paragraph{Aufgabe 1}
+
+Zunächst soll ein Multiplexer in VHDL implementiert werden. Sie finden einen vorbereiteten Code-Rahmen im Verzeichnis \verb|01_Multiplexer\my_multiplexer.vhd|.
+Der Abschnitt, der in der Datei mit \verb|--WRITE HERE| bezeichnet ist, soll durch Ihren Code ersetzt werden.
+
+\develnote{cordic durch DSS in Abb. \ref{fig:multiplexer-toplevel} ersetzen}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.85\textwidth]{bilder/sender/Multiplexer_toplevel.eps}
+	\caption{Der Toplevel des Multiplexers}
+	\label{fig:multiplexer-toplevel}
+\end{figure}
+
+\subsection{VHDL: Implementierung in Hardware}\label{subsec:firststeps:HWimplement}
+
+Um den VHDL-Code auf dem FPGA auszuführen, muss die Beschreibung auf die FPGA-spezifische Technologie abgebildet, also übersetzt werden. Dies erledigt das Synthese-Tool von ispLEVER.
+
+\paragraph{Aufgabe 2:}
+
+Speichern sie alle geöffneten Dateien. Anschließend lassen sie das Projekt synthetisieren, indem sie das Toplevel auswählen und den Prozess \\
+\includegraphics{bilder/sender/ispLeverSynthesize} im Aktionsbereich der Oberfläche starten. Synplify erzeugt eine Netzliste, mit der ispLEVER weiterarbeiten kann. Sind keine Fehler aufgetreten, wählen sie im Hierarchie-Fenster das FPGA \includegraphics{bilder/sender/hirarchy_fpga.eps} aus. Für die Programmierung wird ein Bitstream benötigt, den sie auf die Hardware übertragen können. Wählen sie die Aktion \includegraphics{bilder/sender/process_generate_bitstream_data.eps} aus, so führt ispLEVER alle notendigen Prozesse in der richtigen Reihenfolge aus, und erzeugt das Bitfile.
+
+\subsection{TEST: Praxis}\label{subsec:firststeps:test}
+
+\paragraph{Aufgabe 3:}
+
+Übertragen sie das Bitfile in das FPGA. Dazu starten sie das Programm ispVM  (Symbol  \includegraphics[width=1.5em]{bilder/sender/ispVM_symbol.eps} in der Toolbar). (s. Abb \ref{fig:ispVM-window})
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.85\textwidth]{bilder/sender/ispVM_window.eps}
+	\caption{Das ispVM-Fenster}
+	\label{fig:ispVM-window}
+\end{figure}
+
+\develnote{TODO}

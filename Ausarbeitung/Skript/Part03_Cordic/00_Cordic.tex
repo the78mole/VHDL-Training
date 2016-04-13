@@ -1,0 +1,801 @@
+\section{Versuch 3: Signalgenerator}\label{sec:siggen}
+
+\subsection{Konzepte}\label{subsec:siggen:concepts}
+
+Um den erzeugten Bitstrom auf die Übertragung vorzubereiten muss man ihn, wie in Abbildung \ref{abb:sender_blockschaltbild} dargestellt, noch mit zwei Sinusschwingungen modulieren. Diese können im digitalen Bereich auf verschiedene Arten erzeugt werden. 
+
+\subsection{Realisierungsmöglichkeiten}\label{subsec:siggen:possibilities}
+
+Beispielhaft soll hier die Signalgenerierung mittels Direkter Digitaler Synthese (DDS)\index{DDS} und die Generation per CORDIC-Algorithmus\footnote{\underline{Co}ordinate \underline{Ro}tation \underline{Di}gital \underline{C}omputer}\index{CORDIC} besprochen werden. Beide Ansätze führen zu unterschiedlichen Ergebnissen, worauf im Verlauf dieser Einführung eingegangen werden soll.
+
+
+%
+\subsubsection{Direkte Digitale Synthese}\label{subsubsec:siggen:dds}
+%
+
+Die Direkte Digitale Synthese (DDS) ist ein Verfahren zur Erzeugung einer (meist periodischen) Funktion, deren Funktionswerte in einem Speicher, der Look-Up-Table\index{Look-Up-Table}(LUT\index{LUT}) abgelegt sind.
+
+\paragraph{Einfache Variante:}
+Die einfachste Variante besteht aus einem Zähler oder Sägezahngenerator\index{Sägezahngenerator}, mit dessen Hilfe nacheinander die Zellen eines Speichers adressiert werden, in dem die Wertetabelle der einzelnen Signalwerte abgelegt ist. In Abbildung \ref{abb:dds01} ist der prinzipielle Aufbau dargestellt.
+\begin{figure}[ht]
+	\centering 
+	%\psfrag{01}{MATLAB Workspace}
+	\includegraphics[width=10cm]{bilder/sender/dds01}
+	\caption{Direkte Digitale Synthese (DDS)}
+	\label{abb:dds01}
+\end{figure}
+
+ Die Funktionswerte sind in der LUT abgelegt. Die Zählvariable $n$ adressiert den Speicher $i[n]=n+i_0$ und der ausgelesene Inhalt ergibt den gewünschten Funktionswert $y[n]$. Ist die Zählvariable \textit{n} durch $w_{in}$ Bits und der Funktionswert \textit{y[n]} durch $w_{out}$ Bits repräsentiert, so benötigt man (maximal)
+\begin{equation}
+	N_{Sp} = w_{out}2^{w_{in}}
+\end{equation}
+Speicherplätze. Mit jedem Takt der Abtastfrequenz $f_s$ wird der Zähler inkrementiert. Kommt es zu einem Überlauf wird ein Statusbit gesetzt, worauf die Variable $n$ erhöht wird und somit auf eine andere Speicherzelle zugegriffen wird.
+
+\medskip Mit der oben beschriebenen Struktur sind 
+\begin{itemize}
+	\item nichtlineare Kennlinien (Anregung mit reinem Aufwärtszähler) sowie 
+	\item periodische Kennlinien (Anregung mit einer Sägezahnfunktion: Zähler mit Überlauf)
+\end{itemize}
+realisierbar. 
+
+\paragraph{Erweiterung:}
+Will man Signale mit variablen Abtastfrequenzen und Periodendauern erzeugen ist es nötig, die einfache Schaltung aus Abbildung \ref{abb:dds01} zu erweitern. Die modifizierte Schaltung ist in Abbildung \ref{abb:dds02} dargestellt.
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$\Delta x$}
+	\psfrag{02}{$x[n]$}
+	\psfrag{03}{$i[n]$}
+	\psfrag{04}{$y[n]$}
+	\includegraphics[width=10cm]{bilder/sender/dds02}
+	\caption{Erweiterte DDS}
+	\label{abb:dds02}
+\end{figure}
+
+\subparagraph{Block 'Adresszuordnung':}\index{Adresszuordnung}
+Der Block Adresszuordnung generiert zum diskreten Zeitpunkt $n$ eine Adresse $i[n]$, die angibt, welcher Funktionswert $y[n]$ von der LUT an den Ausgang gelegt werden soll. Die Adresse $i[n]$ wird durch das Intervall $\Delta x_i$ bestimmt, in dem sich der akkumulierte Phasenwert $x[n]$ befindet. 
+
+\medskip Bei $2^{w_{in}}$ Stützstellen kann man die Adresse unter der Annahme, dass das Argument $x[n]$ im Fractional-Format vorliegt folgendermaßen berechnen:
+\begin{equation}
+	i[n]=Q_{w_{in}}\left(2^{w_{in}-1}x[n]\right)+i_0
+\end{equation}
+$x[n]$ wird hierbei auf $w_{in}$ Stellen abgeschnitten. $i_0$ ist der Adressoffset und $Q_{w_{in}}$ die Quantisierungsfunktion, die das Argument auf $w_{in}$ Stellen vor dem Komma abschneidet.\\
+\medskip \textbf{Beispiel zur Adresszuordnung:}
+\begin{flushleft}
+$w_{in}=4; x[n]=0.0010110, i_0=00001000$\\
+$i[n]=0001. +00001000 = 00001001 (dezimal: i[n]= 1+8 = 9)$
+\end{flushleft}
+
+\subparagraph{Taktquelle:}\index{Taktquelle}
+Die Taktquelle bestimmt die Abtastfrequenz des DDS-Systems. Die höchste hier erzeugbare Signalfrequenz\footnote{vgl. Abtasttheorem} ist $\cfrac{f_s}{2}$.
+
+\subparagraph{Phaseninkrement $\delta x$:}\index{Phaseninkrement}
+Das Phaseninkrement bestimmt Phase und Frequenz des Ausgangssignals. Aufgrund der endlichen Wortbreite ($x_Q$) (LSB) können auch nur endliche Phasen-/ Frequenzauflösungen erreicht werden.
+\begin{equation}
+	\frac{\delta x}{N\delta x_i}=\frac{T_s}{T_0} \\
+	\Longrightarrow T_{0Q}=\frac{\delta x_i}{\delta x_Q}NT_s \\
+	\Longrightarrow f_{0Q}=\frac{\delta x_Q}{\delta x_i}\cdot\frac{1}{NT_s} 
+\end{equation}
+
+$N$ beschreibt hier die Anzahl der gespeicherten Abtastwerte pro Periode.
+
+\subparagraph{Phasenakkumulator:}\index{Phasenakkumulator}
+Der Phasenakkumulator ist nichts weiter als ein Addierer, der in jedem Taktzyklus einen vorgegebenen Wert $\Delta x$  aufaddiert. Die aktuelle Phasenlage berechnet sich zu
+\begin{equation}
+	x[n] = x[n-1] + \Delta x
+\end{equation}
+Der Wert Null steht hier für eine Phasenlage von 0\textdegree, sein Maximalwert für 360\textdegree. Somit liegt mit jedem Taktzyklus eine neue Phasenlage vor, die dann nur noch in einen Amplitudenwert umgerechnet werden muss.
+
+\advise{Die Akkumulatorwortbreite muss stets größer oder gleich der Phaseninkrement-Wortbreite sein! Ist das nicht der Fall kommt es mit jeder Addition zu ungewollten Überläufen.}
+
+\subparagraph{Signaltabelle -- Look-Up-Table (LUT):}\index{LUT}\index{Look-Up-Table}
+Die Look-Up-Table ist ein Speicher, der eine endliche Anzahl Funktionswerte des zu generierenden, (oft) periodischen Signals in quantisierter Form enthält (Wortbreite $w_{out}$). Wegen der endlichen Wortbreite kommt es zu Quantisierungsfehlern. Ist die Phasenakkumulatorwortbreite größer als die Adressbreite der Signaltabelle, muss das Argument (die Phase) $x[n]$ gerundet werden. Als allgemeine Faustregel kann man sich merken, dass $w_{out}$ 2 Bit breiter als $w_{in}$ sein muss. 
+Fehler treten auch auf, wenn zwischen den Tabellenwerten interpoliert wird, um die Ausgangswerte zu berechnen (Vorteil: Speicherplatzreduktion).
+
+\medskip
+
+Nachfolgend ein kurzes Beispiel zur erweiterten DDS: \\
+Es soll mittels DDS ein Sinussignal ($y=\sin(\pi x)$ für $x\in[-1,1[$) erzeugt werden. Die verwendete LUT ist in Tabelle \ref{tab:dds_lut} dargestellt.
+
+\begin{table}[ht]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{x} & \textbf{y}\\\hline
+			-1.0000 & 				0\\
+			-0.8750	& -0.38269042968750\\
+			-0.7500	& -0.70709228515625\\
+			-0.6250	& -0.92388916015625\\
+			-0.5000	& -1.00000000000000\\
+			-0.3750	& -0.92388916015625\\
+			-0.2500	& -0.70709228515625\\
+			-0.1250	& -0.38269042968750\\
+			 0			& 				0\\ 
+			 0.1250	&  0.38269042968750\\
+			 0.2500	&  0.70709228515625\\
+			 0.3750	&  0.92388916015625\\
+			 0.5000	&  1.00000000000000\\
+		 	 0.6250	&  0.92388916015625\\
+	 		 0.7500	&  0.70709228515625\\
+ 			 0.8750	&  0.38269042968750\\\hline																
+	\end{tabular}
+	\caption{DDS Look-Up-Table}
+	\label{tab:dds_lut}
+\end{table}
+
+\develnote{Hier bitte das Beispiel auf Page210ff im ADS Skript noch einfügen}
+
+%
+\subsubsection{CORDIC}\label{subsubsec:siggen:cordic}\index{CORDIC}
+%
+
+Wie sie im vorhergehenden Abschnitt erkennen konnten liefert die DDS zwar eine speicherplatzeffiziente, aber aufgrund der begrenzten Anzahl von Tabellenwerten relativ ungenaue Lösung. Daher wollen wir uns im Folgenden mit einer eleganteren und vielseitigeren Methode beschäftigen: dem \textbf{CORDIC-Algorithmus}\footnote{CORDIC steht für ``Coordinate Rotation Digital Computer''}. Mit ihm lassen sich viele Berechnungen lösen:
+\begin{itemize}
+	\item Im CORDIC-Basisverfahren\index{Basisverfahren} ist
+	\begin{itemize}	
+		\item die Berechnung der Drehung eines Vektors in einem kartesischen Koordinatensystem und die
+		\item Berechnung von Betrag und Phase eines Vektors möglich.
+	\end{itemize}
+	\item Im erweiterten CORDIC-Basisverfahren sind \index{erweitertes Basisverfahren}
+	\begin{itemize}
+		\item Multiplikation,
+		\item Division und 
+		\item Berechnung hyperbolischer Funktionen durchführbar.
+	\end{itemize}
+\end{itemize}
+
+Um eine Sinusschwingung zu erzeugen genügt es, sich mit dem CORDIC-Ba\-sis\-ver\-fah\-ren im Rotation-Mode\index{Rotation-Mode} auseinanderzusetzen. Für ergänzende Informationen zu den anderen Verfahren sei auf \cite{ADS} verwiesen.
+
+\paragraph{Das CORDIC-Basisverfahren im Rotation Mode:}
+
+Die Drehung eines Vek\-tors\\ $[x_0,y_0]^T$ um den Winkel $\theta$ in einem kartesischen Koordinatensystem führt auf den Vektor $[x_n,y_n]^T$:
+\begin{equation}
+		\begin{bmatrix} x_n\\y_n\\ \end{bmatrix} = \begin{bmatrix} cos(\theta) & -sin(\theta)\\ sin(\theta) & cos(\theta)\\\end{bmatrix}\begin{bmatrix} x_0\\y_0\\ \end{bmatrix}
+\end{equation}
+In Abbildung \ref{abb:rot01} wird dies graphisch dargestellt.
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$\theta$}
+	\psfrag{02}{$(x_0,y_0)$}
+	\psfrag{03}{$(x_n,y_n)$}
+	\psfrag{04}{x}
+	\psfrag{05}{y}
+	\includegraphics[width=7cm]{bilder/sender/rot01}
+	\caption{Drehung eines Vektors um den Winkel $\theta$}
+	\label{abb:rot01}
+\end{figure}
+Unter Verwendung der Identität (aus Formel (\ref{math:ident}))
+\begin{equation}
+cos(\theta)=\cfrac{1}{\sqrt{1+tan^2(\theta)}} \textnormal{  und  } tan(\theta)=\cfrac{sin(\theta)}{cos(\theta)}
+\label{math:ident}
+\end{equation}
+erhält man die Beziehung:
+\begin{equation}
+	\begin{bmatrix}x_n\\y_n\\\end{bmatrix}=\cfrac{1}{\sqrt{1+tan^2(\theta)}}\begin{bmatrix} 1 & -tan(\theta)\\ tan(\theta) & 1\\\end{bmatrix}\begin{bmatrix} x_0\\y_0\\ \end{bmatrix}
+\end{equation}
+
+Beim CORDIC-Verfahren wird die Drehung um $\theta$ durch mehrere Teilrotationen\index{Teilrotationen} mit bekanntem Teilwinkel $\alpha_i$ realisiert. Durch das festzulegende Vorzeichen $\sigma_i$ nähert man die Summe der Teilwinkel $\alpha_i$ dem Winkel $\sigma$ an:
+\begin{equation}
+	\theta\approx\sum_{i=0}^{n-1}\sigma_i\alpha_i  \textnormal{ mit } \sigma_i \in\{-1,1\}
+\end{equation}
+Dies führt zu der Beziehung
+\begin{equation} 
+	\begin{bmatrix}x_{i+1}\\y_{i+1}\\\end{bmatrix}=\cfrac{1}{\sqrt{1+tan^2(\alpha_i)}}\begin{bmatrix} 1 & 	-\sigma_i tan(\alpha_i)\\ \sigma_i tan(\alpha_i) & 1\\\end{bmatrix}\begin{bmatrix} x_i\\y_i\\ 					\end{bmatrix}
+\end{equation}
+für $i=0,1,...,n-1$.\\
+Dabei wird $\alpha_i$ mit zunehmendem $i$ abnehmen. Zur Vereinfachung des Matrixprodukts und zur vereinfachten Umsetzung (in Hard- und Software) werden die $\alpha_i$ so gewählt, dass
+\begin{equation}
+	tan(\alpha_i)=2^{-i} \qquad i=0,1,...,n-1  \qquad (\alpha_i=arctan(2^{-i}))
+\end{equation}
+Damit werden die Multiplikationen mit $tan(\theta)$ zu Schiebeoperationen vereinfacht. Diese lassen sich in digitaler Hardware ohne großen Aufwand realisieren. \\Somit kann man schreiben:
+\begin{equation}
+ 	\begin{bmatrix}x_{i+1}\\y_{i+1}\\\end{bmatrix}=k_i\begin{bmatrix} 1 & -\sigma_i 2^{-i}\\ \sigma_i 2^{-i} & 1\\\end{bmatrix}\begin{bmatrix} x_i\\y_i\\ \end{bmatrix} \textnormal{ mit } k_i=\cfrac{1}{\sqrt{1+2^{-2i}}}
+\end{equation}
+Die $\alpha_i$ werden positiv bewertet, bis die Summe den Wert von $\theta$ überschreitet. Danach werden sie negativ bewertet, bis die Summe den Wert von $\theta$ wieder unterschreitet. Dies wird entsprechend fortgesetzt. Das Vorzeichen der Differenz
+\begin{equation}
+	z_{i+1}=\theta-\sum_{k=0}^i\sigma_k \alpha_k 
+\end{equation}
+steuert somit das Vorzeichen $\sigma_i$ der Teilwinkel. Die Hilfsvariable $z_i$ soll während des Iterationsprozesses gegen Null konvergieren (vergleiche Abb. \ref{abb:rot02}).
+
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{05}{y}
+	\includegraphics[width=11cm]{bilder/sender/rot02}
+	\caption{Schrittweite der Variable $z_i$	}
+	\label{abb:rot02}
+\end{figure}
+
+Die Werte für $\alpha_i=arctan(2^{-i})$ werden üblicherweise in Tabellenform abgelegt und werden schon im Vorfeld je nach gewünschter Genauigkeit berechnet. Ein Beispiel ist in Tabelle \ref{tab:alphaiklut} angegeben.
+
+\medskip Fasst man die Teilfaktoren $k_i$ für alle Iterationen zusammen, so benötigt man nur noch einen einzigen, abschließenden Skalierungsschritt, anstatt einzelner Multiplikationen nach jedem Iterationsschritt: 
+\begin{equation}
+ k=\prod_{i=0}^{n-1}\cfrac{1}{\sqrt{1+2^{-2i}}}
+\end{equation}
+Auch der gewünschte Skalierungsfaktor k kann vorab berechnet und abgelegt werden (vgl. Tabelle \ref{tab:alphaiklut}).
+
+\begin{table}[ht]
+	\centering		
+	\begin{tabular}{|l|c|l|l|l|}\hline
+
+			i & $\alpha_i=arctan(2^{-i})$ & $\alpha_i \textnormal{ in [°]}$ & $k_i$ & k\\\hline
+			0 & 0.7854 & 45				&	0.7071	&	0.7071	\\
+			1	& 0.4636 & 26.5651	&	0.8944	&	0.6325	\\
+			2	& 0.2450 & 14.0362	&	0.9701	&	0.6136	\\
+			3	& 0.1244 & 7.1250		&	0.9923	&	0.6076	\\
+			4	& 0.0624 & 3.5763		&	0.9981	&	0.6074	\\
+			5	& 0.0312 & 1.7899		&	0.9995	&	0.6073	\\
+			6	& 0.0156 & 0.8952		&	0.9999	&	0.6073	\\
+			7	& 0.0078 & 0.4476   &	1.0000	&	0.6073	\\
+			8	& 0.0039 & 0.2238		&	1.0000	&	0.6073	\\ 
+			9	& 0.0020 & 0.1119		&	1.0000	&	0.6073	\\
+		 10	& 0.0010 & 0.0560		&	1.0000	&	0.6073	\\\hline																
+	\end{tabular}
+	\caption{Look-Up-Table für $\alpha_i$ und Skalierungsfaktor k}
+	\label{tab:alphaiklut}
+\end{table}
+
+\clearpage
+Mit den bisherigen Vereinbarungen gilt für die Iterationsgleichungen:
+
+\begin{itemize}
+	\item Initialisierung: \[ z_0=\theta \]
+
+	\item Für $i=0,1,...,n-1$:
+		
+		\begin{equation} 
+			\sigma_i=\begin{cases} +1 \textnormal{ für } z_i\ge 0 \\ -1 \textnormal{ für } z_i < 0 									\end{cases}
+		\end{equation}
+		
+		\begin{equation}\begin{split}
+			x_{i+1} & =x_i-\sigma_i2^{-i}y_i \\ 
+			y_{i+1} & =y_i+\sigma_i2^{-i}x_i \\ 
+			z_{i+1} & =z_i-\sigma_i 						arctan(2^{-i})
+		\end{split}\end{equation}
+		
+\end{itemize}
+
+Zur Skalierung auf den korrekten Amplitudenwert ist nun noch eine abschließende Multiplikation durchzuführen:
+
+\begin{eqnarray}
+	kx_n & \rightarrow & x_n \\ 
+	ky_n & \rightarrow & y_n
+\end{eqnarray}
+
+\paragraph{Fassen wir zusammen:}
+
+\medskip Wird $\sigma_i$ wie oben beschrieben bestimmt, so konvergiert $z_n \rightarrow 0$ und das Differenzengleichungssystem hat die Lösung:
+\begin{equation}\begin{split}
+	x_n & =x_0cos(\theta)-y_0sin(\theta) \\ 
+	y_n & =y_0cos(\theta)+x_0sin(\theta)
+\end{split}\end{equation}
+Da dies der Drehung eines Zeigers $(x_0,y_0)$ um den Winkel $\theta$ nach $(x_n,y_n)$ entspricht, spricht man vom sogenannten \textbf{Rotationsmodus}\index{Rotationsmodus} des CORDIC-Algorithmus. 
+
+Durch geeignete Wahl des Startwertes $(x_0,y_0)=(x_0,0)$ kann mit dieser Methode das Produkt eines skalaren Wertes mit dem Sinus bzw. dem Cosinus berechnet werden:
+\begin{equation}\begin{split}
+	x_n & =x_0cos(\theta)\\ 
+	y_n & =y_0sin(\theta)
+\end{split}\end{equation}
+Mit der Wahl $(x_0,y_0)=(k,0)$ und ohne die sonst notwendige Skalierung mit k am Ende des Iterationsprozesses erhält man:
+\begin{equation}\begin{split}
+	x_n & =cos(\theta)\\ 
+	y_n & =sin(\theta)
+\end{split}\end{equation}
+Der CORDIC-Basisalgorithmus eignet sich also im Rotationsmodus
+\begin{itemize}
+	\item zur Drehung eines Zeigers um einen vorgegebenen Winkel und
+	\item zur Berechnung der Winkelfunktionen $sin$ und $cos$.
+\end{itemize}
+
+
+%
+%
+\subsection{MATLAB: Programmierung}\label{subsec:siggen:matlab}
+%
+%
+
+\paragraph{Aufgabe 1: DDS}
+
+\begin{enumerate}
+\item Machen sie sich mit dem MATLAB-Skript zur Direkten Digitalen Synthese (\textit{dds.m}) vertraut\footnote{\pathtomatlab{sender\textbackslash Sinusgenerator\textbackslash DDS}}. 
+\item Stellen sie verschiedene Schwingungsfrequenzen $f_0$ dar und drucken sie die gelieferten Plots für ihre Dokumentation aus.
+\end{enumerate}
+
+\paragraph{Aufgabe 2: CORDIC}
+
+\begin{enumerate}
+\item Machen sie sich mit der Funktion \textit{CORDIC.m}\footnote{\pathtomatlab{sender\textbackslash Sinusgenerator\textbackslash CORDIC}} vertraut und ergänzen sie die fehlenden Abschnitte.
+\item Schreiben sie ein MATLAB-Skript (\textit{CORDICsim.m}), mit dessen Hilfe sie ihre Funktion mit unterschiedlichen Parametern (Iterationsschritte, Drehwinkel, Startwerte) testen können. Was fällt ihnen auf, wenn sie um Winkel größer 100° drehen lassen wollen? Wodurch wird dieser Effekt ausgelöst?
+
+\answergame{6}{Bei Teilrotationen über 100\textdegree errechnet der CORDIC-Algorithmus einen falschen Wert. Dies liegt daran, dass sich sein maximaler Aktionsradius aus der Summe der möglichen Einzelrotationen zusammensetzt. \\
+So ergibt sich zum Beispiel für $n=16$: 
+\[ \sum_{i=0}^{15} arctan(2^{-i}) \approx 100^{\circ}\]
+Der Aktionsradius des Algorithmus liegt also etwa zwischen\\ $-100^{\circ}...100^{\circ}$.}
+
+\item Stellen sie die Größen $\sigma_i$, $\alpha_i$ $(x_0,y_0)$ und $(x_n,y_n)$ mit Hilfe der MATLAB Plot-Funktionen anschaulich dar und drucken sie ihre Ergebnisse aus.
+\item Ergänzen sie die vorliegende Funktion dahingehend, dass auch Winkel >90° richtig verarbeitet werden können. 
+\item Was fällt ihnen hinsichtlich Rechenaufwand und Genauigkeit auf, wenn sie die beiden Algorithmen (DDS $\leftrightarrow$ CORDIC) miteinander vergleichen?
+\answergame{3}{Die direkte digitale Synthese ist Rechenzeit- und Speicherplatzeffizient. Dafür liefert der CORDIC wesentlich genauere Ergebnisse.}
+
+\end{enumerate}
+
+\paragraph{Aufgabe 3: Sinus-Generator}
+\begin{enumerate}
+\item Kopieren sie nun ihre Funktion \textit{cordic.m} in das Verzeichnis \pathtomatlab{sender\textbackslash 03\_Sinusgenerator\textbackslash Oszillator} Hier finden sie außerdem noch das Grundgerüst der Funktion \textit{oszillator.m}. Ergänzen sie diese, um mit Hilfe des CORDIC-Algorithmus eine Sinus- oder Cosinusschwingung zu erzeugen.
+\end{enumerate}
+
+\clearpage
+%
+%
+\subsection{Einschub: Maschinenzahlen}\label{subsec:siggen:machinenumbers}\index{Maschinenzahlen}
+%
+%
+
+Bisher sind wir von einer exakten Darstellung der Abtastwerte (und Filterkoeffizienten) ausgegangen. Reale Anwendungen dagegen besitzen aufgrund der endlichen Wortlänge eine viel geringere Genauigkeit. Durch die Quantisierung\index{Quantisierung} der Zahlen ergibt sich eine Vielzahl von möglichen Fehlerquellen. So kommt es zum Beispiel
+\begin{itemize}
+	\item zu Quantisierungsfehlern bei der AD-Wandlung,
+	\item zu Quantisierungsfehlern bei der Darstellung von Filterkoeffizienten wie
+	\begin{itemize}
+		\item verletzte Entwurfsspezifikationen oder 
+		\item instabile Filter
+	\end{itemize}
+	\item zu Arithmetikfehlern innerhalb des Filters, die sich durch 
+	\begin{itemize}
+		\item mögliche Wortlängenverkürzungen innerhalb des Filters oder 
+		\item mögliche Überläufe nach einer Addition bemerkbar machen.
+	\end{itemize}
+\end{itemize}
+
+Um die angesprochenen Fehler verstehen zu können ist es nötig, genauer auf die Darstellung digitaler Zahlen einzugehen. 
+
+%
+\subsubsection{Zahlendarstellung auf Digitalrechnern}\label{subsec:siggen:representation:numbers}
+%
+
+Eine digitale Verarbeitung von Zahlen, Abtastwerten u.a. bedingt die Verwendung eines für einen Rechner verständlichen Zahlensystems. Dieses basiert auf einem dualen System mit der Basis zwei - man spricht auch von Maschinenzahlen. Diese können - je nach Einsatzbereich und gewünschter Genauigkeit - in unterschiedlichen Formaten dargestellt werden. 
+
+Für hochgenaue Anwendungen eignet sich das Gleit- oder Fließkomma-Format\footnote{auch Floating-Point-Format\index{Floating-Point-Format}}\index{Gleitkommaformat}\index{Fließkommaformat}. Es bietet eine sehr genaue Darstellung von Zahlen, kombiniert mit einem großen Wertebereich. Da Fließkomma-Prozessoren allerdings wesentlich aufwendiger (und dadurch auch teurer) zu realisieren sind, verwendet man für Anwendung, bei denen es auf niedrige Entwicklungs- und Fertigungskosten ankommt, die ungenauere, aber technisch leicht realisierbare Darstellung im Festkommaformat\index{Festkommaformat}\footnote{Fixed-Point-Format\index{Fixed-Point-Format}}.
+
+%
+\subsubsection{Darstellung im Zweierkomplement}\label{subsec:siggen:representation:twoscomplemment}\index{Zweierkomplement}
+%
+
+In Rechenwerken werden duale Zahlen üblicherweise im Zweierkomplement dargestellt, da dieses eine einfache Realisierung von arithmetischen Operationen vorzeichenbehafteter Zahlen erlaubt:
+
+\begin{eqnarray}
+	x & = & a_{B-1}...a_1 a_0 \bullet \\
+	  & = & 	2^{B-1}( -a_{B-1}2^0+\sum_{i=1}^{B-1}a_{B-1-i}2^{-i} )\\
+	  & \textnormal{mit } a_i\in {0,1}
+\end{eqnarray}
+
+
+
+Es gibt genau $2^B$ verschiedene Maschinenzahlen, wobei auch die Null eindeutig ausgedrückt ist. Das Bit $a_{B-1}$ dient als Vorzeichenbit (0 $\rightarrow$ positiv, 1 $\rightarrow$ negativ). $a_0$ ist das Bit mit der geringsten Wertigkeit\footnote{LSB \index{LSB} $\rightarrow$ least significant bit}. Der fette Punkte hinter dem LSB steht für ``point''(Komma). Ist die Wortlänge zum Beispiel 16, so spricht man von Zahlen im Format 16.0, womit man ausdrücken will, dass vor dem Punkt 16 und hinter dem Punkt 0 Bits stehen.
+
+\textbf{Beispiele:}
+\begin{eqnarray*}
+	5 & = & 0101 \\
+	7 & = & 0111 \\
+	-7 &=	& 1001 
+\end{eqnarray*}
+Negative Zahlen  berechnen sich im Zweierkomplement aus der positiven Zahl durch Komplementbildung und Addition von Eins. 
+
+\paragraph{Darstellung im Fractional-Format\index{Fractional-Format}:}
+Eine weitere gängige Darstellung ist die Beschreibung von dualen Zahlen im \textbf{Fractional-Format}. Darunter versteht man eine Zahl zwischen -1 und 1. 
+Fractional-Zahlen werden folgendermaßen dargestellt:
+\begin{eqnarray}
+	x & = & a_{B-1}\bullet a_{B-2}...a_0\\
+		& = & -a_{B-1}2^0+\sum_{i=1}^{B-1} a_{B-1-i}2^-i
+\end{eqnarray}
+mit $a_i\in \{0,1\}$ und $-1 \le x \le 1-LSB$
+
+Eine Unterscheidungsmöglichkeit zur Darstellung einer ganzen Zahl bietet lediglich die Stellung des Punktes, der sich bei Fractional-Zahlen direkt hinter dem Vorzeichenbit befindet. So ist zum Beispiel das Fractional-Format für eine 16 Bit breite Dualzahl 1.15. 
+
+Rechnerintern werden ganze und gebrochene Zahlen gleich dargestellt. Die Stellung des Punktes wird allein durch die Vereinbarung festgelegt.
+
+Üblich ist das Rechnen mit Fractional-Zahlen, weil i.a. angenommen wird, dass alle Abtastwerte im Intervall $[-1...1[$ liegen. Werden die Abtastwerte mit Koeffizienten multipliziert, die betragsmäßig größer als 1 sind, so müssen die Koeffizienten vorher entsprechend skaliert werden.
+
+\textbf{Beispiel(mit B=4):}
+\begin{equation*}
+	0.625_d = 0.101_b
+\end{equation*}
+
+Die Negation von Fractional-Zahlen geschieht wie bei ganzen Zahlen auch durch Komplementbildung und Addition eines LSB und ergibt sich beim Fractional-Format zu:
+\begin{equation}
+	-x = -\bar a_{B-1}2^0 + \sum_{i=1}^{B-1}\bar a_{B-1-i}2^{-i}+2^{-(B-1)}
+\end{equation}
+mit $a_i \in \{0,1\}$ und $-1\le x\le 1-LSB$.
+
+Ausgehend von der einfachen Negation lässt sich eine Subtraktion realisieren, indem man zuerst das Zweierkomplement des Subtrahenten bildet und danach die beiden Zahlen einfach addiert.
+
+\paragraph{Darstellbare Zahlen im Zweierkomplement:}
+Prinzipiell ist im Zweierkomplement\index{Zweierkomplement} die Darstellung der Zahl -1 möglich, von +1 dagegen nicht. Verlässt man (z.B. bei einer Addition) den darstellbaren Zahlenbereich\index{darstellbarer Zahlenbereich} (man spricht von einem Überlauf\index{Überlauf}), so folgt der betragsmäßig größten positiven Zahl die kleinste negative Zahl und umgekehrt.
+Die Quantisierungskennlinie \index{Quantisierungskennlinie} einer 3 Bit Zweierkomplenentzahl ist in Abbildung \ref{fig:quantkennl} dargestellt.
+
+\begin{figure}[ht]
+	\centering 
+	\includegraphics[width=10cm]{bilder/empfaenger/maschinenzahlen/quantisierungskennl}
+	\caption{Quantisierungskennlinie mit Zweierkomplementüberlauf}
+	\label{fig:quantkennl}
+\end{figure}
+
+Wie in der Abbildung sehr gut zu erkennen ist treten im Falle von Überläufen sehr hohe Amplitudensprünge auf, die zu einem stark nichtlinearem Verhalten führen. Allerdings ist das Modulo-2 Überlaufverhalten inhärent und hat den Vorteil, dass Teilüberläufe keine Auswirkungen haben, solange das Gesamtergebniss im Bereich von [-1,1[ liegt! Ein Beispiel hierzu finden sie in Tabelle \ref{tab:teilüberl}.
+
+\begin{table}[ht]
+	\centering		
+	\begin{tabular}{r|rl}
+			Dezimal		& Binär		& \\\cmidrule{1-2}
+			0.750 		& 0.110		&\\
+			+0.500		& +0.100	&\\\cmidrule{1-2}
+			1.250			& 1.010		&	(entspricht -0.75 $\rightarrow$ Überlauf)\\
+			-0.625		& +1.011	&\\\cmidrule{1-2}	
+			0.625			& 10.101	& (entspricht 0.625)\\
+	\end{tabular}
+	\caption{Beispiel zur Auswirkung von Teilüberläufen}
+	\label{tab:teilüberl}
+\end{table}
+
+Vor allem bei rekursiven Systemen\footnote{Systeme mit Rückkopplung, wie IIR-Filter (vgl. Kap.\ref{sec:digifilt})} sollte man eine Modulo-2-Überlaufkennlinie vermeiden, da durch die großen Amplitudensprünge große Grenzzyklen\index{große Grenzzyklen} entstehen können (vgl. Kap.\ref{subsubsec:digifilt:nonideal:koeffquant}). Zur Realisierung ist eine Überlaufbehandlung in der Arithmetikeinheit notwendig! Eine weitere Möglichkeit ist der Einsatz von Quantisierungskennlinien mit Sättigungsverhalten\index{Sättigungsverhalten}, wie in Abb. \ref{fig:quantkennl2} gezeigt.
+
+\begin{figure}[ht]
+	\centering 
+	\includegraphics[width=9cm]{bilder/empfaenger/maschinenzahlen/quantisierungskennl_satt}
+	\caption{Quantisierungskennlinie mit Sättigungsverhalten}
+	\label{fig:quantkennl2}
+\end{figure}
+
+\paragraph{Alignment\index{Alignment} und Sign-Extension\index{Sign-Extension}:}
+Moderne DSPs besitzten eine Reihe von Registern und Speicherzellen, die unterschiedliche Wortlängen aufweisen. Beim Transfer von Zweierkomplementzahlen zwischen solchen Speicherplätzen ist zu berücksichtigen, wie ein Datenwort kleiner Wortlänge in einem Speicherplatz großer Wortlänge abgelegt wird.
+\begin{itemize}
+	\item Beim Left-Alignment\index{Left-Alignment} (``Linksbündiges'' Einfügen in das Register) werden die niederwertigen Bits mit Nullen aufgefüllt,
+	\item Beim Right-Alignment\index{Right-Alignment} (``Rechtsbündiges'' Einfügen in das Register) ist eine Sign-Extension notwendig. Bei negativen Zahlen werden daher die höherwertigen Bits mit Einsen aufgefüllt, bei positiven Zahlen mit Nullen. 
+\end{itemize}
+	
+\medskip Bei der Multiplikation von Zweierkomplementzahlen sind ebenfalls Besonderheiten zu beachten. Hier unterscheidet sich die Wortlänge des Produkts von jener der beiden Operanden. Wird eine Zahl mit $N_1$ Bits mit einer Zahl mit $N_2$ Bits multipliziert, so hat das Produkt $N_1+N_2-1$ Bits.
+
+\begin{equation}
+	N_1\cdot N_2 \Leftrightarrow N_1+N_2-1
+\end{equation}
+
+
+\textbf{Beispiel}\\
+Betrachten wird das Produkt zweier 32-Bit-Zahlen. Das Ergebnis hat nach obiger Formel 63 Bit. Je nachdem, ob das Ergebnis Left- oder Right-Aligned in einem 64-Bit-Register abgespeichert wird erhält man ein zusätzliches (redundantes) LSB oder MSB.
+
+Aus diesem Grund wird bei einigen DSPs zwischen der Multiplikation von Integer-Zahlen (32.0) und Fractional-Zahlen (1.31) unterschieden. Bei Fractional-Zahlen muss das Ergebnis left-aligned, bei Integer-Zahlen right-aligned im Register gespeichert werden. 
+
+\medskip Allgemein gilt, dass die Multiplikation einer Zahl im $I_1.Q_1$-Format mit einer Zahl im $I_2.Q_2$-Format ein Ergebnis im $(I_1+I_2-1).(Q_1+Q_2)$-Format ergibt.
+
+\begin{equation}
+	(I_1.Q_1)\cdot (I_2.Q_2) \Leftrightarrow (I_1+I_2-1).(Q_1+Q_2)
+\end{equation}
+
+%
+\subsubsection{Zahlendarstellung im Gleitkommaformat}\label{subsubsec:siggen:representation:float}
+%
+
+Die Darstellung im Gleitkomma- oder Floating-Point-Format ist eine exponentielle Darstellung der Zahlen. Diese ist unerlässlich zur rechnerinternen Verarbeitung sehr großer Zahlen, ebenso bei Anwendungen, die eine extrem hohe Genauigkeit erfordern. Im Gegensatz zur wissenschaftlichen Zahlennotation, die ja mit der Basis Zehn arbeitet, verwendet das Gleitkommaformat Zweierpotenzen. 
+
+\medskip Eine Gleitkommazahl ist ganz allgemein aus drei Teilen aufgebaut:
+\begin{itemize}
+	\item Einem Vorzeichenbit \index{Vorzeichenbit} (S)
+	\item der Mantisse\index{Mantisse} (M) und
+	\item dem Exponenten\index{Exponent} (E).
+\end{itemize}
+
+\begin{equation}
+	x=(-1)^S\cdot 2^E\cdot M
+\end{equation}
+
+Leider gibt es im Gegensatz zu Festkommasignalprozessoren, die einheitlich die Zweierkomplementdarstellung verwenden, noch kein einheitliches Zahlenformat bei Gleit\-kom\-ma-Si\-gnal\-pro\-zes\-soren. Zwar verwendet die Mehrheit das genormte 32-Bit-IEEE-Format, aber es gibt immer noch einige Hersteller, die ihre eigenen Standarts bevorzugen. 
+
+\paragraph{IEEE-Standard P754:}\index{IEEE-Standard P754}
+Dieser Standard wird - wie oben schon erwähnt - in vielen Signalprozessoren verwendet. Man unterscheidet hier nochmals zwischen zwei unterschiedlichen Genauigkeitsstufen: Single-Precision\index{Single-Precision} und Double-Precision\index{Double-Precision}.
+\begin{itemize}
+	\item Single-Precision
+		\begin{itemize}
+			\item kleinstes Format mit 32 Bit
+			\item Die Zahl wird mit 1 Vorzeichenbit, 8 Exponentenbits und 23 Bits für die Mantisse dargestellt
+		\end{itemize}
+	\item Double-Precision
+		\begin{itemize}
+			\item 64 Bit Genauigkeit
+			\item Die Zahl wird mit 1 Vorzeichenbit, 11 Exponentenbits und 52 Bits für die Mantisse dargestellt
+		\end{itemize}
+\end{itemize}
+
+Die Darstellung ist in der Regel so skaliert, dass die höchstwertige Stelle der Mantisse 1 ist und daher weggelassen werden kann. In diesem Fall spricht man von der \textit{normalisierten Form}. 
+
+Bei der Berechnung des Exponenten wird dessen Vorzeichen durch einen Offset (OS) berücksichtigt. Dieser beträgt bei Single-Precision 127, bei Double-Precision 1023.
+
+\begin{equation}
+	x=(-1)^S\cdot 2^{E-OS}\cdot (1+M_f)
+\end{equation}
+
+\paragraph{Vorteile des Gleitkommaformates:}
+Mit dem Floating-Point-Format kann ein sehr großer Zahlenbereich abgedeckt werden (Im Single-Precision-FP-Format kann beispielsweise ein Zahlenbereich von $-1.7\cdot 10^{38} ... +1.7 \cdot 10^{38}$ dargestellt werden. Außerdem lassen sich betragsmäßig kleine Zahlen sehr viel präziser darstellen als Festkomma-Zahlen (Die betragsmäßig kleinste 32-Bit-Fractional-Zahl ist $4.7 \cdot 10^{-10}$, beim single-precision Fractional-Format $1.5 \cdot 10^{-39}$).
+
+Man kann aus den Zahlenbeispielen deutlich erkennen, dass 32-Bit-Gleit\-komma-Pro\-zess\-oren einen beträchtlich größeren Dynamikbereich besitzen, als die üblichen 16- oder 24-Bit-Fest\-komma-Pro\-zess\-oren. Daher kann man sie als nahezu überlauffrei betrachten. Ihr Nachteil liegt dafür im deutlich komplizierteren Rechenwerk, was sich in der größeren Chipfläche, einem höheren Stromverbrauch und im höheren Preis des Prozessors niederschlägt.
+
+\paragraph{Beurteilungskriterien der Eigenschaften eines Zahlenformats:}
+Im letzten Abschnitt wurden die beiden Kriterien Dynamik und Präzision herangezogen, um die Zahlenformate zu bewerten. Diese sollen nun noch einmal kurz erläutert werden:
+\begin{itemize}
+	\item Die Dynamik\index{Dynamik} beschreibt das Verhältnis von größter und kleinster darstellbarer positiver Zahl,
+	\item die Präzission\index{Präzision} den maximalen Quantisierungsfehler beim Runden.
+\end{itemize}
+
+
+\subsection{VHDL: Realisierung}\label{subsec:siggen:realisation}
+
+Im Folgenden soll der CORDIC-Algorithmus in VHDL implementiert werden.
+
+\subsubsection{VHDL-Basics: Fixed-Point Arithmetik}\label{subsubsec:vhdlbasics:fixedpoint}
+
+\develnote{Floating-Point Arithmetik beschreiben}
+
+Für den CORDIC ist es notwendig, eine Look-Up-Table zu erzeugen, aus der der Algorithmus die vorberechneten Werte extrahieren kann. Problematisch für eine Hardwarerealisierung des CORDIC ist die Verwendung von rationalen bzw. reellen Zahlen. Eine Möglichkeit besteht darin, die math\_real-Library zu verwenden. Diese erfordert jedoch eine sehr komplexe Hardware und ist nur in Fällen anzuraten, wenn kein Weg daran vorbei führt oder die Größe und der Leistungsverbrauch eine sehr untergeordnete Rolle spielen. Die Entwicklungsumgebung von ispLEVER unterstützt diese Library lediglich zur Synthesezeit. Das bedeutet, dass Berechnungen damit durchgeführt werden können, deren Ergebnis aber nach der Synthese feststehen muss. Bedenkt man den immensen Aufwand für eine Berechnung in Floating-Point Arithmetik, wird schnell klar, dass die Ressourcen der verwendeten Hardware unzureichend sind, wenn mehr als nur den CORDIC implementiert werden soll. Daher wird im Folgenden Fixed-Point-Arithmetik verwendet. Besonders das Problem der Quantisierung und der damit verbundenen Effekte muss genauer betrachtet werden.
+
+Eine Fixed-Point Zahl wird durch eine Integerzahl ausgedrückt, indem man deren Wertebereich umdefiniert. Dies ist nötig, da in VHDL lediglich Integer-Zahlen zur Verfügung stehen. Im Praktikum wird vorerst hauptsächlich mit 8- und 16-Bit-Zahlen gearbeiten, deren Wertebereich sich von -128 bis 128 bzw. von -32768 bis 32767 erstreckt. Dieser Zahlenbereich ist besonders interessant, da das FPGA Multiplizierer mit den Wortbreiten 9, 18 und 36 zur Verfügung stellt. 8 bzw 16-Bit sind optimal, da z.B. nach einer Addition die Wortbreite des Ergebnisses größer ist als die der Eingangswerte und somit eine Reserve vorgehalten werden muss. Dies wurde vom Hersteller dadurch bedacht, dass er die Multiplizierer ein Bit größer macht als nötig und dem Designer damit Spielraum bei der Implementierung gibt. 
+
+Der Bereich von -32768 bis 32767 wird umdefiniert zu -1 bis exclusive 1. Damit lässt sich eine Genauigkeit von ca. $3,05 \cdot 10^{-5}$ erreichen, was ausreichend ist. In MAnchen Versuchen genügt sogar die Genauigkeit von 8 Bit.
+
+Der genaue Wert der Zahl ergibt sich somit wie folgt.
+
+\begin{equation}
+	Z = -{N_{15}} + N_{14} \cdot 2^{-1} + N_{13} \cdot 2^{-2} + ... + N_{-14} \cdot 2^{-0}
+\end{equation}
+
+Mit Hilfe dieser Definition ist es möglich, Addition, Subtraktion und Multiplikation wie gewohnt im Zweierkomplement auszuführen.
+
+\subsubsection{VHDL-Basics: Konstanten}\label{subsubsec:vhdlbasics:constants}
+
+Da sowohl für die DSS als auch für den CORDIC Look-Up-Tables benötigt werden, stellt sich die Frage, wie die vorausberechneten Werte am effektivsten in das Programm einzubinden sind. Hier bietet VHDL die Möglichkeit, Konstanten zu definieren.
+
+\begin{verbatim}
+...
+  constant sv_lut0 : std_logic_vector(15 downto 0) := "0101010101010101";
+...
+\end{verbatim}
+
+Um Berechnungen vor der Laufzeit des Codes, also durch die Synthese durchführen zu lassen, genügt es, den gewünschten Ausdruck hinter die Definition zu schreiben.
+
+\begin{verbatim}
+...
+  constant sv_lut1 : std_logic_vector(15 downto 0) 
+        := "0101010101010101" + "0000000000000101";
+\end{verbatim}
+
+Die Synthese wird diesen Ausdruck berechnen und das Ergebnis direkt der Konstanten zuweisen.
+
+\subsubsection{VHDL-Basics: Typenkonvertierung}\label{subsubsec:vhdlbasics:typeconversion}
+
+Eine elegantere Variante ist die Verwendung von Konvertierungsfunktionen.
+
+\begin{description}
+	\item[conv\_std\_logic\_vector(<VALUE>, <WIDTH>)] Konvertiert eine Integerzahl \emph{VALUE} in den Typ std\_logic\_vector mit der angegeben Breite \emph{WIDTH}.
+	\item[conv\_unsigned(<VALUE>, <WIDTH>)] konvertiert eine Integerzahl in eine unsigned Darstellung des Typs std\_logic\_vector.
+	\item[conv\_signed(<VALUE>, <WIDTH>)] Konvertiert in eine Signed-Darstellung des std\_\-lo\-gic\_\-vec\-tor-Typs.
+\end{description}
+
+Bei conv\_std\_logic\_vector ist darauf zu achten, dass die Interpretation eingebundenen Paket (signed oder unsigned) abhängt.
+
+Weitere Konvertierungsroutinen werden im Laufe des Praktikums folgen.
+
+\subsubsection{VHDL-Basics: Mehrdimensionale Arrays}\label{subsec:vhdlbasics:array:multidim}
+
+Bisher wurde lediglich die Festlegung der einzelnen Zeilen behandelt, allerdings ist dies für eine Tabelle recht ineffizient. Hierzu verwendet man ein Array des Typs std\_logic\_vector, um jede Zeile durch einen Index ansprechen zu können, wie es beispielsweise mit den einzelnen Bits des std\_logic\_vector möglich ist. In VHDL ist es erlaubt, mehrdimensionale Arrays beliebiger Tiefe zu erzeugen. Derzeit erlaubt die Synthese aber maximal zweidimensionale Arrays.
+
+\advise{Arrays maximal zweidimensionale in Hardware implementieren.\\ Std\_logic\_vector ist selbst ein eindimensionales Array des Typs std\_logic, daher maximal eine weitere Dimension zulässig}
+
+Eine Möglichkeit eine LUT zu erzeugen sähe also wie folgt aus:
+
+\begin{verbatim}
+...
+  type tva_LUT is array(0 to 1) of std_logic_vector(3 downto 0);
+	
+  constant my_lut : tva_LUT := (("0100"),("1000"));
+...
+\end{verbatim}
+
+Der Aufbau der benötigten LUT erfolgt analog zum obigen Beispiel.
+
+\subsubsection{VHDL-Basics: Zahlentypen}\label{subsubsec:vhdlbasics:numbertypes}
+
+Eine Darstellung von Zahlen erfolgt in Hardware üblicherweise mittels mehrerer einzelner Signale in binärer Form z.B. mittels des Zweierkomplements. Programmieren wäre jedoch mit dieser Methode recht umständlich und die Übersetzung könnte auch gut die Synthese erledigen. Dazu werden an dieser Stelle einige neue Datentypen vorrgestellt:
+
+\begin{description}
+	\item[integer] übersetzt in 32-bit, Werte zwischen $-2^{31} \textnormal{ und } 2^{31}-1$
+	\item[natural] übersetzt in 31-bit, Werte zwischen $0 \textnormal{ und } 2^{31}-1$ (Vorsicht!!! nicht 32-bit)
+	\item[positive] übersetzt in 31-bit, Werte zwischen $1 \textnormal{ und } 2^{31}-1$ (Vorsicht!!! auch nur 31-bit)
+\end{description}
+
+Jeden der oben genannten Zahlentypen kann man mit \emph{range <FROM> to <TO>} eingrenzen und so die Synthese anweisen, die minimale Anzahl an Signalen zu verwenden. Bei der Deklaration würde dies wie folgt aussehen:
+
+\begin{verbatim}
+...
+  signal si_counter : integer range 0 to 40;
+...
+\end{verbatim}
+
+Dies würde die Synthese veranlassen, intern einen 6-Bit-Vektor ($0 \textnormal{ bis } 2^{6}-1=63$) zu verwenden.
+
+%\advise{Falls man einen eingeschränkten Datentyp in einer Abfrage verwendet, der nicht exakt mit $0 \textnormal{ bis } 2^{n}-1$ abgebildet werden kann, so ist hier in jedem Fall ein  einzufügen, selbst wenn man auf alle erlaubten Werte der Range prüft, da sonst die übrigen Werte bis $2^{n}-1 \textnormal{ bzw. } 0$ bis zum Anfangswert der Range nicht berücksichtigt werden und dies zur Verwendung von Latches führt.}
+
+\subsubsection{VHDL-Basics: Records}\label{subsubsec:vhdlbasics:records}
+
+Ähnlich wie in Software-Programmiersprachen können auch in VHDL verschiedene Signale zu einem Record gebündelt werden, um auf diese als Ganzes zugreifen zu können. Ein Record wird über einen eigenen Typ definiert.
+
+\develnote{Zugriff auf Record beschrieben}
+
+\begin{verbatim}
+...
+  type <REC_NAME> is 
+    record
+      DAY: positive range 1 to 31;
+      MONTH : positive range 1 to 12;
+      YEAR : integer;
+    end record;
+...
+\end{verbatim}
+
+\subsubsection{VHDL-Basics: Komponenten}\label{subsubsec:vhdlbasics:components}
+
+Bisher wurde Ihnen die Erstellung eigener Module abgenommen. Bei größeren Modulen empfiehlt es sich aus Gründen der Übersichtlichkeit, dieses in mehrere Untermodule aufzugliedern. VHDL ermöglicht dies, indem man Komponenten erst deklariert und anschließend instantiiert. Die Instantiierung ist nötig, da man dadurch ein Modul mit unterschiedlichen Parametern (Generics, Port-Mapping) mehrmals in einem File verwenden kann, ähnlich den Klassen einer objektorientierten Programmiersprache. Eine Komponente deklariert man wie folgt:
+
+\begin{verbatim}
+...
+architecture ...
+...
+  component <COMP_NAME>
+  	[generic(
+  		<GEN_NAME> : <TYPE> [:= <VALUE>] [;
+  		<GEN_NAME> : <TYPE> [:= <VALUE>]; ...]
+  	);]
+    port(
+      <PORT_NAME> : <DIR> <TYPE> [;
+      <PORT_NAME> : <DIR> <TYPE>; ...]
+    );
+  end component;
+...
+begin
+...  
+\end{verbatim}
+
+\advise{Es ist ratsam in eigenen Modulen, für Ports lediglich std\_logic und std\_logic\_vector zu verwenden, da dies der Hardware am nächsten kommt und bei der Synthese sonst oftmals Schwierigkeiten auftreten, über Modulgrenzen hinweg zu optimieren. Für Generics hingegen dürfen nur Integer-Typen (Interger, Boolean, Natural und Positive) verwendet werden.}
+
+Hat man die Komponente in seinem Code deklariert, erfolgt die Instantiierung:
+
+\begin{verbatim}
+... 
+architecture ...
+...
+begin
+...
+  <INSTANT_NAME>: <COMP_NAME>
+    [generic map (
+      <GEN_NAME> => <CONST_NAME> [;
+      <GEN_NAME> => <CONST_NAME>; ...]
+    );]
+    port map (
+    	<PORT_NAME> => <SIGNAL_NAME> [;
+    	<PORT_NAME> => <SIGNAL_NAME>; ...]
+    );
+...
+\end{verbatim}
+
+\ifthenelse{\xemacs}{%
+Bei Verwendung von XEmacs, wird einem diese aufwendige Tipparbeit natürlich erspart, indem man wieder auf die nützlichen Funktionen, die über die rechte Maustaste verfügbar sind, zurück greift. Dazu wie gewohnt, in den Quellcode der Komponente gehen, den Port mittels \emph{Port$\rightarrow$Copy} in den Template-Buffer von XEmacs befördern, in den eigenen Quellcode zurückgehen und dort einerseits im Deklarationsteil der architecture mittels \emph{Port$\rightarrow$Paste as Component} die Komponente einfügen und mittels \emph{Port$\rightarrow$Paste as Instance} im Code-Teil der architecture die Instantiierung. Nun ggf. noch das Mapping auf die gewünschten Signalnamen und Konstanten korrigieren, fertig.
+}{} % Tja, Nicht-XEmacser ist nicht zu helfen.
+
+\subsubsection{VHDL-Basics: Multiplizierer}\label{subsubsec:vhdlbasics:multiplier}
+
+In dem verwendeten FPGA sind fertige Multiplizierer bereits integriert. Diese können auf unterschiedliche Art und Weise verwendet werden. Einerseits bietet ispLEVER mit dem Programmmodul IPexpress, mit dem man Module generieren und diese dann in den eigenen Code als Komponente einbinden kann. Oft sind die von IPexpress generierten Module optimiert und bieten manche Features, auf die man sonst keinen Zugriff erlangt. Allerdings kann man ebenso das Synthesetool zur Optimierung nutzen und nach dem Syntheselauf anhand der Ausgaben, die jene erzeugt, entscheiden, ob man mit dem Ergebnis zufrieden ist, oder ob man doch auf IPexpress zurückgreift. In der Ausgabe finden sich zwei Bereiche, aus denen die Verwendung der DSP-Einheiten hervorgeht. Einmal in Form einer Matrix, die die Verwendung der einzelnen Multiplizierer der DSP-Blöcke angibt und zum anderen eine Information über die Konfiguration der DSP-Blöcke (MULTADDSUM, MAC,...).
+
+Der Einfachheit wegen wird im Rahmen des Praktikums auf IPExpress verzichtet, der Multiplizier-Operator in VHDL verwendet und die Synthese übernimmt die Arbeit.
+
+\begin{verbatim}
+...
+  sv_mult_result <= sv_var_a * sv_var_b; -- std_logic_vector
+  si_mult_result <= si_var_a * si_var_b; -- integer
+...
+\end{verbatim}
+
+Die Synthese erkennet bei diesem Beschreibung selbstständig, ob ein 9-, ein 18- oder ein 36-Bit-Multiplizierer nötig ist. Diese Arten von Multiplizierern stellt der verwendete FPGA zur Verfügung.
+
+\advise{Da die Anzahl der kleineren 9-Bit-Multiplizierer größer ist als die der 18- bzw. 36-Bit-Multiplizierer, ist es hier besonders wichtig, den Wertebereich der Signale so klein wie möglich zu halten. Daher sollten die Interger-Typen bei der Deklaration unbedingt einen möglichst kleinen Wertebereich zugewiesen bekommen.}
+
+\subsection{VHDL: Beschreibung CORDIC-Base}\label{subsec:siggen:vhdl:cordic:base}
+
+\paragraph{Aufgabe 1: Look-Up Table}
+
+Erstellen Sie in \verb|03_Siggen\cordic_lut.vhd| eine Look-Up Table, die alle benötigten Informationen für einen 10-stufigen CORDIC-Algorithmus beinhaltet. Diese soll in Form eines Moduls aufgebaut sein und als Schnittstelle die Ports aus Tabelle \ref{tab:LUT-Ports} besitzen. 
+
+Die Werte der LUT kann man entweder durch festes Kodieren der Zahlen oder durch Berechnen während der Synthese mittels des Packages ieee.math\_real einfügen. Wer schon ein wenig mehr Erfahrung in VHDL hat, kann dies gerne versuchen, er genügt jedoch, die Werte mit dem Taschenrechner zu berechnen und in den Quellcode einzutippen. Ein Beispiel, für die elegante Methode ist im VHDL-Code des DDS-Moduls zu finden.
+
+\advise{Verwenden sie ausschließlich Integer-Typen bzw. std\_\-lo\-gic\_\-vec\-tor zur Darstellung von Zahlen. Diese können als Einzige von der Synthese in Hardware umgesetzt werden. Für die Synthese existieren keine Fixed-Point Zahlen.}
+
+\begin{table}
+	\centering		
+	\begin{tabular}{|c|c|c|l|}\hline
+		\textbf{Portname} & \textbf{Direction} & \textbf{Bits} & \textbf{Beschreibung} \\\hline
+	  STEPS & In & 4 & Die Anzahl der Schritte des Algorithmus \\
+	  ALPHA\_I & Out & 16 & Der Drehwinkel  \\
+	  TAN\_ALPHA\_I & Out & 16 & Der Tangens des Drehwinkels \\
+	  K\_I & Out & 16 & Der Skalierungsfaktor für diesen Schritt \\
+	  K\_G & Out & 16 & Der Gesamtskalierungsfaktor für diesen Schritt \\\hline
+	\end{tabular}
+	\caption{Port des LUT-Moduls}
+	\label{tab:LUT-Ports}
+\end{table}
+
+\subparagraph{Hinweis}
+
+Eine LUT kann üblicherweise mittels eines Arrays aufgebaut werden. Versuchen Sie, die gestellte Aufgabe möglichst elegant zu lösen und bedenken Sie, dass die vorangegangen Grundlagen bei der Lösung des Problems nützlich sein können.
+
+\paragraph{Aufgabe 2.1: CORDIC-Basis-Algorithmus}
+
+Programmieren Sie nun den CORDIC-Basis-Algorithmus, der es ermöglicht, einen beliebigen Vektor um $\pm100^{\circ}$ zu drehen. Binden Sie dazu das in der letzten Aufgabe erstellte Modul cordic\_lut.vhd ein. Der vorgefertigte Quellcode cordic\_base.vhd mit den Ports und Generics existiert bereits in ihrem Paraktikumsverzeichnis. Die architecture ist von Ihnen zu programmieren. Die Anzahl der Stufen soll über das Generic \emph{STEPS} von 1 bis 10 gesteuert werden können.
+
+\textbf{Hinweis:} Verwenden Sie einen Zähler, der durch die einzelnen Iterationsstufen zählt und die Hardware steuert.
+
+\subsection{MODELSIM: Simulation CORDIC-Base}\label{subsec:siggen:sim:cordic}
+
+\paragraph{Aufgabe 2.2: CORDIC-Basis-Algorithmus}
+
+Simulieren sie das fertige Modul und verifizieren sie dessen Fehlerfreiheit. Verwenden sie dazu die Testbench cordic\_base.vhd. Drucken Sie die Waveform aus Modelsim aus und fügen sie diese ihrem Lösungsordner bei.
+
+
+\subsection{VHDL: Beschreibung 360°-CORDIC}\label{subsec:siggen:cordic:full}
+
+\paragraph{Aufgabe 3.1: 360\textdegree-CORDIC-Algorithmus}
+
+Entwerfen Sie ein Modul, dass den CORDIC aus Aufgabe 2 einbindet und auf Drehwinkel von 360\textdegree erweitert. Verwenden Sie das File \verb|cordic_full.vhd|, binden sie \verb|cordic_base.vhd| ein und erweitern es um die geforderte Funktionalität.
+
+\subsection{MODELSIM: Simulation 360°-CORDIC}\label{subsec:siggen:sim:cordic:full}
+
+\paragraph{Aufgabe 3.2: 360\textdegree-CORDIC-Algorithmus}
+
+Simulieren Sie den Code ebenfalls und drucken Sie auch diese Waveform aus.
+
+\subsection{VHDL: Tonerzeugung}\label{subsec:siggen:vhdl:soundgen}
+
+\paragraph{Aufgabe 4.1: Der erste eigene Ton}
+
+Vervollständigen Sie das Modul \verb|siggen.vhd| so, dass ein Ton mit ca. 9 kHz erzeugt wird. Verwenden Sie den berechneten Vektor als Eingabevektor für den nächsten CORDIC-Durchlauf.
+
+Wie lautet die Formel zur Berechnung der Ausgangsfrequenz des CORDIC-Si\-gnal\-ge\-ne\-ra\-tors?
+\answergame{5}{
+	\begin{math}
+		f_{out} = \frac{f_{clk}}{\textnormal{STEPS}} \cdot \frac{\Theta}{360^{\circ}}
+	\end{math}
+}
+
+\subsection{MODELSIM: Tonerzeugung}\label{subsec:siggen:sim:soundgen}
+
+\paragraph{Aufgabe 4.2: Der erste eigene Ton}
+
+Simulieren Sie \verb|tone\_gen.vhd| mit der vorgefertigen Testbench \verb|siggen\_tb.vhd| über einen ausreichend langen Zeitraum (ca. 1000 Perioden). Was stellen Sie fest?
+
+\answergame{3}{Die Amplitude ändert sich (steigt stetig an/fällt stetig ab, je nach Rundung des Korrekturfaktors)}
+
+Worauf ist dieses Verhalten zurückzuführen?
+
+\answergame{4}{Durch die Fixed-Point-Arithmetik kommt es zu Rundungsfehlern beim Korrekturfaktor. Die Amplitude verfälscht sich bei jeder Iteration.}
+
+\paragraph{Aufgabe 5.1: Verbesserung des COR\-DIC-Si\-gnal\-ge\-ne\-ra\-tors}
+
+Wie ist\\ \verb|tone\_gen.vhd| zu verändern, um diesen Fehler zu beseitigen?
+
+\answergame{3}{Fester Eingangsvektor; Veränderung/Aufsummiern des Drehwinkels Theta bei jedem CORDIC-Durchlauf. Wenn größer 360°, dann wieder bei 0 beginnen.}
+
+Welche Möglichkeit zur Hardware-Einsparung ergibt sich durch diese Veränderung noch?
+
+\answergame{3}{Der Korrekturfaktor kann schon vorher in den Eingangsvektor eingerechnet werden und der Multiplizierer am Ausgang entfällt}
+
+\paragraph{Aufgabe 5.2: Simulation der Vebesserungen}
+
+Simulieren Sie den verbesserten Signalgenerator.
+
+\subsection{TEST: Praxis}\label{subsec:siggen:test}
+
+\subparagraph{Aufgabe 6}
+
+Testen Sie Ihren Signalgenerator mit Hilfe der Hardware.
+

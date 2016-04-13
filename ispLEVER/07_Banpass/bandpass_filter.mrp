@@ -1,0 +1,1461 @@
+              Lattice Mapping Report File for Design 'toplevel'
+
+Design Information
+------------------
+
+Command line:   C:\ispTOOLS6_0_STRT\ispfpga\bin\nt\map.exe -a ep5g00p -p
+     LFECP20E -t FPBGA484 -s 3 bandpass_filter.ngd -o bandpass_filter_map.ncd
+     -mp bandpass_filter.mrp bandpass_filter.lpf
+Target Vendor:  LATTICE
+Target Device:  LFECP20EFPBGA484
+Target Speed:   3
+Mapper:  ep5g00p,  version:  ispLever_v60_PROD_Build (36)
+Mapped on:  11/27/06  02:59:58
+
+Design Summary
+--------------
+
+   Number of registers:    50
+      PFU registers:    49
+      PIO registers:    1
+   Number of SLICEs:            54 out of  9856 (1%)
+      SLICEs(logic/ROM):        54 out of  7392 (1%)
+      SLICEs(logic/ROM/RAM):     0 out of  2464 (0%)
+          As RAM:            0
+          As Logic/ROM:      0
+   Number of logic LUT4s:      64
+   Number of distributed RAM:   0 (0 LUT4s)
+   Number of ripple logic:     16 (32 LUT4s)
+   Number of shift registers:   0
+   Total number of LUT4s:      96
+   Number of external PIOs: 85 out of 360 (24%)
+   Number of PIO IDDR/ODDR:     0
+   Number of PIO FIXEDDELAY:    0
+   Number of 3-state buffers:   0
+   Number of PLLs:  1 out of 4 (25%)
+   Number of block RAMs:  0 out of 46 (0%)
+   Number of GSRs:  1 out of 1 (100%)
+   JTAG used :      Yes
+   Readback used :  No
+   Oscillator used :  No
+   Startup used :   No
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
+     distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and
+     ripple logic.
+
+DSP Component Details --
+------------------------
+
+   Number Of Mapped DSP Components:
+   --------------------------------
+   MULT36X36           0
+   MULT18X18           0
+   MULT18X18MAC        0
+   MULT18X18ADDSUB     0
+   MULT18X18ADDSUBSUM  0
+   MULT9X9             0
+   MULT9X9MAC          0
+   MULT9X9ADDSUB       0
+   MULT9X9ADDSUBSUM    0
+   --------------------------------
+
+                                    Page 1
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Design Summary (cont)
+---------------------
+   Number of clocks:  2
+     Net CLK_c: 12 loads, 12 rising, 0 falling (Driver: PIO CLK )
+     Net DA_SCKI_c: 23 loads, 23 rising, 0 falling (Driver:
+     clockgen_main_1/PLLBInst_0 )
+   Number of Clock Enables:  4
+     Net un6_sl_sync: 3 loads, 2 LSLICEs
+     Net sl_nreset: 4 loads, 4 LSLICEs
+     Net gain_control_1/un5_cn_toggle_count: 1 loads, 1 LSLICEs
+     Net g0_i_m2_LZ0Z3: 3 loads, 3 LSLICEs
+   Number of LSRs:  1
+     Net sl_nreset: 3 loads, 3 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net segment_decoder_1_OUTPUT_e_i_0: 51 loads
+     Net segment_decoder_1_OUTPUT_e_i_0_i: 24 loads
+     Net g0Z0Z_10: 19 loads
+     Net g0Z0Z_11: 19 loads
+     Net g0_xZ0Z1: 18 loads
+     Net sl_nreset: 10 loads
+     Net gain_control_1_sl_changed: 9 loads
+     Net VCCZ0: 6 loads
+     Net g0_i_m2_LZ0Z3: 5 loads
+     Net gain_control_1_proc_transmit_vn_counter_0: 5 loads
+
+Design Errors/Warnings
+----------------------
+
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](7)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](6)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](5)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](4)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](3)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](2)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](1)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port SWITCHES[7:0](0)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](7)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](6)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](5)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](4)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](3)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](2)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](1)...logic will be
+
+                                    Page 2
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Design Errors/Warnings (cont)
+-----------------------------
+     discarded.
+WARNING:  IO buffer missing for top level port BUTTONS[7:0](0)...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](15)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](14)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](13)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](12)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](11)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](10)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](9)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](8)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](7)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](6)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](5)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](4)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](3)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](2)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](1)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B7[15:0](0)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](15)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](14)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](13)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](12)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](11)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](10)...logic
+     will be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](9)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](8)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](7)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](6)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](5)...logic will
+
+                                    Page 3
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Design Errors/Warnings (cont)
+-----------------------------
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](4)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](3)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](2)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](1)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port EXTENDER_B5[15:0](0)...logic will
+     be discarded.
+WARNING:  IO buffer missing for top level port RS232_RX...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port RS232_DSR...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port MA_SDO...logic will be discarded.
+WARNING:  IO buffer missing for top level port AD_LRCK...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port AD_BCK...logic will be discarded.
+WARNING:  IO buffer missing for top level port AD_DOUT...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port DA_ZEROL...logic will be
+     discarded.
+WARNING:  IO buffer missing for top level port DA_ZEROR...logic will be
+     discarded.
+
+IO (PIO) Attributes
+-------------------
+
++---------------------+-----------+-----------+------------+------------+
+| IO Name             | Direction | Levelmode | IO         | FIXEDDELAY |
+|                     |           |  IO_TYPE  | Register   |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_0      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_RED_0        | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| CLK                 | INPUT     | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| PA_nEN              | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_MUTE             | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_FMT_2            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_FMT_1            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_FMT_0            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_DEMP_1           | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_DEMP_0           | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_nRST             | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_DIN              | OUTPUT    | LVCMOS25  |            |            |
+
+                                    Page 4
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+IO (PIO) Attributes (cont)
+--------------------------
++---------------------+-----------+-----------+------------+------------+
+| DA_BCK              | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_LRCK             | OUTPUT    | LVCMOS25  | OUT        |            |
++---------------------+-----------+-----------+------------+------------+
+| DA_SCKI             | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_nPDWN            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_OSR              | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_BYPAS            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_MODE_1           | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_MODE_0           | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_FMT_1            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_FMT_0            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| AD_SCKI             | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| MA_SDI              | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| MA_SCLK             | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| MA_nCS              | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| MA_nDCEN            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| MA_ZCEN             | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| RS232_DTR           | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| RS232_TX            | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_7    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_6    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_5    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_4    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_3    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_2    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_1    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_RIGHT_0    | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_7     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_6     | OUTPUT    | LVCMOS25  |            |            |
+
+                                    Page 5
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+IO (PIO) Attributes (cont)
+--------------------------
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_5     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_4     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_3     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_2     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_1     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| BARGRAPH_LEFT_0     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_7      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_6      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_5      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_4      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_3      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_2      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_1      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED4_0      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_7      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_6      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_5      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_4      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_3      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_2      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_1      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED3_0      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_7      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_6      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_5      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_4      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_3      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_2      | OUTPUT    | LVCMOS25  |            |            |
+
+                                    Page 6
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+IO (PIO) Attributes (cont)
+--------------------------
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_1      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED2_0      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_7      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_6      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_5      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_4      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_3      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_2      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| SEGMENT_LED1_1      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_GREEN_2      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_GREEN_1      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_GREEN_0      | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_YELLOW_2     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_YELLOW_1     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_YELLOW_0     | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_RED_2        | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+| STATUS_RED_1        | OUTPUT    | LVCMOS25  |            |            |
++---------------------+-----------+-----------+------------+------------+
+
+Removed logic
+-------------
+
+Signal sl_nreset_i was merged into signal sl_nreset
+Signal reset_gen_1/un5_vn_count_axbZ0Z_0 was merged into signal
+     reset_gen_1_un5_vn_count_i_0_32
+Signal reset_gen_1/un5_vn_count_axbZ0Z_1 was merged into signal
+     reset_gen_1_reset_count_vn_count_1
+Signal reset_gen_1/un5_vn_count_axbZ0Z_2 was merged into signal
+     reset_gen_1_reset_count_vn_count_2
+Signal reset_gen_1/un5_vn_count_axbZ0Z_3 was merged into signal
+     reset_gen_1_reset_count_vn_count_3
+Signal reset_gen_1/un5_vn_count_axbZ0Z_4 was merged into signal
+     reset_gen_1_reset_count_vn_count_4
+Signal reset_gen_1/un5_vn_count_axbZ0Z_5 was merged into signal
+     reset_gen_1_reset_count_vn_count_5
+Signal reset_gen_1/un5_vn_count_axbZ0Z_6 was merged into signal
+     reset_gen_1_reset_count_vn_count_6
+Signal reset_gen_1/un5_vn_count_axbZ0Z_7 was merged into signal
+     reset_gen_1_reset_count_vn_count_7
+
+                                    Page 7
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Removed logic (cont)
+--------------------
+Signal reset_gen_1/un5_vn_count_axbZ0Z_8 was merged into signal
+     reset_gen_1_reset_count_vn_count_8
+Signal reset_gen_1/un5_vn_count_axbZ0Z_9 was merged into signal
+     reset_gen_1_reset_count_vn_count_9
+Signal reset_gen_1/un5_vn_count_axbZ0Z_10 was merged into signal
+     reset_gen_1_reset_count_vn_count_10
+Signal reset_gen_1/un5_vn_count_axbZ0Z_11 was merged into signal
+     reset_gen_1_reset_count_vn_count_11
+Signal reset_gen_1/un5_vn_count_axbZ0Z_12 was merged into signal
+     reset_gen_1_reset_count_vn_count_12
+Signal reset_gen_1/un5_vn_count_axbZ0Z_13 was merged into signal
+     reset_gen_1_reset_count_vn_count_13
+Signal reset_gen_1/un5_vn_count_axbZ0Z_14 was merged into signal
+     reset_gen_1_reset_count_vn_count_14
+Signal reset_gen_1/un5_vn_count_axbZ0Z_15 was merged into signal
+     reset_gen_1_reset_count_vn_count_15
+Signal reset_gen_1/un5_vn_count_axbZ0Z_16 was merged into signal
+     reset_gen_1_reset_count_vn_count_16
+Signal reset_gen_1/un5_vn_count_axbZ0Z_17 was merged into signal
+     reset_gen_1_reset_count_vn_count_17
+Signal reset_gen_1/un5_vn_count_axbZ0Z_18 was merged into signal
+     reset_gen_1_reset_count_vn_count_18
+Signal reset_gen_1/un5_vn_count_axbZ0Z_19 was merged into signal
+     reset_gen_1_reset_count_vn_count_19
+Signal segment_decoder_1_OUTPUT_e_i was merged into signal
+     segment_decoder_1_OUTPUT_e_i_0
+Signal GNDZ0 undriven or does not drive anything - clipped.
+Signal clockgen_main_1/DDAODEL2_0 undriven or does not drive anything - clipped.
+Signal clockgen_main_1/DDAODEL1_0 undriven or does not drive anything - clipped.
+Signal clockgen_main_1/DDAODEL0_0 undriven or does not drive anything - clipped.
+Signal clockgen_main_1/DDAOLAG_0 undriven or does not drive anything - clipped.
+Signal clockgen_main_1/DDAOZR_0 undriven or does not drive anything - clipped.
+Signal clockgen_main_1/sl_clk_lock undriven or does not drive anything -
+     clipped.
+Signal clockgen_main_1/CLKOS_0 undriven or does not drive anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_2_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_4_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_6_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_8_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_10_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_12_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_14_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_16_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_18_0_COUT1 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_18_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal reset_gen_1/un5_vn_count_cry_0_0_S0 undriven or does not drive anything -
+
+                                    Page 8
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Removed logic (cont)
+--------------------
+     clipped.
+Signal reset_gen_1/un5_vn_count_cry_0_0_COUT0 undriven or does not drive
+     anything - clipped.
+Signal i2s_transmitter_1/vn_count_cry_0 undriven or does not drive anything -
+     clipped.
+Signal i2s_transmitter_1/vn_count_cry_2 undriven or does not drive anything -
+     clipped.
+Signal i2s_transmitter_1/NC1 undriven or does not drive anything - clipped.
+Signal i2s_transmitter_1/NC0 undriven or does not drive anything - clipped.
+Signal i2s_transmitter_1/vn_count_s_0_COUT0_4 undriven or does not drive
+     anything - clipped.
+Signal gain_control_1/vn_counter_cry_0 undriven or does not drive anything -
+     clipped.
+Signal gain_control_1/vn_counter_cry_2 undriven or does not drive anything -
+     clipped.
+Signal gain_control_1/NC1 undriven or does not drive anything - clipped.
+Signal gain_control_1/NC0 undriven or does not drive anything - clipped.
+Signal gain_control_1/vn_counter_s_0_COUT0_4 undriven or does not drive anything
+     - clipped.
+Block reset_gen_1/nRESET_sl_nreset_i was optimized away.
+Block reset_gen_1/un5_vn_count_axb_0 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_1 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_2 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_3 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_4 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_5 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_6 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_7 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_8 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_9 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_10 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_11 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_12 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_13 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_14 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_15 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_16 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_17 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_18 was optimized away.
+Block reset_gen_1/un5_vn_count_axb_19 was optimized away.
+Block segment_decoder_4/OUTPUT_e_iZ0 was optimized away.
+Block GND was optimized away.
+
+PLL/DLL Summary
+---------------
+
+PLL 1:                                     Pin/Node Value
+  PLL Instance Name:                                clockgen_main_1/PLLBInst_0
+  PLL Type:                                         EHXPLLB
+  Input Clock:                             PIN      CLK_c
+  Output Clock(P):                         NODE
+       clockgen_main_1/sl_clk_98m304
+  Output Clock(S):                                  NONE
+  Output Clock(K):                         PIN,NODE DA_SCKI_c
+  PLL Feedback Signal:                     NODE
+       clockgen_main_1/sl_clk_98m304
+
+                                    Page 9
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+PLL/DLL Summary (cont)
+----------------------
+  PLL Reset Signal:                                 NONE
+  PLL LOCK Signal:                                  NONE
+  Dynamic Delay Mode Signal:                        NONE
+  Dynamic Delay Zero Signal:                        NONE
+  Dynamic Delay Lag/Lead Select:                    NONE
+  Dynamic Delay 0:                                  NONE
+  Dynamic Delay 1:                                  NONE
+  Dynamic Delay 2:                                  NONE
+  Dynamic Delay Zero Output Signal:                 NONE
+  Dynamic Delay Lag/Lead Out Select:                NONE
+  Dynamic Delay 0 Output Signal:                    NONE
+  Dynamic Delay 1 Output Signal:                    NONE
+  Dynamic Delay 2 Output Signal:                    NONE
+  Input Clock Frequency (MHz):                      32.7680
+  Output Clock(P) Frequency (MHz):                  98.3040
+  Output Clock(K) Frequency (MHz):                  49.1520
+  CLKI Divider:                                     1
+  CLKFB Divider:                                    3
+  CLKOP Divider:                                    8
+  CLKOK Divider:                                    2
+  PLL Delay Factor (*250ps):                        0
+  CLKOS Phaseadj (degree):                          0
+  CLKOS Duty Cycle (*1/8):                          4
+  Delay Control:                                    STATIC
+  FB_MODE:                                          CLOCKTREE
+
+Symbol Cross Reference
+----------------------
+
+gain_control_1/SLICE_0 (PFU) covers blocks:
+     gain_control_1/proc_transmit_vn_counter_s_0_4
+gain_control_1/SLICE_1 (PFU) covers blocks:
+     gain_control_1/proc_transmit_vn_counter_cry_0_2
+gain_control_1/SLICE_2 (PFU) covers blocks:
+     gain_control_1/proc_transmit_vn_counter_cry_0_0
+i2s_transmitter_1/SLICE_3 (PFU) covers blocks:
+     i2s_transmitter_1/bck_gen_vn_count_4__Q,
+     i2s_transmitter_1/bck_gen_vn_count_s_0_4
+i2s_transmitter_1/SLICE_4 (PFU) covers blocks:
+     i2s_transmitter_1/bck_gen_vn_count_2__Q,
+     i2s_transmitter_1/bck_gen_vn_count_3__Q,
+     i2s_transmitter_1/bck_gen_vn_count_cry_0_2
+i2s_transmitter_1/SLICE_5 (PFU) covers blocks:
+     i2s_transmitter_1/bck_gen_vn_count_0__Q,
+     i2s_transmitter_1/bck_gen_vn_count_1__Q,
+     i2s_transmitter_1/bck_gen_vn_count_cry_0_0
+reset_gen_1/SLICE_6 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_0_0
+reset_gen_1/SLICE_7 (PFU) covers blocks: reset_gen_1/reset_count_vn_count_18__Q,
+     reset_gen_1/reset_count_vn_count_19__Q, reset_gen_1/un5_vn_count_cry_18_0
+reset_gen_1/SLICE_8 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_16_0
+reset_gen_1/SLICE_9 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_14_0
+reset_gen_1/SLICE_10 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_12_0
+reset_gen_1/SLICE_11 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_10_0
+reset_gen_1/SLICE_12 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_8_0
+reset_gen_1/SLICE_13 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_6_0
+reset_gen_1/SLICE_14 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_4_0
+
+                                   Page 10
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Symbol Cross Reference (cont)
+-----------------------------
+reset_gen_1/SLICE_15 (PFU) covers blocks: reset_gen_1/un5_vn_count_cry_2_0
+i2s_transmitter_1/SLICE_16 (PFU) covers blocks: i2s_transmitter_1/sl_bcke,
+     i2s_transmitter_1/bck_gen_un12_vn_count_2, i2s_transmitter_1/sl_bck_Q
+gain_control_1/SLICE_17 (PFU) covers blocks: gain_control_1/MA_SCLK_i,
+     gain_control_1/sl_toggle_sig_Q
+gain_control_1/SLICE_18 (PFU) covers blocks: gain_control_1/nCSe,
+     gain_control_1/nCSe_L3, gain_control_1/nCS_Q
+gain_control_1/SLICE_19 (PFU) covers blocks:
+     gain_control_1/proc_toggle_sig_cn_toggle_count_i_0,
+     gain_control_1/cn_toggle_count_3_1,
+     gain_control_1/proc_toggle_sig_cn_toggle_count_0__Q,
+     gain_control_1/proc_toggle_sig_cn_toggle_count_1__Q
+gain_control_1/SLICE_20 (PFU) covers blocks:
+     gain_control_1/un11_cn_toggle_count_1_N_14_i_i,
+     gain_control_1/proc_toggle_sig_un5_cn_toggle_count,
+     gain_control_1/proc_toggle_sig_cn_toggle_count_2__Q
+gain_control_1/SLICE_21 (PFU) covers blocks: gain_control_1/un1_sl_changed_1,
+     gain_control_1/proc_change_detect_vb_overload_changed_Q
+gain_control_1/SLICE_22 (PFU) covers blocks:
+     gain_control_1/proc_change_detect_vb_servo_changed_Q
+SLICE_23 (PFU) covers blocks: g0_i_m2_L3,
+     gain_control_1/proc_transmit_vl_last_toggle_Q
+gain_control_1/SLICE_24 (PFU) covers blocks:
+     gain_control_1/proc_transmit_vn_counter_lm_0_0,
+     gain_control_1/proc_transmit_vn_counter_lm_0_1,
+     gain_control_1/proc_transmit_vn_counter_0__Q,
+     gain_control_1/proc_transmit_vn_counter_1__Q
+gain_control_1/SLICE_25 (PFU) covers blocks:
+     gain_control_1/proc_transmit_vn_counter_lm_0_2,
+     gain_control_1/proc_transmit_vn_counter_lm_0_3,
+     gain_control_1/proc_transmit_vn_counter_2__Q,
+     gain_control_1/proc_transmit_vn_counter_3__Q
+SLICE_26 (PFU) covers blocks: gain_control_1/proc_transmit_vn_counter_lm_0_4,
+     g0_7, gain_control_1/proc_transmit_vn_counter_4__Q
+SLICE_27 (PFU) covers blocks: gain_control_1/N_62_i, g0_4,
+     gain_control_1/sl_changed_Q
+SLICE_28 (PFU) covers blocks: g0_i_m2, g0_i_m2_L5,
+     gain_control_1/sl_changed_ack_Q
+i2s_transmitter_1/SLICE_29 (PFU) covers blocks: i2s_transmitter_1/sl_synce,
+     i2s_transmitter_1/sl_sync_Q
+i2s_transmitter_1/SLICE_30 (PFU) covers blocks:
+     i2s_transmitter_1/lrck_gen_un6_sl_sync,
+     i2s_transmitter_1/lrck_gen_vl_sync_Q
+i2s_transmitter_1/SLICE_31 (PFU) covers blocks:
+     i2s_transmitter_1/lrck_gen_N_255_i_0_i, i2s_transmitter_1/lrck_gen_N_282_i,
+     i2s_transmitter_1/lrck_gen_vn_count_1__Q,
+     i2s_transmitter_1/lrck_gen_vn_count_2__Q
+i2s_transmitter_1/SLICE_32 (PFU) covers blocks:
+     i2s_transmitter_1/lrck_gen_vn_count_e0_0_x4,
+     i2s_transmitter_1/lrck_gen_vn_count_0__Q
+i2s_transmitter_1/SLICE_33 (PFU) covers blocks:
+     i2s_transmitter_1/lrck_gen_N_196_i, i2s_transmitter_1/sl_lrck_Q
+reset_gen_1/SLICE_34 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_1__Q_0,
+     reset_gen_1/reset_count_vn_count_2__Q_0,
+     reset_gen_1/reset_count_vn_count_1__Q,
+
+                                   Page 11
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Symbol Cross Reference (cont)
+-----------------------------
+     reset_gen_1/reset_count_vn_count_2__Q
+reset_gen_1/SLICE_35 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_3__Q_0,
+     reset_gen_1/reset_count_vn_count_4__Q_0,
+     reset_gen_1/reset_count_vn_count_3__Q,
+     reset_gen_1/reset_count_vn_count_4__Q
+reset_gen_1/SLICE_36 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_5__Q_0,
+     reset_gen_1/reset_count_vn_count_6__Q_0,
+     reset_gen_1/reset_count_vn_count_5__Q,
+     reset_gen_1/reset_count_vn_count_6__Q
+reset_gen_1/SLICE_37 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_7__Q_0,
+     reset_gen_1/reset_count_vn_count_8__Q_0,
+     reset_gen_1/reset_count_vn_count_7__Q,
+     reset_gen_1/reset_count_vn_count_8__Q
+reset_gen_1/SLICE_38 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_9__Q_0,
+     reset_gen_1/reset_count_vn_count_10__Q_0,
+     reset_gen_1/reset_count_vn_count_9__Q,
+     reset_gen_1/reset_count_vn_count_10__Q
+reset_gen_1/SLICE_39 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_11__Q_0,
+     reset_gen_1/reset_count_vn_count_12__Q_0,
+     reset_gen_1/reset_count_vn_count_11__Q,
+     reset_gen_1/reset_count_vn_count_12__Q
+reset_gen_1/SLICE_40 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_13__Q_0,
+     reset_gen_1/reset_count_vn_count_14__Q_0,
+     reset_gen_1/reset_count_vn_count_13__Q,
+     reset_gen_1/reset_count_vn_count_14__Q
+reset_gen_1/SLICE_41 (PFU) covers blocks:
+     reset_gen_1/reset_count_vn_count_15__Q_0,
+     reset_gen_1/reset_count_vn_count_16__Q_0,
+     reset_gen_1/reset_count_vn_count_15__Q,
+     reset_gen_1/reset_count_vn_count_16__Q
+SLICE_42 (PFU) covers blocks: reset_gen_1/reset_count_vn_count_17__Q_0, g0_11,
+     reset_gen_1/reset_count_vn_count_17__Q
+SLICE_43 (PFU) covers blocks: reset_gen_1/reset_count_vn_count_0__Q_0, g0_10,
+     reset_gen_1/reset_count_vn_count_0__Q
+SLICE_44 (PFU) covers blocks: segment_decoder_1/OUTPUT_e_i_0_iZ0,
+     segment_decoder_1/OUTPUT_e_ie
+reset_gen_1/SLICE_45 (PFU) covers blocks: reset_gen_1/nRESET_Q_0,
+     reset_gen_1/nRESETs_i, reset_gen_1/nRESET_Q
+i2s_transmitter_1/SLICE_46 (PFU) covers blocks:
+     i2s_transmitter_1/bck_gen_N_186_i, i2s_transmitter_1/bck_gen_un6_vn_count_1
+SLICE_47 (PFU) covers blocks: reset_gen_1/nRESETs_i_1, g0_12
+SLICE_48 (PFU) covers blocks: g0_8_0, g0_8_x1
+SLICE_49 (PFU) covers blocks: g0_x1, g0_13
+SLICE_50 (PFU) covers blocks: g0_2_0, g0_i_m2_L1
+gain_control_1/SLICE_51 (PFU) covers blocks: gain_control_1/nCSe_L1
+SLICE_52 (PFU) covers blocks: g0_14
+SLICE_53 (PFU) covers blocks: VCC
+SEGMENT_LED1_0 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_0
+STATUS_RED_0 (PIC/PIO) covers blocks: STATUS_RED_pad_0
+CLK (PIC/PIO) covers blocks: CLK_pad
+
+                                   Page 12
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Symbol Cross Reference (cont)
+-----------------------------
+PA_nEN (PIC/PIO) covers blocks: PA_nEN_pad
+DA_MUTE (PIC/PIO) covers blocks: DA_MUTE_pad
+DA_FMT_2 (PIC/PIO) covers blocks: DA_FMT_pad_2
+DA_FMT_1 (PIC/PIO) covers blocks: DA_FMT_pad_1
+DA_FMT_0 (PIC/PIO) covers blocks: DA_FMT_pad_0
+DA_DEMP_1 (PIC/PIO) covers blocks: DA_DEMP_pad_1
+DA_DEMP_0 (PIC/PIO) covers blocks: DA_DEMP_pad_0
+DA_nRST (PIC/PIO) covers blocks: DA_nRST_pad
+DA_DIN (PIC/PIO) covers blocks: DA_DIN_pad
+DA_BCK (PIC/PIO) covers blocks: DA_BCK_pad
+DA_LRCK (PIC/PIO) covers blocks: DA_LRCK_pad,
+     i2s_transmitter_1_shift_regs_and_output_vl_lrck_Qio
+DA_SCKI (PIC/PIO) covers blocks: DA_SCKI_pad
+AD_nPDWN (PIC/PIO) covers blocks: AD_nPDWN_pad
+AD_OSR (PIC/PIO) covers blocks: AD_OSR_pad
+AD_BYPAS (PIC/PIO) covers blocks: AD_BYPAS_pad
+AD_MODE_1 (PIC/PIO) covers blocks: AD_MODE_pad_1
+AD_MODE_0 (PIC/PIO) covers blocks: AD_MODE_pad_0
+AD_FMT_1 (PIC/PIO) covers blocks: AD_FMT_pad_1
+AD_FMT_0 (PIC/PIO) covers blocks: AD_FMT_pad_0
+AD_SCKI (PIC/PIO) covers blocks: AD_SCKI_pad
+MA_SDI (PIC/PIO) covers blocks: MA_SDI_pad
+MA_SCLK (PIC/PIO) covers blocks: MA_SCLK_pad
+MA_nCS (PIC/PIO) covers blocks: MA_nCS_pad
+MA_nDCEN (PIC/PIO) covers blocks: MA_nDCEN_pad
+MA_ZCEN (PIC/PIO) covers blocks: MA_ZCEN_pad
+RS232_DTR (PIC/PIO) covers blocks: RS232_DTR_pad
+RS232_TX (PIC/PIO) covers blocks: RS232_TX_pad
+BARGRAPH_RIGHT_7 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_7
+BARGRAPH_RIGHT_6 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_6
+BARGRAPH_RIGHT_5 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_5
+BARGRAPH_RIGHT_4 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_4
+BARGRAPH_RIGHT_3 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_3
+BARGRAPH_RIGHT_2 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_2
+BARGRAPH_RIGHT_1 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_1
+BARGRAPH_RIGHT_0 (PIC/PIO) covers blocks: BARGRAPH_RIGHT_pad_0
+BARGRAPH_LEFT_7 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_7
+BARGRAPH_LEFT_6 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_6
+BARGRAPH_LEFT_5 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_5
+BARGRAPH_LEFT_4 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_4
+BARGRAPH_LEFT_3 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_3
+BARGRAPH_LEFT_2 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_2
+BARGRAPH_LEFT_1 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_1
+BARGRAPH_LEFT_0 (PIC/PIO) covers blocks: BARGRAPH_LEFT_pad_0
+SEGMENT_LED4_7 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_7
+SEGMENT_LED4_6 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_6
+SEGMENT_LED4_5 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_5
+SEGMENT_LED4_4 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_4
+SEGMENT_LED4_3 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_3
+SEGMENT_LED4_2 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_2
+SEGMENT_LED4_1 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_1
+SEGMENT_LED4_0 (PIC/PIO) covers blocks: SEGMENT_LED4_pad_0
+SEGMENT_LED3_7 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_7
+SEGMENT_LED3_6 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_6
+SEGMENT_LED3_5 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_5
+SEGMENT_LED3_4 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_4
+
+                                   Page 13
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Symbol Cross Reference (cont)
+-----------------------------
+SEGMENT_LED3_3 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_3
+SEGMENT_LED3_2 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_2
+SEGMENT_LED3_1 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_1
+SEGMENT_LED3_0 (PIC/PIO) covers blocks: SEGMENT_LED3_pad_0
+SEGMENT_LED2_7 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_7
+SEGMENT_LED2_6 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_6
+SEGMENT_LED2_5 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_5
+SEGMENT_LED2_4 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_4
+SEGMENT_LED2_3 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_3
+SEGMENT_LED2_2 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_2
+SEGMENT_LED2_1 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_1
+SEGMENT_LED2_0 (PIC/PIO) covers blocks: SEGMENT_LED2_pad_0
+SEGMENT_LED1_7 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_7
+SEGMENT_LED1_6 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_6
+SEGMENT_LED1_5 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_5
+SEGMENT_LED1_4 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_4
+SEGMENT_LED1_3 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_3
+SEGMENT_LED1_2 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_2
+SEGMENT_LED1_1 (PIC/PIO) covers blocks: SEGMENT_LED1_pad_1
+STATUS_GREEN_2 (PIC/PIO) covers blocks: STATUS_GREEN_pad_2
+STATUS_GREEN_1 (PIC/PIO) covers blocks: STATUS_GREEN_pad_1
+STATUS_GREEN_0 (PIC/PIO) covers blocks: STATUS_GREEN_pad_0
+STATUS_YELLOW_2 (PIC/PIO) covers blocks: STATUS_YELLOW_pad_2
+STATUS_YELLOW_1 (PIC/PIO) covers blocks: STATUS_YELLOW_pad_1
+STATUS_YELLOW_0 (PIC/PIO) covers blocks: STATUS_YELLOW_pad_0
+STATUS_RED_2 (PIC/PIO) covers blocks: STATUS_RED_pad_2
+STATUS_RED_1 (PIC/PIO) covers blocks: STATUS_RED_pad_1
+GSR_INST (GSR) covers block: GSR_INST
+clockgen_main_1/PLLBInst_0 (EHXPLLB) covers block: clockgen_main_1/PLLBInst_0
+
+Signal Cross Reference
+----------------------
+
+Signal segment_decoder_1_OUTPUT_e_i_0 - Driver Comp: SLICE_44:O3
+   Load Comps: gain_control_1/SLICE_21:I1, gain_control_1/SLICE_22:I4,
+        SLICE_44:I6, SEGMENT_LED1_0:I2, BARGRAPH_RIGHT_7:I2,
+        BARGRAPH_RIGHT_6:I2, BARGRAPH_RIGHT_5:I2, BARGRAPH_RIGHT_4:I2,
+        BARGRAPH_RIGHT_3:I2, BARGRAPH_RIGHT_2:I2, BARGRAPH_RIGHT_1:I2,
+        BARGRAPH_RIGHT_0:I2, BARGRAPH_LEFT_7:I2, BARGRAPH_LEFT_6:I2,
+        BARGRAPH_LEFT_5:I2, BARGRAPH_LEFT_4:I2, BARGRAPH_LEFT_3:I2,
+        BARGRAPH_LEFT_2:I2, BARGRAPH_LEFT_1:I2, BARGRAPH_LEFT_0:I2,
+        SEGMENT_LED4_7:I2, SEGMENT_LED4_6:I2, SEGMENT_LED4_5:I2,
+        SEGMENT_LED4_4:I2, SEGMENT_LED4_3:I2, SEGMENT_LED4_2:I2,
+        SEGMENT_LED4_1:I2, SEGMENT_LED4_0:I2, SEGMENT_LED3_7:I2,
+        SEGMENT_LED3_6:I2, SEGMENT_LED3_5:I2, SEGMENT_LED3_4:I2,
+        SEGMENT_LED3_3:I2, SEGMENT_LED3_2:I2, SEGMENT_LED3_1:I2,
+        SEGMENT_LED3_0:I2, SEGMENT_LED2_7:I2, SEGMENT_LED2_6:I2,
+        SEGMENT_LED2_5:I2, SEGMENT_LED2_4:I2, SEGMENT_LED2_3:I2,
+        SEGMENT_LED2_2:I2, SEGMENT_LED2_1:I2, SEGMENT_LED2_0:I2,
+        SEGMENT_LED1_7:I2, SEGMENT_LED1_6:I2, SEGMENT_LED1_5:I2,
+        SEGMENT_LED1_4:I2, SEGMENT_LED1_3:I2, SEGMENT_LED1_2:I2,
+        SEGMENT_LED1_1:I2
+Signal CLK_c - Driver Comp: CLK:O0
+   Load Comps: reset_gen_1/SLICE_7:I15, reset_gen_1/SLICE_34:I15,
+        reset_gen_1/SLICE_35:I15, reset_gen_1/SLICE_36:I15,
+        reset_gen_1/SLICE_37:I15, reset_gen_1/SLICE_38:I15,
+
+                                   Page 14
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+        reset_gen_1/SLICE_39:I15, reset_gen_1/SLICE_40:I15,
+        reset_gen_1/SLICE_41:I15, SLICE_42:I15, SLICE_43:I15,
+        reset_gen_1/SLICE_45:I15, clockgen_main_1/PLLBInst_0:CLKI
+Signal i2s_transmitter_1_sl_lrck - Driver Comp: i2s_transmitter_1/SLICE_33:O3
+   Load Comps: i2s_transmitter_1/SLICE_33:I3, DA_LRCK_MGIOL:I8
+Signal un6_sl_sync - Driver Comp: i2s_transmitter_1/SLICE_30:O0
+   Load Comps: i2s_transmitter_1/SLICE_31:I14, i2s_transmitter_1/SLICE_33:I14,
+        DA_LRCK_MGIOL:I3
+Signal DA_SCKI_c - Driver Comp: clockgen_main_1/PLLBInst_0:CLKOK
+   Load Comps: i2s_transmitter_1/SLICE_3:I15, i2s_transmitter_1/SLICE_4:I15,
+        i2s_transmitter_1/SLICE_5:I15, i2s_transmitter_1/SLICE_16:I15,
+        gain_control_1/SLICE_17:I15, gain_control_1/SLICE_18:I15,
+        gain_control_1/SLICE_19:I15, gain_control_1/SLICE_20:I15,
+        gain_control_1/SLICE_21:I15, gain_control_1/SLICE_22:I15, SLICE_23:I15,
+        gain_control_1/SLICE_24:I15, gain_control_1/SLICE_25:I15, SLICE_26:I15,
+        SLICE_27:I15, SLICE_28:I15, i2s_transmitter_1/SLICE_29:I15,
+        i2s_transmitter_1/SLICE_30:I15, i2s_transmitter_1/SLICE_31:I15,
+        i2s_transmitter_1/SLICE_32:I15, i2s_transmitter_1/SLICE_33:I15,
+        SLICE_44:I15, DA_LRCK_MGIOL:I2, DA_SCKI:I0, AD_SCKI:I0
+Signal DA_LRCK_c - Driver Comp: DA_LRCK_MGIOL:O0
+   Load Comps: DA_LRCK:I1
+Signal reset_gen_1_reset_count_vn_count_1 - Driver Comp: reset_gen_1/SLICE_34:O3
+   Load Comps: reset_gen_1/SLICE_6:I6, SLICE_43:I6
+Signal reset_gen_1_reset_count_vn_count_3 - Driver Comp: reset_gen_1/SLICE_35:O3
+   Load Comps: reset_gen_1/SLICE_15:I6, SLICE_43:I7
+Signal reset_gen_1_reset_count_vn_count_4 - Driver Comp: reset_gen_1/SLICE_35:O4
+   Load Comps: reset_gen_1/SLICE_14:I0, SLICE_43:I8
+Signal reset_gen_1_reset_count_vn_count_19 - Driver Comp: reset_gen_1/SLICE_7:O4
+   Load Comps: reset_gen_1/SLICE_7:I6, SLICE_43:I9
+Signal g0Z0Z_10 - Driver Comp: SLICE_43:O1
+   Load Comps: reset_gen_1/SLICE_34:I2, reset_gen_1/SLICE_34:I8,
+        reset_gen_1/SLICE_35:I2, reset_gen_1/SLICE_35:I8,
+        reset_gen_1/SLICE_36:I2, reset_gen_1/SLICE_36:I8,
+        reset_gen_1/SLICE_37:I2, reset_gen_1/SLICE_37:I8,
+        reset_gen_1/SLICE_38:I2, reset_gen_1/SLICE_38:I8,
+        reset_gen_1/SLICE_39:I2, reset_gen_1/SLICE_39:I8,
+        reset_gen_1/SLICE_40:I2, reset_gen_1/SLICE_40:I8,
+        reset_gen_1/SLICE_41:I2, reset_gen_1/SLICE_41:I8, SLICE_42:I2,
+        SLICE_43:I2, reset_gen_1/SLICE_45:I7
+Signal sl_nreset - Driver Comp: reset_gen_1/SLICE_45:O3
+   Load Comps: gain_control_1/SLICE_17:I16, gain_control_1/SLICE_19:I16,
+        gain_control_1/SLICE_20:I16, gain_control_1/SLICE_21:I14,
+        gain_control_1/SLICE_22:I14, SLICE_23:I2, SLICE_23:I14, SLICE_27:I9,
+        SLICE_27:I14, GSR_INST:GSR
+Signal segment_decoder_1_OUTPUT_e_i_0_i - Driver Comp: SLICE_44:O1
+   Load Comps: BARGRAPH_RIGHT_7:I0, BARGRAPH_RIGHT_6:I0, BARGRAPH_RIGHT_5:I0,
+        BARGRAPH_RIGHT_4:I0, BARGRAPH_RIGHT_3:I0, BARGRAPH_RIGHT_2:I0,
+        BARGRAPH_RIGHT_1:I0, BARGRAPH_RIGHT_0:I0, BARGRAPH_LEFT_7:I0,
+        BARGRAPH_LEFT_6:I0, BARGRAPH_LEFT_5:I0, BARGRAPH_LEFT_4:I0,
+        BARGRAPH_LEFT_3:I0, BARGRAPH_LEFT_2:I0, BARGRAPH_LEFT_1:I0,
+        BARGRAPH_LEFT_0:I0, SEGMENT_LED4_7:I0, SEGMENT_LED4_6:I0,
+        SEGMENT_LED3_7:I0, SEGMENT_LED3_6:I0, SEGMENT_LED2_7:I0,
+        SEGMENT_LED2_6:I0, SEGMENT_LED1_7:I0, SEGMENT_LED1_6:I0
+Signal gain_control_1/cn_toggle_count_3Z0Z_1 - Driver Comp:
+     gain_control_1/SLICE_19:O1
+   Load Comps: gain_control_1/SLICE_19:I13
+
+                                   Page 15
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+Signal gain_control_1/cn_toggle_count_1 - Driver Comp:
+     gain_control_1/SLICE_19:O4
+   Load Comps: gain_control_1/SLICE_19:I6, gain_control_1/SLICE_20:I1,
+        gain_control_1/SLICE_20:I7
+Signal gain_control_1/cn_toggle_count_i_0 - Driver Comp:
+     gain_control_1/SLICE_19:O0
+   Load Comps: gain_control_1/SLICE_19:I12
+Signal gain_control_1/cn_toggle_count_0 - Driver Comp:
+     gain_control_1/SLICE_19:O3
+   Load Comps: gain_control_1/SLICE_19:I0, gain_control_1/SLICE_19:I7,
+        gain_control_1/SLICE_20:I0, gain_control_1/SLICE_20:I6
+Signal gain_control_1/MA_SCLK_iZ0 - Driver Comp: gain_control_1/SLICE_17:O0
+   Load Comps: gain_control_1/SLICE_17:I12
+Signal gain_control_1/un5_cn_toggle_count - Driver Comp:
+     gain_control_1/SLICE_20:O1
+   Load Comps: gain_control_1/SLICE_17:I14
+Signal MA_SCLK_c - Driver Comp: gain_control_1/SLICE_17:O3
+   Load Comps: gain_control_1/SLICE_17:I0, SLICE_23:I0, SLICE_23:I4,
+        SLICE_27:I6, MA_SCLK:I0
+Signal gain_control_1/cn_toggle_count_2 - Driver Comp:
+     gain_control_1/SLICE_20:O3
+   Load Comps: gain_control_1/SLICE_19:I8, gain_control_1/SLICE_20:I2,
+        gain_control_1/SLICE_20:I8
+Signal gain_control_1_sl_changed_acke_0 - Driver Comp: SLICE_28:O0
+   Load Comps: SLICE_28:I12
+Signal gain_control_1_sl_changed_ack - Driver Comp: SLICE_28:O3
+   Load Comps: SLICE_27:I3, SLICE_28:I9
+Signal gain_control_1/N_62_iZ0 - Driver Comp: SLICE_27:O0
+   Load Comps: SLICE_27:I12
+Signal gain_control_1_sl_changed - Driver Comp: SLICE_27:O3
+   Load Comps: gain_control_1/SLICE_21:I0, gain_control_1/SLICE_24:I2,
+        gain_control_1/SLICE_24:I8, gain_control_1/SLICE_25:I3,
+        gain_control_1/SLICE_25:I8, SLICE_26:I3, SLICE_27:I2, SLICE_27:I8,
+        SLICE_28:I3
+Signal gain_control_1/vn_counter_lm_4 - Driver Comp: SLICE_26:O0
+   Load Comps: SLICE_26:I12
+Signal g0_i_m2_LZ0Z3 - Driver Comp: SLICE_23:O0
+   Load Comps: gain_control_1/SLICE_24:I14, gain_control_1/SLICE_25:I14,
+        SLICE_26:I14, SLICE_28:I0, SLICE_28:I7
+Signal gain_control_1_proc_transmit_vn_counter_4 - Driver Comp: SLICE_26:O3
+   Load Comps: gain_control_1/SLICE_0:I0, SLICE_26:I9, SLICE_48:I9, SLICE_50:I8,
+        gain_control_1/SLICE_51:I3
+Signal gain_control_1/vn_counter_lm_3 - Driver Comp: gain_control_1/SLICE_25:O1
+   Load Comps: gain_control_1/SLICE_25:I13
+Signal gain_control_1_proc_transmit_vn_counter_3 - Driver Comp:
+     gain_control_1/SLICE_25:O4
+   Load Comps: gain_control_1/SLICE_1:I6, SLICE_26:I8, SLICE_48:I8, SLICE_50:I7,
+        gain_control_1/SLICE_51:I2
+Signal gain_control_1/vn_counter_lm_2 - Driver Comp: gain_control_1/SLICE_25:O0
+   Load Comps: gain_control_1/SLICE_25:I12
+Signal gain_control_1_proc_transmit_vn_counter_2 - Driver Comp:
+     gain_control_1/SLICE_25:O3
+   Load Comps: gain_control_1/SLICE_1:I0, SLICE_48:I7, SLICE_50:I1,
+        gain_control_1/SLICE_51:I1
+Signal gain_control_1/vn_counter_lm_1 - Driver Comp: gain_control_1/SLICE_24:O1
+   Load Comps: gain_control_1/SLICE_24:I13
+
+                                   Page 16
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+Signal gain_control_1_proc_transmit_vn_counter_1 - Driver Comp:
+     gain_control_1/SLICE_24:O4
+   Load Comps: gain_control_1/SLICE_2:I6, SLICE_48:I6, SLICE_50:I0,
+        gain_control_1/SLICE_51:I0
+Signal gain_control_1/vn_counter_lm_0 - Driver Comp: gain_control_1/SLICE_24:O0
+   Load Comps: gain_control_1/SLICE_24:I12
+Signal gain_control_1_proc_transmit_vn_counter_0 - Driver Comp:
+     gain_control_1/SLICE_24:O3
+   Load Comps: gain_control_1/SLICE_2:I0, gain_control_1/SLICE_18:I8,
+        SLICE_26:I7, SLICE_48:I1, SLICE_50:I6
+Signal gain_control_1_proc_transmit_vl_last_toggle - Driver Comp: SLICE_23:O3
+   Load Comps: SLICE_23:I1, SLICE_27:I7
+Signal gain_control_1/N_14_i_i - Driver Comp: gain_control_1/SLICE_20:O0
+   Load Comps: gain_control_1/SLICE_20:I12
+Signal gain_control_1/vb_servo_changed - Driver Comp: gain_control_1/SLICE_22:O3
+   Load Comps: SLICE_27:I1
+Signal gain_control_1/un1_sl_changedZ0Z_1 - Driver Comp:
+     gain_control_1/SLICE_21:O0
+   Load Comps: gain_control_1/SLICE_21:I12
+Signal gain_control_1/vb_overload_changed - Driver Comp:
+     gain_control_1/SLICE_21:O3
+   Load Comps: SLICE_27:I0
+Signal gain_control_1/nCSe_0 - Driver Comp: gain_control_1/SLICE_18:O0
+   Load Comps: gain_control_1/SLICE_18:I12
+Signal MA_nCS_c - Driver Comp: gain_control_1/SLICE_18:O3
+   Load Comps: gain_control_1/SLICE_18:I0, gain_control_1/SLICE_18:I6, MA_nCS:I0
+Signal gain_control_1/vn_counter_cry_3 - Driver Comp: gain_control_1/SLICE_1:O6
+   Load Comps: gain_control_1/SLICE_0:I17
+Signal gain_control_1/vn_counter_s_4 - Driver Comp:
+   Load Comps: gain_control_1/SLICE_0:O3, SLICE_26:I2
+Signal gain_control_1/vn_counter_cry_1 - Driver Comp: gain_control_1/SLICE_2:O6
+   Load Comps: gain_control_1/SLICE_1:I17
+Signal gain_control_1/vn_counter_s_2 - Driver Comp:
+   Load Comps: gain_control_1/SLICE_1:O3, gain_control_1/SLICE_25:I2
+Signal gain_control_1/vn_counter_s_3 - Driver Comp:
+   Load Comps: gain_control_1/SLICE_1:O4, gain_control_1/SLICE_25:I7
+Signal VCCZ0 - Driver Comp: SLICE_53:O0
+   Load Comps: i2s_transmitter_1/SLICE_3:I1, i2s_transmitter_1/SLICE_4:I1,
+        i2s_transmitter_1/SLICE_4:I7, i2s_transmitter_1/SLICE_5:I1,
+        i2s_transmitter_1/SLICE_5:I7, MA_ZCEN:I0
+Signal gain_control_1/vn_counter_s_0 - Driver Comp:
+   Load Comps: gain_control_1/SLICE_2:O3, gain_control_1/SLICE_24:I1
+Signal gain_control_1/vn_counter_s_1 - Driver Comp:
+   Load Comps: gain_control_1/SLICE_2:O4, gain_control_1/SLICE_24:I7
+Signal gain_control_1/nCSe_LZ0Z1 - Driver Comp: gain_control_1/SLICE_51:O0
+   Load Comps: gain_control_1/SLICE_18:I1
+Signal gain_control_1/nCSe_LZ0Z3 - Driver Comp: gain_control_1/SLICE_18:O1
+   Load Comps: gain_control_1/SLICE_18:I2
+Signal gain_control_1_proc_transmit_un9_vl_last_toggle - Driver Comp:
+     SLICE_48:O0
+   Load Comps: gain_control_1/SLICE_18:I3, SLICE_28:I2
+Signal gain_control_1_nCS_0_sqmuxa_1 - Driver Comp: SLICE_27:O1
+   Load Comps: gain_control_1/SLICE_18:I7, gain_control_1/SLICE_25:I0,
+        SLICE_26:I0
+Signal gain_control_1_proc_transmit_un16_vl_last_toggle - Driver Comp:
+     SLICE_26:O1
+
+                                   Page 17
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+   Load Comps: gain_control_1/SLICE_24:I0, gain_control_1/SLICE_24:I6,
+        gain_control_1/SLICE_25:I1, gain_control_1/SLICE_25:I6, SLICE_26:I1
+Signal i2s_transmitter_1/N_255_i_0_i - Driver Comp:
+     i2s_transmitter_1/SLICE_31:O0
+   Load Comps: i2s_transmitter_1/SLICE_31:I12
+Signal i2s_transmitter_1/vn_count_1 - Driver Comp: i2s_transmitter_1/SLICE_31:O3
+   Load Comps: i2s_transmitter_1/SLICE_31:I1, i2s_transmitter_1/SLICE_31:I7,
+        i2s_transmitter_1/SLICE_33:I1
+Signal i2s_transmitter_1/vn_count_0_0 - Driver Comp:
+     i2s_transmitter_1/SLICE_32:O3
+   Load Comps: i2s_transmitter_1/SLICE_31:I0, i2s_transmitter_1/SLICE_31:I6,
+        i2s_transmitter_1/SLICE_32:I0, i2s_transmitter_1/SLICE_33:I0
+Signal i2s_transmitter_1/sl_sync - Driver Comp: i2s_transmitter_1/SLICE_29:O3
+   Load Comps: i2s_transmitter_1/SLICE_29:I0, i2s_transmitter_1/SLICE_30:I1,
+        i2s_transmitter_1/SLICE_30:I4, i2s_transmitter_1/SLICE_32:I1
+Signal i2s_transmitter_1/vl_sync - Driver Comp: i2s_transmitter_1/SLICE_30:O3
+   Load Comps: i2s_transmitter_1/SLICE_30:I0, i2s_transmitter_1/SLICE_32:I2
+Signal i2s_transmitter_1/N_254_i_0 - Driver Comp: i2s_transmitter_1/SLICE_32:O0
+   Load Comps: i2s_transmitter_1/SLICE_32:I12
+Signal i2s_transmitter_1/sl_synce_0 - Driver Comp: i2s_transmitter_1/SLICE_29:O0
+   Load Comps: i2s_transmitter_1/SLICE_29:I12
+Signal i2s_transmitter_1/N_196_i - Driver Comp: i2s_transmitter_1/SLICE_33:O0
+   Load Comps: i2s_transmitter_1/SLICE_33:I12
+Signal i2s_transmitter_1/sl_bcke_0 - Driver Comp: i2s_transmitter_1/SLICE_16:O0
+   Load Comps: i2s_transmitter_1/SLICE_16:I12
+Signal DA_BCK_c - Driver Comp: i2s_transmitter_1/SLICE_16:O3
+   Load Comps: i2s_transmitter_1/SLICE_16:I0, DA_BCK:I0
+Signal i2s_transmitter_1/N_282_i - Driver Comp: i2s_transmitter_1/SLICE_31:O1
+   Load Comps: i2s_transmitter_1/SLICE_31:I13
+Signal i2s_transmitter_1/vn_count_2 - Driver Comp: i2s_transmitter_1/SLICE_31:O4
+   Load Comps: i2s_transmitter_1/SLICE_31:I8, i2s_transmitter_1/SLICE_33:I2
+Signal i2s_transmitter_1/vn_count_4 - Driver Comp: i2s_transmitter_1/SLICE_3:O3
+   Load Comps: i2s_transmitter_1/SLICE_3:I0, i2s_transmitter_1/SLICE_16:I8,
+        i2s_transmitter_1/SLICE_46:I9
+Signal i2s_transmitter_1/vn_count_3 - Driver Comp: i2s_transmitter_1/SLICE_4:O4
+   Load Comps: i2s_transmitter_1/SLICE_4:I6, i2s_transmitter_1/SLICE_46:I3,
+        i2s_transmitter_1/SLICE_46:I8
+Signal i2s_transmitter_1/vn_count_0_2 - Driver Comp:
+     i2s_transmitter_1/SLICE_4:O3
+   Load Comps: i2s_transmitter_1/SLICE_4:I0, i2s_transmitter_1/SLICE_16:I7,
+        i2s_transmitter_1/SLICE_46:I7
+Signal i2s_transmitter_1/vn_count_0_1 - Driver Comp:
+     i2s_transmitter_1/SLICE_5:O4
+   Load Comps: i2s_transmitter_1/SLICE_5:I6, i2s_transmitter_1/SLICE_16:I6,
+        i2s_transmitter_1/SLICE_46:I6
+Signal i2s_transmitter_1/vn_count_0 - Driver Comp: i2s_transmitter_1/SLICE_5:O3
+   Load Comps: i2s_transmitter_1/SLICE_5:I0, i2s_transmitter_1/SLICE_16:I2,
+        i2s_transmitter_1/SLICE_29:I1, i2s_transmitter_1/SLICE_46:I2
+Signal i2s_transmitter_1/vn_count_cry_3 - Driver Comp:
+     i2s_transmitter_1/SLICE_4:O6
+   Load Comps: i2s_transmitter_1/SLICE_3:I17
+Signal i2s_transmitter_1/vn_count_cry_1 - Driver Comp:
+     i2s_transmitter_1/SLICE_5:O6
+   Load Comps: i2s_transmitter_1/SLICE_4:I17
+Signal i2s_transmitter_1/un6_vn_count_1 - Driver Comp:
+     i2s_transmitter_1/SLICE_46:O1
+
+                                   Page 18
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+   Load Comps: i2s_transmitter_1/SLICE_29:I2, i2s_transmitter_1/SLICE_46:I0
+Signal i2s_transmitter_1/N_186_i - Driver Comp: i2s_transmitter_1/SLICE_46:O0
+   Load Comps: i2s_transmitter_1/SLICE_16:I1
+Signal i2s_transmitter_1/un12_vn_count_2 - Driver Comp:
+     i2s_transmitter_1/SLICE_16:O1
+   Load Comps: i2s_transmitter_1/SLICE_46:I1
+Signal reset_gen_1/un5_vn_count_cry_0_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_6:O6
+   Load Comps: reset_gen_1/SLICE_15:I17
+Signal reset_gen_1/un5_vn_count_cry_0_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_6:O4, reset_gen_1/SLICE_34:I0
+Signal reset_gen_1/Q_0_16 - Driver Comp: reset_gen_1/SLICE_45:O0
+   Load Comps: reset_gen_1/SLICE_45:I12
+Signal reset_gen_1/un5_vn_count_cry_8_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_12:O3, reset_gen_1/SLICE_37:I6
+Signal g0Z0Z_11 - Driver Comp: SLICE_42:O1
+   Load Comps: reset_gen_1/SLICE_34:I1, reset_gen_1/SLICE_34:I7,
+        reset_gen_1/SLICE_35:I1, reset_gen_1/SLICE_35:I7,
+        reset_gen_1/SLICE_36:I1, reset_gen_1/SLICE_36:I7,
+        reset_gen_1/SLICE_37:I1, reset_gen_1/SLICE_37:I7,
+        reset_gen_1/SLICE_38:I1, reset_gen_1/SLICE_38:I7,
+        reset_gen_1/SLICE_39:I1, reset_gen_1/SLICE_39:I7,
+        reset_gen_1/SLICE_40:I1, reset_gen_1/SLICE_40:I7,
+        reset_gen_1/SLICE_41:I1, reset_gen_1/SLICE_41:I7, SLICE_42:I1,
+        SLICE_43:I1, reset_gen_1/SLICE_45:I8
+Signal g0_xZ0Z1 - Driver Comp: SLICE_49:O0
+   Load Comps: reset_gen_1/SLICE_34:I3, reset_gen_1/SLICE_34:I9,
+        reset_gen_1/SLICE_35:I3, reset_gen_1/SLICE_35:I9,
+        reset_gen_1/SLICE_36:I3, reset_gen_1/SLICE_36:I9,
+        reset_gen_1/SLICE_37:I3, reset_gen_1/SLICE_37:I9,
+        reset_gen_1/SLICE_38:I3, reset_gen_1/SLICE_38:I9,
+        reset_gen_1/SLICE_39:I3, reset_gen_1/SLICE_39:I9,
+        reset_gen_1/SLICE_40:I3, reset_gen_1/SLICE_40:I9,
+        reset_gen_1/SLICE_41:I3, reset_gen_1/SLICE_41:I9, SLICE_42:I3,
+        SLICE_43:I3
+Signal reset_gen_1/Q_0_15 - Driver Comp: reset_gen_1/SLICE_37:O1
+   Load Comps: reset_gen_1/SLICE_37:I13
+Signal reset_gen_1/un5_vn_count_cry_8_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_12:O4, reset_gen_1/SLICE_38:I0
+Signal reset_gen_1/Q_0_14 - Driver Comp: reset_gen_1/SLICE_38:O0
+   Load Comps: reset_gen_1/SLICE_38:I12
+Signal reset_gen_1/un5_vn_count_cry_10_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_11:O3, reset_gen_1/SLICE_38:I6
+Signal reset_gen_1/Q_0_13 - Driver Comp: reset_gen_1/SLICE_38:O1
+   Load Comps: reset_gen_1/SLICE_38:I13
+Signal reset_gen_1/un5_vn_count_cry_10_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_11:O4, reset_gen_1/SLICE_39:I0
+Signal reset_gen_1/Q_0_12 - Driver Comp: reset_gen_1/SLICE_39:O0
+   Load Comps: reset_gen_1/SLICE_39:I12
+Signal reset_gen_1/un5_vn_count_cry_12_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_10:O3, reset_gen_1/SLICE_39:I6
+Signal reset_gen_1/Q_0_11 - Driver Comp: reset_gen_1/SLICE_39:O1
+   Load Comps: reset_gen_1/SLICE_39:I13
+Signal reset_gen_1/un5_vn_count_cry_12_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_10:O4, reset_gen_1/SLICE_40:I0
+Signal reset_gen_1/Q_0_10 - Driver Comp: reset_gen_1/SLICE_40:O0
+
+                                   Page 19
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+   Load Comps: reset_gen_1/SLICE_40:I12
+Signal reset_gen_1/un5_vn_count_cry_14_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_9:O3, reset_gen_1/SLICE_40:I6
+Signal reset_gen_1/Q_0_9 - Driver Comp: reset_gen_1/SLICE_40:O1
+   Load Comps: reset_gen_1/SLICE_40:I13
+Signal reset_gen_1/un5_vn_count_cry_14_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_9:O4, reset_gen_1/SLICE_41:I0
+Signal reset_gen_1/Q_0_8 - Driver Comp: reset_gen_1/SLICE_41:O0
+   Load Comps: reset_gen_1/SLICE_41:I12
+Signal reset_gen_1/un5_vn_count_cry_16_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_8:O3, reset_gen_1/SLICE_41:I6
+Signal reset_gen_1/Q_0_7 - Driver Comp: reset_gen_1/SLICE_41:O1
+   Load Comps: reset_gen_1/SLICE_41:I13
+Signal reset_gen_1_un5_vn_count_i_0_32 - Driver Comp: SLICE_43:O3
+   Load Comps: reset_gen_1/SLICE_6:I0, SLICE_43:I0, reset_gen_1/SLICE_45:I0,
+        SLICE_52:I3
+Signal reset_gen_1/Q_0_6 - Driver Comp: SLICE_43:O0
+   Load Comps: SLICE_43:I12
+Signal reset_gen_1/Q_0_5 - Driver Comp: reset_gen_1/SLICE_34:O0
+   Load Comps: reset_gen_1/SLICE_34:I12
+Signal reset_gen_1/un5_vn_count_cry_2_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_15:O3, reset_gen_1/SLICE_34:I6
+Signal reset_gen_1/Q_0_4 - Driver Comp: reset_gen_1/SLICE_34:O1
+   Load Comps: reset_gen_1/SLICE_34:I13
+Signal reset_gen_1/un5_vn_count_cry_2_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_15:O4, reset_gen_1/SLICE_35:I0
+Signal reset_gen_1/Q_0_3 - Driver Comp: reset_gen_1/SLICE_35:O0
+   Load Comps: reset_gen_1/SLICE_35:I12
+Signal reset_gen_1/un5_vn_count_cry_4_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_14:O3, reset_gen_1/SLICE_35:I6
+Signal reset_gen_1/Q_0_2 - Driver Comp: reset_gen_1/SLICE_35:O1
+   Load Comps: reset_gen_1/SLICE_35:I13
+Signal reset_gen_1/un5_vn_count_cry_4_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_14:O4, reset_gen_1/SLICE_36:I0
+Signal reset_gen_1/Q_0_1 - Driver Comp: reset_gen_1/SLICE_36:O0
+   Load Comps: reset_gen_1/SLICE_36:I12
+Signal reset_gen_1/un5_vn_count_cry_6_0_S0 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_13:O3, reset_gen_1/SLICE_36:I6
+Signal reset_gen_1/Q_0_0 - Driver Comp: reset_gen_1/SLICE_36:O1
+   Load Comps: reset_gen_1/SLICE_36:I13
+Signal reset_gen_1/un5_vn_count_cry_6_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_13:O4, reset_gen_1/SLICE_37:I0
+Signal reset_gen_1/Q_0 - Driver Comp: reset_gen_1/SLICE_37:O0
+   Load Comps: reset_gen_1/SLICE_37:I12
+Signal reset_gen_1/un5_vn_count_cry_16_0_S1 - Driver Comp:
+   Load Comps: reset_gen_1/SLICE_8:O4, SLICE_42:I0
+Signal reset_gen_1/Q_0_17 - Driver Comp: SLICE_42:O0
+   Load Comps: SLICE_42:I12
+Signal reset_gen_1/nRESETs_iZ0 - Driver Comp: reset_gen_1/SLICE_45:O1
+   Load Comps: reset_gen_1/SLICE_45:I1
+Signal reset_gen_1_reset_count_vn_count_9 - Driver Comp: reset_gen_1/SLICE_38:O3
+   Load Comps: reset_gen_1/SLICE_12:I6, SLICE_47:I7
+Signal reset_gen_1_reset_count_vn_count_8 - Driver Comp: reset_gen_1/SLICE_37:O4
+   Load Comps: reset_gen_1/SLICE_12:I0, SLICE_49:I6
+Signal reset_gen_1_reset_count_vn_count_7 - Driver Comp: reset_gen_1/SLICE_37:O3
+   Load Comps: reset_gen_1/SLICE_13:I6, SLICE_42:I8
+
+                                   Page 20
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+Signal reset_gen_1_reset_count_vn_count_6 - Driver Comp: reset_gen_1/SLICE_36:O4
+   Load Comps: reset_gen_1/SLICE_13:I0, SLICE_47:I6
+Signal reset_gen_1_reset_count_vn_count_5 - Driver Comp: reset_gen_1/SLICE_36:O3
+   Load Comps: reset_gen_1/SLICE_14:I6, SLICE_42:I7
+Signal reset_gen_1_reset_count_vn_count_2 - Driver Comp: reset_gen_1/SLICE_34:O4
+   Load Comps: reset_gen_1/SLICE_15:I0, SLICE_42:I6
+Signal reset_gen_1_reset_count_vn_count_18 - Driver Comp: reset_gen_1/SLICE_7:O3
+   Load Comps: reset_gen_1/SLICE_7:I0, SLICE_49:I9
+Signal reset_gen_1_reset_count_vn_count_17 - Driver Comp: SLICE_42:O3
+   Load Comps: reset_gen_1/SLICE_8:I6, reset_gen_1/SLICE_45:I9, SLICE_52:I2
+Signal reset_gen_1_reset_count_vn_count_16 - Driver Comp:
+     reset_gen_1/SLICE_41:O4
+   Load Comps: reset_gen_1/SLICE_8:I0, SLICE_42:I9
+Signal reset_gen_1_reset_count_vn_count_15 - Driver Comp:
+     reset_gen_1/SLICE_41:O3
+   Load Comps: reset_gen_1/SLICE_9:I6, SLICE_47:I3, SLICE_52:I1
+Signal reset_gen_1_reset_count_vn_count_14 - Driver Comp:
+     reset_gen_1/SLICE_40:O4
+   Load Comps: reset_gen_1/SLICE_9:I0, SLICE_47:I2, SLICE_52:I0
+Signal reset_gen_1_reset_count_vn_count_13 - Driver Comp:
+     reset_gen_1/SLICE_40:O3
+   Load Comps: reset_gen_1/SLICE_10:I6, SLICE_49:I8
+Signal reset_gen_1_reset_count_vn_count_12 - Driver Comp:
+     reset_gen_1/SLICE_39:O4
+   Load Comps: reset_gen_1/SLICE_10:I0, SLICE_47:I9
+Signal reset_gen_1_reset_count_vn_count_11 - Driver Comp:
+     reset_gen_1/SLICE_39:O3
+   Load Comps: reset_gen_1/SLICE_11:I6, SLICE_47:I8
+Signal reset_gen_1_reset_count_vn_count_10 - Driver Comp:
+     reset_gen_1/SLICE_38:O4
+   Load Comps: reset_gen_1/SLICE_11:I0, SLICE_49:I7
+Signal reset_gen_1/un5_vn_count_cry_16_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_8:O6
+   Load Comps: reset_gen_1/SLICE_7:I17
+Signal reset_gen_1/un5_vn_count_cry_14_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_9:O6
+   Load Comps: reset_gen_1/SLICE_8:I17
+Signal reset_gen_1/un5_vn_count_cry_12_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_10:O6
+   Load Comps: reset_gen_1/SLICE_9:I17
+Signal reset_gen_1/un5_vn_count_cry_10_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_11:O6
+   Load Comps: reset_gen_1/SLICE_10:I17
+Signal reset_gen_1/un5_vn_count_cry_8_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_12:O6
+   Load Comps: reset_gen_1/SLICE_11:I17
+Signal reset_gen_1/un5_vn_count_cry_6_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_13:O6
+   Load Comps: reset_gen_1/SLICE_12:I17
+Signal reset_gen_1/un5_vn_count_cry_4_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_14:O6
+   Load Comps: reset_gen_1/SLICE_13:I17
+Signal reset_gen_1/un5_vn_count_cry_2_0_COUT1 - Driver Comp:
+     reset_gen_1/SLICE_15:O6
+   Load Comps: reset_gen_1/SLICE_14:I17
+Signal reset_gen_1/nRESETs_iZ0Z_1 - Driver Comp: SLICE_47:O0
+
+                                   Page 21
+
+
+
+
+Design:  toplevel                                      Date:  11/27/06  02:59:58
+
+Signal Cross Reference (cont)
+-----------------------------
+   Load Comps: reset_gen_1/SLICE_45:I6
+Signal g0Z0Z_12 - Driver Comp: SLICE_47:O1
+   Load Comps: SLICE_47:I0, SLICE_49:I0
+Signal g0Z0Z_13 - Driver Comp: SLICE_49:O1
+   Load Comps: SLICE_47:I1, SLICE_49:I1
+Signal clockgen_main_1/sl_clk_98m304 - Driver Comp:
+     clockgen_main_1/PLLBInst_0:CLKOP
+   Load Comps: clockgen_main_1/PLLBInst_0:CLKFB
+Signal g0_i_m2_LZ0Z5 - Driver Comp: SLICE_28:O1
+   Load Comps: SLICE_28:I1
+Signal g0_8_xZ0Z1 - Driver Comp: SLICE_48:O1
+   Load Comps: SLICE_48:I0
+Signal g0_i_m2_LZ0Z1 - Driver Comp: SLICE_50:O1
+   Load Comps: SLICE_28:I6
+Signal g0_2Z0Z_0 - Driver Comp: SLICE_50:O0
+   Load Comps: SLICE_26:I6, SLICE_28:I8
+Signal g0Z0Z_14 - Driver Comp: SLICE_52:O0
+   Load Comps: SLICE_49:I2
+Signal GNDZ0\000/BUF0 - Driver Comp: SLICE_44:O0
+   Load Comps: SLICE_44:I12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   Page 22
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995
+     AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent
+     Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems
+     All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor
+     Corporation,  All rights reserved.

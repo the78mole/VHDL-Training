@@ -1,0 +1,4759 @@
+//
+// Written by Synplify
+// Synplify 8.4.0.p, Build 075R.
+// Mon Nov 27 02:44:27 2006
+//
+// Source file index table:
+// Object locations will have the form <file>:<line>
+// file 0 "noname"
+// file 1 "noname"
+// file 2 "\c:\isptools6_0_strt\synpbase\lib\vhd\std.vhd "
+// file 3 "\c:\isptools6_0_strt\ispcpld\..\cae_library\synthesis\vhdl\ecp.vhd "
+// file 4 "\c:\isptools6_0_strt\synpbase\lib\vhd\std1164.vhd "
+// file 5 "\p:\slcnge~o\isplever\packages\my_funcs.vhd "
+// file 6 "\p:\slcnge~o\isplever\02dky1~n\bandpass.vhd "
+// file 7 "\c:\isptools6_0_strt\synpbase\lib\vhd\arith.vhd "
+// file 8 "\c:\isptools6_0_strt\synpbase\lib\vhd\signed.vhd "
+// file 9 "\c:\isptools6_0_strt\synpbase\lib\vhd\numeric.vhd "
+// file 10 "\c:\isptools6_0_strt\synpbase\lib\vhd\math_real.vhd "
+
+`timescale 100 ps/100 ps
+module OFS1P3DX (
+  D,
+  SP,
+  SCLK,
+  CD,
+  Q,
+  GSR
+);
+input D ;
+input SP ;
+input SCLK ;
+input CD ;
+output Q ;
+input GSR ;
+wire D ;
+wire SP ;
+wire SCLK ;
+wire CD ;
+wire Q ;
+wire GSR ;
+wire gsrn ;
+wire clr ;
+wire m ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  assign #(1)  clr = (CD  | gsrn );
+  assign #(1)  m = ((!SP & Q ) | 
+	(SP & D ) | 
+	(Q & D ));
+  reg Q_r_e_g; // dffr
+  always @(posedge SCLK or posedge clr ) Q_r_e_g = #1 clr ? 1'b0 : m ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+endmodule /* OFS1P3DX */
+
+module VLO (
+  Z
+);
+output Z ;
+wire Z ;
+wire GND ;
+wire VCC ;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+assign Z = GND;
+endmodule /* VLO */
+
+module VHI (
+  Z
+);
+output Z ;
+wire Z ;
+wire VCC ;
+wire GND ;
+  assign VCC = 1'b1;
+  assign GND = 1'b0;
+assign Z = VCC;
+endmodule /* VHI */
+
+module INV (
+  A,
+  Z
+);
+input A ;
+output Z ;
+wire A ;
+wire Z ;
+wire GND ;
+wire VCC ;
+  assign #(1)  Z = ~ A;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+endmodule /* INV */
+
+module OB (
+  I,
+  O
+);
+input I ;
+output O ;
+wire I ;
+wire O ;
+wire GND ;
+wire VCC ;
+  assign #(1)  O = I;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+endmodule /* OB */
+
+module IB (
+  I,
+  O
+);
+input I ;
+output O ;
+wire I ;
+wire O ;
+wire GND ;
+wire VCC ;
+  assign #(1)  O = I;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+endmodule /* IB */
+
+module FD1P3AX (
+  D,
+  SP,
+  CK,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input SP ;
+input CK ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire SP ;
+wire CK ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire m ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  assign #(1)  m = ((!SP & Q ) | 
+	(SP & D ) | 
+	(Q & D ));
+  reg Q_r_e_g; // dffr
+  always @(posedge CK or posedge gsrn ) Q_r_e_g = #1 gsrn ? 1'b0 : m ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+endmodule /* FD1P3AX */
+
+module FD1S3AX (
+  D,
+  CK,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input CK ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire CK ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  reg Q_r_e_g; // dffr
+  always @(posedge CK or posedge gsrn ) Q_r_e_g = #1 gsrn ? 1'b0 : D ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+endmodule /* FD1S3AX */
+
+module bandpass (
+  CLK_IN,
+  CE,
+  nRESET,
+  DATA_IN,
+  DATA_OUT
+);
+input CLK_IN ;
+input CE ;
+input nRESET ;
+input [7:0] DATA_IN ;
+output [7:0] DATA_OUT ;
+wire CLK_IN ;
+wire CE ;
+wire nRESET ;
+wire [7:0] si_whole_scaled;
+wire [7:0] \proc_filter.vai_pipe_6 ;
+wire [7:0] \proc_filter.vai_pipe_0 ;
+wire [14:2] sai_prod_sum_0;
+wire [14:2] sai_prod_1;
+wire [7:0] \proc_filter.vai_pipe_7 ;
+wire [7:0] \proc_filter.vai_pipe_1_2 ;
+wire [18:1] sai_prod_sum_sum_1;
+wire [17:1] sai_prod_sum_2;
+wire [18:1] sai_prod_sum_sum_0;
+wire [17:2] sai_prod_sum_3;
+wire [17:1] sai_prod_sum_1;
+wire [7:0] \proc_filter.vai_pipe_14 ;
+wire [7:0] \proc_filter.vai_pipe_7_2 ;
+wire [19:1] si_whole_sum;
+wire [7:0] \proc_filter.vai_pipe_13_2 ;
+wire [16:1] sai_prod_3;
+wire [15:1] sai_prod_2;
+wire [16:1] sai_prod_5;
+wire [16:1] sai_prod_4;
+wire [16:2] sai_prod_7;
+wire [16:2] sai_prod_6;
+wire [7:0] DATA_IN_c;
+wire [7:0] DATA_OUT_c;
+wire VCC ;
+wire GND ;
+wire un4_si_whole_scaled_s_18_0_S0_0 ;
+wire g1_4 ;
+wire g1_5 ;
+wire N_737_i ;
+wire un8_si_whole_scaled_axb0_0 ;
+wire N_731_i ;
+wire N_732_i ;
+wire N_734_i ;
+wire N_735_i ;
+wire un25_sai_prod_sum_sum_cry_4_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_6_0_S0_0 ;
+wire un25_sai_prod_sum_sum_cry_6_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_8_0_S0_0 ;
+wire un25_sai_prod_sum_sum_cry_8_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_10_0_S0_0 ;
+wire un25_sai_prod_sum_sum_cry_10_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_12_0_S0_0 ;
+wire un25_sai_prod_sum_sum_cry_12_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_14_0_S0_0 ;
+wire un25_sai_prod_sum_sum_cry_14_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_16_0_S0_0 ;
+wire un25_sai_prod_sum_sum_cry_16_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_0_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_2_0_S0_0 ;
+wire un25_sai_prod_sum_sum_cry_2_0_S1_0 ;
+wire un25_sai_prod_sum_sum_cry_4_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_10_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_12_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_12_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_14_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_14_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_16_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_16_0_S1_0 ;
+wire un16_sai_prod_sum_sum_s_18_0_S0_0 ;
+wire un43_sai_prod_sum_cry_13_0_S0_0 ;
+wire un43_sai_prod_sum_cry_13_0_S1_0 ;
+wire un43_sai_prod_sum_cry_15_0_S0_0 ;
+wire un43_sai_prod_sum_cry_15_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_2_0_S0 ;
+wire un16_sai_prod_sum_sum_cry_2_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_4_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_4_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_6_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_6_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_8_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_8_0_S1_0 ;
+wire un16_sai_prod_sum_sum_cry_10_0_S0_0 ;
+wire un34_sai_prod_sum_cry_15_0_S1_0 ;
+wire un34_sai_prod_sum_s_17_0_S0_0 ;
+wire un43_sai_prod_sum_cry_1_0_S0 ;
+wire un43_sai_prod_sum_cry_1_0_S1_0 ;
+wire un43_sai_prod_sum_cry_3_0_S0_0 ;
+wire un43_sai_prod_sum_cry_3_0_S1_0 ;
+wire un43_sai_prod_sum_cry_5_0_S0_0 ;
+wire un43_sai_prod_sum_cry_5_0_S1_0 ;
+wire un43_sai_prod_sum_cry_7_0_S0_0 ;
+wire un43_sai_prod_sum_cry_7_0_S1_0 ;
+wire un43_sai_prod_sum_cry_9_0_S0_0 ;
+wire un43_sai_prod_sum_cry_9_0_S1_0 ;
+wire un43_sai_prod_sum_cry_11_0_S0_0 ;
+wire un43_sai_prod_sum_cry_11_0_S1_0 ;
+wire un34_sai_prod_sum_cry_1_0_S0 ;
+wire un34_sai_prod_sum_cry_1_0_S1_0 ;
+wire un34_sai_prod_sum_cry_3_0_S0_0 ;
+wire un34_sai_prod_sum_cry_3_0_S1_0 ;
+wire un34_sai_prod_sum_cry_5_0_S0_0 ;
+wire un34_sai_prod_sum_cry_5_0_S1_0 ;
+wire un34_sai_prod_sum_cry_7_0_S0_0 ;
+wire un34_sai_prod_sum_cry_7_0_S1_0 ;
+wire un34_sai_prod_sum_cry_9_0_S0_0 ;
+wire un34_sai_prod_sum_cry_9_0_S1_0 ;
+wire un34_sai_prod_sum_cry_11_0_S0_0 ;
+wire un34_sai_prod_sum_cry_11_0_S1_0 ;
+wire un34_sai_prod_sum_cry_13_0_S0_0 ;
+wire un34_sai_prod_sum_cry_13_0_S1_0 ;
+wire un34_sai_prod_sum_cry_15_0_S0_0 ;
+wire un25_sai_prod_sum_cry_3_0_S1_0 ;
+wire un25_sai_prod_sum_cry_5_0_S0_0 ;
+wire un25_sai_prod_sum_cry_5_0_S1_0 ;
+wire un25_sai_prod_sum_cry_7_0_S0_0 ;
+wire un25_sai_prod_sum_cry_7_0_S1_0 ;
+wire un25_sai_prod_sum_cry_9_0_S0_0 ;
+wire un25_sai_prod_sum_cry_9_0_S1_0 ;
+wire un25_sai_prod_sum_cry_11_0_S0_0 ;
+wire un25_sai_prod_sum_cry_11_0_S1_0 ;
+wire un25_sai_prod_sum_cry_13_0_S0_0 ;
+wire un25_sai_prod_sum_cry_13_0_S1_0 ;
+wire un25_sai_prod_sum_cry_15_0_S0_0 ;
+wire un25_sai_prod_sum_cry_15_0_S1_0 ;
+wire un25_sai_prod_sum_s_17_0_S0_0 ;
+wire un25_sai_prod_sum_cry_1_0_S0 ;
+wire un25_sai_prod_sum_cry_1_0_S1_0 ;
+wire un25_sai_prod_sum_cry_3_0_S0_0 ;
+wire un9_vi_whole_sum_cry_10_0_S1_0 ;
+wire un9_vi_whole_sum_cry_12_0_S0_0 ;
+wire un9_vi_whole_sum_cry_12_0_S1_0 ;
+wire un9_vi_whole_sum_cry_14_0_S0_0 ;
+wire un9_vi_whole_sum_cry_14_0_S1_0 ;
+wire un9_vi_whole_sum_cry_16_0_S0_0 ;
+wire un9_vi_whole_sum_cry_16_0_S1_0 ;
+wire un9_vi_whole_sum_cry_18_0_S0_0 ;
+wire un9_vi_whole_sum_cry_18_0_S1_0 ;
+wire un9_vi_whole_sum_cry_0_0_S1_0 ;
+wire un9_vi_whole_sum_cry_2_0_S0_0 ;
+wire un9_vi_whole_sum_cry_2_0_S1_0 ;
+wire un9_vi_whole_sum_cry_4_0_S0_0 ;
+wire un9_vi_whole_sum_cry_4_0_S1_0 ;
+wire un9_vi_whole_sum_cry_6_0_S0_0 ;
+wire un9_vi_whole_sum_cry_6_0_S1_0 ;
+wire un9_vi_whole_sum_cry_8_0_S0_0 ;
+wire un9_vi_whole_sum_cry_8_0_S1_0 ;
+wire un9_vi_whole_sum_cry_10_0_S0_0 ;
+wire g0_0_4 ;
+wire g0_0 ;
+wire un4_si_whole_scaled_cry_14_0_S0_0 ;
+wire un4_si_whole_scaled_cry_14_0_S1_0 ;
+wire un4_si_whole_scaled_cry_16_0_S1_0 ;
+wire un4_si_whole_scaled_cry_10_0_S1_0 ;
+wire un4_si_whole_scaled_cry_12_0_S0_0 ;
+wire un4_si_whole_scaled_cry_12_0_S1_0 ;
+wire un4_si_whole_scaled_cry_16_0_S0_0 ;
+wire g0_1 ;
+wire un25_sai_prod_sum_sum_cry_0_sf_0 ;
+wire un51_sai_pipe_sum_cry_6_0_COUT1 ;
+wire un51_sai_pipe_sum_s_8_0_COUT0_0 ;
+wire NC0 ;
+wire un51_sai_pipe_sum_s_8_0_S0_0 ;
+wire NC1 ;
+wire un51_sai_pipe_sum_cry_4_0_COUT1 ;
+wire un51_sai_pipe_sum_cry_6_0_COUT0 ;
+wire un51_sai_pipe_sum_cry_6_0_S0_0 ;
+wire un51_sai_pipe_sum_cry_6_0_S1_0 ;
+wire un51_sai_pipe_sum_cry_2_0_COUT1 ;
+wire un51_sai_pipe_sum_cry_4_0_COUT0 ;
+wire un51_sai_pipe_sum_cry_4_0_S0_0 ;
+wire un51_sai_pipe_sum_cry_4_0_S1_0 ;
+wire un51_sai_pipe_sum_cry_0_0_COUT1 ;
+wire un51_sai_pipe_sum_cry_2_0_COUT0 ;
+wire un51_sai_pipe_sum_cry_2_0_S0_0 ;
+wire un51_sai_pipe_sum_cry_2_0_S1_0 ;
+wire un51_sai_pipe_sum_cry_0_0_COUT0 ;
+wire un51_sai_pipe_sum_cry_0_0_S0 ;
+wire un51_sai_pipe_sum_cry_0_0_S1_0 ;
+wire un42_sai_pipe_sum_cry_6_0_COUT1 ;
+wire un42_sai_pipe_sum_s_8_0_COUT0_0 ;
+wire NC2 ;
+wire un42_sai_pipe_sum_s_8_0_S0_0 ;
+wire NC3 ;
+wire un42_sai_pipe_sum_cry_4_0_COUT1 ;
+wire un42_sai_pipe_sum_cry_6_0_COUT0 ;
+wire un42_sai_pipe_sum_cry_6_0_S0_0 ;
+wire un42_sai_pipe_sum_cry_6_0_S1_0 ;
+wire un42_sai_pipe_sum_cry_2_0_COUT1 ;
+wire un42_sai_pipe_sum_cry_4_0_COUT0 ;
+wire un42_sai_pipe_sum_cry_4_0_S0_0 ;
+wire un42_sai_pipe_sum_cry_4_0_S1_0 ;
+wire un42_sai_pipe_sum_cry_0_0_COUT1 ;
+wire un42_sai_pipe_sum_cry_2_0_COUT0 ;
+wire un42_sai_pipe_sum_cry_2_0_S0_0 ;
+wire un42_sai_pipe_sum_cry_2_0_S1_0 ;
+wire un42_sai_pipe_sum_cry_0_0_COUT0 ;
+wire un42_sai_pipe_sum_cry_0_0_S0 ;
+wire un42_sai_pipe_sum_cry_0_0_S1_0 ;
+wire un4_si_whole_scaled_cry_16_0_COUT1 ;
+wire un4_si_whole_scaled_s_18_0_COUT0_0 ;
+wire NC4 ;
+wire NC5 ;
+wire un4_si_whole_scaled_cry_14_0_COUT1 ;
+wire un4_si_whole_scaled_cry_16_0_COUT0 ;
+wire un4_si_whole_scaled_cry_12_0_COUT1 ;
+wire un4_si_whole_scaled_cry_14_0_COUT0 ;
+wire un4_si_whole_scaled_cry_10_0_COUT1 ;
+wire un4_si_whole_scaled_cry_12_0_COUT0 ;
+wire un4_si_whole_scaled_cry_8_0_COUT1 ;
+wire un4_si_whole_scaled_cry_10_0_COUT0 ;
+wire un4_si_whole_scaled_cry_10_0_S0_0 ;
+wire un4_si_whole_scaled_cry_6_0_COUT1 ;
+wire un4_si_whole_scaled_cry_8_0_COUT0 ;
+wire un4_si_whole_scaled_cry_8_0_S0_0 ;
+wire un4_si_whole_scaled_cry_8_0_S1_0 ;
+wire un4_si_whole_scaled_cry_4_0_COUT1 ;
+wire un4_si_whole_scaled_cry_6_0_COUT0 ;
+wire un4_si_whole_scaled_cry_6_0_S0_0 ;
+wire un4_si_whole_scaled_cry_6_0_S1_0 ;
+wire un4_si_whole_scaled_cry_2_0_COUT1 ;
+wire un4_si_whole_scaled_cry_4_0_COUT0 ;
+wire un4_si_whole_scaled_cry_4_0_S0_0 ;
+wire un4_si_whole_scaled_cry_4_0_S1_0 ;
+wire un4_si_whole_scaled_cry_0_0_COUT1 ;
+wire un4_si_whole_scaled_cry_2_0_COUT0 ;
+wire un4_si_whole_scaled_cry_2_0_S0_0 ;
+wire un4_si_whole_scaled_cry_2_0_S1_0 ;
+wire un4_si_whole_scaled_cry_0_0_COUT0 ;
+wire un4_si_whole_scaled_cry_0_0_S0_0 ;
+wire un4_si_whole_scaled_cry_0_0_S1_0 ;
+wire un25_sai_prod_sum_cry_15_0_COUT1 ;
+wire un25_sai_prod_sum_s_17_0_COUT0_0 ;
+wire NC6 ;
+wire NC7 ;
+wire un25_sai_prod_sum_cry_13_0_COUT1 ;
+wire un25_sai_prod_sum_cry_15_0_COUT0 ;
+wire un25_sai_prod_sum_cry_11_0_COUT1 ;
+wire un25_sai_prod_sum_cry_13_0_COUT0 ;
+wire un25_sai_prod_sum_cry_9_0_COUT1 ;
+wire un25_sai_prod_sum_cry_11_0_COUT0 ;
+wire un25_sai_prod_sum_cry_7_0_COUT1 ;
+wire un25_sai_prod_sum_cry_9_0_COUT0 ;
+wire un25_sai_prod_sum_cry_5_0_COUT1 ;
+wire un25_sai_prod_sum_cry_7_0_COUT0 ;
+wire un25_sai_prod_sum_cry_3_0_COUT1 ;
+wire un25_sai_prod_sum_cry_5_0_COUT0 ;
+wire un25_sai_prod_sum_cry_1_0_COUT1 ;
+wire un25_sai_prod_sum_cry_3_0_COUT0 ;
+wire un25_sai_prod_sum_cry_1_0_COUT0 ;
+wire un34_sai_prod_sum_cry_15_0_COUT1 ;
+wire un34_sai_prod_sum_s_17_0_COUT0_0 ;
+wire NC8 ;
+wire NC9 ;
+wire un34_sai_prod_sum_cry_13_0_COUT1 ;
+wire un34_sai_prod_sum_cry_15_0_COUT0 ;
+wire un34_sai_prod_sum_cry_11_0_COUT1 ;
+wire un34_sai_prod_sum_cry_13_0_COUT0 ;
+wire un34_sai_prod_sum_cry_9_0_COUT1 ;
+wire un34_sai_prod_sum_cry_11_0_COUT0 ;
+wire un34_sai_prod_sum_cry_7_0_COUT1 ;
+wire un34_sai_prod_sum_cry_9_0_COUT0 ;
+wire un34_sai_prod_sum_cry_5_0_COUT1 ;
+wire un34_sai_prod_sum_cry_7_0_COUT0 ;
+wire un34_sai_prod_sum_cry_3_0_COUT1 ;
+wire un34_sai_prod_sum_cry_5_0_COUT0 ;
+wire un34_sai_prod_sum_cry_1_0_COUT1 ;
+wire un34_sai_prod_sum_cry_3_0_COUT0 ;
+wire un34_sai_prod_sum_cry_1_0_COUT0 ;
+wire un43_sai_prod_sum_cry_13_0_COUT1 ;
+wire un43_sai_prod_sum_cry_15_0_COUT0 ;
+wire un43_sai_prod_sum_cry_15_0_COUT1_0 ;
+wire un43_sai_prod_sum_cry_11_0_COUT1 ;
+wire un43_sai_prod_sum_cry_13_0_COUT0 ;
+wire un43_sai_prod_sum_cry_9_0_COUT1 ;
+wire un43_sai_prod_sum_cry_11_0_COUT0 ;
+wire un43_sai_prod_sum_cry_7_0_COUT1 ;
+wire un43_sai_prod_sum_cry_9_0_COUT0 ;
+wire un43_sai_prod_sum_cry_5_0_COUT1 ;
+wire un43_sai_prod_sum_cry_7_0_COUT0 ;
+wire un43_sai_prod_sum_cry_3_0_COUT1 ;
+wire un43_sai_prod_sum_cry_5_0_COUT0 ;
+wire un43_sai_prod_sum_cry_1_0_COUT1 ;
+wire un43_sai_prod_sum_cry_3_0_COUT0 ;
+wire un43_sai_prod_sum_cry_1_0_COUT0 ;
+wire un9_vi_whole_sum_cry_16_0_COUT1 ;
+wire un9_vi_whole_sum_cry_18_0_COUT0 ;
+wire un9_vi_whole_sum_cry_18_0_COUT1_0 ;
+wire un9_vi_whole_sum_cry_14_0_COUT1 ;
+wire un9_vi_whole_sum_cry_16_0_COUT0 ;
+wire un9_vi_whole_sum_cry_12_0_COUT1 ;
+wire un9_vi_whole_sum_cry_14_0_COUT0 ;
+wire un9_vi_whole_sum_cry_10_0_COUT1 ;
+wire un9_vi_whole_sum_cry_12_0_COUT0 ;
+wire un9_vi_whole_sum_cry_8_0_COUT1 ;
+wire un9_vi_whole_sum_cry_10_0_COUT0 ;
+wire un9_vi_whole_sum_cry_6_0_COUT1 ;
+wire un9_vi_whole_sum_cry_8_0_COUT0 ;
+wire un9_vi_whole_sum_cry_4_0_COUT1 ;
+wire un9_vi_whole_sum_cry_6_0_COUT0 ;
+wire un9_vi_whole_sum_cry_2_0_COUT1 ;
+wire un9_vi_whole_sum_cry_4_0_COUT0 ;
+wire un9_vi_whole_sum_cry_0_0_COUT1 ;
+wire un9_vi_whole_sum_cry_2_0_COUT0 ;
+wire un9_vi_whole_sum_cry_0_0_COUT0 ;
+wire un9_vi_whole_sum_cry_0_0_S0_0 ;
+wire un16_sai_prod_sum_sum_cry_16_0_COUT1 ;
+wire un16_sai_prod_sum_sum_s_18_0_COUT0_0 ;
+wire NC10 ;
+wire NC11 ;
+wire un16_sai_prod_sum_sum_cry_14_0_COUT1 ;
+wire un16_sai_prod_sum_sum_cry_16_0_COUT0 ;
+wire un16_sai_prod_sum_sum_cry_12_0_COUT1 ;
+wire un16_sai_prod_sum_sum_cry_14_0_COUT0 ;
+wire un16_sai_prod_sum_sum_cry_10_0_COUT1 ;
+wire un16_sai_prod_sum_sum_cry_12_0_COUT0 ;
+wire un16_sai_prod_sum_sum_cry_8_0_COUT1 ;
+wire un16_sai_prod_sum_sum_cry_10_0_COUT0 ;
+wire un16_sai_prod_sum_sum_cry_6_0_COUT1 ;
+wire un16_sai_prod_sum_sum_cry_8_0_COUT0 ;
+wire un16_sai_prod_sum_sum_cry_4_0_COUT1 ;
+wire un16_sai_prod_sum_sum_cry_6_0_COUT0 ;
+wire un16_sai_prod_sum_sum_cry_2_0_COUT1 ;
+wire un16_sai_prod_sum_sum_cry_4_0_COUT0 ;
+wire un16_sai_prod_sum_sum_cry_2_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_14_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_16_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_16_0_COUT1_0 ;
+wire un25_sai_prod_sum_sum_cry_12_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_14_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_10_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_12_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_8_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_10_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_6_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_8_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_4_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_6_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_2_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_4_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_0_0_COUT1 ;
+wire un25_sai_prod_sum_sum_cry_2_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_0_0_COUT0 ;
+wire un25_sai_prod_sum_sum_cry_0_0_S0_0 ;
+wire N_742 ;
+wire N_741 ;
+wire N_740 ;
+wire un8_P17_0 ;
+wire un8_P16_0 ;
+wire un8_SROA8_0 ;
+wire un8_SROA7_0 ;
+wire un8_SROA6_0 ;
+wire un8_SROA5_0 ;
+wire un8_SROA4_0 ;
+wire un8_SROA3_0 ;
+wire un8_SROA2_0 ;
+wire un8_SROA1_0 ;
+wire un8_SROA0_0 ;
+wire un8_SROB8_0 ;
+wire un8_SROB7_0 ;
+wire un8_SROB6_0 ;
+wire un8_SROB5_0 ;
+wire un8_SROB4_0 ;
+wire un8_SROB3_0 ;
+wire un8_SROB2_0 ;
+wire un8_SROB1_0 ;
+wire un8_SROB0_0 ;
+wire un7_P17_0 ;
+wire un7_P16_0 ;
+wire un7_SROA8_0 ;
+wire un7_SROA7_0 ;
+wire un7_SROA6_0 ;
+wire un7_SROA5_0 ;
+wire un7_SROA4_0 ;
+wire un7_SROA3_0 ;
+wire un7_SROA2_0 ;
+wire un7_SROA1_0 ;
+wire un7_SROA0_0 ;
+wire un7_SROB8_0 ;
+wire un7_SROB7_0 ;
+wire un7_SROB6_0 ;
+wire un7_SROB5_0 ;
+wire un7_SROB4_0 ;
+wire un7_SROB3_0 ;
+wire un7_SROB2_0 ;
+wire un7_SROB1_0 ;
+wire un7_SROB0_0 ;
+wire un1_sai_pipe_sum_7_P17_0 ;
+wire un1_sai_pipe_sum_7_P16_0 ;
+wire un1_sai_pipe_sum_7_P15_0 ;
+wire un1_sai_pipe_sum_7_SROA8_0 ;
+wire un1_sai_pipe_sum_7_SROA7_0 ;
+wire un1_sai_pipe_sum_7_SROA6_0 ;
+wire un1_sai_pipe_sum_7_SROA5_0 ;
+wire un1_sai_pipe_sum_7_SROA4_0 ;
+wire un1_sai_pipe_sum_7_SROA3_0 ;
+wire un1_sai_pipe_sum_7_SROA2_0 ;
+wire un1_sai_pipe_sum_7_SROA1_0 ;
+wire un1_sai_pipe_sum_7_SROA0_0 ;
+wire un1_sai_pipe_sum_7_SROB8_0 ;
+wire un1_sai_pipe_sum_7_SROB7_0 ;
+wire un1_sai_pipe_sum_7_SROB6_0 ;
+wire un1_sai_pipe_sum_7_SROB5_0 ;
+wire un1_sai_pipe_sum_7_SROB4_0 ;
+wire un1_sai_pipe_sum_7_SROB3_0 ;
+wire un1_sai_pipe_sum_7_SROB2_0 ;
+wire un1_sai_pipe_sum_7_SROB1_0 ;
+wire un1_sai_pipe_sum_7_SROB0_0 ;
+wire un1_sai_pipe_sum_6_P17_0 ;
+wire un1_sai_pipe_sum_6_P16_0 ;
+wire un1_sai_pipe_sum_6_P15_0 ;
+wire un1_sai_pipe_sum_6_SROA8_0 ;
+wire un1_sai_pipe_sum_6_SROA7_0 ;
+wire un1_sai_pipe_sum_6_SROA6_0 ;
+wire un1_sai_pipe_sum_6_SROA5_0 ;
+wire un1_sai_pipe_sum_6_SROA4_0 ;
+wire un1_sai_pipe_sum_6_SROA3_0 ;
+wire un1_sai_pipe_sum_6_SROA2_0 ;
+wire un1_sai_pipe_sum_6_SROA1_0 ;
+wire un1_sai_pipe_sum_6_SROA0_0 ;
+wire un1_sai_pipe_sum_6_SROB8_0 ;
+wire un1_sai_pipe_sum_6_SROB7_0 ;
+wire un1_sai_pipe_sum_6_SROB6_0 ;
+wire un1_sai_pipe_sum_6_SROB5_0 ;
+wire un1_sai_pipe_sum_6_SROB4_0 ;
+wire un1_sai_pipe_sum_6_SROB3_0 ;
+wire un1_sai_pipe_sum_6_SROB2_0 ;
+wire un1_sai_pipe_sum_6_SROB1_0 ;
+wire un1_sai_pipe_sum_6_SROB0_0 ;
+wire un1_sai_pipe_sum_3_P17_0 ;
+wire un1_sai_pipe_sum_3_P16_0 ;
+wire un1_sai_pipe_sum_3_P15_0 ;
+wire un1_sai_pipe_sum_3_SROA8_0 ;
+wire un1_sai_pipe_sum_3_SROA7_0 ;
+wire un1_sai_pipe_sum_3_SROA6_0 ;
+wire un1_sai_pipe_sum_3_SROA5_0 ;
+wire un1_sai_pipe_sum_3_SROA4_0 ;
+wire un1_sai_pipe_sum_3_SROA3_0 ;
+wire un1_sai_pipe_sum_3_SROA2_0 ;
+wire un1_sai_pipe_sum_3_SROA1_0 ;
+wire un1_sai_pipe_sum_3_SROA0_0 ;
+wire un1_sai_pipe_sum_3_SROB8_0 ;
+wire un1_sai_pipe_sum_3_SROB7_0 ;
+wire un1_sai_pipe_sum_3_SROB6_0 ;
+wire un1_sai_pipe_sum_3_SROB5_0 ;
+wire un1_sai_pipe_sum_3_SROB4_0 ;
+wire un1_sai_pipe_sum_3_SROB3_0 ;
+wire un1_sai_pipe_sum_3_SROB2_0 ;
+wire un1_sai_pipe_sum_3_SROB1_0 ;
+wire un1_sai_pipe_sum_3_SROB0_0 ;
+wire un1_sai_pipe_sum_2_P17_0 ;
+wire un1_sai_pipe_sum_2_P16_0 ;
+wire un1_sai_pipe_sum_2_P15_0 ;
+wire un1_sai_pipe_sum_2_SROA8_0 ;
+wire un1_sai_pipe_sum_2_SROA7_0 ;
+wire un1_sai_pipe_sum_2_SROA6_0 ;
+wire un1_sai_pipe_sum_2_SROA5_0 ;
+wire un1_sai_pipe_sum_2_SROA4_0 ;
+wire un1_sai_pipe_sum_2_SROA3_0 ;
+wire un1_sai_pipe_sum_2_SROA2_0 ;
+wire un1_sai_pipe_sum_2_SROA1_0 ;
+wire un1_sai_pipe_sum_2_SROA0_0 ;
+wire un1_sai_pipe_sum_2_SROB8_0 ;
+wire un1_sai_pipe_sum_2_SROB7_0 ;
+wire un1_sai_pipe_sum_2_SROB6_0 ;
+wire un1_sai_pipe_sum_2_SROB5_0 ;
+wire un1_sai_pipe_sum_2_SROB4_0 ;
+wire un1_sai_pipe_sum_2_SROB3_0 ;
+wire un1_sai_pipe_sum_2_SROB2_0 ;
+wire un1_sai_pipe_sum_2_SROB1_0 ;
+wire un1_sai_pipe_sum_2_SROB0_0 ;
+wire un1_sai_pipe_sum_1_P17_0 ;
+wire un1_sai_pipe_sum_1_P16_0 ;
+wire un1_sai_pipe_sum_1_P15_0 ;
+wire un1_sai_pipe_sum_1_P14_0 ;
+wire un1_sai_pipe_sum_1_P13_0 ;
+wire un1_sai_pipe_sum_1_SROA8_0 ;
+wire un1_sai_pipe_sum_1_SROA7_0 ;
+wire un1_sai_pipe_sum_1_SROA6_0 ;
+wire un1_sai_pipe_sum_1_SROA5_0 ;
+wire un1_sai_pipe_sum_1_SROA4_0 ;
+wire un1_sai_pipe_sum_1_SROA3_0 ;
+wire un1_sai_pipe_sum_1_SROA2_0 ;
+wire un1_sai_pipe_sum_1_SROA1_0 ;
+wire un1_sai_pipe_sum_1_SROA0_0 ;
+wire un1_sai_pipe_sum_1_SROB8_0 ;
+wire un1_sai_pipe_sum_1_SROB7_0 ;
+wire un1_sai_pipe_sum_1_SROB6_0 ;
+wire un1_sai_pipe_sum_1_SROB5_0 ;
+wire un1_sai_pipe_sum_1_SROB4_0 ;
+wire un1_sai_pipe_sum_1_SROB3_0 ;
+wire un1_sai_pipe_sum_1_SROB2_0 ;
+wire un1_sai_pipe_sum_1_SROB1_0 ;
+wire un1_sai_pipe_sum_1_SROB0_0 ;
+wire N_174 ;
+wire N_173 ;
+wire N_172 ;
+wire N_171 ;
+wire N_170 ;
+wire N_169 ;
+wire N_30 ;
+wire N_1 ;
+wire Q_11 ;
+wire Q_44 ;
+wire Q_45 ;
+wire Q_46 ;
+wire Q_47 ;
+wire Q_48 ;
+wire Q_QN_156 ;
+wire Q_QN_155 ;
+wire Q_QN_154 ;
+wire Q_QN_153 ;
+wire Q_QN_152 ;
+wire Q_QN_151 ;
+wire Q_QN_150 ;
+wire Q_QN_149 ;
+wire Q_QN_148 ;
+wire Q_QN_147 ;
+wire Q_QN_146 ;
+wire Q_QN_145 ;
+wire Q_QN_144 ;
+wire Q_QN_143 ;
+wire Q_QN_142 ;
+wire Q_QN_141 ;
+wire Q_QN_140 ;
+wire Q_QN_139 ;
+wire Q_QN_138 ;
+wire Q_QN_137 ;
+wire Q_QN_136 ;
+wire Q_QN_135 ;
+wire Q_QN_134 ;
+wire Q_QN_133 ;
+wire Q_QN_132 ;
+wire Q_QN_131 ;
+wire Q_QN_130 ;
+wire Q_QN_129 ;
+wire Q_QN_128 ;
+wire Q_QN_127 ;
+wire Q_QN_126 ;
+wire Q_QN_125 ;
+wire Q_QN_124 ;
+wire Q_QN_123 ;
+wire Q_QN_122 ;
+wire Q_QN_121 ;
+wire Q_QN_120 ;
+wire Q_QN_119 ;
+wire Q_QN_118 ;
+wire Q_QN_117 ;
+wire Q_QN_116 ;
+wire Q_QN_115 ;
+wire Q_QN_114 ;
+wire Q_QN_113 ;
+wire Q_QN_112 ;
+wire Q_QN_111 ;
+wire Q_QN_110 ;
+wire Q_QN_109 ;
+wire Q_QN_108 ;
+wire Q_QN_107 ;
+wire Q_QN_106 ;
+wire Q_QN_105 ;
+wire Q_QN_104 ;
+wire Q_QN_103 ;
+wire Q_QN_102 ;
+wire Q_QN_101 ;
+wire Q_QN_100 ;
+wire Q_QN_99 ;
+wire Q_QN_98 ;
+wire Q_QN_97 ;
+wire Q_QN_96 ;
+wire Q_QN_95 ;
+wire Q_QN_94 ;
+wire Q_QN_93 ;
+wire Q_QN_92 ;
+wire Q_QN_91 ;
+wire Q_QN_90 ;
+wire Q_QN_89 ;
+wire Q_QN_88 ;
+wire Q_QN_87 ;
+wire Q_QN_86 ;
+wire Q_QN_85 ;
+wire Q_QN_84 ;
+wire Q_QN_83 ;
+wire Q_QN_82 ;
+wire Q_QN_81 ;
+wire Q_QN_80 ;
+wire Q_QN_79 ;
+wire Q_QN_78 ;
+wire Q_QN_77 ;
+wire Q_QN_76 ;
+wire Q_QN_75 ;
+wire Q_QN_74 ;
+wire Q_QN_73 ;
+wire Q_QN_72 ;
+wire Q_QN_71 ;
+wire Q_QN_70 ;
+wire Q_QN_69 ;
+wire Q_QN_68 ;
+wire Q_QN_67 ;
+wire Q_QN_66 ;
+wire Q_QN_65 ;
+wire Q_QN_64 ;
+wire Q_QN_63 ;
+wire Q_QN_62 ;
+wire Q_QN_61 ;
+wire Q_QN_60 ;
+wire Q_QN_59 ;
+wire Q_QN_58 ;
+wire Q_QN_57 ;
+wire Q_QN_56 ;
+wire Q_QN_55 ;
+wire Q_QN_54 ;
+wire Q_QN_53 ;
+wire Q_QN_52 ;
+wire Q_QN_51 ;
+wire Q_QN_50 ;
+wire Q_QN_49 ;
+wire Q_QN_48 ;
+wire Q_QN_47 ;
+wire Q_QN_46 ;
+wire Q_QN_45 ;
+wire Q_QN_44 ;
+wire Q_QN_43 ;
+wire Q_QN_42 ;
+wire Q_QN_41 ;
+wire Q_QN_40 ;
+wire Q_QN_39 ;
+wire Q_QN_38 ;
+wire Q_QN_37 ;
+wire Q_QN_36 ;
+wire Q_QN_35 ;
+wire Q_QN_34 ;
+wire Q_QN_33 ;
+wire Q_QN_32 ;
+wire Q_QN_31 ;
+wire Q_QN_30 ;
+wire Q_QN_29 ;
+wire Q_QN_28 ;
+wire Q_QN_27 ;
+wire Q_QN_26 ;
+wire Q_QN_25 ;
+wire Q_QN_24 ;
+wire Q_QN_23 ;
+wire Q_QN_22 ;
+wire Q_QN_21 ;
+wire Q_QN_20 ;
+wire Q_QN_19 ;
+wire Q_QN_18 ;
+wire Q_QN_17 ;
+wire Q_QN_16 ;
+wire Q_QN_15 ;
+wire Q_QN_14 ;
+wire Q_QN_13 ;
+wire Q_QN_12 ;
+wire Q_QN_11 ;
+wire Q_QN_10 ;
+wire Q_QN_9 ;
+wire Q_QN_8 ;
+wire Q_QN_7 ;
+wire Q_QN_6 ;
+wire Q_QN_5 ;
+wire Q_QN_4 ;
+wire Q_QN_3 ;
+wire Q_QN_2 ;
+wire Q_QN_1 ;
+wire Q_QN_0 ;
+wire Q_QN ;
+wire CLK_IN_c ;
+wire CE_c ;
+wire nRESET_c ;
+wire nRESET_c_i ;
+// @6:122
+  OFS1P3DX DATA_OUT_7__Qio_Z (
+	.D(si_whole_scaled[7]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[7]),
+	.GSR(nRESET_c)
+);
+// @6:122
+  OFS1P3DX DATA_OUT_6__Qio_Z (
+	.D(si_whole_scaled[6]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[6]),
+	.GSR(nRESET_c)
+);
+// @6:122
+  OFS1P3DX DATA_OUT_5__Qio_Z (
+	.D(si_whole_scaled[5]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[5]),
+	.GSR(nRESET_c)
+);
+// @6:122
+  OFS1P3DX DATA_OUT_4__Qio_Z (
+	.D(si_whole_scaled[4]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[4]),
+	.GSR(nRESET_c)
+);
+// @6:122
+  OFS1P3DX DATA_OUT_3__Qio_Z (
+	.D(si_whole_scaled[3]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[3]),
+	.GSR(nRESET_c)
+);
+// @6:122
+  OFS1P3DX DATA_OUT_2__Qio_Z (
+	.D(si_whole_scaled[2]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[2]),
+	.GSR(nRESET_c)
+);
+// @6:122
+  OFS1P3DX DATA_OUT_1__Qio_Z (
+	.D(si_whole_scaled[1]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[1]),
+	.GSR(nRESET_c)
+);
+// @6:122
+  OFS1P3DX DATA_OUT_0__Qio_Z (
+	.D(si_whole_scaled[0]),
+	.SP(nRESET_c),
+	.SCLK(CLK_IN_c),
+	.CD(GND),
+	.Q(DATA_OUT_c[0]),
+	.GSR(nRESET_c)
+);
+// @2:1
+  VLO GND_cZ (
+	.Z(GND)
+);
+// @2:1
+  VHI VCC_cZ (
+	.Z(VCC)
+);
+  INV nRESET_c_i_cZ (
+	.A(nRESET_c),
+	.Z(nRESET_c_i)
+);
+assign g0_0 = (~si_whole_sum[19]) | (~si_whole_sum[19] & ~g0_0_4) | (g0_0_4) | 
+   (~si_whole_sum[19] & ~un4_si_whole_scaled_cry_16_0_S0_0) | (~si_whole_sum[19] & 
+   ~g0_0_4 & ~un4_si_whole_scaled_cry_16_0_S0_0) | (g0_0_4 & ~un4_si_whole_scaled_cry_16_0_S0_0) | 
+   (un4_si_whole_scaled_cry_16_0_S0_0) | (~si_whole_sum[19] & ~un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (~si_whole_sum[19] & ~g0_0_4 & ~un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (g0_0_4 & ~un4_si_whole_scaled_cry_12_0_S1_0) | (~si_whole_sum[19] & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0 & ~un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (~si_whole_sum[19] & ~g0_0_4 & ~un4_si_whole_scaled_cry_16_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (g0_0_4 & ~un4_si_whole_scaled_cry_16_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (un4_si_whole_scaled_cry_16_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (un4_si_whole_scaled_cry_12_0_S1_0);
+assign Q_48 = (~nRESET_c & si_whole_scaled[3]) | (~nRESET_c & si_whole_scaled[3] & 
+   ~un4_si_whole_scaled_cry_14_0_S0_0) | (~nRESET_c & si_whole_scaled[3] & 
+   ~g0_1 & ~un4_si_whole_scaled_cry_14_0_S0_0) | (nRESET_c & g0_1 & ~un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (nRESET_c & ~si_whole_scaled[3] & g0_1 & ~un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (si_whole_scaled[3] & g0_1 & ~un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (~nRESET_c & si_whole_scaled[3] & un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (nRESET_c & ~g0_1 & un4_si_whole_scaled_cry_14_0_S0_0) | (nRESET_c & 
+   ~si_whole_scaled[3] & ~g0_1 & un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (si_whole_scaled[3] & ~g0_1 & un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (~nRESET_c & si_whole_scaled[3] & g0_1 & un4_si_whole_scaled_cry_14_0_S0_0);
+assign Q_45 = (~nRESET_c & si_whole_scaled[6]) | (~nRESET_c & si_whole_scaled[6] & 
+   ~un4_si_whole_scaled_cry_16_0_S1_0) | (~nRESET_c & si_whole_scaled[6] & 
+   ~g0_0 & ~un4_si_whole_scaled_cry_16_0_S1_0) | (nRESET_c & g0_0 & ~un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (nRESET_c & ~si_whole_scaled[6] & g0_0 & ~un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (si_whole_scaled[6] & g0_0 & ~un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (~nRESET_c & si_whole_scaled[6] & un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (nRESET_c & ~g0_0 & un4_si_whole_scaled_cry_16_0_S1_0) | (nRESET_c & 
+   ~si_whole_scaled[6] & ~g0_0 & un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (si_whole_scaled[6] & ~g0_0 & un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (~nRESET_c & si_whole_scaled[6] & g0_0 & un4_si_whole_scaled_cry_16_0_S1_0);
+assign Q_11 = (si_whole_sum[19] & un9_vi_whole_sum_cry_18_0_S1_0) | (si_whole_sum[19] & 
+   ~nRESET_c) | (un9_vi_whole_sum_cry_18_0_S1_0 & nRESET_c);
+assign Q_44 = (si_whole_scaled[7] & N_737_i) | (si_whole_scaled[7] & ~nRESET_c) | 
+   (N_737_i & nRESET_c);
+assign Q_46 = (si_whole_scaled[5] & N_735_i) | (si_whole_scaled[5] & ~nRESET_c) | 
+   (N_735_i & nRESET_c);
+assign Q_47 = (si_whole_scaled[4] & N_734_i) | (si_whole_scaled[4] & ~nRESET_c) | 
+   (N_734_i & nRESET_c);
+// @6:45
+  OB \DATA_OUT_pad[7]  (
+	.I(DATA_OUT_c[7]),
+	.O(DATA_OUT[7])
+);
+// @6:45
+  OB \DATA_OUT_pad[6]  (
+	.I(DATA_OUT_c[6]),
+	.O(DATA_OUT[6])
+);
+// @6:45
+  OB \DATA_OUT_pad[5]  (
+	.I(DATA_OUT_c[5]),
+	.O(DATA_OUT[5])
+);
+// @6:45
+  OB \DATA_OUT_pad[4]  (
+	.I(DATA_OUT_c[4]),
+	.O(DATA_OUT[4])
+);
+// @6:45
+  OB \DATA_OUT_pad[3]  (
+	.I(DATA_OUT_c[3]),
+	.O(DATA_OUT[3])
+);
+// @6:45
+  OB \DATA_OUT_pad[2]  (
+	.I(DATA_OUT_c[2]),
+	.O(DATA_OUT[2])
+);
+// @6:45
+  OB \DATA_OUT_pad[1]  (
+	.I(DATA_OUT_c[1]),
+	.O(DATA_OUT[1])
+);
+// @6:45
+  OB \DATA_OUT_pad[0]  (
+	.I(DATA_OUT_c[0]),
+	.O(DATA_OUT[0])
+);
+// @6:44
+  IB \DATA_IN_pad[7]  (
+	.I(DATA_IN[7]),
+	.O(DATA_IN_c[7])
+);
+// @6:44
+  IB \DATA_IN_pad[6]  (
+	.I(DATA_IN[6]),
+	.O(DATA_IN_c[6])
+);
+// @6:44
+  IB \DATA_IN_pad[5]  (
+	.I(DATA_IN[5]),
+	.O(DATA_IN_c[5])
+);
+// @6:44
+  IB \DATA_IN_pad[4]  (
+	.I(DATA_IN[4]),
+	.O(DATA_IN_c[4])
+);
+// @6:44
+  IB \DATA_IN_pad[3]  (
+	.I(DATA_IN[3]),
+	.O(DATA_IN_c[3])
+);
+// @6:44
+  IB \DATA_IN_pad[2]  (
+	.I(DATA_IN[2]),
+	.O(DATA_IN_c[2])
+);
+// @6:44
+  IB \DATA_IN_pad[1]  (
+	.I(DATA_IN[1]),
+	.O(DATA_IN_c[1])
+);
+// @6:44
+  IB \DATA_IN_pad[0]  (
+	.I(DATA_IN[0]),
+	.O(DATA_IN_c[0])
+);
+// @6:43
+  IB nRESET_pad (
+	.I(nRESET),
+	.O(nRESET_c)
+);
+// @6:42
+  IB CE_pad (
+	.I(CE),
+	.O(CE_c)
+);
+// @6:41
+  IB CLK_IN_pad (
+	.I(CLK_IN),
+	.O(CLK_IN_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_9_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_8_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[9]),
+	.QN(Q_QN),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_8_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_8_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[8]),
+	.QN(Q_QN_0),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_7_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_6_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[7]),
+	.QN(Q_QN_1),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_6_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_6_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[6]),
+	.QN(Q_QN_2),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_5_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_4_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[5]),
+	.QN(Q_QN_3),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_4_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_4_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[4]),
+	.QN(Q_QN_4),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_3_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_2_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[3]),
+	.QN(Q_QN_5),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_2_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_2_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[2]),
+	.QN(Q_QN_6),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_1_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_0_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[1]),
+	.QN(Q_QN_7),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \si_whole_sum_19_.Q_Z  (
+	.D(Q_11),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[19]),
+	.QN(Q_QN_8),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_18_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_18_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[18]),
+	.QN(Q_QN_9),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_17_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_16_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[17]),
+	.QN(Q_QN_10),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_16_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_16_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[16]),
+	.QN(Q_QN_11),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_15_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_14_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[15]),
+	.QN(Q_QN_12),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_14_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_14_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[14]),
+	.QN(Q_QN_13),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_13_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_12_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[13]),
+	.QN(Q_QN_14),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_12_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_12_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[12]),
+	.QN(Q_QN_15),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_11_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_10_0_S1_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[11]),
+	.QN(Q_QN_16),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_sum_10_.Q_Z  (
+	.D(un9_vi_whole_sum_cry_10_0_S0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_sum[10]),
+	.QN(Q_QN_17),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \si_whole_scaled_7_.Q_Z  (
+	.D(Q_44),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[7]),
+	.QN(Q_QN_18),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \si_whole_scaled_6_.Q_Z  (
+	.D(Q_45),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[6]),
+	.QN(Q_QN_19),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \si_whole_scaled_5_.Q_Z  (
+	.D(Q_46),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[5]),
+	.QN(Q_QN_20),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \si_whole_scaled_4_.Q_Z  (
+	.D(Q_47),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[4]),
+	.QN(Q_QN_21),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \si_whole_scaled_3_.Q_Z  (
+	.D(Q_48),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[3]),
+	.QN(Q_QN_22),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_scaled_2_.Q_Z  (
+	.D(N_732_i),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[2]),
+	.QN(Q_QN_23),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_scaled_1_.Q_Z  (
+	.D(N_731_i),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[1]),
+	.QN(Q_QN_24),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \si_whole_scaled_0_.Q_Z  (
+	.D(un8_si_whole_scaled_axb0_0),
+	.SP(nRESET_c),
+	.CK(CLK_IN_c),
+	.Q(si_whole_scaled[0]),
+	.QN(Q_QN_25),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_9_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_8_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[9]),
+	.QN(Q_QN_26),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_8_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_6_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[8]),
+	.QN(Q_QN_27),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_7_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_6_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[7]),
+	.QN(Q_QN_28),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_6_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_4_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[6]),
+	.QN(Q_QN_29),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_5_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_4_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[5]),
+	.QN(Q_QN_30),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_4_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_2_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[4]),
+	.QN(Q_QN_31),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_3_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_2_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[3]),
+	.QN(Q_QN_32),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_2_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_0_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[2]),
+	.QN(Q_QN_33),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_1_.Q_Z  (
+	.D(sai_prod_sum_2[1]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[1]),
+	.QN(Q_QN_34),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_18_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_16_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[18]),
+	.QN(Q_QN_35),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_17_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_16_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[17]),
+	.QN(Q_QN_36),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_16_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_14_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[16]),
+	.QN(Q_QN_37),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_15_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_14_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[15]),
+	.QN(Q_QN_38),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_14_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_12_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[14]),
+	.QN(Q_QN_39),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_13_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_12_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[13]),
+	.QN(Q_QN_40),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_12_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_10_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[12]),
+	.QN(Q_QN_41),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_11_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_10_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[11]),
+	.QN(Q_QN_42),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_1_10_.Q_Z  (
+	.D(un25_sai_prod_sum_sum_cry_8_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_1[10]),
+	.QN(Q_QN_43),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_9_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_8_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[9]),
+	.QN(Q_QN_44),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_8_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_8_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[8]),
+	.QN(Q_QN_45),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_7_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_6_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[7]),
+	.QN(Q_QN_46),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_6_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_6_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[6]),
+	.QN(Q_QN_47),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_5_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_4_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[5]),
+	.QN(Q_QN_48),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_4_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_4_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[4]),
+	.QN(Q_QN_49),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_3_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_2_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[3]),
+	.QN(Q_QN_50),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_2_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_2_0_S0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[2]),
+	.QN(Q_QN_51),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_1_.Q_Z  (
+	.D(sai_prod_sum_1[1]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[1]),
+	.QN(Q_QN_52),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_18_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_s_18_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[18]),
+	.QN(Q_QN_53),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_17_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_16_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[17]),
+	.QN(Q_QN_54),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_16_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_16_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[16]),
+	.QN(Q_QN_55),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_15_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_14_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[15]),
+	.QN(Q_QN_56),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_14_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_14_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[14]),
+	.QN(Q_QN_57),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_13_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_12_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[13]),
+	.QN(Q_QN_58),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_12_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_12_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[12]),
+	.QN(Q_QN_59),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_11_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_10_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[11]),
+	.QN(Q_QN_60),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_sum_0_10_.Q_Z  (
+	.D(un16_sai_prod_sum_sum_cry_10_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_sum_0[10]),
+	.QN(Q_QN_61),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_9_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_7_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[9]),
+	.QN(Q_QN_62),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_8_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_7_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[8]),
+	.QN(Q_QN_63),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_7_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_5_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[7]),
+	.QN(Q_QN_64),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_6_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_5_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[6]),
+	.QN(Q_QN_65),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_5_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_3_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[5]),
+	.QN(Q_QN_66),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_4_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_3_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[4]),
+	.QN(Q_QN_67),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_3_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_1_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[3]),
+	.QN(Q_QN_68),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_2_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_1_0_S0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[2]),
+	.QN(Q_QN_69),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_17_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_15_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[17]),
+	.QN(Q_QN_70),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_16_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_15_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[16]),
+	.QN(Q_QN_71),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_15_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_13_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[15]),
+	.QN(Q_QN_72),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_14_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_13_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[14]),
+	.QN(Q_QN_73),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_13_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_11_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[13]),
+	.QN(Q_QN_74),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_12_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_11_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[12]),
+	.QN(Q_QN_75),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_11_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_9_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[11]),
+	.QN(Q_QN_76),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_3_10_.Q_Z  (
+	.D(un43_sai_prod_sum_cry_9_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_3[10]),
+	.QN(Q_QN_77),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_9_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_9_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[9]),
+	.QN(Q_QN_78),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_8_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_7_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[8]),
+	.QN(Q_QN_79),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_7_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_7_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[7]),
+	.QN(Q_QN_80),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_6_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_5_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[6]),
+	.QN(Q_QN_81),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_5_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_5_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[5]),
+	.QN(Q_QN_82),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_4_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_3_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[4]),
+	.QN(Q_QN_83),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_3_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_3_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[3]),
+	.QN(Q_QN_84),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_2_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_1_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[2]),
+	.QN(Q_QN_85),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_1_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_1_0_S0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[1]),
+	.QN(Q_QN_86),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_17_.Q_Z  (
+	.D(un34_sai_prod_sum_s_17_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[17]),
+	.QN(Q_QN_87),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_16_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_15_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[16]),
+	.QN(Q_QN_88),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_15_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_15_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[15]),
+	.QN(Q_QN_89),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_14_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_13_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[14]),
+	.QN(Q_QN_90),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_13_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_13_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[13]),
+	.QN(Q_QN_91),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_12_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_11_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[12]),
+	.QN(Q_QN_92),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_11_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_11_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[11]),
+	.QN(Q_QN_93),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_2_10_.Q_Z  (
+	.D(un34_sai_prod_sum_cry_9_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_2[10]),
+	.QN(Q_QN_94),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_9_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_9_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[9]),
+	.QN(Q_QN_95),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_8_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_7_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[8]),
+	.QN(Q_QN_96),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_7_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_7_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[7]),
+	.QN(Q_QN_97),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_6_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_5_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[6]),
+	.QN(Q_QN_98),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_5_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_5_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[5]),
+	.QN(Q_QN_99),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_4_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_3_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[4]),
+	.QN(Q_QN_100),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_3_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_3_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[3]),
+	.QN(Q_QN_101),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_2_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_1_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[2]),
+	.QN(Q_QN_102),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_1_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_1_0_S0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[1]),
+	.QN(Q_QN_103),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_17_.Q_Z  (
+	.D(un25_sai_prod_sum_s_17_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[17]),
+	.QN(Q_QN_104),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_16_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_15_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[16]),
+	.QN(Q_QN_105),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_15_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_15_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[15]),
+	.QN(Q_QN_106),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_14_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_13_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[14]),
+	.QN(Q_QN_107),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_13_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_13_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[13]),
+	.QN(Q_QN_108),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_12_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_11_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[12]),
+	.QN(Q_QN_109),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_11_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_11_0_S0_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[11]),
+	.QN(Q_QN_110),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_1_10_.Q_Z  (
+	.D(un25_sai_prod_sum_cry_9_0_S1_0),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_1[10]),
+	.QN(Q_QN_111),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_9_.Q_Z  (
+	.D(sai_prod_1[9]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[9]),
+	.QN(Q_QN_112),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_8_.Q_Z  (
+	.D(sai_prod_1[8]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[8]),
+	.QN(Q_QN_113),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_7_.Q_Z  (
+	.D(sai_prod_1[7]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[7]),
+	.QN(Q_QN_114),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_6_.Q_Z  (
+	.D(sai_prod_1[6]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[6]),
+	.QN(Q_QN_115),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_5_.Q_Z  (
+	.D(sai_prod_1[5]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[5]),
+	.QN(Q_QN_116),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_4_.Q_Z  (
+	.D(sai_prod_1[4]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[4]),
+	.QN(Q_QN_117),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_3_.Q_Z  (
+	.D(sai_prod_1[3]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[3]),
+	.QN(Q_QN_118),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_2_.Q_Z  (
+	.D(sai_prod_1[2]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[2]),
+	.QN(Q_QN_119),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_16_.Q_Z  (
+	.D(sai_prod_1[14]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[14]),
+	.QN(Q_QN_120),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_13_.Q_Z  (
+	.D(sai_prod_1[13]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[13]),
+	.QN(Q_QN_121),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_12_.Q_Z  (
+	.D(sai_prod_1[12]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[12]),
+	.QN(Q_QN_122),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_11_.Q_Z  (
+	.D(sai_prod_1[11]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[11]),
+	.QN(Q_QN_123),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \sai_prod_sum_0_10_.Q_Z  (
+	.D(sai_prod_1[10]),
+	.CK(CLK_IN_c),
+	.Q(sai_prod_sum_0[10]),
+	.QN(Q_QN_124),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_7_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [7]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [7]),
+	.QN(Q_QN_125),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_6_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [6]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [6]),
+	.QN(Q_QN_126),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_5_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [5]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [5]),
+	.QN(Q_QN_127),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_4_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [4]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [4]),
+	.QN(Q_QN_128),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_3_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [3]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [3]),
+	.QN(Q_QN_129),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_2_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [2]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [2]),
+	.QN(Q_QN_130),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_1_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [1]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [1]),
+	.QN(Q_QN_131),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_9_0_.Q_Z  (
+	.D(\proc_filter.vai_pipe_1_2 [0]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_7 [0]),
+	.QN(Q_QN_132),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_7_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [7]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [7]),
+	.QN(Q_QN_133),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_6_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [6]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [6]),
+	.QN(Q_QN_134),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_5_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [5]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [5]),
+	.QN(Q_QN_135),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_4_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [4]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [4]),
+	.QN(Q_QN_136),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_3_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [3]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [3]),
+	.QN(Q_QN_137),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_2_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [2]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [2]),
+	.QN(Q_QN_138),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_1_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [1]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [1]),
+	.QN(Q_QN_139),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_3_0_.Q_Z  (
+	.D(\proc_filter.vai_pipe_0 [0]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_6 [0]),
+	.QN(Q_QN_140),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_7_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [7]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [7]),
+	.QN(Q_QN_141),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_6_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [6]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [6]),
+	.QN(Q_QN_142),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_5_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [5]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [5]),
+	.QN(Q_QN_143),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_4_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [4]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [4]),
+	.QN(Q_QN_144),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_3_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [3]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [3]),
+	.QN(Q_QN_145),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_2_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [2]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [2]),
+	.QN(Q_QN_146),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_1_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [1]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [1]),
+	.QN(Q_QN_147),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1P3AX \proc_filter.vai_pipe_13_0_.Q_Z  (
+	.D(\proc_filter.vai_pipe_7_2 [0]),
+	.SP(CE_c),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_14 [0]),
+	.QN(Q_QN_148),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_7_.Q_Z  (
+	.D(DATA_IN_c[7]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [7]),
+	.QN(Q_QN_149),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_6_.Q_Z  (
+	.D(DATA_IN_c[6]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [6]),
+	.QN(Q_QN_150),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_5_.Q_Z  (
+	.D(DATA_IN_c[5]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [5]),
+	.QN(Q_QN_151),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_4_.Q_Z  (
+	.D(DATA_IN_c[4]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [4]),
+	.QN(Q_QN_152),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_3_.Q_Z  (
+	.D(DATA_IN_c[3]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [3]),
+	.QN(Q_QN_153),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_2_.Q_Z  (
+	.D(DATA_IN_c[2]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [2]),
+	.QN(Q_QN_154),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_1_.Q_Z  (
+	.D(DATA_IN_c[1]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [1]),
+	.QN(Q_QN_155),
+	.GSR(nRESET_c)
+);
+// @6:122
+  FD1S3AX \proc_filter.vai_pipe_0_0_.Q_Z  (
+	.D(DATA_IN_c[0]),
+	.CK(CLK_IN_c),
+	.Q(\proc_filter.vai_pipe_0 [0]),
+	.QN(Q_QN_156),
+	.GSR(nRESET_c)
+);
+  GSR GSR_INST (
+	.GSR(nRESET_c)
+);
+  CCU2 un51_sai_pipe_sum_s_8_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [7]),
+	.B0(\proc_filter.vai_pipe_7_2 [7]),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un51_sai_pipe_sum_cry_6_0_COUT1),
+	.COUT0(un51_sai_pipe_sum_s_8_0_COUT0_0),
+	.COUT1(NC0),
+	.S0(un51_sai_pipe_sum_s_8_0_S0_0),
+	.S1(NC1)
+);
+defparam un51_sai_pipe_sum_s_8_0.INIT0=16'h5006;
+defparam un51_sai_pipe_sum_s_8_0.INIT1=16'h0000;
+defparam un51_sai_pipe_sum_s_8_0.INJECT1_0="NO";
+defparam un51_sai_pipe_sum_s_8_0.INJECT1_1="NO";
+  CCU2 un51_sai_pipe_sum_cry_6_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [6]),
+	.B0(\proc_filter.vai_pipe_7_2 [6]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [7]),
+	.B1(\proc_filter.vai_pipe_7_2 [7]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un51_sai_pipe_sum_cry_4_0_COUT1),
+	.COUT0(un51_sai_pipe_sum_cry_6_0_COUT0),
+	.COUT1(un51_sai_pipe_sum_cry_6_0_COUT1),
+	.S0(un51_sai_pipe_sum_cry_6_0_S0_0),
+	.S1(un51_sai_pipe_sum_cry_6_0_S1_0)
+);
+defparam un51_sai_pipe_sum_cry_6_0.INIT0=16'h5006;
+defparam un51_sai_pipe_sum_cry_6_0.INIT1=16'h5006;
+defparam un51_sai_pipe_sum_cry_6_0.INJECT1_0="NO";
+defparam un51_sai_pipe_sum_cry_6_0.INJECT1_1="NO";
+  CCU2 un51_sai_pipe_sum_cry_4_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [4]),
+	.B0(\proc_filter.vai_pipe_7_2 [4]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [5]),
+	.B1(\proc_filter.vai_pipe_7_2 [5]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un51_sai_pipe_sum_cry_2_0_COUT1),
+	.COUT0(un51_sai_pipe_sum_cry_4_0_COUT0),
+	.COUT1(un51_sai_pipe_sum_cry_4_0_COUT1),
+	.S0(un51_sai_pipe_sum_cry_4_0_S0_0),
+	.S1(un51_sai_pipe_sum_cry_4_0_S1_0)
+);
+defparam un51_sai_pipe_sum_cry_4_0.INIT0=16'h5006;
+defparam un51_sai_pipe_sum_cry_4_0.INIT1=16'h5006;
+defparam un51_sai_pipe_sum_cry_4_0.INJECT1_0="NO";
+defparam un51_sai_pipe_sum_cry_4_0.INJECT1_1="NO";
+  CCU2 un51_sai_pipe_sum_cry_2_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [2]),
+	.B0(\proc_filter.vai_pipe_7_2 [2]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [3]),
+	.B1(\proc_filter.vai_pipe_7_2 [3]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un51_sai_pipe_sum_cry_0_0_COUT1),
+	.COUT0(un51_sai_pipe_sum_cry_2_0_COUT0),
+	.COUT1(un51_sai_pipe_sum_cry_2_0_COUT1),
+	.S0(un51_sai_pipe_sum_cry_2_0_S0_0),
+	.S1(un51_sai_pipe_sum_cry_2_0_S1_0)
+);
+defparam un51_sai_pipe_sum_cry_2_0.INIT0=16'h5006;
+defparam un51_sai_pipe_sum_cry_2_0.INIT1=16'h5006;
+defparam un51_sai_pipe_sum_cry_2_0.INJECT1_0="NO";
+defparam un51_sai_pipe_sum_cry_2_0.INJECT1_1="NO";
+  CCU2 un51_sai_pipe_sum_cry_0_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [0]),
+	.B0(\proc_filter.vai_pipe_7_2 [0]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [1]),
+	.B1(\proc_filter.vai_pipe_7_2 [1]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un51_sai_pipe_sum_cry_0_0_COUT0),
+	.COUT1(un51_sai_pipe_sum_cry_0_0_COUT1),
+	.S0(un51_sai_pipe_sum_cry_0_0_S0),
+	.S1(un51_sai_pipe_sum_cry_0_0_S1_0)
+);
+defparam un51_sai_pipe_sum_cry_0_0.INIT0=16'h5006;
+defparam un51_sai_pipe_sum_cry_0_0.INIT1=16'h5006;
+defparam un51_sai_pipe_sum_cry_0_0.INJECT1_0="NO";
+defparam un51_sai_pipe_sum_cry_0_0.INJECT1_1="NO";
+  CCU2 un42_sai_pipe_sum_s_8_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [7]),
+	.B0(\proc_filter.vai_pipe_13_2 [7]),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un42_sai_pipe_sum_cry_6_0_COUT1),
+	.COUT0(un42_sai_pipe_sum_s_8_0_COUT0_0),
+	.COUT1(NC2),
+	.S0(un42_sai_pipe_sum_s_8_0_S0_0),
+	.S1(NC3)
+);
+defparam un42_sai_pipe_sum_s_8_0.INIT0=16'h5006;
+defparam un42_sai_pipe_sum_s_8_0.INIT1=16'h0000;
+defparam un42_sai_pipe_sum_s_8_0.INJECT1_0="NO";
+defparam un42_sai_pipe_sum_s_8_0.INJECT1_1="NO";
+  CCU2 un42_sai_pipe_sum_cry_6_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [6]),
+	.B0(\proc_filter.vai_pipe_13_2 [6]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [7]),
+	.B1(\proc_filter.vai_pipe_13_2 [7]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un42_sai_pipe_sum_cry_4_0_COUT1),
+	.COUT0(un42_sai_pipe_sum_cry_6_0_COUT0),
+	.COUT1(un42_sai_pipe_sum_cry_6_0_COUT1),
+	.S0(un42_sai_pipe_sum_cry_6_0_S0_0),
+	.S1(un42_sai_pipe_sum_cry_6_0_S1_0)
+);
+defparam un42_sai_pipe_sum_cry_6_0.INIT0=16'h5006;
+defparam un42_sai_pipe_sum_cry_6_0.INIT1=16'h5006;
+defparam un42_sai_pipe_sum_cry_6_0.INJECT1_0="NO";
+defparam un42_sai_pipe_sum_cry_6_0.INJECT1_1="NO";
+  CCU2 un42_sai_pipe_sum_cry_4_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [4]),
+	.B0(\proc_filter.vai_pipe_13_2 [4]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [5]),
+	.B1(\proc_filter.vai_pipe_13_2 [5]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un42_sai_pipe_sum_cry_2_0_COUT1),
+	.COUT0(un42_sai_pipe_sum_cry_4_0_COUT0),
+	.COUT1(un42_sai_pipe_sum_cry_4_0_COUT1),
+	.S0(un42_sai_pipe_sum_cry_4_0_S0_0),
+	.S1(un42_sai_pipe_sum_cry_4_0_S1_0)
+);
+defparam un42_sai_pipe_sum_cry_4_0.INIT0=16'h5006;
+defparam un42_sai_pipe_sum_cry_4_0.INIT1=16'h5006;
+defparam un42_sai_pipe_sum_cry_4_0.INJECT1_0="NO";
+defparam un42_sai_pipe_sum_cry_4_0.INJECT1_1="NO";
+  CCU2 un42_sai_pipe_sum_cry_2_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [2]),
+	.B0(\proc_filter.vai_pipe_13_2 [2]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [3]),
+	.B1(\proc_filter.vai_pipe_13_2 [3]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un42_sai_pipe_sum_cry_0_0_COUT1),
+	.COUT0(un42_sai_pipe_sum_cry_2_0_COUT0),
+	.COUT1(un42_sai_pipe_sum_cry_2_0_COUT1),
+	.S0(un42_sai_pipe_sum_cry_2_0_S0_0),
+	.S1(un42_sai_pipe_sum_cry_2_0_S1_0)
+);
+defparam un42_sai_pipe_sum_cry_2_0.INIT0=16'h5006;
+defparam un42_sai_pipe_sum_cry_2_0.INIT1=16'h5006;
+defparam un42_sai_pipe_sum_cry_2_0.INJECT1_0="NO";
+defparam un42_sai_pipe_sum_cry_2_0.INJECT1_1="NO";
+  CCU2 un42_sai_pipe_sum_cry_0_0 (
+	.A0(\proc_filter.vai_pipe_1_2 [0]),
+	.B0(\proc_filter.vai_pipe_13_2 [0]),
+	.C0(GND),
+	.D0(GND),
+	.A1(\proc_filter.vai_pipe_1_2 [1]),
+	.B1(\proc_filter.vai_pipe_13_2 [1]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un42_sai_pipe_sum_cry_0_0_COUT0),
+	.COUT1(un42_sai_pipe_sum_cry_0_0_COUT1),
+	.S0(un42_sai_pipe_sum_cry_0_0_S0),
+	.S1(un42_sai_pipe_sum_cry_0_0_S1_0)
+);
+defparam un42_sai_pipe_sum_cry_0_0.INIT0=16'h5006;
+defparam un42_sai_pipe_sum_cry_0_0.INIT1=16'h5006;
+defparam un42_sai_pipe_sum_cry_0_0.INJECT1_0="NO";
+defparam un42_sai_pipe_sum_cry_0_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_s_18_0 (
+	.A0(si_whole_sum[18]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_16_0_COUT1),
+	.COUT0(un4_si_whole_scaled_s_18_0_COUT0_0),
+	.COUT1(NC4),
+	.S0(un4_si_whole_scaled_s_18_0_S0_0),
+	.S1(NC5)
+);
+defparam un4_si_whole_scaled_s_18_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_s_18_0.INIT1=16'h0000;
+defparam un4_si_whole_scaled_s_18_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_s_18_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_16_0 (
+	.A0(si_whole_sum[16]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[17]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_14_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_16_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_16_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_16_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_16_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_16_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_16_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_16_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_16_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_14_0 (
+	.A0(si_whole_sum[14]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[15]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_12_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_14_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_14_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_14_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_14_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_14_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_14_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_14_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_14_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_12_0 (
+	.A0(si_whole_sum[12]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[13]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_10_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_12_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_12_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_12_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_12_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_12_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_12_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_12_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_12_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_10_0 (
+	.A0(si_whole_sum[10]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[11]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_8_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_10_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_10_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_10_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_10_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_10_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_10_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_10_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_10_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_8_0 (
+	.A0(si_whole_sum[8]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[9]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_6_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_8_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_8_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_8_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_8_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_8_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_8_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_8_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_8_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_6_0 (
+	.A0(si_whole_sum[6]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[7]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_4_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_6_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_6_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_6_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_6_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_6_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_6_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_6_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_6_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_4_0 (
+	.A0(si_whole_sum[4]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[5]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_2_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_4_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_4_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_4_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_4_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_4_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_4_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_4_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_4_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_2_0 (
+	.A0(si_whole_sum[2]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[3]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un4_si_whole_scaled_cry_0_0_COUT1),
+	.COUT0(un4_si_whole_scaled_cry_2_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_2_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_2_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_2_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_2_0.INIT0=16'h3005;
+defparam un4_si_whole_scaled_cry_2_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_2_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_2_0.INJECT1_1="NO";
+  CCU2 un4_si_whole_scaled_cry_0_0 (
+	.A0(VCC),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(si_whole_sum[1]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(si_whole_sum[19]),
+	.COUT0(un4_si_whole_scaled_cry_0_0_COUT0),
+	.COUT1(un4_si_whole_scaled_cry_0_0_COUT1),
+	.S0(un4_si_whole_scaled_cry_0_0_S0_0),
+	.S1(un4_si_whole_scaled_cry_0_0_S1_0)
+);
+defparam un4_si_whole_scaled_cry_0_0.INIT0=16'h300a;
+defparam un4_si_whole_scaled_cry_0_0.INIT1=16'h3005;
+defparam un4_si_whole_scaled_cry_0_0.INJECT1_0="NO";
+defparam un4_si_whole_scaled_cry_0_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_s_17_0 (
+	.A0(sai_prod_3[16]),
+	.B0(sai_prod_2[15]),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_15_0_COUT1),
+	.COUT0(un25_sai_prod_sum_s_17_0_COUT0_0),
+	.COUT1(NC6),
+	.S0(un25_sai_prod_sum_s_17_0_S0_0),
+	.S1(NC7)
+);
+defparam un25_sai_prod_sum_s_17_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_s_17_0.INIT1=16'h0000;
+defparam un25_sai_prod_sum_s_17_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_s_17_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_15_0 (
+	.A0(sai_prod_3[16]),
+	.B0(sai_prod_2[15]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[16]),
+	.B1(sai_prod_2[15]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_13_0_COUT1),
+	.COUT0(un25_sai_prod_sum_cry_15_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_15_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_15_0_S0_0),
+	.S1(un25_sai_prod_sum_cry_15_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_15_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_15_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_15_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_15_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_13_0 (
+	.A0(sai_prod_3[13]),
+	.B0(sai_prod_2[13]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[14]),
+	.B1(sai_prod_2[14]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_11_0_COUT1),
+	.COUT0(un25_sai_prod_sum_cry_13_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_13_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_13_0_S0_0),
+	.S1(un25_sai_prod_sum_cry_13_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_13_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_13_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_13_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_13_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_11_0 (
+	.A0(sai_prod_3[11]),
+	.B0(sai_prod_2[11]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[12]),
+	.B1(sai_prod_2[12]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_9_0_COUT1),
+	.COUT0(un25_sai_prod_sum_cry_11_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_11_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_11_0_S0_0),
+	.S1(un25_sai_prod_sum_cry_11_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_11_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_11_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_11_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_11_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_9_0 (
+	.A0(sai_prod_3[9]),
+	.B0(sai_prod_2[9]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[10]),
+	.B1(sai_prod_2[10]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_7_0_COUT1),
+	.COUT0(un25_sai_prod_sum_cry_9_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_9_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_9_0_S0_0),
+	.S1(un25_sai_prod_sum_cry_9_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_9_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_9_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_9_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_9_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_7_0 (
+	.A0(sai_prod_3[7]),
+	.B0(sai_prod_2[7]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[8]),
+	.B1(sai_prod_2[8]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_5_0_COUT1),
+	.COUT0(un25_sai_prod_sum_cry_7_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_7_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_7_0_S0_0),
+	.S1(un25_sai_prod_sum_cry_7_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_7_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_7_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_7_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_7_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_5_0 (
+	.A0(sai_prod_3[5]),
+	.B0(sai_prod_2[5]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[6]),
+	.B1(sai_prod_2[6]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_3_0_COUT1),
+	.COUT0(un25_sai_prod_sum_cry_5_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_5_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_5_0_S0_0),
+	.S1(un25_sai_prod_sum_cry_5_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_5_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_5_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_5_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_5_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_3_0 (
+	.A0(sai_prod_3[3]),
+	.B0(sai_prod_2[3]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[4]),
+	.B1(sai_prod_2[4]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_cry_1_0_COUT1),
+	.COUT0(un25_sai_prod_sum_cry_3_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_3_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_3_0_S0_0),
+	.S1(un25_sai_prod_sum_cry_3_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_3_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_3_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_3_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_3_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_cry_1_0 (
+	.A0(sai_prod_3[1]),
+	.B0(sai_prod_2[1]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_3[2]),
+	.B1(sai_prod_2[2]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un25_sai_prod_sum_cry_1_0_COUT0),
+	.COUT1(un25_sai_prod_sum_cry_1_0_COUT1),
+	.S0(un25_sai_prod_sum_cry_1_0_S0),
+	.S1(un25_sai_prod_sum_cry_1_0_S1_0)
+);
+defparam un25_sai_prod_sum_cry_1_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_cry_1_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_cry_1_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_cry_1_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_s_17_0 (
+	.A0(sai_prod_5[16]),
+	.B0(sai_prod_4[16]),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_15_0_COUT1),
+	.COUT0(un34_sai_prod_sum_s_17_0_COUT0_0),
+	.COUT1(NC8),
+	.S0(un34_sai_prod_sum_s_17_0_S0_0),
+	.S1(NC9)
+);
+defparam un34_sai_prod_sum_s_17_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_s_17_0.INIT1=16'h0000;
+defparam un34_sai_prod_sum_s_17_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_s_17_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_15_0 (
+	.A0(sai_prod_5[15]),
+	.B0(sai_prod_4[15]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[16]),
+	.B1(sai_prod_4[16]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_13_0_COUT1),
+	.COUT0(un34_sai_prod_sum_cry_15_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_15_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_15_0_S0_0),
+	.S1(un34_sai_prod_sum_cry_15_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_15_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_15_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_15_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_15_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_13_0 (
+	.A0(sai_prod_5[13]),
+	.B0(sai_prod_4[13]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[14]),
+	.B1(sai_prod_4[14]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_11_0_COUT1),
+	.COUT0(un34_sai_prod_sum_cry_13_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_13_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_13_0_S0_0),
+	.S1(un34_sai_prod_sum_cry_13_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_13_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_13_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_13_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_13_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_11_0 (
+	.A0(sai_prod_5[11]),
+	.B0(sai_prod_4[11]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[12]),
+	.B1(sai_prod_4[12]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_9_0_COUT1),
+	.COUT0(un34_sai_prod_sum_cry_11_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_11_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_11_0_S0_0),
+	.S1(un34_sai_prod_sum_cry_11_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_11_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_11_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_11_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_11_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_9_0 (
+	.A0(sai_prod_5[9]),
+	.B0(sai_prod_4[9]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[10]),
+	.B1(sai_prod_4[10]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_7_0_COUT1),
+	.COUT0(un34_sai_prod_sum_cry_9_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_9_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_9_0_S0_0),
+	.S1(un34_sai_prod_sum_cry_9_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_9_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_9_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_9_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_9_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_7_0 (
+	.A0(sai_prod_5[7]),
+	.B0(sai_prod_4[7]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[8]),
+	.B1(sai_prod_4[8]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_5_0_COUT1),
+	.COUT0(un34_sai_prod_sum_cry_7_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_7_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_7_0_S0_0),
+	.S1(un34_sai_prod_sum_cry_7_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_7_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_7_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_7_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_7_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_5_0 (
+	.A0(sai_prod_5[5]),
+	.B0(sai_prod_4[5]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[6]),
+	.B1(sai_prod_4[6]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_3_0_COUT1),
+	.COUT0(un34_sai_prod_sum_cry_5_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_5_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_5_0_S0_0),
+	.S1(un34_sai_prod_sum_cry_5_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_5_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_5_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_5_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_5_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_3_0 (
+	.A0(sai_prod_5[3]),
+	.B0(sai_prod_4[3]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[4]),
+	.B1(sai_prod_4[4]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un34_sai_prod_sum_cry_1_0_COUT1),
+	.COUT0(un34_sai_prod_sum_cry_3_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_3_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_3_0_S0_0),
+	.S1(un34_sai_prod_sum_cry_3_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_3_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_3_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_3_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_3_0.INJECT1_1="NO";
+  CCU2 un34_sai_prod_sum_cry_1_0 (
+	.A0(sai_prod_5[1]),
+	.B0(sai_prod_4[1]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_5[2]),
+	.B1(sai_prod_4[2]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un34_sai_prod_sum_cry_1_0_COUT0),
+	.COUT1(un34_sai_prod_sum_cry_1_0_COUT1),
+	.S0(un34_sai_prod_sum_cry_1_0_S0),
+	.S1(un34_sai_prod_sum_cry_1_0_S1_0)
+);
+defparam un34_sai_prod_sum_cry_1_0.INIT0=16'h5006;
+defparam un34_sai_prod_sum_cry_1_0.INIT1=16'h5006;
+defparam un34_sai_prod_sum_cry_1_0.INJECT1_0="NO";
+defparam un34_sai_prod_sum_cry_1_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_15_0 (
+	.A0(sai_prod_7[16]),
+	.B0(sai_prod_6[16]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[16]),
+	.B1(sai_prod_6[16]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un43_sai_prod_sum_cry_13_0_COUT1),
+	.COUT0(un43_sai_prod_sum_cry_15_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_15_0_COUT1_0),
+	.S0(un43_sai_prod_sum_cry_15_0_S0_0),
+	.S1(un43_sai_prod_sum_cry_15_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_15_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_15_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_15_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_15_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_13_0 (
+	.A0(sai_prod_7[14]),
+	.B0(sai_prod_6[14]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[15]),
+	.B1(sai_prod_6[15]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un43_sai_prod_sum_cry_11_0_COUT1),
+	.COUT0(un43_sai_prod_sum_cry_13_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_13_0_COUT1),
+	.S0(un43_sai_prod_sum_cry_13_0_S0_0),
+	.S1(un43_sai_prod_sum_cry_13_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_13_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_13_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_13_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_13_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_11_0 (
+	.A0(sai_prod_7[12]),
+	.B0(sai_prod_6[12]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[13]),
+	.B1(sai_prod_6[13]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un43_sai_prod_sum_cry_9_0_COUT1),
+	.COUT0(un43_sai_prod_sum_cry_11_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_11_0_COUT1),
+	.S0(un43_sai_prod_sum_cry_11_0_S0_0),
+	.S1(un43_sai_prod_sum_cry_11_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_11_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_11_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_11_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_11_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_9_0 (
+	.A0(sai_prod_7[10]),
+	.B0(sai_prod_6[10]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[11]),
+	.B1(sai_prod_6[11]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un43_sai_prod_sum_cry_7_0_COUT1),
+	.COUT0(un43_sai_prod_sum_cry_9_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_9_0_COUT1),
+	.S0(un43_sai_prod_sum_cry_9_0_S0_0),
+	.S1(un43_sai_prod_sum_cry_9_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_9_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_9_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_9_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_9_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_7_0 (
+	.A0(sai_prod_7[8]),
+	.B0(sai_prod_6[8]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[9]),
+	.B1(sai_prod_6[9]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un43_sai_prod_sum_cry_5_0_COUT1),
+	.COUT0(un43_sai_prod_sum_cry_7_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_7_0_COUT1),
+	.S0(un43_sai_prod_sum_cry_7_0_S0_0),
+	.S1(un43_sai_prod_sum_cry_7_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_7_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_7_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_7_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_7_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_5_0 (
+	.A0(sai_prod_7[6]),
+	.B0(sai_prod_6[6]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[7]),
+	.B1(sai_prod_6[7]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un43_sai_prod_sum_cry_3_0_COUT1),
+	.COUT0(un43_sai_prod_sum_cry_5_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_5_0_COUT1),
+	.S0(un43_sai_prod_sum_cry_5_0_S0_0),
+	.S1(un43_sai_prod_sum_cry_5_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_5_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_5_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_5_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_5_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_3_0 (
+	.A0(sai_prod_7[4]),
+	.B0(sai_prod_6[4]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[5]),
+	.B1(sai_prod_6[5]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un43_sai_prod_sum_cry_1_0_COUT1),
+	.COUT0(un43_sai_prod_sum_cry_3_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_3_0_COUT1),
+	.S0(un43_sai_prod_sum_cry_3_0_S0_0),
+	.S1(un43_sai_prod_sum_cry_3_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_3_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_3_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_3_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_3_0.INJECT1_1="NO";
+  CCU2 un43_sai_prod_sum_cry_1_0 (
+	.A0(sai_prod_7[2]),
+	.B0(sai_prod_6[2]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_7[3]),
+	.B1(sai_prod_6[3]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un43_sai_prod_sum_cry_1_0_COUT0),
+	.COUT1(un43_sai_prod_sum_cry_1_0_COUT1),
+	.S0(un43_sai_prod_sum_cry_1_0_S0),
+	.S1(un43_sai_prod_sum_cry_1_0_S1_0)
+);
+defparam un43_sai_prod_sum_cry_1_0.INIT0=16'h5006;
+defparam un43_sai_prod_sum_cry_1_0.INIT1=16'h5006;
+defparam un43_sai_prod_sum_cry_1_0.INJECT1_0="NO";
+defparam un43_sai_prod_sum_cry_1_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_18_0 (
+	.A0(sai_prod_sum_sum_1[18]),
+	.B0(sai_prod_sum_sum_0[18]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[18]),
+	.B1(sai_prod_sum_sum_0[18]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_16_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_18_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_18_0_COUT1_0),
+	.S0(un9_vi_whole_sum_cry_18_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_18_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_18_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_18_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_18_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_18_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_16_0 (
+	.A0(sai_prod_sum_sum_1[16]),
+	.B0(sai_prod_sum_sum_0[16]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[17]),
+	.B1(sai_prod_sum_sum_0[17]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_14_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_16_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_16_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_16_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_16_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_16_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_16_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_16_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_16_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_14_0 (
+	.A0(sai_prod_sum_sum_1[14]),
+	.B0(sai_prod_sum_sum_0[14]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[15]),
+	.B1(sai_prod_sum_sum_0[15]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_12_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_14_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_14_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_14_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_14_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_14_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_14_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_14_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_14_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_12_0 (
+	.A0(sai_prod_sum_sum_1[12]),
+	.B0(sai_prod_sum_sum_0[12]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[13]),
+	.B1(sai_prod_sum_sum_0[13]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_10_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_12_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_12_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_12_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_12_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_12_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_12_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_12_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_12_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_10_0 (
+	.A0(sai_prod_sum_sum_1[10]),
+	.B0(sai_prod_sum_sum_0[10]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[11]),
+	.B1(sai_prod_sum_sum_0[11]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_8_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_10_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_10_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_10_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_10_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_10_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_10_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_10_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_10_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_8_0 (
+	.A0(sai_prod_sum_sum_1[8]),
+	.B0(sai_prod_sum_sum_0[8]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[9]),
+	.B1(sai_prod_sum_sum_0[9]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_6_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_8_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_8_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_8_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_8_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_8_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_8_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_8_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_8_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_6_0 (
+	.A0(sai_prod_sum_sum_1[6]),
+	.B0(sai_prod_sum_sum_0[6]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[7]),
+	.B1(sai_prod_sum_sum_0[7]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_4_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_6_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_6_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_6_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_6_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_6_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_6_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_6_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_6_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_4_0 (
+	.A0(sai_prod_sum_sum_1[4]),
+	.B0(sai_prod_sum_sum_0[4]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[5]),
+	.B1(sai_prod_sum_sum_0[5]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_2_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_4_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_4_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_4_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_4_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_4_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_4_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_4_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_4_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_2_0 (
+	.A0(sai_prod_sum_sum_1[2]),
+	.B0(sai_prod_sum_sum_0[2]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[3]),
+	.B1(sai_prod_sum_sum_0[3]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un9_vi_whole_sum_cry_0_0_COUT1),
+	.COUT0(un9_vi_whole_sum_cry_2_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_2_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_2_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_2_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_2_0.INIT0=16'h5006;
+defparam un9_vi_whole_sum_cry_2_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_2_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_2_0.INJECT1_1="NO";
+  CCU2 un9_vi_whole_sum_cry_0_0 (
+	.A0(GND),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_sum_1[1]),
+	.B1(sai_prod_sum_sum_0[1]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un9_vi_whole_sum_cry_0_0_COUT0),
+	.COUT1(un9_vi_whole_sum_cry_0_0_COUT1),
+	.S0(un9_vi_whole_sum_cry_0_0_S0_0),
+	.S1(un9_vi_whole_sum_cry_0_0_S1_0)
+);
+defparam un9_vi_whole_sum_cry_0_0.INIT0=16'h300a;
+defparam un9_vi_whole_sum_cry_0_0.INIT1=16'h5006;
+defparam un9_vi_whole_sum_cry_0_0.INJECT1_0="NO";
+defparam un9_vi_whole_sum_cry_0_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_s_18_0 (
+	.A0(sai_prod_sum_1[17]),
+	.B0(sai_prod_sum_0[14]),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_16_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_s_18_0_COUT0_0),
+	.COUT1(NC10),
+	.S0(un16_sai_prod_sum_sum_s_18_0_S0_0),
+	.S1(NC11)
+);
+defparam un16_sai_prod_sum_sum_s_18_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_s_18_0.INIT1=16'h0000;
+defparam un16_sai_prod_sum_sum_s_18_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_s_18_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_16_0 (
+	.A0(sai_prod_sum_1[16]),
+	.B0(sai_prod_sum_0[14]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[17]),
+	.B1(sai_prod_sum_0[14]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_14_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_cry_16_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_16_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_16_0_S0_0),
+	.S1(un16_sai_prod_sum_sum_cry_16_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_16_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_16_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_16_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_16_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_14_0 (
+	.A0(sai_prod_sum_1[14]),
+	.B0(sai_prod_sum_0[14]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[15]),
+	.B1(sai_prod_sum_0[14]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_12_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_cry_14_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_14_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_14_0_S0_0),
+	.S1(un16_sai_prod_sum_sum_cry_14_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_14_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_14_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_14_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_14_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_12_0 (
+	.A0(sai_prod_sum_1[12]),
+	.B0(sai_prod_sum_0[12]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[13]),
+	.B1(sai_prod_sum_0[13]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_10_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_cry_12_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_12_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_12_0_S0_0),
+	.S1(un16_sai_prod_sum_sum_cry_12_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_12_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_12_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_12_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_12_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_10_0 (
+	.A0(sai_prod_sum_1[10]),
+	.B0(sai_prod_sum_0[10]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[11]),
+	.B1(sai_prod_sum_0[11]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_8_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_cry_10_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_10_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_10_0_S0_0),
+	.S1(un16_sai_prod_sum_sum_cry_10_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_10_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_10_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_10_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_10_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_8_0 (
+	.A0(sai_prod_sum_1[8]),
+	.B0(sai_prod_sum_0[8]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[9]),
+	.B1(sai_prod_sum_0[9]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_6_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_cry_8_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_8_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_8_0_S0_0),
+	.S1(un16_sai_prod_sum_sum_cry_8_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_8_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_8_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_8_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_8_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_6_0 (
+	.A0(sai_prod_sum_1[6]),
+	.B0(sai_prod_sum_0[6]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[7]),
+	.B1(sai_prod_sum_0[7]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_4_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_cry_6_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_6_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_6_0_S0_0),
+	.S1(un16_sai_prod_sum_sum_cry_6_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_6_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_6_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_6_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_6_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_4_0 (
+	.A0(sai_prod_sum_1[4]),
+	.B0(sai_prod_sum_0[4]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[5]),
+	.B1(sai_prod_sum_0[5]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un16_sai_prod_sum_sum_cry_2_0_COUT1),
+	.COUT0(un16_sai_prod_sum_sum_cry_4_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_4_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_4_0_S0_0),
+	.S1(un16_sai_prod_sum_sum_cry_4_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_4_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_4_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_4_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_4_0.INJECT1_1="NO";
+  CCU2 un16_sai_prod_sum_sum_cry_2_0 (
+	.A0(sai_prod_sum_1[2]),
+	.B0(sai_prod_sum_0[2]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_1[3]),
+	.B1(sai_prod_sum_0[3]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un16_sai_prod_sum_sum_cry_2_0_COUT0),
+	.COUT1(un16_sai_prod_sum_sum_cry_2_0_COUT1),
+	.S0(un16_sai_prod_sum_sum_cry_2_0_S0),
+	.S1(un16_sai_prod_sum_sum_cry_2_0_S1_0)
+);
+defparam un16_sai_prod_sum_sum_cry_2_0.INIT0=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_2_0.INIT1=16'h5006;
+defparam un16_sai_prod_sum_sum_cry_2_0.INJECT1_0="NO";
+defparam un16_sai_prod_sum_sum_cry_2_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_16_0 (
+	.A0(sai_prod_sum_3[17]),
+	.B0(sai_prod_sum_2[17]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[17]),
+	.B1(sai_prod_sum_2[17]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_14_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_16_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_16_0_COUT1_0),
+	.S0(un25_sai_prod_sum_sum_cry_16_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_16_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_16_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_16_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_16_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_16_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_14_0 (
+	.A0(sai_prod_sum_3[15]),
+	.B0(sai_prod_sum_2[15]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[16]),
+	.B1(sai_prod_sum_2[16]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_12_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_14_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_14_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_14_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_14_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_14_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_14_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_14_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_14_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_12_0 (
+	.A0(sai_prod_sum_3[13]),
+	.B0(sai_prod_sum_2[13]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[14]),
+	.B1(sai_prod_sum_2[14]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_10_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_12_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_12_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_12_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_12_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_12_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_12_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_12_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_12_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_10_0 (
+	.A0(sai_prod_sum_3[11]),
+	.B0(sai_prod_sum_2[11]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[12]),
+	.B1(sai_prod_sum_2[12]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_8_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_10_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_10_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_10_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_10_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_10_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_10_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_10_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_10_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_8_0 (
+	.A0(sai_prod_sum_3[9]),
+	.B0(sai_prod_sum_2[9]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[10]),
+	.B1(sai_prod_sum_2[10]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_6_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_8_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_8_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_8_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_8_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_8_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_8_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_8_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_8_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_6_0 (
+	.A0(sai_prod_sum_3[7]),
+	.B0(sai_prod_sum_2[7]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[8]),
+	.B1(sai_prod_sum_2[8]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_4_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_6_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_6_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_6_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_6_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_6_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_6_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_6_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_6_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_4_0 (
+	.A0(sai_prod_sum_3[5]),
+	.B0(sai_prod_sum_2[5]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[6]),
+	.B1(sai_prod_sum_2[6]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_2_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_4_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_4_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_4_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_4_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_4_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_4_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_4_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_4_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_2_0 (
+	.A0(sai_prod_sum_3[3]),
+	.B0(sai_prod_sum_2[3]),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[4]),
+	.B1(sai_prod_sum_2[4]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un25_sai_prod_sum_sum_cry_0_0_COUT1),
+	.COUT0(un25_sai_prod_sum_sum_cry_2_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_2_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_2_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_2_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_2_0.INIT0=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_2_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_2_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_2_0.INJECT1_1="NO";
+  CCU2 un25_sai_prod_sum_sum_cry_0_0 (
+	.A0(un25_sai_prod_sum_sum_cry_0_sf_0),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(sai_prod_sum_3[2]),
+	.B1(sai_prod_sum_2[2]),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(un25_sai_prod_sum_sum_cry_0_0_COUT0),
+	.COUT1(un25_sai_prod_sum_sum_cry_0_0_COUT1),
+	.S0(un25_sai_prod_sum_sum_cry_0_0_S0_0),
+	.S1(un25_sai_prod_sum_sum_cry_0_0_S1_0)
+);
+defparam un25_sai_prod_sum_sum_cry_0_0.INIT0=16'h300a;
+defparam un25_sai_prod_sum_sum_cry_0_0.INIT1=16'h5006;
+defparam un25_sai_prod_sum_sum_cry_0_0.INJECT1_0="NO";
+defparam un25_sai_prod_sum_sum_cry_0_0.INJECT1_1="NO";
+  MULT9X9 \un8_Z[15:0]  (
+	.P17(un8_P17_0),
+	.P16(un8_P16_0),
+	.P15(sai_prod_4[16]),
+	.P14(sai_prod_4[15]),
+	.P13(sai_prod_4[14]),
+	.P12(sai_prod_4[13]),
+	.P11(sai_prod_4[12]),
+	.P10(sai_prod_4[11]),
+	.P9(sai_prod_4[10]),
+	.P8(sai_prod_4[9]),
+	.P7(sai_prod_4[8]),
+	.P6(sai_prod_4[7]),
+	.P5(sai_prod_4[6]),
+	.P4(sai_prod_4[5]),
+	.P3(sai_prod_4[4]),
+	.P2(sai_prod_4[3]),
+	.P1(sai_prod_4[2]),
+	.P0(sai_prod_4[1]),
+	.SROA8(un8_SROA8_0),
+	.SROA7(un8_SROA7_0),
+	.SROA6(un8_SROA6_0),
+	.SROA5(un8_SROA5_0),
+	.SROA4(un8_SROA4_0),
+	.SROA3(un8_SROA3_0),
+	.SROA2(un8_SROA2_0),
+	.SROA1(un8_SROA1_0),
+	.SROA0(un8_SROA0_0),
+	.SROB8(un8_SROB8_0),
+	.SROB7(un8_SROB7_0),
+	.SROB6(un8_SROB6_0),
+	.SROB5(un8_SROB5_0),
+	.SROB4(un8_SROB4_0),
+	.SROB3(un8_SROB3_0),
+	.SROB2(un8_SROB2_0),
+	.SROB1(un8_SROB1_0),
+	.SROB0(un8_SROB0_0),
+	.A8(GND),
+	.A7(VCC),
+	.A6(GND),
+	.A5(GND),
+	.A4(GND),
+	.A3(VCC),
+	.A2(VCC),
+	.A1(VCC),
+	.A0(VCC),
+	.B8(un51_sai_pipe_sum_s_8_0_S0_0),
+	.B7(un51_sai_pipe_sum_s_8_0_S0_0),
+	.B6(un51_sai_pipe_sum_cry_6_0_S1_0),
+	.B5(un51_sai_pipe_sum_cry_6_0_S0_0),
+	.B4(un51_sai_pipe_sum_cry_4_0_S1_0),
+	.B3(un51_sai_pipe_sum_cry_4_0_S0_0),
+	.B2(un51_sai_pipe_sum_cry_2_0_S1_0),
+	.B1(un51_sai_pipe_sum_cry_2_0_S0_0),
+	.B0(un51_sai_pipe_sum_cry_0_0_S1_0),
+	.SRIA8(GND),
+	.SRIA7(GND),
+	.SRIA6(GND),
+	.SRIA5(GND),
+	.SRIA4(GND),
+	.SRIA3(GND),
+	.SRIA2(GND),
+	.SRIA1(GND),
+	.SRIA0(GND),
+	.SRIB8(GND),
+	.SRIB7(GND),
+	.SRIB6(GND),
+	.SRIB5(GND),
+	.SRIB4(GND),
+	.SRIB3(GND),
+	.SRIB2(GND),
+	.SRIB1(GND),
+	.SRIB0(GND),
+	.SIGNEDAB(VCC),
+	.CE0(VCC),
+	.CE1(GND),
+	.CE2(GND),
+	.CE3(GND),
+	.CLK0(CLK_IN_c),
+	.CLK1(GND),
+	.CLK2(GND),
+	.CLK3(GND),
+	.RST0(nRESET_c_i),
+	.RST1(GND),
+	.RST2(GND),
+	.RST3(GND)
+);
+defparam \un8_Z[15:0] .REG_INPUTA_CLK="NONE";
+defparam \un8_Z[15:0] .REG_INPUTA_CE="CE0";
+defparam \un8_Z[15:0] .REG_INPUTA_RST="RST0";
+defparam \un8_Z[15:0] .REG_INPUTB_CLK="CLK0";
+defparam \un8_Z[15:0] .REG_INPUTB_CE="CE0";
+defparam \un8_Z[15:0] .REG_INPUTB_RST="RST0";
+defparam \un8_Z[15:0] .REG_PIPELINE_CLK="CLK0";
+defparam \un8_Z[15:0] .REG_PIPELINE_CE="CE0";
+defparam \un8_Z[15:0] .REG_PIPELINE_RST="RST0";
+defparam \un8_Z[15:0] .REG_OUTPUT_CLK="NONE";
+defparam \un8_Z[15:0] .REG_OUTPUT_CE="CE0";
+defparam \un8_Z[15:0] .REG_OUTPUT_RST="RST0";
+defparam \un8_Z[15:0] .REG_SIGNEDAB_0_CLK="NONE";
+defparam \un8_Z[15:0] .REG_SIGNEDAB_0_CE="CE0";
+defparam \un8_Z[15:0] .REG_SIGNEDAB_0_RST="RST0";
+defparam \un8_Z[15:0] .REG_SIGNEDAB_1_CLK="NONE";
+defparam \un8_Z[15:0] .REG_SIGNEDAB_1_CE="CE0";
+defparam \un8_Z[15:0] .REG_SIGNEDAB_1_RST="RST0";
+defparam \un8_Z[15:0] .SHIFT_IN_A="FALSE";
+defparam \un8_Z[15:0] .SHIFT_IN_B="FALSE";
+defparam \un8_Z[15:0] .GSR="ENABLED";
+  MULT9X9 \un7_Z[15:0]  (
+	.P17(un7_P17_0),
+	.P16(un7_P16_0),
+	.P15(sai_prod_5[16]),
+	.P14(sai_prod_5[15]),
+	.P13(sai_prod_5[14]),
+	.P12(sai_prod_5[13]),
+	.P11(sai_prod_5[12]),
+	.P10(sai_prod_5[11]),
+	.P9(sai_prod_5[10]),
+	.P8(sai_prod_5[9]),
+	.P7(sai_prod_5[8]),
+	.P6(sai_prod_5[7]),
+	.P5(sai_prod_5[6]),
+	.P4(sai_prod_5[5]),
+	.P3(sai_prod_5[4]),
+	.P2(sai_prod_5[3]),
+	.P1(sai_prod_5[2]),
+	.P0(sai_prod_5[1]),
+	.SROA8(un7_SROA8_0),
+	.SROA7(un7_SROA7_0),
+	.SROA6(un7_SROA6_0),
+	.SROA5(un7_SROA5_0),
+	.SROA4(un7_SROA4_0),
+	.SROA3(un7_SROA3_0),
+	.SROA2(un7_SROA2_0),
+	.SROA1(un7_SROA1_0),
+	.SROA0(un7_SROA0_0),
+	.SROB8(un7_SROB8_0),
+	.SROB7(un7_SROB7_0),
+	.SROB6(un7_SROB6_0),
+	.SROB5(un7_SROB5_0),
+	.SROB4(un7_SROB4_0),
+	.SROB3(un7_SROB3_0),
+	.SROB2(un7_SROB2_0),
+	.SROB1(un7_SROB1_0),
+	.SROB0(un7_SROB0_0),
+	.A8(GND),
+	.A7(VCC),
+	.A6(GND),
+	.A5(VCC),
+	.A4(VCC),
+	.A3(GND),
+	.A2(GND),
+	.A1(VCC),
+	.A0(VCC),
+	.B8(un51_sai_pipe_sum_s_8_0_S0_0),
+	.B7(un51_sai_pipe_sum_s_8_0_S0_0),
+	.B6(un51_sai_pipe_sum_cry_6_0_S1_0),
+	.B5(un51_sai_pipe_sum_cry_6_0_S0_0),
+	.B4(un51_sai_pipe_sum_cry_4_0_S1_0),
+	.B3(un51_sai_pipe_sum_cry_4_0_S0_0),
+	.B2(un51_sai_pipe_sum_cry_2_0_S1_0),
+	.B1(un51_sai_pipe_sum_cry_2_0_S0_0),
+	.B0(un51_sai_pipe_sum_cry_0_0_S1_0),
+	.SRIA8(GND),
+	.SRIA7(GND),
+	.SRIA6(GND),
+	.SRIA5(GND),
+	.SRIA4(GND),
+	.SRIA3(GND),
+	.SRIA2(GND),
+	.SRIA1(GND),
+	.SRIA0(GND),
+	.SRIB8(GND),
+	.SRIB7(GND),
+	.SRIB6(GND),
+	.SRIB5(GND),
+	.SRIB4(GND),
+	.SRIB3(GND),
+	.SRIB2(GND),
+	.SRIB1(GND),
+	.SRIB0(GND),
+	.SIGNEDAB(VCC),
+	.CE0(VCC),
+	.CE1(GND),
+	.CE2(GND),
+	.CE3(GND),
+	.CLK0(CLK_IN_c),
+	.CLK1(GND),
+	.CLK2(GND),
+	.CLK3(GND),
+	.RST0(nRESET_c_i),
+	.RST1(GND),
+	.RST2(GND),
+	.RST3(GND)
+);
+defparam \un7_Z[15:0] .REG_INPUTA_CLK="NONE";
+defparam \un7_Z[15:0] .REG_INPUTA_CE="CE0";
+defparam \un7_Z[15:0] .REG_INPUTA_RST="RST0";
+defparam \un7_Z[15:0] .REG_INPUTB_CLK="CLK0";
+defparam \un7_Z[15:0] .REG_INPUTB_CE="CE0";
+defparam \un7_Z[15:0] .REG_INPUTB_RST="RST0";
+defparam \un7_Z[15:0] .REG_PIPELINE_CLK="CLK0";
+defparam \un7_Z[15:0] .REG_PIPELINE_CE="CE0";
+defparam \un7_Z[15:0] .REG_PIPELINE_RST="RST0";
+defparam \un7_Z[15:0] .REG_OUTPUT_CLK="NONE";
+defparam \un7_Z[15:0] .REG_OUTPUT_CE="CE0";
+defparam \un7_Z[15:0] .REG_OUTPUT_RST="RST0";
+defparam \un7_Z[15:0] .REG_SIGNEDAB_0_CLK="NONE";
+defparam \un7_Z[15:0] .REG_SIGNEDAB_0_CE="CE0";
+defparam \un7_Z[15:0] .REG_SIGNEDAB_0_RST="RST0";
+defparam \un7_Z[15:0] .REG_SIGNEDAB_1_CLK="NONE";
+defparam \un7_Z[15:0] .REG_SIGNEDAB_1_CE="CE0";
+defparam \un7_Z[15:0] .REG_SIGNEDAB_1_RST="RST0";
+defparam \un7_Z[15:0] .SHIFT_IN_A="FALSE";
+defparam \un7_Z[15:0] .SHIFT_IN_B="FALSE";
+defparam \un7_Z[15:0] .GSR="ENABLED";
+  MULT9X9 \un1_sai_pipe_sum_7_Z[14:0]  (
+	.P17(un1_sai_pipe_sum_7_P17_0),
+	.P16(un1_sai_pipe_sum_7_P16_0),
+	.P15(un1_sai_pipe_sum_7_P15_0),
+	.P14(sai_prod_7[16]),
+	.P13(sai_prod_7[15]),
+	.P12(sai_prod_7[14]),
+	.P11(sai_prod_7[13]),
+	.P10(sai_prod_7[12]),
+	.P9(sai_prod_7[11]),
+	.P8(sai_prod_7[10]),
+	.P7(sai_prod_7[9]),
+	.P6(sai_prod_7[8]),
+	.P5(sai_prod_7[7]),
+	.P4(sai_prod_7[6]),
+	.P3(sai_prod_7[5]),
+	.P2(sai_prod_7[4]),
+	.P1(sai_prod_7[3]),
+	.P0(sai_prod_7[2]),
+	.SROA8(un1_sai_pipe_sum_7_SROA8_0),
+	.SROA7(un1_sai_pipe_sum_7_SROA7_0),
+	.SROA6(un1_sai_pipe_sum_7_SROA6_0),
+	.SROA5(un1_sai_pipe_sum_7_SROA5_0),
+	.SROA4(un1_sai_pipe_sum_7_SROA4_0),
+	.SROA3(un1_sai_pipe_sum_7_SROA3_0),
+	.SROA2(un1_sai_pipe_sum_7_SROA2_0),
+	.SROA1(un1_sai_pipe_sum_7_SROA1_0),
+	.SROA0(un1_sai_pipe_sum_7_SROA0_0),
+	.SROB8(un1_sai_pipe_sum_7_SROB8_0),
+	.SROB7(un1_sai_pipe_sum_7_SROB7_0),
+	.SROB6(un1_sai_pipe_sum_7_SROB6_0),
+	.SROB5(un1_sai_pipe_sum_7_SROB5_0),
+	.SROB4(un1_sai_pipe_sum_7_SROB4_0),
+	.SROB3(un1_sai_pipe_sum_7_SROB3_0),
+	.SROB2(un1_sai_pipe_sum_7_SROB2_0),
+	.SROB1(un1_sai_pipe_sum_7_SROB1_0),
+	.SROB0(un1_sai_pipe_sum_7_SROB0_0),
+	.A8(\proc_filter.vai_pipe_7_2 [7]),
+	.A7(\proc_filter.vai_pipe_7_2 [7]),
+	.A6(\proc_filter.vai_pipe_7_2 [6]),
+	.A5(\proc_filter.vai_pipe_7_2 [5]),
+	.A4(\proc_filter.vai_pipe_7_2 [4]),
+	.A3(\proc_filter.vai_pipe_7_2 [3]),
+	.A2(\proc_filter.vai_pipe_7_2 [2]),
+	.A1(\proc_filter.vai_pipe_7_2 [1]),
+	.A0(\proc_filter.vai_pipe_7_2 [0]),
+	.B8(GND),
+	.B7(GND),
+	.B6(VCC),
+	.B5(VCC),
+	.B4(VCC),
+	.B3(VCC),
+	.B2(VCC),
+	.B1(GND),
+	.B0(VCC),
+	.SRIA8(GND),
+	.SRIA7(GND),
+	.SRIA6(GND),
+	.SRIA5(GND),
+	.SRIA4(GND),
+	.SRIA3(GND),
+	.SRIA2(GND),
+	.SRIA1(GND),
+	.SRIA0(GND),
+	.SRIB8(GND),
+	.SRIB7(GND),
+	.SRIB6(GND),
+	.SRIB5(GND),
+	.SRIB4(GND),
+	.SRIB3(GND),
+	.SRIB2(GND),
+	.SRIB1(GND),
+	.SRIB0(GND),
+	.SIGNEDAB(VCC),
+	.CE0(VCC),
+	.CE1(GND),
+	.CE2(GND),
+	.CE3(GND),
+	.CLK0(CLK_IN_c),
+	.CLK1(GND),
+	.CLK2(GND),
+	.CLK3(GND),
+	.RST0(nRESET_c_i),
+	.RST1(GND),
+	.RST2(GND),
+	.RST3(GND)
+);
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_INPUTA_CLK="CLK0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_INPUTA_CE="CE0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_INPUTA_RST="RST0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_INPUTB_CLK="NONE";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_INPUTB_CE="CE0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_INPUTB_RST="RST0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_PIPELINE_CLK="CLK0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_PIPELINE_CE="CE0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_PIPELINE_RST="RST0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_OUTPUT_CLK="NONE";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_OUTPUT_CE="CE0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_OUTPUT_RST="RST0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_SIGNEDAB_0_CLK="NONE";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_SIGNEDAB_0_CE="CE0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_SIGNEDAB_0_RST="RST0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_SIGNEDAB_1_CLK="NONE";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_SIGNEDAB_1_CE="CE0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .REG_SIGNEDAB_1_RST="RST0";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .SHIFT_IN_A="FALSE";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .SHIFT_IN_B="FALSE";
+defparam \un1_sai_pipe_sum_7_Z[14:0] .GSR="ENABLED";
+  MULT9X9 \un1_sai_pipe_sum_6_Z[14:0]  (
+	.P17(un1_sai_pipe_sum_6_P17_0),
+	.P16(un1_sai_pipe_sum_6_P16_0),
+	.P15(un1_sai_pipe_sum_6_P15_0),
+	.P14(sai_prod_6[16]),
+	.P13(sai_prod_6[15]),
+	.P12(sai_prod_6[14]),
+	.P11(sai_prod_6[13]),
+	.P10(sai_prod_6[12]),
+	.P9(sai_prod_6[11]),
+	.P8(sai_prod_6[10]),
+	.P7(sai_prod_6[9]),
+	.P6(sai_prod_6[8]),
+	.P5(sai_prod_6[7]),
+	.P4(sai_prod_6[6]),
+	.P3(sai_prod_6[5]),
+	.P2(sai_prod_6[4]),
+	.P1(sai_prod_6[3]),
+	.P0(sai_prod_6[2]),
+	.SROA8(un1_sai_pipe_sum_6_SROA8_0),
+	.SROA7(un1_sai_pipe_sum_6_SROA7_0),
+	.SROA6(un1_sai_pipe_sum_6_SROA6_0),
+	.SROA5(un1_sai_pipe_sum_6_SROA5_0),
+	.SROA4(un1_sai_pipe_sum_6_SROA4_0),
+	.SROA3(un1_sai_pipe_sum_6_SROA3_0),
+	.SROA2(un1_sai_pipe_sum_6_SROA2_0),
+	.SROA1(un1_sai_pipe_sum_6_SROA1_0),
+	.SROA0(un1_sai_pipe_sum_6_SROA0_0),
+	.SROB8(un1_sai_pipe_sum_6_SROB8_0),
+	.SROB7(un1_sai_pipe_sum_6_SROB7_0),
+	.SROB6(un1_sai_pipe_sum_6_SROB6_0),
+	.SROB5(un1_sai_pipe_sum_6_SROB5_0),
+	.SROB4(un1_sai_pipe_sum_6_SROB4_0),
+	.SROB3(un1_sai_pipe_sum_6_SROB3_0),
+	.SROB2(un1_sai_pipe_sum_6_SROB2_0),
+	.SROB1(un1_sai_pipe_sum_6_SROB1_0),
+	.SROB0(un1_sai_pipe_sum_6_SROB0_0),
+	.A8(un51_sai_pipe_sum_s_8_0_S0_0),
+	.A7(un51_sai_pipe_sum_s_8_0_S0_0),
+	.A6(un51_sai_pipe_sum_cry_6_0_S1_0),
+	.A5(un51_sai_pipe_sum_cry_6_0_S0_0),
+	.A4(un51_sai_pipe_sum_cry_4_0_S1_0),
+	.A3(un51_sai_pipe_sum_cry_4_0_S0_0),
+	.A2(un51_sai_pipe_sum_cry_2_0_S1_0),
+	.A1(un51_sai_pipe_sum_cry_2_0_S0_0),
+	.A0(un51_sai_pipe_sum_cry_0_0_S1_0),
+	.B8(GND),
+	.B7(GND),
+	.B6(VCC),
+	.B5(VCC),
+	.B4(GND),
+	.B3(VCC),
+	.B2(GND),
+	.B1(VCC),
+	.B0(VCC),
+	.SRIA8(GND),
+	.SRIA7(GND),
+	.SRIA6(GND),
+	.SRIA5(GND),
+	.SRIA4(GND),
+	.SRIA3(GND),
+	.SRIA2(GND),
+	.SRIA1(GND),
+	.SRIA0(GND),
+	.SRIB8(GND),
+	.SRIB7(GND),
+	.SRIB6(GND),
+	.SRIB5(GND),
+	.SRIB4(GND),
+	.SRIB3(GND),
+	.SRIB2(GND),
+	.SRIB1(GND),
+	.SRIB0(GND),
+	.SIGNEDAB(VCC),
+	.CE0(VCC),
+	.CE1(GND),
+	.CE2(GND),
+	.CE3(GND),
+	.CLK0(CLK_IN_c),
+	.CLK1(GND),
+	.CLK2(GND),
+	.CLK3(GND),
+	.RST0(nRESET_c_i),
+	.RST1(GND),
+	.RST2(GND),
+	.RST3(GND)
+);
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_INPUTA_CLK="CLK0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_INPUTA_CE="CE0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_INPUTA_RST="RST0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_INPUTB_CLK="NONE";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_INPUTB_CE="CE0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_INPUTB_RST="RST0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_PIPELINE_CLK="CLK0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_PIPELINE_CE="CE0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_PIPELINE_RST="RST0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_OUTPUT_CLK="NONE";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_OUTPUT_CE="CE0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_OUTPUT_RST="RST0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_SIGNEDAB_0_CLK="NONE";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_SIGNEDAB_0_CE="CE0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_SIGNEDAB_0_RST="RST0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_SIGNEDAB_1_CLK="NONE";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_SIGNEDAB_1_CE="CE0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .REG_SIGNEDAB_1_RST="RST0";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .SHIFT_IN_A="FALSE";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .SHIFT_IN_B="FALSE";
+defparam \un1_sai_pipe_sum_6_Z[14:0] .GSR="ENABLED";
+  MULT9X9 \un1_sai_pipe_sum_3_Z[14:0]  (
+	.P17(un1_sai_pipe_sum_3_P17_0),
+	.P16(un1_sai_pipe_sum_3_P16_0),
+	.P15(un1_sai_pipe_sum_3_P15_0),
+	.P14(sai_prod_3[16]),
+	.P13(sai_prod_3[14]),
+	.P12(sai_prod_3[13]),
+	.P11(sai_prod_3[12]),
+	.P10(sai_prod_3[11]),
+	.P9(sai_prod_3[10]),
+	.P8(sai_prod_3[9]),
+	.P7(sai_prod_3[8]),
+	.P6(sai_prod_3[7]),
+	.P5(sai_prod_3[6]),
+	.P4(sai_prod_3[5]),
+	.P3(sai_prod_3[4]),
+	.P2(sai_prod_3[3]),
+	.P1(sai_prod_3[2]),
+	.P0(sai_prod_3[1]),
+	.SROA8(un1_sai_pipe_sum_3_SROA8_0),
+	.SROA7(un1_sai_pipe_sum_3_SROA7_0),
+	.SROA6(un1_sai_pipe_sum_3_SROA6_0),
+	.SROA5(un1_sai_pipe_sum_3_SROA5_0),
+	.SROA4(un1_sai_pipe_sum_3_SROA4_0),
+	.SROA3(un1_sai_pipe_sum_3_SROA3_0),
+	.SROA2(un1_sai_pipe_sum_3_SROA2_0),
+	.SROA1(un1_sai_pipe_sum_3_SROA1_0),
+	.SROA0(un1_sai_pipe_sum_3_SROA0_0),
+	.SROB8(un1_sai_pipe_sum_3_SROB8_0),
+	.SROB7(un1_sai_pipe_sum_3_SROB7_0),
+	.SROB6(un1_sai_pipe_sum_3_SROB6_0),
+	.SROB5(un1_sai_pipe_sum_3_SROB5_0),
+	.SROB4(un1_sai_pipe_sum_3_SROB4_0),
+	.SROB3(un1_sai_pipe_sum_3_SROB3_0),
+	.SROB2(un1_sai_pipe_sum_3_SROB2_0),
+	.SROB1(un1_sai_pipe_sum_3_SROB1_0),
+	.SROB0(un1_sai_pipe_sum_3_SROB0_0),
+	.A8(un51_sai_pipe_sum_s_8_0_S0_0),
+	.A7(un51_sai_pipe_sum_s_8_0_S0_0),
+	.A6(un51_sai_pipe_sum_cry_6_0_S1_0),
+	.A5(un51_sai_pipe_sum_cry_6_0_S0_0),
+	.A4(un51_sai_pipe_sum_cry_4_0_S1_0),
+	.A3(un51_sai_pipe_sum_cry_4_0_S0_0),
+	.A2(un51_sai_pipe_sum_cry_2_0_S1_0),
+	.A1(un51_sai_pipe_sum_cry_2_0_S0_0),
+	.A0(un51_sai_pipe_sum_cry_0_0_S1_0),
+	.B8(GND),
+	.B7(GND),
+	.B6(VCC),
+	.B5(VCC),
+	.B4(GND),
+	.B3(VCC),
+	.B2(GND),
+	.B1(VCC),
+	.B0(VCC),
+	.SRIA8(GND),
+	.SRIA7(GND),
+	.SRIA6(GND),
+	.SRIA5(GND),
+	.SRIA4(GND),
+	.SRIA3(GND),
+	.SRIA2(GND),
+	.SRIA1(GND),
+	.SRIA0(GND),
+	.SRIB8(GND),
+	.SRIB7(GND),
+	.SRIB6(GND),
+	.SRIB5(GND),
+	.SRIB4(GND),
+	.SRIB3(GND),
+	.SRIB2(GND),
+	.SRIB1(GND),
+	.SRIB0(GND),
+	.SIGNEDAB(VCC),
+	.CE0(VCC),
+	.CE1(GND),
+	.CE2(GND),
+	.CE3(GND),
+	.CLK0(CLK_IN_c),
+	.CLK1(GND),
+	.CLK2(GND),
+	.CLK3(GND),
+	.RST0(nRESET_c_i),
+	.RST1(GND),
+	.RST2(GND),
+	.RST3(GND)
+);
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_INPUTA_CLK="CLK0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_INPUTA_CE="CE0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_INPUTA_RST="RST0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_INPUTB_CLK="NONE";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_INPUTB_CE="CE0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_INPUTB_RST="RST0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_PIPELINE_CLK="CLK0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_PIPELINE_CE="CE0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_PIPELINE_RST="RST0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_OUTPUT_CLK="NONE";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_OUTPUT_CE="CE0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_OUTPUT_RST="RST0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_SIGNEDAB_0_CLK="NONE";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_SIGNEDAB_0_CE="CE0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_SIGNEDAB_0_RST="RST0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_SIGNEDAB_1_CLK="NONE";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_SIGNEDAB_1_CE="CE0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .REG_SIGNEDAB_1_RST="RST0";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .SHIFT_IN_A="FALSE";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .SHIFT_IN_B="FALSE";
+defparam \un1_sai_pipe_sum_3_Z[14:0] .GSR="ENABLED";
+  MULT9X9 \un1_sai_pipe_sum_2_Z[14:0]  (
+	.P17(un1_sai_pipe_sum_2_P17_0),
+	.P16(un1_sai_pipe_sum_2_P16_0),
+	.P15(un1_sai_pipe_sum_2_P15_0),
+	.P14(sai_prod_2[15]),
+	.P13(sai_prod_2[14]),
+	.P12(sai_prod_2[13]),
+	.P11(sai_prod_2[12]),
+	.P10(sai_prod_2[11]),
+	.P9(sai_prod_2[10]),
+	.P8(sai_prod_2[9]),
+	.P7(sai_prod_2[8]),
+	.P6(sai_prod_2[7]),
+	.P5(sai_prod_2[6]),
+	.P4(sai_prod_2[5]),
+	.P3(sai_prod_2[4]),
+	.P2(sai_prod_2[3]),
+	.P1(sai_prod_2[2]),
+	.P0(sai_prod_2[1]),
+	.SROA8(un1_sai_pipe_sum_2_SROA8_0),
+	.SROA7(un1_sai_pipe_sum_2_SROA7_0),
+	.SROA6(un1_sai_pipe_sum_2_SROA6_0),
+	.SROA5(un1_sai_pipe_sum_2_SROA5_0),
+	.SROA4(un1_sai_pipe_sum_2_SROA4_0),
+	.SROA3(un1_sai_pipe_sum_2_SROA3_0),
+	.SROA2(un1_sai_pipe_sum_2_SROA2_0),
+	.SROA1(un1_sai_pipe_sum_2_SROA1_0),
+	.SROA0(un1_sai_pipe_sum_2_SROA0_0),
+	.SROB8(un1_sai_pipe_sum_2_SROB8_0),
+	.SROB7(un1_sai_pipe_sum_2_SROB7_0),
+	.SROB6(un1_sai_pipe_sum_2_SROB6_0),
+	.SROB5(un1_sai_pipe_sum_2_SROB5_0),
+	.SROB4(un1_sai_pipe_sum_2_SROB4_0),
+	.SROB3(un1_sai_pipe_sum_2_SROB3_0),
+	.SROB2(un1_sai_pipe_sum_2_SROB2_0),
+	.SROB1(un1_sai_pipe_sum_2_SROB1_0),
+	.SROB0(un1_sai_pipe_sum_2_SROB0_0),
+	.A8(un42_sai_pipe_sum_s_8_0_S0_0),
+	.A7(un42_sai_pipe_sum_s_8_0_S0_0),
+	.A6(un42_sai_pipe_sum_cry_6_0_S1_0),
+	.A5(un42_sai_pipe_sum_cry_6_0_S0_0),
+	.A4(un42_sai_pipe_sum_cry_4_0_S1_0),
+	.A3(un42_sai_pipe_sum_cry_4_0_S0_0),
+	.A2(un42_sai_pipe_sum_cry_2_0_S1_0),
+	.A1(un42_sai_pipe_sum_cry_2_0_S0_0),
+	.A0(un42_sai_pipe_sum_cry_0_0_S1_0),
+	.B8(GND),
+	.B7(GND),
+	.B6(VCC),
+	.B5(GND),
+	.B4(GND),
+	.B3(GND),
+	.B2(VCC),
+	.B1(VCC),
+	.B0(VCC),
+	.SRIA8(GND),
+	.SRIA7(GND),
+	.SRIA6(GND),
+	.SRIA5(GND),
+	.SRIA4(GND),
+	.SRIA3(GND),
+	.SRIA2(GND),
+	.SRIA1(GND),
+	.SRIA0(GND),
+	.SRIB8(GND),
+	.SRIB7(GND),
+	.SRIB6(GND),
+	.SRIB5(GND),
+	.SRIB4(GND),
+	.SRIB3(GND),
+	.SRIB2(GND),
+	.SRIB1(GND),
+	.SRIB0(GND),
+	.SIGNEDAB(VCC),
+	.CE0(VCC),
+	.CE1(GND),
+	.CE2(GND),
+	.CE3(GND),
+	.CLK0(CLK_IN_c),
+	.CLK1(GND),
+	.CLK2(GND),
+	.CLK3(GND),
+	.RST0(nRESET_c_i),
+	.RST1(GND),
+	.RST2(GND),
+	.RST3(GND)
+);
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_INPUTA_CLK="CLK0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_INPUTA_CE="CE0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_INPUTA_RST="RST0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_INPUTB_CLK="NONE";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_INPUTB_CE="CE0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_INPUTB_RST="RST0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_PIPELINE_CLK="CLK0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_PIPELINE_CE="CE0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_PIPELINE_RST="RST0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_OUTPUT_CLK="NONE";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_OUTPUT_CE="CE0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_OUTPUT_RST="RST0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_SIGNEDAB_0_CLK="NONE";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_SIGNEDAB_0_CE="CE0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_SIGNEDAB_0_RST="RST0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_SIGNEDAB_1_CLK="NONE";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_SIGNEDAB_1_CE="CE0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .REG_SIGNEDAB_1_RST="RST0";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .SHIFT_IN_A="FALSE";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .SHIFT_IN_B="FALSE";
+defparam \un1_sai_pipe_sum_2_Z[14:0] .GSR="ENABLED";
+  MULT9X9 \un1_sai_pipe_sum_1_Z[12:0]  (
+	.P17(un1_sai_pipe_sum_1_P17_0),
+	.P16(un1_sai_pipe_sum_1_P16_0),
+	.P15(un1_sai_pipe_sum_1_P15_0),
+	.P14(un1_sai_pipe_sum_1_P14_0),
+	.P13(un1_sai_pipe_sum_1_P13_0),
+	.P12(sai_prod_1[14]),
+	.P11(sai_prod_1[13]),
+	.P10(sai_prod_1[12]),
+	.P9(sai_prod_1[11]),
+	.P8(sai_prod_1[10]),
+	.P7(sai_prod_1[9]),
+	.P6(sai_prod_1[8]),
+	.P5(sai_prod_1[7]),
+	.P4(sai_prod_1[6]),
+	.P3(sai_prod_1[5]),
+	.P2(sai_prod_1[4]),
+	.P1(sai_prod_1[3]),
+	.P0(sai_prod_1[2]),
+	.SROA8(un1_sai_pipe_sum_1_SROA8_0),
+	.SROA7(un1_sai_pipe_sum_1_SROA7_0),
+	.SROA6(un1_sai_pipe_sum_1_SROA6_0),
+	.SROA5(un1_sai_pipe_sum_1_SROA5_0),
+	.SROA4(un1_sai_pipe_sum_1_SROA4_0),
+	.SROA3(un1_sai_pipe_sum_1_SROA3_0),
+	.SROA2(un1_sai_pipe_sum_1_SROA2_0),
+	.SROA1(un1_sai_pipe_sum_1_SROA1_0),
+	.SROA0(un1_sai_pipe_sum_1_SROA0_0),
+	.SROB8(un1_sai_pipe_sum_1_SROB8_0),
+	.SROB7(un1_sai_pipe_sum_1_SROB7_0),
+	.SROB6(un1_sai_pipe_sum_1_SROB6_0),
+	.SROB5(un1_sai_pipe_sum_1_SROB5_0),
+	.SROB4(un1_sai_pipe_sum_1_SROB4_0),
+	.SROB3(un1_sai_pipe_sum_1_SROB3_0),
+	.SROB2(un1_sai_pipe_sum_1_SROB2_0),
+	.SROB1(un1_sai_pipe_sum_1_SROB1_0),
+	.SROB0(un1_sai_pipe_sum_1_SROB0_0),
+	.A8(un42_sai_pipe_sum_s_8_0_S0_0),
+	.A7(un42_sai_pipe_sum_cry_6_0_S1_0),
+	.A6(un42_sai_pipe_sum_cry_6_0_S0_0),
+	.A5(un42_sai_pipe_sum_cry_4_0_S1_0),
+	.A4(un42_sai_pipe_sum_cry_4_0_S0_0),
+	.A3(un42_sai_pipe_sum_cry_2_0_S1_0),
+	.A2(un42_sai_pipe_sum_cry_2_0_S0_0),
+	.A1(un42_sai_pipe_sum_cry_0_0_S1_0),
+	.A0(un42_sai_pipe_sum_cry_0_0_S0),
+	.B8(GND),
+	.B7(GND),
+	.B6(GND),
+	.B5(GND),
+	.B4(GND),
+	.B3(VCC),
+	.B2(GND),
+	.B1(GND),
+	.B0(VCC),
+	.SRIA8(GND),
+	.SRIA7(GND),
+	.SRIA6(GND),
+	.SRIA5(GND),
+	.SRIA4(GND),
+	.SRIA3(GND),
+	.SRIA2(GND),
+	.SRIA1(GND),
+	.SRIA0(GND),
+	.SRIB8(GND),
+	.SRIB7(GND),
+	.SRIB6(GND),
+	.SRIB5(GND),
+	.SRIB4(GND),
+	.SRIB3(GND),
+	.SRIB2(GND),
+	.SRIB1(GND),
+	.SRIB0(GND),
+	.SIGNEDAB(VCC),
+	.CE0(VCC),
+	.CE1(GND),
+	.CE2(GND),
+	.CE3(GND),
+	.CLK0(CLK_IN_c),
+	.CLK1(GND),
+	.CLK2(GND),
+	.CLK3(GND),
+	.RST0(nRESET_c_i),
+	.RST1(GND),
+	.RST2(GND),
+	.RST3(GND)
+);
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_INPUTA_CLK="CLK0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_INPUTA_CE="CE0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_INPUTA_RST="RST0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_INPUTB_CLK="NONE";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_INPUTB_CE="CE0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_INPUTB_RST="RST0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_PIPELINE_CLK="CLK0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_PIPELINE_CE="CE0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_PIPELINE_RST="RST0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_OUTPUT_CLK="NONE";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_OUTPUT_CE="CE0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_OUTPUT_RST="RST0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_SIGNEDAB_0_CLK="NONE";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_SIGNEDAB_0_CE="CE0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_SIGNEDAB_0_RST="RST0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_SIGNEDAB_1_CLK="NONE";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_SIGNEDAB_1_CE="CE0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .REG_SIGNEDAB_1_RST="RST0";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .SHIFT_IN_A="FALSE";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .SHIFT_IN_B="FALSE";
+defparam \un1_sai_pipe_sum_1_Z[12:0] .GSR="ENABLED";
+assign N_737_i = (~un4_si_whole_scaled_s_18_0_S0_0 & g1_4) | (un4_si_whole_scaled_s_18_0_S0_0 & 
+   ~g1_4 & ~g1_5) | (~un4_si_whole_scaled_s_18_0_S0_0 & g1_4 & ~g1_5) | 
+   (~un4_si_whole_scaled_s_18_0_S0_0 & g1_5);
+assign g1_5 = (un4_si_whole_scaled_cry_14_0_S0_0) | (un4_si_whole_scaled_cry_14_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S1_0) | (un4_si_whole_scaled_cry_14_0_S1_0) | 
+   (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S1_0) | (un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S1_0) | (un4_si_whole_scaled_cry_16_0_S1_0) | 
+   (~si_whole_sum[19]) | (un4_si_whole_scaled_cry_14_0_S0_0 & si_whole_sum[19]) | 
+   (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0 & 
+   si_whole_sum[19]) | (un4_si_whole_scaled_cry_14_0_S1_0 & si_whole_sum[19]) | 
+   (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_16_0_S1_0 & 
+   si_whole_sum[19]) | (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S1_0 & si_whole_sum[19]) | (un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S1_0 & si_whole_sum[19]) | (un4_si_whole_scaled_cry_16_0_S1_0 & 
+   si_whole_sum[19]);
+assign g1_4 = (un4_si_whole_scaled_cry_10_0_S1_0) | (un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S0_0) | (un4_si_whole_scaled_cry_12_0_S0_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_16_0_S0_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0) | (un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0 & ~un4_si_whole_scaled_cry_16_0_S0_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0 & ~un4_si_whole_scaled_cry_16_0_S0_0) | 
+   (un4_si_whole_scaled_cry_12_0_S0_0 & ~un4_si_whole_scaled_cry_12_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0) | (un4_si_whole_scaled_cry_12_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0) | (un4_si_whole_scaled_cry_16_0_S0_0);
+assign g0_0_4 = (un4_si_whole_scaled_cry_10_0_S1_0) | (un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S0_0) | (un4_si_whole_scaled_cry_12_0_S0_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S0_0) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S0_0) | (un4_si_whole_scaled_cry_14_0_S0_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_14_0_S1_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S1_0) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S1_0) | (un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0) | 
+   (un4_si_whole_scaled_cry_12_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S1_0) | (un4_si_whole_scaled_cry_14_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S1_0) | (un4_si_whole_scaled_cry_14_0_S1_0);
+assign g0_1 = (un4_si_whole_scaled_cry_10_0_S1_0) | (un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S0_0) | (un4_si_whole_scaled_cry_12_0_S0_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (~si_whole_sum[19]) | (un4_si_whole_scaled_cry_10_0_S1_0 & si_whole_sum[19]) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   si_whole_sum[19]) | (un4_si_whole_scaled_cry_12_0_S0_0 & si_whole_sum[19]) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S1_0 & 
+   si_whole_sum[19]) | (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0 & si_whole_sum[19]) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0 & si_whole_sum[19]) | (un4_si_whole_scaled_cry_12_0_S1_0 & 
+   si_whole_sum[19]);
+assign un8_si_whole_scaled_axb0_0 = (~un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~si_whole_sum[19]) | (un4_si_whole_scaled_cry_10_0_S1_0 & si_whole_sum[19]);
+assign N_731_i = (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0) | 
+   (~un4_si_whole_scaled_cry_12_0_S0_0 & ~si_whole_sum[19]) | (un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S0_0 & si_whole_sum[19]) | (~un4_si_whole_scaled_cry_10_0_S1_0 & 
+   un4_si_whole_scaled_cry_12_0_S0_0 & si_whole_sum[19]);
+assign N_732_i = (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S1_0) | 
+   (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0) | (~un4_si_whole_scaled_cry_12_0_S1_0 & 
+   ~si_whole_sum[19]) | (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S1_0 & 
+   si_whole_sum[19]) | (un4_si_whole_scaled_cry_10_0_S1_0 & ~un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0 & si_whole_sum[19]) | (un4_si_whole_scaled_cry_12_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S1_0 & si_whole_sum[19]) | (~un4_si_whole_scaled_cry_10_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_12_0_S0_0 & un4_si_whole_scaled_cry_12_0_S1_0 & 
+   si_whole_sum[19]);
+assign N_734_i = (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0) | 
+   (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~g0_1) | (~un4_si_whole_scaled_cry_14_0_S0_0 & un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~g0_1) | (~un4_si_whole_scaled_cry_14_0_S1_0 & g0_1);
+assign N_735_i = (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_16_0_S0_0) | 
+   (un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0) | (un4_si_whole_scaled_cry_14_0_S1_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0) | (un4_si_whole_scaled_cry_14_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_16_0_S0_0 & ~g0_1) | (un4_si_whole_scaled_cry_14_0_S0_0 & 
+   ~un4_si_whole_scaled_cry_14_0_S1_0 & ~un4_si_whole_scaled_cry_16_0_S0_0 & 
+   ~g0_1) | (un4_si_whole_scaled_cry_14_0_S1_0 & ~un4_si_whole_scaled_cry_16_0_S0_0 & 
+   ~g0_1) | (~un4_si_whole_scaled_cry_14_0_S0_0 & ~un4_si_whole_scaled_cry_14_0_S1_0 & 
+   un4_si_whole_scaled_cry_16_0_S0_0 & ~g0_1) | (~un4_si_whole_scaled_cry_16_0_S0_0 & 
+   g0_1);
+assign \proc_filter.vai_pipe_13_2 [0] = (CE_c & \proc_filter.vai_pipe_0 [0]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [0] & ~\proc_filter.vai_pipe_14 [0]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [0]) | (~CE_c & ~\proc_filter.vai_pipe_0 [0] & 
+   \proc_filter.vai_pipe_14 [0]) | (\proc_filter.vai_pipe_0 [0] & \proc_filter.vai_pipe_14 [0]);
+assign \proc_filter.vai_pipe_7_2 [0] = (CE_c & \proc_filter.vai_pipe_0 [0]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [0] & ~\proc_filter.vai_pipe_7 [0]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [0]) | (~CE_c & ~\proc_filter.vai_pipe_0 [0] & 
+   \proc_filter.vai_pipe_7 [0]) | (\proc_filter.vai_pipe_0 [0] & \proc_filter.vai_pipe_7 [0]);
+assign \proc_filter.vai_pipe_1_2 [0] = (CE_c & \proc_filter.vai_pipe_0 [0]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [0] & ~\proc_filter.vai_pipe_6 [0]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [0]) | (~CE_c & ~\proc_filter.vai_pipe_0 [0] & 
+   \proc_filter.vai_pipe_6 [0]) | (\proc_filter.vai_pipe_0 [0] & \proc_filter.vai_pipe_6 [0]);
+assign \proc_filter.vai_pipe_13_2 [1] = (CE_c & \proc_filter.vai_pipe_0 [1]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [1] & ~\proc_filter.vai_pipe_14 [1]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [1]) | (~CE_c & ~\proc_filter.vai_pipe_0 [1] & 
+   \proc_filter.vai_pipe_14 [1]) | (\proc_filter.vai_pipe_0 [1] & \proc_filter.vai_pipe_14 [1]);
+assign \proc_filter.vai_pipe_7_2 [1] = (CE_c & \proc_filter.vai_pipe_0 [1]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [1] & ~\proc_filter.vai_pipe_7 [1]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [1]) | (~CE_c & ~\proc_filter.vai_pipe_0 [1] & 
+   \proc_filter.vai_pipe_7 [1]) | (\proc_filter.vai_pipe_0 [1] & \proc_filter.vai_pipe_7 [1]);
+assign \proc_filter.vai_pipe_1_2 [1] = (CE_c & \proc_filter.vai_pipe_0 [1]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [1] & ~\proc_filter.vai_pipe_6 [1]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [1]) | (~CE_c & ~\proc_filter.vai_pipe_0 [1] & 
+   \proc_filter.vai_pipe_6 [1]) | (\proc_filter.vai_pipe_0 [1] & \proc_filter.vai_pipe_6 [1]);
+assign \proc_filter.vai_pipe_13_2 [2] = (CE_c & \proc_filter.vai_pipe_0 [2]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [2] & ~\proc_filter.vai_pipe_14 [2]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [2]) | (~CE_c & ~\proc_filter.vai_pipe_0 [2] & 
+   \proc_filter.vai_pipe_14 [2]) | (\proc_filter.vai_pipe_0 [2] & \proc_filter.vai_pipe_14 [2]);
+assign \proc_filter.vai_pipe_7_2 [2] = (CE_c & \proc_filter.vai_pipe_0 [2]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [2] & ~\proc_filter.vai_pipe_7 [2]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [2]) | (~CE_c & ~\proc_filter.vai_pipe_0 [2] & 
+   \proc_filter.vai_pipe_7 [2]) | (\proc_filter.vai_pipe_0 [2] & \proc_filter.vai_pipe_7 [2]);
+assign \proc_filter.vai_pipe_1_2 [2] = (CE_c & \proc_filter.vai_pipe_0 [2]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [2] & ~\proc_filter.vai_pipe_6 [2]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [2]) | (~CE_c & ~\proc_filter.vai_pipe_0 [2] & 
+   \proc_filter.vai_pipe_6 [2]) | (\proc_filter.vai_pipe_0 [2] & \proc_filter.vai_pipe_6 [2]);
+assign \proc_filter.vai_pipe_13_2 [3] = (CE_c & \proc_filter.vai_pipe_0 [3]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [3] & ~\proc_filter.vai_pipe_14 [3]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [3]) | (~CE_c & ~\proc_filter.vai_pipe_0 [3] & 
+   \proc_filter.vai_pipe_14 [3]) | (\proc_filter.vai_pipe_0 [3] & \proc_filter.vai_pipe_14 [3]);
+assign \proc_filter.vai_pipe_7_2 [3] = (CE_c & \proc_filter.vai_pipe_0 [3]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [3] & ~\proc_filter.vai_pipe_7 [3]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [3]) | (~CE_c & ~\proc_filter.vai_pipe_0 [3] & 
+   \proc_filter.vai_pipe_7 [3]) | (\proc_filter.vai_pipe_0 [3] & \proc_filter.vai_pipe_7 [3]);
+assign \proc_filter.vai_pipe_1_2 [3] = (CE_c & \proc_filter.vai_pipe_0 [3]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [3] & ~\proc_filter.vai_pipe_6 [3]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [3]) | (~CE_c & ~\proc_filter.vai_pipe_0 [3] & 
+   \proc_filter.vai_pipe_6 [3]) | (\proc_filter.vai_pipe_0 [3] & \proc_filter.vai_pipe_6 [3]);
+assign \proc_filter.vai_pipe_13_2 [4] = (CE_c & \proc_filter.vai_pipe_0 [4]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [4] & ~\proc_filter.vai_pipe_14 [4]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [4]) | (~CE_c & ~\proc_filter.vai_pipe_0 [4] & 
+   \proc_filter.vai_pipe_14 [4]) | (\proc_filter.vai_pipe_0 [4] & \proc_filter.vai_pipe_14 [4]);
+assign \proc_filter.vai_pipe_7_2 [4] = (CE_c & \proc_filter.vai_pipe_0 [4]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [4] & ~\proc_filter.vai_pipe_7 [4]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [4]) | (~CE_c & ~\proc_filter.vai_pipe_0 [4] & 
+   \proc_filter.vai_pipe_7 [4]) | (\proc_filter.vai_pipe_0 [4] & \proc_filter.vai_pipe_7 [4]);
+assign \proc_filter.vai_pipe_1_2 [4] = (CE_c & \proc_filter.vai_pipe_0 [4]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [4] & ~\proc_filter.vai_pipe_6 [4]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [4]) | (~CE_c & ~\proc_filter.vai_pipe_0 [4] & 
+   \proc_filter.vai_pipe_6 [4]) | (\proc_filter.vai_pipe_0 [4] & \proc_filter.vai_pipe_6 [4]);
+assign \proc_filter.vai_pipe_13_2 [5] = (CE_c & \proc_filter.vai_pipe_0 [5]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [5] & ~\proc_filter.vai_pipe_14 [5]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [5]) | (~CE_c & ~\proc_filter.vai_pipe_0 [5] & 
+   \proc_filter.vai_pipe_14 [5]) | (\proc_filter.vai_pipe_0 [5] & \proc_filter.vai_pipe_14 [5]);
+assign \proc_filter.vai_pipe_7_2 [5] = (CE_c & \proc_filter.vai_pipe_0 [5]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [5] & ~\proc_filter.vai_pipe_7 [5]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [5]) | (~CE_c & ~\proc_filter.vai_pipe_0 [5] & 
+   \proc_filter.vai_pipe_7 [5]) | (\proc_filter.vai_pipe_0 [5] & \proc_filter.vai_pipe_7 [5]);
+assign \proc_filter.vai_pipe_1_2 [5] = (CE_c & \proc_filter.vai_pipe_0 [5]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [5] & ~\proc_filter.vai_pipe_6 [5]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [5]) | (~CE_c & ~\proc_filter.vai_pipe_0 [5] & 
+   \proc_filter.vai_pipe_6 [5]) | (\proc_filter.vai_pipe_0 [5] & \proc_filter.vai_pipe_6 [5]);
+assign \proc_filter.vai_pipe_13_2 [6] = (CE_c & \proc_filter.vai_pipe_0 [6]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [6] & ~\proc_filter.vai_pipe_14 [6]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [6]) | (~CE_c & ~\proc_filter.vai_pipe_0 [6] & 
+   \proc_filter.vai_pipe_14 [6]) | (\proc_filter.vai_pipe_0 [6] & \proc_filter.vai_pipe_14 [6]);
+assign \proc_filter.vai_pipe_7_2 [6] = (CE_c & \proc_filter.vai_pipe_0 [6]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [6] & ~\proc_filter.vai_pipe_7 [6]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [6]) | (~CE_c & ~\proc_filter.vai_pipe_0 [6] & 
+   \proc_filter.vai_pipe_7 [6]) | (\proc_filter.vai_pipe_0 [6] & \proc_filter.vai_pipe_7 [6]);
+assign \proc_filter.vai_pipe_1_2 [6] = (CE_c & \proc_filter.vai_pipe_0 [6]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [6] & ~\proc_filter.vai_pipe_6 [6]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [6]) | (~CE_c & ~\proc_filter.vai_pipe_0 [6] & 
+   \proc_filter.vai_pipe_6 [6]) | (\proc_filter.vai_pipe_0 [6] & \proc_filter.vai_pipe_6 [6]);
+assign \proc_filter.vai_pipe_13_2 [7] = (CE_c & \proc_filter.vai_pipe_0 [7]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [7] & ~\proc_filter.vai_pipe_14 [7]) | 
+   (~CE_c & \proc_filter.vai_pipe_14 [7]) | (~CE_c & ~\proc_filter.vai_pipe_0 [7] & 
+   \proc_filter.vai_pipe_14 [7]) | (\proc_filter.vai_pipe_0 [7] & \proc_filter.vai_pipe_14 [7]);
+assign \proc_filter.vai_pipe_7_2 [7] = (CE_c & \proc_filter.vai_pipe_0 [7]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [7] & ~\proc_filter.vai_pipe_7 [7]) | 
+   (~CE_c & \proc_filter.vai_pipe_7 [7]) | (~CE_c & ~\proc_filter.vai_pipe_0 [7] & 
+   \proc_filter.vai_pipe_7 [7]) | (\proc_filter.vai_pipe_0 [7] & \proc_filter.vai_pipe_7 [7]);
+assign \proc_filter.vai_pipe_1_2 [7] = (CE_c & \proc_filter.vai_pipe_0 [7]) | 
+   (CE_c & \proc_filter.vai_pipe_0 [7] & ~\proc_filter.vai_pipe_6 [7]) | 
+   (~CE_c & \proc_filter.vai_pipe_6 [7]) | (~CE_c & ~\proc_filter.vai_pipe_0 [7] & 
+   \proc_filter.vai_pipe_6 [7]) | (\proc_filter.vai_pipe_0 [7] & \proc_filter.vai_pipe_6 [7]);
+assign un25_sai_prod_sum_sum_cry_0_sf_0 = (sai_prod_sum_2[1]);
+//@6:156
+//@6:156
+//@6:156
+  PUR PUR_INST (
+	.PUR(VCC)
+);
+endmodule /* bandpass */
+

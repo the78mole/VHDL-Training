@@ -1,0 +1,22 @@
+\section{Versuch 13: Loop-Test}
+	\develnote{Sender und Empfänger analogseitig zusammenschalten und Funktion testen}
+
+\subsection{Konzept}
+
+Um die Zusammenarbeit von Modulator und Demodulator zu testen, wird das gesamte System im FPGA implementieren und der Ausgang des SPATE mit dessen Eingang verbunden. Auf diese Weise wird eine Selbsttest der Hardware und des Programmes ermöglicht.
+
+
+\subsection{VHDL: Beschreibung der Hardware}
+
+Alle Module werden in geeigneter Weise in das Toplevel integriert. Entscheiden sie selbst, welche Möglichkeiten der Signalerzeugung und Signalisierung sie für die Verfikation der Schaltung einsetzen wollen. Der Anschluss des Ports RS232\_RX als Eingang und RS232\_\-TX als Ausgang ist für den nachfolgenden Versuch nötig.
+
+\subsection{TEST: Praxis}
+
+\paragraph{Aufgabe 1: Funktionstest}
+
+Verbinden sie den Line-In-Eingang und den Line-Out-Ausgang der Schaltung mit Hilfe einer Leitung, die sie von ihrem Betreuer erhalten und überprüfen sie die Funktion der Hardware.
+
+\paragraph{Aufgabe 2: Serielles Echo}
+
+Anschließend verbinden sie das serielle Kabel mit dem PC und dem SPATES und starten HyperTerm mit dem Profil \emph{ADSP-Loop-Settings.ht}, das in Ihrem Praktikumsverzeichnis liegt, indem sie das Profil im Explorer mittels Doppelklick starten. Das Hyperterm-Programm wird dabei automatisch gestartet. Anschließend können sie die Hardware auf die serielle Schnittstelle umschalten. 
+Sobald sie im Programmfenster von Hyperterm eine Eingabe tätigen, sollten die Zeichen auf dem Bildschirm erscheinen. Ist dies nicht der Fall, so überprüfen Sie zuerst die Kabelverbindungen, bevor Sie sich an die Fehlersuche im Code machen. Hierzu kann Ihnen Ihr Betreuer auch einen Loop-Stecker für die serielle Schnittstelle des PC geben, der gleiches bewirken sollte wie die Hardware in diesem Versuch. Zumindest kann eine Fehlkonfiguration des Terminal-Programms und der Schnittstelle schnell ausgeschlossen werden.

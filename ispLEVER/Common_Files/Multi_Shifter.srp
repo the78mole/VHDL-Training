@@ -1,0 +1,26 @@
+SCUBA, Version ispLever_v60_PROD_Build (36)
+Sun Nov 26 00:53:38 2006
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.
+
+    Issued command   : C:\ispTOOLS6_0_STRT\ispfpga\bin\nt\scuba.exe -w -n Multi_Shifter -lang vhdl -synth synplify -bus_exp 7 -bb -arch ep5g00p -type dspmult -simple_portname -widtha 8 -widthb 16 -widthp 24 -PL_stages 1 -clk0 -ce0 -rst0 -e 
+    Circuit name     : Multi_Shifter
+    Module type      : 
+    Ports            : 
+	Inputs       : Clock, ClkEn, Aclr, DataA[7:0], DataB[15:0]
+	Outputs      : Result[23:0]
+    I/O buffer       : not inserted
+    EDIF output      : suppressed
+    VHDL output      : Multi_Shifter.vhd
+    VHDL template    : Multi_Shifter_tmpl.vhd
+    VHDL purpose     : for synthesis and simulation
+    Bus notation     : big endian
+    Report output    : Multi_Shifter.srp
+    Element Usage    :
+      MULT18X18 : 1
+    Estimated Resource Usage:
+        DSP_9x9 : 2

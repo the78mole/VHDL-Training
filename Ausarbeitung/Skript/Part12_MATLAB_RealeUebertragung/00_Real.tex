@@ -1,0 +1,24 @@
+\section{Versuch 12: Simulation einer nichtidealen Übertragung}
+
+Nachdem die komplette Hardware bereits im Versuch 6 fertiggestellt wurde, werden wir nun noch ein paar Besonderheiten betrachten. In den Kapiteln \ref{subsec:siggen:machinenumbers} und \ref{subsec:digifilt:nonideal} sind wir auf die Zahlendarstellung in digitalen Systemen und die hierdurch enstehenden Effekte eingegangen. Dies soll nun noch in der Simulationsstrecke berücksichtigt werden. 
+
+\paragraph{Aufgabe 1: Fixed-Point-Format}
+\begin{enumerate}
+	\item Wie bereits an anderer Stelle dargestellt wurde, arbeitet MATLAB standartmäßig mit Zahlen im  Double-Precision-Floating-Point Format. Die Implementierung auf dem FPGA der Testplatine allerdings werden sie mit einer Fixed-Point-Darstellung durchführen müssen. An welchen Stellen werden voraussichtlich ungewünschte Effekte auftreten? 
+	\answergame{7}{
+		\begin{itemize}
+			\item Die ersten Probleme werden bei der Realisierung des CORDIC-Algorithmus auftreten, da es durch die Quantisierung zu einer falschen Berechnung der jeweiligen Endwerte kommen kann. Je nachdem wie der CORDIC implementiert wurde werden sich diese Fehler mehr oder weniger stark auf das Verhalten der Baugruppe auswirken. Bei einer straight-forward-Implementierung, die den jeweiligen Ausgangswert der vorhergehenden Berechnung als Startwert nimmt, wird sich der Fehler schnell aufschaukeln, was sich durch eine deutliche Veränderung der Signalamplitude seiner Ausgangsschwingung bemerkbar macht. 
+			
+			Die geschicktere Implementierung nutzt nicht das Ergebnis der vorhergehenden Berechnung sondern beginnt wieder von vorne, dreht dann aber um einen entsprechend größeren Winkel.
+			\item Im Bereich des Empfängers werden die Hauptprobleme durch quantisierte Filterkoeffizienten und die Effekte durch quantisierte Artithmetik verursacht werden. Allerdings sollte das in ihrer bisherigen Simulation schon berücksichtigt sein, da die Filter ja zum Einen schon mit quantisierten Koeffizienten entworfen wurden und zum Anderen die verwendete Filterfunktion \textit{filtfir\_symm\_qa.m} bereits mit quantisierter Arithmetik arbeitet
+		\end{itemize}
+	}
+	\item Um den Arbeitsaufwand nicht unnötig ausufern zu lassen werden wir im weiteren Verlauf mit einer Quasi-Quantisierung arbeiten. 
+	Die Funktion \textit{quant2c.m} im Verzeichnis \pathtomatlab{Gesamtsystem} quantisiert eine beliebige Zahl auf eine gewünschte Wortlänge. Stellen sie mit ihrer Hilfe ihre Simulation so um, dass nach jeder Berechnung die Ergebnisse neu quantisiert werden. 
+\end{enumerate}
+
+\paragraph{Aufgabe 2: Kanalmodellierung}
+	\begin{enumerate}
+		\item Der bisher angenommene ideale Übertragungs-Kanal wird in Praxis nicht realisierbar sein. Simulieren sie daher mit Hilfe der Funktion \textit{AWGNchannel.m} die Arbeitsweise ihres Systems unter realistischeren Bedingungen.
+		\item Da es während des Praktikums nicht vorkommen wird, dass sie als einzige Gruppe das Übertragungsmedium (die Luft) nutzen werden, sollen nun noch die parallelen Übertragungen weiterer Gruppen simuliert werden. Machen sie sich hierzu mit der Funktion \texttt{Nachbarkanaele.m} vertraut und bauen sie diese an passender Stelle in ihre Simulation mit ein. Wie stark wirkt sich diese Übertragung auf ihre gemessenen Bit-Fehler aus?
+	\end{enumerate}

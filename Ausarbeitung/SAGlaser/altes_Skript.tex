@@ -1,0 +1,343 @@
+In den 60er Jahren waren lediglich die Standard-Logikfamilien (74xx-TTL, später 40xx-CMOS) für den Entwurf von Logikschaltungen mit kleinen Stückzahlen verfügbar. Sven Wahlstrom hatte die Möglichkeit der programmierbaren Logik durch zusätzliche Gatter, die die Funktion der Verdrahtung flexibel gestalten sollten, schon angedacht, die Integrationsdichte ließ dies jedoch bei weitem noch nicht zu. Als diese Integrationsdichte von SSI\footnote{Small Scale Integration} und MSI, dank immer besserer Prozessschritte und damit kleinerer Strukturen, zu LSI und VLSI\footnote{Very Large Scale Integration} überging, wurden einerseits die Logikfamilien immer mehr in den Hintergrund gedrängt und andererseits wurde es möglich, die Gedanken der programmierbaren Logik zumindest für weniger komplexe Schaltungen zu verwirklichen. Dies war die Geburtsstunde der PLDs, GALs und FPGAs.
+
+Anfangs waren auch die sehr einfachen programmierbaren Schaltungen sehr teuer und enthielten lediglich wenige mögliche Verknüpfungen, die es gestatteten kleinere logische Schaltnetze bzw. Schaltwerke zu programmieren, anfangs konnte man allerdings nur einmal programmieren, ein löschen war nicht mehr möglich, da die Verbindungen aufgeschmolzen wurden, um den Baustein zu programmieren. Einer der ersten erfolgreichen Vertreter der programmierbaren Bausteine waren in den achtziger Jahren die sogenannten GALs der Firma Lattice, die sich nach einiger Zeit gerade für kleinere Stückzahlen immer mehr durchsetzen konnten, um den Bauteileaufwand zu zu reduzieren. In den letzten Jahren erfuhr der Sektor der programmierbaren Logik immer mehr Aufschwung. Aufgrund kleinerer Strukturen, größerer Chipfläche und schnellerer Bauelemente (Prozessoptimierung) wurde es möglich, programmierbare Strukturen zu implementieren, die mittels neuer Technologien auch mehrmals programmierbar waren. In heutigen FPGAs kommen etwa 10-40 Transistoren auf eine Transitorfunktion der angestrebten Schaltung, wobei mittlerweile mehrere 10K Gatteräquivalente\footnote{häufig verwendetes Vergleichsmaß der FPGAs} je programmierbarem Baustein zur Verfügung stehen. Die Preise bewegen sich derzeit im Bereich von weniger als ein Euro je 1K LUTs\footnote{Häufig verwendetes Kostenmaß bei FPGAs}. Eine LUT ist meist eine programmierbare Gatterfunktion mit vier Eingängen, die eine Beliebige Wahrheitstabelle aufnehmen kann. Der Trend geht zur LUT mit 6 Eingängen, wie es bei Altera bereits seit längerer Zeit und bei Xilinx mit dem Virtex 5 der Fall ist.
+
+Die heutigen FPGAs enthalten eine immense Anzahl von programmierbaren Logikblöcken, die wiederum durch eine programmierbare Verbindungsstruktur untereinander verschaltet werden können. Ein weiterer Trend geht zur Integration von Blöcken mit fester Funktion, zu welchen Prozessoren, RAMs (meist Dual-Ported), schnelle serielle Transceiver\footnote{Kunstwort aus Transmitter und Receiver}, SD-RAM-Controller und Taktaufbereitungsblöcke zählen, die in direkter Verbindung mit den programmierbaren Strukturen des FPGAs stehen. Das Anwendungsgebiet erstreckt sich mittlerweile über Bereiche, die vor wenigen Jahren noch den DSPs oder den ASICs vorbehalten waren.
+
+Die Programmierung gestaltet sich mit Hilfe der Software, die oft vom Hersteller der FPGAs geliefert wird, vergleichsweise einfach gegenüber dem Entwurf von ASICs. Von Xilinx beispielsweise gibt es schon seit längerer Zeit eine kostenlose Version, mit der es möglich ist, die kleineren Vertreter derer FPGAs zu programmieren. Auch Lattice bietet bereits ispLever Starter für die kleinen Modelle an. Trotz der mittlerweile recht einfachen Bedienung ist eine gewisse Lernphase nicht zu umgehen. Wer jedoch den Ablauf von der Beschreibung in VHDL bis zum Bitstream\footnote{Konfigurationsdaten, die seriell (daher Bitstream) in den FPGA geladen werden} verstanden hat, findet sich recht schnell in anderen Umgebungen zurecht, als der erlernten. Der Entwurf selbst erfolgt mit Hilfe der vom IEEE standardisierten Sprache VHDL (verbreitet im europäischen Raum) oder mit Verilog (hauptsächlich im angelsächsischen Sprachraum). VHDL kann auf vielen Abstraktionsebenen des Logikentwurfs verwendet werden. Die Simulation basiert ebenfalls auf dieser Beschreibungssprache.
+
+Um alle nötigen Schritte von der Problemstellung bis hin zur Verifikation mit der realen Hardware zu erlernen, soll ein Praktikum entworfen werden, welches den Studierenden das nötige theoretische Wissen zu den nötigen Schritten und schließlich die praktische Umsetzung dessen vermittelt. Dabei wurde ein besonderes Augenmerk darauf gelegt, möglichst wenig Voraussetzungen zu fordern, um dem Praktikumsstoff folgen und diesen verstehen zu können.
+
+Die gesamte Aufgabe des Praktikumentwurfs wurde dabei auf zwei Studenten verteilt. Im Rahmen dieser Studienarbeit wird der Entwurf der nötigen Hardware und die Beschreibung der Algorithmen in VHDL sowie deren Simulation mittels Modelsim behandelt. Der Teil der Systemsimulation mittels MATLAB und dessen Tools wird durch die zweite Studienarbeit von Andreas Schedel abgedeckt.
+
+
+\chapter{Das Entwicklungssystem}
+
+\section{Rahmenbedingungen}
+
+Die Grundvoraussetzung für das Praktikum war eine kostengünstige Hardware und die einfache Beobachtbarkeit der Ergebnisse. Aus diesem Grund entschied man sich, die Signalverarbeitung auf den Audio-Bereich zu beschränken, da hierfür bewährte und kostengünstige Schaltkreise existieren. In Anlehnung an das Praktikum in Hagenberg sollte somit eine Hardware ausgesucht oder entworfen und der nötige Quellcode in MATLAB und VHDL geschrieben werden, die es den Studierenden ermöglichen, mit relativ wenig Vorwissen das Praktikum zu absolvieren.
+
+Trotz langer Recherche konnte kein entsprechendes System eines Herstellers gefunden werden, das den Ansprüchen gerecht wurde und alle oder zumindest einen Großteil der benötigten Hardware enthielt. Ein Board in der engeren Auswahl war eines von Xilinx, welches 500\$ kostete und somit zu teuer war. Auch bestand der Wunsch ein FPGA der Firma Lattice zu verwenden, da hierfür bereits die Software im Lehrstuhl verbreitet und auch auf den Rechnern im Praktikumsraum installiert ist.
+
+Die Entscheidung fiel letztendlich auf die Entwicklung eines eigenen Systems, was einen erheblichen Mehraufwand für das Praktikum bedeutete. Die Rahmenbedingungen für dieses System sollten in der Kleinserie ein Kostenrahmen von 200 Euro und folgende Hardwarebestandteile sein:
+
+\begin{spacing}{1}
+	\begin{itemize}
+		\item FPGA von Lattice mit genügend Hardware-Ressourcen, geeignet für DSP
+		\item Analog-Digital-Umsetzer für Audiobereich (inkl. Mikrofonvorverstärker)
+		\item Digital-Analog-Umsetzer für Audiobereich
+		\item Einfache Stomversorgung
+		\item Einfache Anzeige- und Bedienelemente
+	\end{itemize}
+\end{spacing}
+
+Da das zu entwerfende Praktikum möglichst nahe an die Vorlesung Architekturen der Digitalen Signalverarbeitung angelehnt sein sollte, stand schon frühzeitig fest, welche Algorithmen zwingend in die Versuche einfließen sollten. Um stetig auf ein Ergebnis hinzuarbeiten zu können und am Ende eine praktische Anwendung vorliegen zu haben, sollte das System ein digitales Signal im Audio-Bereich mit einfachen Mitteln modulieren und demodulieren. Die Versuche sollten, um dem realen Arbeitsablauf nahe zu kommen, die Programmierung in MATLAB bis hin zur realen Hardware beinhalten.
+
+\section{Entwurf eines Systems}
+
+Die Schwierigkeit des Entwurfs lag in der starken Einschränkung bezüglich der Kosten. Auch die Spannungsversorgung sollte mit den bereits zur Verfügung stehenden Netzgeräten auskommen.
+
+\subsection{Auswahl des FPGAs}
+
+Um die in der Vorlesung behandelten Algorithmen der Signalverarbeitung implementieren zu können, war es nötig, ein FPGA zu wählen, das nur wenig Einschränkungen bezüglich der Anzahl der Ein-/Ausgabe-Schnittstellen und der Komplexität erwartet. Erst fiel die Wahl auf die neue low-cost-Serie ECP2 von Lattice, da hier ein ausreichend großer FPGA noch in einem Flat-Package verfügbar war. Im Zeitrahmen der Studienarbeit war dieser jedoch noch nicht für uns verfügbar. Daher musste auf einen ECP ausgewichen werden, deren Vertreter, die für unsere Aufgabe ausreichen (ECP20, ECP33), allerdings nur im BGA zur Verfügung stehen. Daraus resultierte einerseits ein komplexes Layout andererseits musste die Bestückung von einer externen Firma erfolgen. Dennoch wurde der ECP20-484fpBGA \cite{hbecp},\cite{dsecp} als Kern unserer Hardware gewählt, da momentan keine Alternativen verfügbar sind.
+
+\subsection{Analogeingang}
+
+Der Analogeingang enthält, den Rahmenbedingungen folgend, einen Analog-Digital-Umsetzer für den Audio-Bereich und als periphäre Komponenten einen Mikrofon-Vorverstärker und diverse Operationsverstärker zur aktiven Anpassung der Signalpegel.
+
+\subsubsection{Analog-Digital-Umsetzer}
+
+Viele der AD-Umsetzer im Analog-Bereich schieden aufgrund der Logikpegel aus, da das verwendete FPGA maximal 3,3V Eingangsspannung verarbeiten kann. Um die Anbindung in Bezug auf das Layout möglichst einfach zu halten, war ein serielles Interface wünschenswert. Der $I^{2}S$-Standard\footnote{IIC: \textbf{I}nter \textbf{I}ntegrated circuit \textbf{S}ound bus} bot sich hier an. Zur Auswahl kam letztendlich der PCM1803 \cite{pcm1803} von Texas Instruments, dessen Eckdaten die Folgenden sind:
+
+\begin{center}\begin{spacing}{1}
+	\begin{tabular}{|rl|}\hline
+		\textbf{Bezeichnung} 	& \textbf{Daten}\\\hline
+		Kanalanzahl 					& 2 (Stereo) \\
+		Interface 						& $I^{2}S$ (3,3V) \\
+		Auflösung      				& 24-bit \\
+		Umsetzrate 						& 96kHz \\
+		Verfahren 						& $\Sigma-\Delta$ \\
+		Oversampling					& 64-,128-fach \\
+		SNR 									& $103dB$ \\\hline
+	\end{tabular}
+\end{spacing}\end{center}
+
+\subsubsection{Mikrofoneingang}
+
+\paragraph{Mikrofonkapsel}
+
+Das zum Einsatz kommende Mikrofon \cite{conrad_mikrofon} bietet laut Datenblatt einen ausreichenden Frequenzgang, um auch noch bei höherfrequenten Signalen, wie sie zur Modulation verwendet werden, eine ausreichende Empfindlichkeit vorzuweisen. Der erwartete Pegel liegt im Bereich von $-40dBV\pm20db$. 
+
+\paragraph{Mikrofonvorverstärker}
+
+Die Signalaufbereitung vom Mikrofon erfolgt durch einen digital einstellbaren Mikrofonvorverstärker. Diese Variante wurde gewählt, um einen möglichst großen Dynamikbereich zu erlangen, indem die Verstärkung entsprechend der Amplitude des Eingangssignals nachgeregelt werden kann. Nur Texas Instruments bietet mit dem PGA2500 \cite{pga2500} einen, unseren Erwartungen entsprechenden Baustein an. Dieser bietet eine einstellbare Verstärkung im Bereich von $10$ bis $65dB$ in Schritten von $1dB$. Ausserdem ist eine Verstärkung von $0dB$ wählbar. Der Eingangspegel im Consumer-Audio-Bereich liegt bei $-10dBV$, der des AD-Umsetzers bei $0,506dBV$.
+
+Für das Kleinserienmodell könnte jedoch gut auf einen Mikrofonvorverstärker mit automatischer Verstärkungsregelung gewechselt werden, da hier dann schon bekannt ist, welche Pegel benötigt werden, um eine gute Signalverarbeitung zu ermöglichen.
+
+Hier würde sich der SSM2167 \cite{ssm2167} von Analog Devices anbieten, der den Anforderungen an Spannungsversorgung, THD + N \footnote{THD: Total Harmonic Distortion; N: Noise} und Verstärkung genügen würde. Er bietet eine automatische Verstärkungsregelung und eine Stummschaltung zur Unterdrückung von Rauschen bei Stille.
+
+\subsubsection{Verschaltung des Analogeingangs}
+
+Für beide integrierten Schaltungen (PCM1803 und PGA2500) gab es ausreichend gute und genaue Application Notes, was die umliegende Beschaltung festlegte. Lediglich die Verschaltung der ICs untereinander und die Anpassung der Pegel, deren Amplitude und Offset, musste noch entworfen werden.
+
+Als aktives Element fiel die Entscheidung zugunsten des OPA2134 \cite{opa2134} von Burr-Brown, der, speziell für High-End Audio-Anwendungen entwickelt, durch sein extrem niedriges Rauschen von $8 \frac{nV}{\sqrt{Hz}}$ und sein geringes Übersprechen überzeugt.
+
+In der Kleinserie könnten auch bedeutend günstigere Operationsverstärker wie der Standardtyp TL082 \cite{tl082} verwendet werden, dessen Rauschspannungsdichte mit $16 \frac{nV}{\sqrt{Hz}}$ noch in einem akzeptablen Bereich liegt. Die Daten des TL082 sind in Hinblick auf die Unterdrückung von Störungen durch Gleichtakt besser als die des OPA2134. Insbesondere die Störungen auf der positiven Versorgung werden vom TL082 besser unterdrückt. Dadurch kann eine einfachere Ausführung der Spannungsversorgung erfolgen. Die Werte können aus den Abb. \ref{fig:opa2134cmrrpsrr}, \ref{fig:tl082cmrr} und \ref{fig:tl082psrr} entnommen werden. Die markierten Punkte entsprechen etwa der angestrebten Bandbreite.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=200pt]{bilder/opa2134cmrrpsrr}
+	\caption{OPA2134: PSRR und CMRR}
+	\label{fig:opa2134cmrrpsrr}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\begin{minipage}[b]{0.45\linewidth}
+		\centering
+			\includegraphics[width=150pt]{bilder/tl082cmrr}
+		\caption{TL082: CMRR}
+		\label{fig:tl082cmrr}
+	\end{minipage}
+	\begin{minipage}[b]{0.45\linewidth}
+		\centering
+			\includegraphics[width=150pt]{bilder/tl082psrr}
+		\caption{TL082: PSRR}
+		\label{fig:tl082psrr}
+	\end{minipage}
+\end{figure}
+
+
+\subsection{Analogausgang}
+
+\subsubsection{Digital-Analog-Umsetzer}
+
+Die Schaltung des Analogausgangs gestaltete sich in Bezug auf die Störunempfindlichkeit einfacher als die des Eingangs, da die Signalpegel größer sind. Weiterhin besitzt der verwendete DA-Umsetzer PCM1730 \cite{pcm1730} differentielle Stromausgänge, was die Störunempfindlichkeit weiter erhöht. Allerdings muss eine Strom-Spannungswandlung durchgeführt und das Signal von differentiell auf single-ended umgewandelt werden. Dies geschieht ebenfalls mit Hilfe des OPA2134 bzw. eines günstigeren OPVs und externer Beschaltung. Im Zuge dieser Umsetzung wird eine Tiefpassfilterung durchgeführt, welche die Alias-Spektren unterdrückt, die in dem Ausgangssignal des DA-Umsetzers enthalten sind. Dieses Filter kann jedoch sehr einfach gestaltet werden, da die Wandlung mit 192kHz durchgeführt wird und daraus folgend 2-fach Oversampling im Bezug auf die Wandlungsrate am Eingang stattfindet. Daraus resultiert, dass das Filter nur eine sehr geringe Steilheit aufweisen muss, da erst bei 96kHz die Dämpfung ausreichend stark ausgeprägt sein muss, um die Alias-Spektren genügend zu unterdrücken. Die 3dB-Grenzfrequenz des Filters soll laut Datenblatt bei etwa bei 45 kHz liegen.
+
+\subsubsection{Leistungsverstärker}
+
+Eine weitere Komponente die integriert wurde, um einfache Mono-Lautsprecher oder preiswerte, passive PC-Stereo-Lautsprecher anschließen zu können, beinhaltet einen TPA0213\cite{tpa0213}, der eine 2W-Mono-Endstufe in einem sehr kleinen Gehäuse integriert. Ein Stereo-Betrieb ist ebenso möglich. Die externe Beschaltung folgt wieder den Application Notes des Datenblattes. Lediglich auf die richtigen Pegel musste Rücksicht genommen werden. Gegebenfalls kann dieser Schaltungsteil für das Praktikum durch aktive Lautsprecher ersetzt werden.
+
+\subsection{Mensch-Maschine-Schnittstelle}
+
+Als Schnittstelle zwischen Mensch und Maschine (HDI) kommen lediglich einfache Eingabe- und Anzeige-Elemente zum Einsatz:
+
+\begin{spacing}{1}
+	\begin{itemize}
+		\item 8 Taster
+		\item 8-fach DIP-Schalter
+		\item 3 Stautsanzeigen (je 1 LED rot, gelb, grün)
+		\item 2 Pegelanzeigen (je 1 rote, 2 gelbe und 5 grüne LEDs)
+		\item 4 7-Segment-LED-Anzeigen
+	\end{itemize}
+\end{spacing}
+
+Mehr ist für die Bedienung der Hardware im Praktikum nicht nötig.
+
+\subsection{Spannungsversorgung}
+
+Die Spannungsversorgung gestaltet sich aufgrund der Anzahl der benötigten Spannungen aufwändig. Angestrebt wurde auch die strikte Trennung von analoger und digitaler Spannungsversorgung, wie auch die Trennung der beiden Analogein- und -ausgangsteile. Daher ergaben sich die Versorgungsspannungen aus Tabelle \ref{tab:Supplies}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{|c|l|c|c|}
+		\hline\textbf{Spannung} & \textbf{Verwendung} & \textbf{Belastbarkeit} & \textbf{Quelle}\\\hline
+		$+12V$ & Vers. des $+1,2V$- und $+2,5V$-Reglers & 2,7A & extern \\
+		$+3,3V$ & Vers. der digitalen Peripherie & 2,1A & extern \\
+		$+2,5V$ & Für Erweiterungen (optional) & 6A & $+12V$ \\
+		$+1,2V$ & VCore des FPGA & 3A (6A) & $+12V$ \\
+		$+5,2V$ & Vers. der analogen Komponenten & 1,7A & extern \\
+		$-7V$ & Negative Hilfsspannung & 300mA & $+5,2V$ \\
+		$+5V_{MA}$ & Versorgung des Mikrofon-Vorverstärkers & 100mA & $+5,2V$ \\
+		$-5_{VD}$ & Neg. Digitalhilfssp. für Mikrofonvorverst. & 100mA & $-7V$ \\
+		$+5V_{AD}$ & Positive Vers. des AD-Wandler-Teils & 100mA & $+5,2V$ \\
+		$-5V_{AD}$ & Negative Vers. des AD-Wandler-Teils & 100mA & $-7V$ \\
+		$+5V_{DA}$ & Positive Vers. des DA-Wandler-Teils & 100mA & $+5,2V$ \\
+		$-5V_{DA}$ & Negative Vers. des DA-Wandler-Teils & 100mA & $-7V$ \\\hline
+	\end{tabular}
+	\caption{Versorgungsspannungen}
+	\label{tab:Supplies}
+\end{table}
+
+Für die Erzeugung der Spannungen mit höherer Strombelastung wurden jeweils Schaltregler verwendet, die genügend Strom zur Verfügung stellen können. Für die Spannungen $+12V$, $+5,2V$, $+3,3V$ wurde dementsprechend der TPS5430 \cite{tps5430} von TI verwendet, der sich durch einen geringen Preis, einfache Beschaltung und eine sehr gute Software zur Dimensionierung der Komponenten auszeichnet. Ein entscheidender Nachteil, wie sich später herausstellte, sollte die schlechte Verfügbarkeit dieses Schaltreglers in Europa sein. Außerdem zeichnete sich ab, dass für die $+3,3V$-Versorgung die nachstehende Lösung mittels PTH1200 hätte verwendet werden sollen. Für die $+5,2V$- und die $+12V$-Versorgung leisten diese Schaltregler jedoch zuverlässig Ihren Dienst.
+
+Die Versorgung des FPGA-Cores mit $+1,2V$ und der IO-Bänke bzw. der Peripherie mit $+3,3V$ und $+2,5V$ (optional) wäre idealerweise mit je einem PTH12000 \cite{pth1200} zu verrichten. Zwar ist der Preis dieses Bausteins mit etwa 12 Euro relativ hoch gegenüber einer eigenen Variante, jedoch kann man diesen einfach mittels eines Widerstandes auf die gewünschte Ausgangsspannung einstellen. Die Fähigkeit, 6A dauerhaft bereitzustellen und der geringe Platzbedarf sind weitere entscheidende Vorteile dieser Lösung. Auch Überspannungen beim Einschalten oder bei zu geringer Last treten hier nicht auf. Leider ist die Nachfrage nach diesem Modul so hoch, dass eine Verfügbarkeit nicht sichergestellt ist. 
+
+Die Erzeugung der negativen Hilfsspannung, welche nur sehr gering belastet wird, erfolgt durch den invertierenden Festfrequenz-PWM-Schaltregler TPS6755 \cite{tps6755}, ebenfalls von TI, der mit wenigen externen Elementen die Inversion einer positiven Eingangsspannung (hier die +5,2V-Versorgung) inklusive einer Regelung der Ausgangsspannung erlaubt. Die Ausgangsspannung wurde in der Schaltung auf $-7V$ festgelegt, um mit dem linearen Standard-Spannungsreglern der 79L-Serie, genauer dem 79L05 \cite{79L05}, eine weitere Stabilisierung auf $-5V$ durchführen zu können.
+
+Für die Versorgung der analogen Komponenten werden die +5,2V verwendet, welche nochmals mittels eines Low-drop-Regler auf +5V stabilisiert werden. Hierfür kommen der TPS73250 \cite{tps73250} von TI oder der XC6201P502MR \cite{xc6201} von TOREX in Betracht, welche Pinkompatibel zueinander sind und annähernd gleiche Daten besitzen. Für den 2W-Audio-Verstärker, welcher den Lautsprecher treiben soll, werden direkt die +5,2V verwendet, da dieser einen hohen Strom benötigt. Die Qualität der Versorgungsspannung ist hier von untergeordneter Bedeutung. Es ist lediglich dafür Sorge zu tragen, dass sich die hohen Ströme nicht auf die Versorgung der übrigen analogen Teile auswirken.
+
+\subsection{Programmierschnittstelle}
+
+Für die Programmierung des FPGA wird die standardisierte Schnittstelle nach IEEE 1149.1, auch bekannt als JTAG, verwendet. Es werden lediglich 6 Leitungen inklusive Versorgung zum Anschluss benötigt. Die Verbindung selbst erfolgt über einen 10-poligen (2x5 Stifte, 2,54mm Raster) Kragenstecker mit Nut. Dieser stellt die Verbindung zum Programmierkabel von Lattice her.
+
+\subsection{Sonstige Schnittstellen}
+
+Zur Erweiterung der Funktionalität sind eine EIA-232-Schnittstelle und ein Erweiterungssteckplatz vorgesehen.
+
+\subsubsection{EIA-232}
+
+Die Realisierung der RS-232-Schnittstelle erfolgt mit Hilfe des Standard-Bausteins MAX3232 \cite{max3232}, der eine Pegelumsetzung von $0V/3,3V$ nach $\pm5-15V$ vornimmt. Über diese Schnittstelle sollen später die zu übertragenden digitalen Daten ausgetauscht werden. Aufgrund der Angaben im Datenblatt ist die Schaltung bereits vorgegeben und besitzt nur wenige Freiheitsgrade.
+
+\subsubsection{Erweiterungssteckplatz}
+
+Der Erweiterungssteckplatz dient zukünftigen Versuchen, die zusätzliche Hardware benötigen. Da die Unterbringung zweier Steckverbinder kaum Kosten verursacht, wurde dies vorgesehen, um den Anwendungsbereich der gesamten Schaltung zu erweitern. An jeden der beiden Steckverbinder sind 16 Anschlüsse des FPGA jeweils einer Bank herausgeführt. Weiterhin kann die Spannungszuführung zum Erweiterungssteckplatz $+3,3V$ oder $+2,5V$ betragen, wobei die Bank ebenfalls die gewählte Spannung erhält. Somit ist eine flexible Beschaltung des Erweiterungssteckplatzes gewährleistet. 
+
+Indem Signale einfach aus dem FPGA herausgeführt werden können, ohne an andere Hardwarekomponenten gebunden zu sein, leistet der Erweiterungssteckplatz für das Debugging ebenfalls unentbehrliche Dienste, sowohl in der Entwicklung als auch bei der Durchführung des Praktikums. 
+
+\subsection{Layout}
+
+Aufgrund der großen Anzahl der Bauteile, und nicht zuletzt wegen der aufwändigen Spannungsversorgung, war klar, dass das Layout mit der Einschränkung auf 2 Kupferlagen sehr komplex werden würde und die Platzierung der Bauteile gut geplant sein musste. Des weiteren waren die Regeln für das Layout sehr restriktiv, da der ausgewählte Leiterplattenhersteller einen Nutzen für mehrere Kunden verwendet. Beispielsweise standen keine mit Kupfer gefüllten Durchkontaktierungen zur Verfügung, die auch unter den Balls des FPGA verwendet werden können und sicherstellen, dass kein Lot in die Durchkontaktierung abfließen kann. Diese gefüllten Durchkontaktierungen erleichtern das Layout und verringern die Wahrscheinlichkeit von Problemen bei der Bestückung. Die Layoutregeln wurden wie folgt eingehalten:
+
+\begin{itemize}
+	\item $150\mu m$ Minimale Leiterbahnbreite und minimaler Abstand
+	\item $300\mu m$ Minimaler Bohrlochdurchmesser
+	\item $200\mu m$ Minimaler Restring
+\end{itemize}
+
+In der Produktion stellte sich heraus, dass der Abstand zu den Kupferflächen zu gering war, da die Konvertierung der Flächen in Linien eine Abstandsverringerung zur Folge hatte. Somit musste die Aura aller Elemente auf $200\mu m$ vergrößert werden, um die Produktion zu ermöglichen. Die minimalen Abstände der einzelnen Leiterbahnen und deren minimale Breite von $150\mu m$ konnten beibehalten werden.
+
+Insgesamt besitzt das Entwicklungsboard rund 400 Bauteile und 2100 Bohrlöcher. Die gesamte Schaltung fand auf einer Leiterkarte im Standard-Euro-Karten-Format ($160\textnormal{x}100mm$) Platz. 
+
+\subsubsection{Partitionierung}
+
+Das Layout wurde so ausgelegt, dass auf der Vorder- und Rückseite ungenutzte Teile mit einer Massefläche versehen wurden, welche in verschiedene Bereiche partitioniert wurden, um einen möglichst großen Störabstand zu erreichen und im Bereich des FPGA eine möglichst niederohmige Verbindung mit geringem Spannungsabfall sicherzustellen.
+
+\subsubsection{Trennung von analogen und digitalen Schaltungsteilen}
+
+Da digitale Schaltungen viele Störungen durch die kurzen Anstiegszeiten und die hohen Taktraten verursachen, war eine sehr gute Trennung von den analogen Schaltungsteilen nötig, um die Einkopplungen auf ein Minimum zu reduzieren. Sowohl die digitalen Teile, als auch jeder der analogen Bereiche, die verschiedene Aufgaben übernehmen, wurde durch eine getrennte Spannungsversorgung und getrennte Massen voneinander entkoppelt. Die einzelnen Masseflächen auf Vorder- und Rückseite wurden am Rand niederohmig mittels Durchkontaktierungen verbunden. So können Störungen effektiv gegen Masse abgeführt werden und eine Einkopplung in signaltragende Leitungen erschwert werden. Gerade im Bereich der Mikrofonsignale ist dies notwendig, da hier mit Pegeln unterhalb von $-40dBV$ gerechnet werden muss und Störungen vor der ersten Verstärkung im Mikrofonvorverstärker den größten Anteil am gesamten Signal-zu-Rausch-Verhältnis\footnote{SNR: Signal to Noise Ratio} haben (vgl. \cite{aes}).
+
+\subsubsection{Spannungsversorgung}
+
+An das Layout wurden auch in Hinblick auf die Spannungsversorgung spezielle Anforderungen gestellt. Da kein eigener Layer jeweils für Versorgung und Masse zur Verfügung standen, musste speziell für die Core-Spannungsversorgung des FPGA mit $+1,2V$ eine genaue Berechnung des Spannungsabfalles für die erwarteten Belastungsfälle durchgeführt werden. Hier durfte ein Widerstand von $30m\Omega$ nicht überschritten werden. Es wurde ein maximaler Strom von $3A$ zugrunde gelegt, wobei aus dem Datenblatt nicht hervorging, in welcher Größenordnung dieser liegen würde. Aus Erfahrungen mit SpartanIII-FPGAs der Firma Xilinx wurde so eine Abschätzung getroffen, die selbst im schlimmsten Fall nicht überschritten werden sollte. Der maximale Spannungsabfall von $60mV$, welcher aus dem Datenblatt entnommen wurde, schloss die Möglichkeit, die Spannungsversorgung um weitere $60mV$ erhöhen zu können nicht mit ein, da so eine weitere Reserve bereit stand, die im schlimmsten Fall genutzt werden könnte, um eine Funktion zu erreichen.
+
+\subsubsection{Analogteil}
+
+Beim Analogteil musste vorwiegend auf eine zusammenhängende Masse und kurze Signalleitungen geachtet werden, um wieder eine möglichst gute Resistenz gegen Störungen zu erreichen. Analoger Eingang und Ausgang wurden voneinander getrennt, da es hier ebenfalls zu unerwünschten Überlagerungen kommen könnte. Der Schaltungsteil des 2W-Verstärkers wurde ebenfalls von allen anderen Schaltungsteilen getrennt, da dieser hohe Ströme benötigt und somit ebenfalls ein potenzieller Störer ist.
+
+\subsubsection{Digitalteil}
+
+Beim Digitalteil ist vor allem mit hohen Strömen im Bereich des FPGA und mit hohen Stomspitzen zu rechnen. Daher wurden alle Versorgungsspannungen und die Masse besonders stark ausgeführt, um eine Funktion der digitalen Komponenten zu gewährleisten. Die Signale selbst bedürfen keiner speziellen Betrachtung, da die Ströme niedrig sind und die Störempfindlichkeit aufgrund des digitalen Charakters niedrig. Lediglich auf den größtmöglichen Abstand zu den analogen Komponenten war zu achten.
+
+
+
+
+\chapter{Das Praktikumsskript}
+
+%Das Skript soll den Studenten, die das Praktikum besuchen zum Erlernen der notwendigen Kenntnisse dienen, FPGAs programmieren zu können und Architekturen, die zur digitalen Verarbeitung von Signalen benötigt werden, in VHDL zu beschreiben, in Modelsim zu simulieren und letztendlich auf der Hardware zu verifizieren.
+
+%\chapter{Beschreibung der Hardware}
+%
+%Im Skript soll kurz die Hardware beschrieben werden, um dem Studenten die Funktion näher zu bringen und das Verständnis für die bereits vorgefertigten Programmteile zu geben. Außerdem ist es wichtig, die Anschlussmöglichkeiten genauer zu erläutern, die für die Versuche genutzt werden.
+
+\section{Programmierung in VHDL}
+
+\subsection{Prinzipien}
+
+Um einen bestmöglichen Lernerfolg zu gewährleisten, erschien es sinnvoll, den komplexen Stoff der VHDL-Programmierung in kleine Einheiten aufzuspalten, die auch ohne Vorkenntnisse zu sichtbaren Ergebnissen führen, also in der Praxis verifiziert werden können. Dies bedeutet letztendlich, dass die einzelnen Versuche jeweils wenige neue Bestandteile von VHDL einführen und allein mit deren Hilfe die vorgefertigten Module ergänzt werden können. 
+
+Weiterhin wurden Teile, die anfangs für Versuche benötigt werden, später aber von den Studenten selbst programmiert werden sollen, in einer anderen Realisierung implementiert, um dem Studenten dann die Möglichkeit zu geben, die übrige Variante selbst umzusetzen. Beim Signalgenerator wurde beispielsweise die DDS\footnote{Direct Digital Synthesis} zur Verfügung gestellt und der CORDIC\footnote{Coordinate Rotation Digital Computer} später als Aufgabe gestellt. 
+
+\subsection{Einschränkungen}
+
+Da VHDL eine enorme Fülle an Konstrukten besitzt, ist eine umfassende Behandlung in Form dieses Praktikums unmöglich. Vielmehr soll ein Überblickwissen über die Möglichkeiten der Sprache VHDL vermittelt werden, um einerseits komplexe Programme verstehen zu können und andererseits kleine Aufgaben selbständig lösen zu können. 
+
+Bedenkt man allein die Möglichkeiten, die sich durch Funktionen, Prozeduren und Packages ergeben, so wird schnell klar, dass dies in einem Praktikum zu weit führen würde. Besonderes Augenmerk wird auf die Synthetisierbarkeit der Module gelegt. Außerdem werden Konstrukte und Anweisungen gesondert genannt, die in Testbenches erlaubt sind, allerdings in Hardware nicht umgesetzt werden können oder zu ungewollten bzw. ineffizienten Schaltungen führen. 
+
+\subsubsection{VHDL-Editor}
+
+Eine kurze Einführung in den integrierten Editor von ispLEVER findet ebenfalls statt. Dieser bietet die Möglichkeit, vorgefertigte Konstrukte, sogenannte Templates einzufügen und Testbenches generieren zu lassen, mit denen die Funktion der Module verifiziert werden kann.
+
+%Um trotz der Einschränkungen hinsichtlich Komplexität den Studenten eine rasche Bearbeitung und ein schnelles Vorankommen zu ermöglichen, ohne die in VHDL typischen, immer wieder kehrenden Konstrukte erneut tippen zu müssen, wurde auf die Verwendung des Editors XEmacs viel Wert gelegt, da dieser eine große Fülle an Vorlagen bereit stellt, die teilweise automatisch aktiviert werden, wenn bestimmte Schlüsselworte vom Benutzer getippt werden. Weiterhin bietet dieser Editor eine Auto-Vervollständigen-Funktion, die viele Tippfehler von vorne herein ausschließt. Die automatische Generierung von Testbench-Vorlagen ist jedoch die größte Stärke und erspart enorm viel Handarbeit. Praktisch könnte der Referenzteil zu VHDL aus dem Praktikumsskript entfallen, da die grundlegenden Konstrukte in XEmacs enthalten sind.
+
+\subsection{Entwicklungsphasen}
+
+Die Aufgaben der VHDL-Teile gliedern sich üblicherweise, sofern sinnvoll, in 3 grundlegende Teilaufgaben Realisierung, Simulation und Verifikation (vgl. Abb. \ref{fig:wasserfall}). Die Stufen Initialisierung, Analyse und Entwurf werden entweder vom Skript vorweggenommen oder im MATLAB-Teil behandelt.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.8\linewidth]{bilder/wasserfallmodell}
+	\label{fig:wasserfall}
+	\caption{Wasserfall-Entwicklungsmodell}
+\end{figure}
+
+Die Simulation der VHDL-Module erfolgt mit Modelsim von MentorGraphics. Die Implementierung mit den Tools der Entwicklungsumgebung ispLEVER von Lattice. Die Einführung in diese Programme ist ebenfalls Aufgabe des Praktikumsskripts. Auch hier kann keine umfassende Beschreibung erfolgen. Die Probleme können im Einzelnen erst während des Praktikumsverlaufs ermittelt werden und sind Bestandteil der Aufgaben des Betreuers, der bei wiederkehrenden Problemen auch das Skript diesbezüglich anpassen sollte.
+
+\subsection{Ziel}
+
+Zentrales Ziel ist es, ein Verständnis für den Unterschied von Software und Hardware zu entwickeln, wie bestimmte Konstrukte umgesetzt werden und welche Vor- und Nachteile dies bietet. Letztendlich soll effiziente Hardware das Ergebnis der Synthese sein.
+
+\section{Anteil der Studienarbeit}
+
+Da eine komplette Programmierung des VHDL-Teils schon aus Zeitgründen im Praktikum unmöglich ist, müssen bestimmte Teile bereits fertig programmiert zur Verfügung gestellt werden.
+
+Die VHDL-Beschreibung ist hierzu hirarchisch strukturiert und in Form zweier Toplevel (toplevel und stud\_toplevel) den Studenten als vereinfachte Schnittstelle zugänglich gemacht. Dabei wurde der Aufbau aus Abb. \ref{fig:vhdl-struktur} gewählt.
+
+\begin{figure}[ht]
+	\includegraphics[width=0.8\linewidth]{bilder/vhdl-struktur}
+	\label{fig:vhdl-struktur}
+	\caption{Struktur der VHDL-Beschreibung}
+\end{figure}
+
+\section{Erwartete Probleme}
+
+\subsection{Syntaktische Fehler}
+
+Da VHDL eine hohe Komplexität aufweist und einzelne Module schnell unübersichtlich werden, ist eine saubere Strukturierung des Quellcodes unerlässlch, nicht zuletzt, um dem Betreuer die Möglichkeit zu geben, den Code der Praktikumsteilnehmer zu verstehen. Voraussichtlich werden syntaktische und Tipp-Fehler eine der häufigsten Fehlerquellen darstellen. Um diese nahezu ausschließen zu können, wurde die Verwendung des XEmacs vorgeschlagen, der nach eigenen Erfahrungen selbst von Anfängern schnell verstanden wird. Allerdings wurde dies auf Wunsch der Betreuer verworfen.
+
+\subsection{Zeitlicher Rahmen}
+
+Aus der Verwendung eines weniger Leistungsfähigen Editors ergibt sich ein neues Problem. Die Zeit zur Erfüllung der Aufgaben des Praktikums ist sehr knapp bemessen und die Programmierung in VHDL sehr zeitaufwendig, wenn die Unterstützung von wiederkehrenden Aufgaben durch den Editor nicht optimal unterstützt wird. Hierzu zählen folgende Merkmale eines Editors:
+
+\begin{itemize}
+	\item Generierung von Testbenches
+	\item Generierung von Prozessen
+	\item Generierung der Entity
+	\item Generierung der Architecture
+	\item Typen-, Variablen- und Signaldeklarationen
+	\item Einfügen von Komponentendeklarationen und deren Instaziierung
+	\item Automatisches Einrücken
+	\item Hervorhebung von Syntax und Klammerung
+	\item Automatisches Vervollständigen
+\end{itemize}
+
+\subsection{Synthetisierbarkeit}
+
+Trotz der genauen Nennung von nicht synthetisierbaren Konstrukten im didaktischen Teil des Skripts wird der von den Praktikumsteilnehmern erzeugt Code nicht synthetisierbar sein. 
+
+\subsection{Leistungsfähigkeit}
+
+Viele VHDL-Beschreibungen von Anfängern enthalten sehr viel Logik zwischen den einzelnen Registerstufen und sind somit nur für niedrige Frequenzen geeignet. Im Praktikum wird häufig mit etwa 50 MHz gearbeitet. Sollten die Timing-Vorgaben von der Synthese nicht eingehalten werden können, so sollte zuerst auf ungünstige Beschreibungen der Hardware geachtet werden. Mehrfach verschachtelte \textit{if}-Abfragen, \textit{integer}-Typen ohne \textit{range}-Anweisung, Optimierungen über mehrere Hirarchieebenen hinweg (fehlen von Registern an den Modulgrenzen) und verkettete Zuweisungen ausserhalb von Prozessen sind einige der Fehler, die der Synthese Schwierigkeiten bereiten und eine erfolgreiche Synthese verhindern.
+
+\chapter{VHDL-Quellcode}
+
+\section{Allgemeines}
+
+Bei den ersten Versuchen muss der Student ein vorgefertigtes Modul lediglich ergänzen. Dies erfordert eine Verwaltung der Musterlösungsdateien und der Dateien mit den zu ergänzenden Lücken. Hierzu wurde ein kleines Skript erstellt, welches mit einfachen Anweisungen in Form von Kommentaren (\verb|--STARTL| bzw. \verb|--STOPL|) im VHDL-Quellcode den Anfang und das Ende der vom Studenten auszufüllenden Lücken angibt. Das Skript kopiert nun alle Dateien einerseits mit einem Kommentar, der die Lücke markiert in das Arbeitsverzeichnis der Studenten. Andererseits ersetzt es nur die Steuerkommentare durch Kommentare, die auf den Anfang und das Ende der Lösung hindeuten und kopiert die Musterlösung in das Arbeitsverzeichnis der Tutoren.
+
+In späteren Versuchen sollen alle Module von den Studenten erstellt bzw. aus früheren Versuchen übernommen werden. Hierzu gibt es die Möglichkeit, einen weiteren Steuerkommentar (\verb|--NOCOPY|) in das VHDL-File einzutragen.
+
+Weiter ist es möglich, durch Kommentare (\verb|--STARTD| bzw. \verb|--STOPD|) einen Teil des VHDL-Codes in ein Verzeichnis des LaTeX-Quellcodes zu Dokumentationszwecken zu kopieren. Dies wurde bisher nicht benötigt, kann aber für die Tutorenanleitung zukünftig sinnvoll werden.
+
+Die Trennung der Quellcode-Dateien mittels Skript wurde gewählt, um schnell Änderungen am Quellcode vornehmen zu können, ohne in verschiedenen Dateien nach den Vorkommen suchen zu müssen. Die Fehleranfälligkeit bei Änderungen und der Wartungsaufwand werden somit drastisch reduziert. Bei dem Skript kam die für Parsing prädestimierte Sprache Perl zum Einsatz, die für praktisch jedes Betriebssystem frei verfügbar ist\footnote{ActivePerl für Windows liegt dem Praktikums-Verzeichnisbaum bei}. 
+
+\section{Gemeinsame Module}
+
+\subsection[Der Toplevel]{Der Toplevel (toplevel.vhd)}
+
+Der toplevel ist bei jedem Versuch identisch. Er bildet die Abstraktionsschicht zur Hardware und bindet die Module ein, die den Studenten die Arbeit erleichtern. Ausserdem findet die Komponente stud\_toplevel Platz, die als Sandbox für die Studenten dient.
+
+\subsection[Entprellung]{Entprellung (chatter\_suppress.vhd)}
+
+Zwar erfolgt die Entprellung der Taster schon durch einen einfachen RC-Tiefpass direkt am Taster bzw. am Schalter, so kann allerdings sichergestellt werden, dass bei stärkerem Prellen im VHDL-Quellcode Abhilfe geschaffen werden kann.
+
+\subsection[ADC-IIS-Schnittstelle]{ADC-$I^{2}S$-Schnittstelle (i2s\_receiver.vhd)}
+
+Im diesem Modul werden die seriell vorliegenden Daten des Analog-Digital-Wandlers in linken und rechten Stereokanal getrennt und in zwei parallele Datenströme umgesetzt. Weiterhin werden die Konfigurationsbits so gesetzt, dass die jeweils durch die Generics vorgegebenen Parameter eingehalten werden. Das Modul arbeitet im Slave Modus und erwartet die steuernden Signale vom ADC. Lediglich das Clock-Signal wird dem ADC vom FPGA zur Verfügung gestellt.
+
+\subsection[DAC-IIS-Schnittstelle]{DAC-$I^{2}S$-Schnittstelle (i2s\_transmitter.vhd)}
+
+Dieses Modul stellt das inverse Pendant zum Obigen dar. Es wandelt die parallel anliegenden Daten in einen, dem $I^{2}S$-Standard konformen, seriellen Datenstrom für den DAC um. 
+
+\chapter{Ausblick}
+

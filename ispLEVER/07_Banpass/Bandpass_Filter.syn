@@ -1,0 +1,34 @@
+JDF B
+// Created by Version 6.0 
+PROJECT Bandpass_Filter
+DESIGN bandpass_filter Normal
+DEVKIT LFECP20E-3F484C
+ENTRY Schematic/VHDL
+MODULE stud_toplevel.vhd
+MODSTYLE stud_toplevel Normal
+MODULE ..\packages\my_funcs.vhd
+MODSTYLE my_funcs Normal
+MODULE ..\common_files\bargraph_decoder.vhd
+MODSTYLE bargraph_decoder Normal
+MODULE ..\common_files\clockgen_main.vhd
+MODSTYLE clockgen_main Normal
+MODULE ..\common_files\i2s_receiver.vhd
+MODSTYLE i2s_receiver Normal
+MODULE ..\common_files\toplevel.vhd
+MODSTYLE toplevel Normal
+MODULE ..\common_files\gain_control.vhd
+MODSTYLE gain_control Normal
+MODULE ..\common_files\chatter_suppress.vhd
+MODSTYLE chatter_suppress Normal
+MODULE bandpass.vhd
+MODSTYLE bandpass Normal
+MODULE ..\common_files\segment_decoder.vhd
+MODSTYLE segment_decoder Normal
+MODULE ..\common_files\i2s_transmitter.vhd
+MODSTYLE i2s_transmitter Normal
+MODULE ..\common_files\reset_gen.vhd
+MODSTYLE reset_gen Normal
+MODULE ..\common_files\clockgen.vhd
+MODSTYLE clockgen Normal
+SYNTHESIS_TOOL Synplify
+TOPMODULE toplevel

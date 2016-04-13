@@ -1,0 +1,19 @@
+\chapter{Einleitung und Motivation}\label{chap:intromotiv}
+
+\section{Einleitung}\label{sec:intro}
+
+Seit vielen Jahren drängt die Digitaltechnik immer mehr in die früher den analogen Komponenten vorbehaltenen Bereiche. Dies hat zum Einen den Grund, dass ein digitales Signal, entsprechende Wortbreite vorausgesetzt, nicht bei der Verarbeitung degradiert oder verfälscht wird. Zumindest sind die entstehenden Fehler exakt kalkulierbar. Andererseits sind analoge Schaltungen nur sehr schwer zu integrieren, da im Zuge der Miniaturisierung die Bauteileigenschaften immer größeren Toleranzen ausgesetzt sind. Daher ist es meist billiger, die Verarbeitung digital durchzuführen, obwohl der Schaltungsaufwand in Bezug auf die Anzahl der Transistoren bedeutend größer ist. Der Grund hierfür ist im aufwändigen Entwurf aufgrund der großen Toleranzen zu suchen, die bei digitalen Komponenten wesentlich einfacher zu handhaben sind.
+
+Mit steigender Integrationsdichte und schnelleren Transistoren kam aus vorgenannten Gründen immer mehr der Wunsch auf, analoge Konzepte in digitale Algorithmen umzusetzen. Heute gibt es praktisch keine analogen Schaltungskonzepte (z.B. Filter, Signalgeneratoren, Mischer,...), denen kein numerischer Algorithmus gegenübersteht. Einige dieser Algorithmen werden in der Vorlesung "`Architekturen der Digitalen Signalverarbeitung"' von Prof. M. Huemer behandelt (siehe \cite{ADS}).
+
+\section{Motivation}\label{sec:motivation}
+
+Um die erlernten Algorithmen praktisch umzusetzen, genügt nicht allein das Verständnis der mathematischen Hintergründe. Eine Simulation des Algorithmus an sich und eine Möglichkeit, die Hardware zu beschreiben werden in der Vorlesung nicht behandelt. Auch die Auswirkungen auf die Hardware, die sich aus den Algorithmen ergeben, werden während der Vorlesung erwähnt, aber von den Studenten nicht notwendigerweise in der Tragweite verstanden, da die Erfahrung mit den Systemen fehlt.
+
+Für die Implementierung gibt es zahlreiche Möglichkeiten. Die gebräuchlichsten sind: Software für digitale Signalprozessoren (DSP), Programmierbare Logikbausteine (PLD, FPGA) und der Entwurf einer anwendungsspezifischen integrierten Schaltung (ASIC). Die Entscheidung für eine Variante ist nicht zuletzt stückzahlabhängig. In der Praxis wird oft die Entwicklung der Algorithmen mittels programmierbarer Logikbausteine durchgeführt, bevor eine integrierte Schaltung entworfen wird.
+
+Im Entwurf sind programmierbare Logikbausteine und integrierte Schaltungen sehr ähnlich, da die Beschreibung mittels Hardware-Beschreibungssprachen (VHDL, Verilog) erfolgt. Diese Beschreibungssprachen sind relativ einfach zu erlernen und können mit Einschränkungen der verfügbaren Konstrukte und Anweisungen beispielsweise in ein FPGA programmiert werden.
+
+Um die Algorithmen evaluieren zu können dient häufig die Software MATLAB. Mit Hilfe dieser können bereits die Auswirkungen bei Verwendung von realer Hardware (endliche Wortbreiten) analysiert werden und Entscheidungen bezüglich grundlegender Gesichtspunkte der Implementierung getroffen werden. Dieser Teil wurde parallel in der Studienarbeit von Andreas Schedel bearbeitet und soll der vorliegenden Studienarbeit nur in ihrem Ergebnis beitragen.
+
+Um in der Praxis einerseits einen gewissen Überblick über die Vor- und Nachteile einzelner Konzepte zu besitzen und andererseits den Studenten einen Einblick in die Praxis zu gewähren, bedarf es eines Praktikums, das die Theorie der Vorlesung ergänzt und zu fundiertem, praktischem Wissen führt.

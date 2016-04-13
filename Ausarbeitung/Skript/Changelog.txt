@@ -1,0 +1,16 @@
+2006-10-22:
+  keine
+
+2006-10-21 (Daniel):
+  Unterverzeichnisnamen geändert:
+	Es wurde Part vor die Verzeichnisnamen eingefügt, da eine Zahl am Anfang des Namens zu Problemen
+	bei Sprüngen zur Aktuellen Cursor-Position in YAP führt. Der Grund hierfür ist, dass Texniccenter
+	einen Befehlszeilenaufruf der Form
+	
+		yap -1 -s <Zeilennummer><relativer Source-File-Pfad> <DVI-File>
+
+	ausführt. Dies sah wie z.B. wie folgt aus (Zeile 237, Source 05_Modulator\00Modulator.tex):
+	
+		yap -1 -s 23705_Modulator\00_Modulator.tex ADS-Praktikum.dvi
+
+	und war zum Scheitern verurteilt, da es keine Zeile 23705 und den Dateinamen _Modulator... gibt.

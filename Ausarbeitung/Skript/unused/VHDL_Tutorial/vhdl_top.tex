@@ -1,0 +1,296 @@
+%
+%
+%
+\section{Bedeutung von VHDL} \label{sec:VHDL}
+%
+%
+%
+
+VHDL ist mittlerweile in Europa die Standardsprache zur Beschreibung digitaler Schaltkreise. In Amerika wird hauptsächlich Verilog \index{Verilog} verwendet. Auch systemC {systemC} findet gerade zur Simulation immer mehr Verwendung, hat jedoch den großen Nachteil, schlecht synthetisierbar zu sein und eignet sich daher zur Zeit leider nur sehr eingeschränkt zur Beschreibung von Hardware.
+
+VHDL hat den großen Vorteil, sich sowohl zur Simulation, als auch zur eigentlichen Beschreibung der Hardware zu eignen. Hierbei ist jedoch Vorsicht geboten, da einige Konstrukte vom Simulator zwar verstanden werden, das Synthese-Tool diese jedoch nicht in eine funktionierende Hardware übersetzen kann.
+
+Wer bisher im Softwarebereich viel programmiert hat, wird in VHDL jedoch in einige Fallen tappen, da einige gebräuchliche Konstrukte in VHDL ebenso existieren wie z.B. in C, allerdings in Hardware anders als erwartet abgebildet werden. Die sicherste Möglichkeit zu verifizieren, ob ein Konstrukt eine Chance hat den Synthese-Lauf zu überleben, ist es sich vorzustellen, ob man selbst diese Funktion mit Hilfe von Gattern und FlipFlops abbilden kann und wie viel Hardware dies erfordern würde. Als Beispiel sei ein Multiplizierer (in VHDL einfach durch A * B geschrieben) genannt. Diesen könnte man mit vielen Addierern aufbauen, wobei die Addierer wiederum aus einzelnen einfachen Gattern aufgebaut sind. Ein erheblicher Aufwand also. Im Falle von FPGAs ist es jedoch häufig möglich, fest eingebaute Multiplizierer zu verwenden, die erstens schneller und zweitens weniger Hardware beanspruchen als mit Gattern erstellte. Auf diese Problematik gehen wir zu gegebener Zeit genauer ein, wenn wir direkt damit konfrontiert werden.
+
+%
+%
+%
+\section{Grundlegende Konstrukte}
+%
+%
+%
+
+\subsection{Modulbauweise}
+
+Im Grunde ist es möglich, komplette Schaltungen in einem Modul zu programmieren, allerdings wird es häufig schwer, Fehler zu finden, weitere Funktionalitäten einzubauen und vor allem, sich im Code einer anderen Person zurecht zu finden. Eine der grundlegenden Vorgehensweisen ist, die geforderte Aufgabe in einzelne Teilaufgaben zu spalten und als Module aufzubauen, die dann in einem übergeordneten Modul geeignet verschaltet werden. Das oberste Modul bezeichnet man für gewöhnlich als \emph{toplevel}. Es ist auch üblich, die oberste Ebene eines großen, untergeordneten Moduls, z.B. eines wiederverwendbaren Cores (meist IP-Core \footnote{\textbf{Intellectual Property Core} Module vom FPGA-Hersteller oder Drittanbietern, manchmal auch firmeninterne} genannt) als toplevel zu bezeichnen. Im toplevel sollte bei guter Programmiertechnik keine Zeile funktionaler Code stehen. Lediglich die Verschaltung von Untermodulen und gegebenenfalls die Zusammenführung einzelner Bitleitungen zu Bussen (sogenannter Vektoren). Auch Multiplexer kann man hier noch häufig finden. Prozesse sind hier allerdings sehr verpöhnt und sollten allenfalls beim Debuggen Einzug in den toplevel finden und danach schnell wieder verschwinden. Bei guter Modularisierung hilft man auch der Synthese und dem Technology-Mapping ein gutes Stück weiter, um die Ziele des Timings zu erreichen.
+
+\subsection{Grundlagen der Sprache}
+
+In VHDL gibt es einige syntaktische Grundelemente die man beachten muss. Die meisten Befehle werden wir zu dem Zeitpunkt kennen lernen, zu dem wir sie dann auch benötigen. Die Syntax von VHDL lehnt sich ein wenig an C an, hat jedoch auch viele Elemente anderer Programmiersprachen.
+
+Einige der wichtigsten Elemente von VHDL:
+
+\begin{verbatim}
+--          Kommentar
+<=          Zuweisung eines Signals
+:=          Zuweisung einer Variablen
+:           Definition
+;           Ende einer Anweisung oder eines Blockes
+
+a to b      Aufsteigend von a bis b
+b downto a  Absteigend von b bis a
+\end{verbatim}
+
+\subsection{Signale und Variablen}
+
+In VHDL gibt es grundsätzlich zwei Arten Informationen zu Verteilen. Einerseits mit Hilfe von Signalen und andererseits mit Hilfe von Variablen. Signale sind grundsätzlich in der gesamten Architecture nutzbar, Variablen nur in Prozessen. Das Verhalten der beiden Formen ist jedoch sehr unterschiedlich. Signale sind den Variablen vorzuziehen, da Variablen sehr oft Fehler verursachen und bei unüberlegter Verwendung Ihrer speziellen Eigenschaften schnell zu großem Hardwareaufwand führen. Der Grundlegende Unterschied der Variablen ist, dass sie direkt nach einer Zuweisung für weiter unten im Prozess stehenden Code schon den neuen Wert besitzen. Signale werden erst am Ende der Zyklusses zugewiesen.
+
+\begin{verbatim}
+  process(CLK)
+    variable var_1: std_logic;
+  begin		
+	
+    ausgabe_1 <= var_1;   -- In diesem Takt wird der gespeicherte Wert 
+                          -- von vor einem Takt ausgegeben;
+													
+    var_1 := not var_1;   -- Der neue Wert soll sofort zugewiesen werden.
+		
+    ausgabe_2 <= var_1;   -- Hier kommt schon der neue Wert in die Ausgabe		
+		
+  end process;
+\end{verbatim}
+
+In diesem Beispiel hat ausgabe\_1 genau umgekehrte Polarität von ausgabe\_2. Die Synthese hat mit dieser Konstruktion relativ wenig Probleme, der Programmierer kann sich aber hier selbst ein Bein stellen, weil er bei größeren Prozessen nicht mehr weiß, dass var\_1 bereits einen neuen Wert hat. Der gleiche Prozess allerdings unter Verwendung von Signalen bereitet keine Verständnisprobleme:
+
+\begin{verbatim}
+...
+  signal sig_1: std_logic;
+...
+  process(CLK)
+  begin
+  
+    ausgabe_1 <= sig_1;   -- Der aktuelle Wert kommt in die Ausgabe
+  	
+    sig_1 <= not sig_1;   -- Am Ende des Zyklusses soll sig_1 
+                          -- zugewiesen werden
+  											
+    ausgabe_2 <= sig_1;   -- Hier kommt der gleiche Wert in die Ausgabe wie oben
+  	
+  end process;
+\end{verbatim}
+
+Ein Nachteil der Signale ist, dass diese in der Architecture schon definiert werden müssen und es hier oftmals zu riesigen Ansammlungen von Signal-Deklarationen kommt. Variablen werden am Anfang eines Prozesses deklariert und haben auch nur hier Ihre Gültigkeit. Dies trägt zur Übersichtlichkeit bei. Will man auf diesen Vorteil nicht verzichten, so empfiehlt es sich, alle Zuweisungen an Variablen erst am unteren Ende des Prozesses zu erledigen und mit Hilfe eines Kommentars auch darauf hinzuweisen, um die Übersicht zu behalten. Generell gilt aber: Was mit Variablen geht, geht auch mit Signalen, mit Variablen und ein paar Tricks manchmal mit ein paar Zeilen weniger, mit Signalen entfällt aber häufig die langwierige Fehlersuche.
+
+\subsection{Typen}
+
+Signalen und Variablen können alle bekannten und selbst definierten Typen zugeordnet werden. Typen geben letztendlich nicht nur den Wertebereich eines Signals oder einer Variablen vor sondern definieren auch, wie bei bestimmten Operationen (z.B. +,-,*,/,>=,<=,...) damit genau zu verfahren ist. Die Definition der Typen selbst und die Anleitung zum Umgang mit diesen wird in den Packages definiert, welche in Kapitel \ref{subsec:Packages} erläutert werden. Während es viele Typen gibt, die man auch aus Software-Pro\-grammier\-spra\-chen kennt, gibt es einige, speziell auf die Hardware zugeschnittene Typen. Nicht alle hier aufgeführten Typen machen in der Hardware Sinn. Einige dienen auch hauptsächlich der Simulation.
+
+\begin{description}
+	\item[boolean] Wahr oder falsch (wird meist abgebildet auf '1' und '0')
+	\item[bit] Stellt lediglich ein bit dar und kennt nur die Zustände: '0','1'
+	\item[std\_logic] Beschreibt den Zustand eines Signals genauer. Hier sind folgende Zustände definiert: '0', '1', 'U', 'X', 'Z', 'W', 'L', 'H', '-'
+	\item[bit\_vector] Ein Vektor/Bus aus mehreren bits
+	\item[std\_logic\_vector] Ein Vektor/Bus aus mehreren std\_logics
+	\item[unsigned] Eine positive Zahl dargestellt mit std\_logic\_vector bzw. bit\_vector (hängt vom verwendeten Package ab)
+	\item[signed] Eine Zahl im Zweierkomplement dargestellt mit std\_logic\_vector bzw. bit\_vector (hängt vom verwendeten Package ab)
+	\item[natural] Eine vorzeichenlose Zahl im Bereich 0 bis 2147483647
+	\item[positive] Eine positive Zahl im Bereich 1 bis 2147483647
+	\item[integer] Eine Zahl im Bereich -2147483647 bis 2147483647
+	\item[real] Eine reelle Zahl -1000000.0 bis 1000000.0
+	\item[character] Ein einzelnes ASCII-Zeichen
+	\item[string] Ein Array von character (z.B. "`Hallo Welt!"')
+\end{description}
+
+Ausserdem besteht die Möglichkeit, eigene Typen zu definieren. Dies wird häufig für die Zustände von State-Machines getan, da die einzelnen Zustände dann in der Simulation besser zu erkennen sind und man es der Synthese überlässt, eine geeignete, minimale Menge an FlipFlops zu reservieren.
+
+Typen werden wie folgt definiert:
+
+\begin{verbatim}
+  type MY_TYPE is (WERT1, WERT2,...) [ => (WERT1, WERT2,...) ];
+\end{verbatim}
+
+Der wichtigste Typ, der std\_logic kennt für ein signal folgende Zustände
+
+\begin{description}
+	\item[U] \emph{Undefined} Dem Signal wurde noch kein Wert zugewiesen
+	\item[X] \emph{Forcing unknown} Das Signal wird von zwei Ausgängen getrieben
+	\item[0] \emph{Forcing 0} Eine logische 0
+	\item[1] \emph{Forcing 1} Eine logische 1
+	\item[Z] \emph{High impedance} Der Ausgang verhält sich passiv
+	\item[W] \emph{Weak unknown} Der Ausgang wird nur schwach getrieben und kann von einer '0' oder '1' verändert werden
+	\item[L] \emph{Weak 0} Der Ausgang wird nur leicht auf '0' gezogen (z.B. durch einen Pull-Down Widerstand)
+	\item[H] \emph{Weak 1} Der Ausgang wird nur leicht auf '1' gezogen
+	\item[-] \emph{Wild card} Wird oft auch als "`don't care"' bezeichnet
+\end{description}
+
+Zu all diesen Zuständen gibt es schließlich Übersetzungstabellen, was bei der Kombination von zwei Zuständen passiert. Verbindet man beispielsweise direkt '0' und '1', so wird das Ergebnis 'X' sein, bei einer Verknüpfung über AND, wird als Ergebnis '0' herauskommen.
+
+Will man einem Signal oder einer Variable einen Typ zuweisen, so geschieht dies folgendermaßen:
+\begin{verbatim}
+	signal MY_SIGNAL : TYPE [ range START to END ] [ := INITIALISIERUNG ];
+\end{verbatim}
+
+Man sollte jedoch ständig im Hinterkopf behalten, dass es sich immer um Hardware handelt. Eine Initialisierung hat bei der Instantiierung nur eine Wirkung auf die Simulation, was bei einem Reset geschieht liegt in den Händen des Programmierers und wird später bei den Prozessen behandelt. 
+
+Auch kennt zwar jedes Signal des Typs std\_logic die Zustände des std\_logic-Typs, es ist aber unmöglich auf alle abzufragen. Für die Hardware ist es lediglich möglich, '0' und '1' zu erkennen. Oftmals gelingt es der Synthese zwar, mutige Abfragen auf 'Z' in Hardware abzubilden, eine Funktion ist dann aber nie sichergestellt. Eine Abfrage auf Z wird immer dazu führen, dass die Synthese versucht, ein Signal zu finden, welches für diesen Zustand verantwortlich ist. Also \textbf{!!!} Finger weg \textbf{!!!} von solchen und ähnlichen Experimenten.
+
+\subsection{Packages}\label{subsec:Packages}
+
+Die IEEE \footnote{\textbf{IEEE:} (engl. gespr. I-triple-E) Institute of Electrical and Electronics Engineers} stellt einige Pakete für VHDL zur Verfügung, welche bestimmte Funktionen implementieren um die Programmierung einerseits einheitlicher und andererseits einfacher zu gestalten. Einige wichtige seien hier genannt.
+
+\begin{itemize}
+	\item std\_logic\_1164
+  \item std\_logic\_textio
+  \item std\_logic\_arith
+  \item numeric\_bit
+  \item numeric\_std
+  \item std\_logic\_signed
+  \item std\_logic\_unsigned
+  \item math\_real
+  \item math\_complex
+\end{itemize}
+
+In den Packages selbst, die jedem Designtool \footnote{Lattice ispTOOLS 5.1: C:\backslash ispTOOLS5\_1\backslash synpbase\backslash lib\backslash vhd\backslash} als Quellcode beiliegen, findet man auch eine kurze Beschreibung der Packages und eine Auflistung der Funktionen.
+
+Auf die Packages wird folgendermaßen zugegriffen:
+
+\begin{verbatim}
+library IEEE;
+  use IEEE.std_logic_1164.all;
+  use IEEE.std_logic_arith.all;
+  use IEEE.std_logic_signed.all;
+  use IEEE.numeric_std.all;
+  
+-- use work.settings.all;    -- Da kommen wir später noch drauf,
+-- use work.functions.all;   -- hier lassen wir es mal draußen
+\end{verbatim}
+
+Meist verwenden wir die oben angegebenen Packages.
+
+\subsection{Entity}
+
+Nachdem wir nun wissen, wie wir die modulare Ebene unseres Designs aufbauen sollten, widmen wir uns nun der Frage, wie wir diese abstrakten Blöcke nun mit den anderen Teilen verbinden. In VHDL sind dies die so genannten Ports \index{Port}, welche in der entity \index{entity} definiert werden und festlegen, welche Signale an der "`Außenseite"' der Module verfügbar sind und welche Signalrichtung diese besitzen. Ein weiterer Teil der Schnittstelle nach außen sind die Generics \index{Generics}, über die man die Möglichkeit hat, Module zum Zeitpunkt der Synthese zu parametrisieren.
+
+Beispielhaft könnte die Entity eines einfachen Multiplexers wie folgt aussehen:
+
+\begin{verbatim}
+entity multiplexer is
+  
+  generic (
+    bus_breite : natural := 16);   -- Die Breite unseres Busses
+
+  port (
+    input_a : in  std_logic_vector(bus_breite-1 downto 0);
+    input_b : in  std_logic_vector(bus_breite-1 downto 0);
+    sel     : in  std_logic;
+    output  : out std_logic_vector(bus_breite-1 downto 0));
+
+end multiplexer;
+\end{verbatim}
+
+\subsection{architecture}
+
+Mittlerweile besitzen wir also die Definition unseres Moduls nach außen hin, allerdings fehlt uns noch der Inhalt unserer Black-Box. Um der Synthese zu sagen, dass wir jetzt mit der Beschreibung des Verhaltens unseres Moduls beginnen, verwenden wir das Schlüsselwort architecture:
+
+\begin{verbatim}
+architecture multiplexer_behavioral of multiplexer is
+
+begin  -- multiplexer_behavioral
+	
+	-- Hier kommt unser VHDL-Code rein, der das Verhalten des Moduls beschreibt
+	  
+end multiplexer_behavioral;
+\end{verbatim}
+
+Im einfachsten Fall können wir hier ein so genanntes \emph{concurrent statement} \index{concurrent statement} einführen, was besagt, dass die Verarbeitung asynchron erfolgt und zuerst nicht bestimmten Constraints \footnote{\textbf{Constraints} sind Regeln, die von der fertigen Hardware eingehalten werden müssen} unterworfen ist, die eingehalten werden müssen (in diesem Fall dem timing). In unserem Beispiel wäre dies der einfache Multiplexer mit select-Eingang, der als concurrent statement wie folgt aufgebaut werden könnte:
+
+\begin{verbatim}
+...
+  output <= input_a when sel = '1' else input_b;
+...
+\end{verbatim}
+
+Setzen wir dies nun in unsere Architecture ein, so erhalten wir einen einfachen Multiplexer. Der Multiplexer schaltet nun abhängig vom Eingang "`sel"' entweder den Eingang input\_a oder input\_b auf den Ausgang output durch. Man muss bei Zuweisungen beachten, dass alle Signale (gleiches gilt für Variablen) gleichen Typ und gleiche Größe haben. Benötigt man nur einen Teil eines Signals oder will nur einem Teil des Signals Werte zuweisen, kann dies wie folgt erreicht werden:
+
+\begin{verbatim}
+...
+  output(5 downto 0) <= "100" & input_a(0) & input_b(1) & '1';
+...
+\end{verbatim}
+
+In diesem Beispiel wird dem Bit 5 und 0 von output eine eins und Bit 4 und 3 jeweils eine 0 zugeordnet. Bits 2 und 1 sind abhängig von den Bits 0 bzw. 1 von input\_a und input\_b. Hier ist auch zu erkennen, dass Signale und Vektoren unterschiedlich dargestellt sind.
+
+Eine Ausnahme bildet \verb|others|, welches auf jede Breite passt, allerdings nur alleine stehen kann. Rein theoretisch wäre eine Verknüpfung wie im falschen Beispiel möglich, allerdings mag die Synthese aus unerfindlichen Gründen dieses Vorgehen nicht.
+
+\begin{verbatim}
+...
+	output <= (others => '0');                            -- OK
+	output <= (others => 'Z');                            -- Auch OK
+	output <= input_a when EN = '1' else (others => 'Z')  -- typ. Praxisbeispiel
+	
+	output <= (others => '0') & '0';                      -- !!! FALSCH !!!
+...
+\end{verbatim}
+
+\section{Übung 1: Multiplexer}
+
+\subsection{Vorbereitung der Umgebung}
+
+
+Um überhaupt einmal loslegen zu können, empfiehlt es sich nun, die Hardware anzuschließen und einzuschalten. Das SPAT-EB \footnote{\textbf{SPAT-EB} abk. Signal Processing And Transmission - Experiments Board} besitzt nur relativ wenige Anschlussmöglichkeiten \ifthenelse{\printcolor}{(gelb hinterlegt).}{(grau hinterlegt).}
+
+\begin{figure} [h]
+	\centering
+		\ifthenelse{\printcolor}%
+			{\includegraphics[scale=0.80]{VHDL_Tutorial/Diagramme/04_EPS/ADS-Praktikum_Leiterplatte.eps}}%
+			{\includegraphics[scale=0.80]{VHDL_Tutorial/Diagramme/04_EPS/ADS-Praktikum_Leiterplatte_BW.eps}}			
+	\caption{ADSP-SPAT-EB}
+	\label{fig:ADS-Praktikum Leiterplatte}
+\end{figure}
+\subsection{Funktion}
+
+Mit dem Wissen aus dem vorhergehenden Kapitel ausgestattet, dürfte es uns jetzt nicht mehr schwer fallen, einen Multiplexer (vgl. Abb. \ref{fig:8-bit-4-to-1-mux}) für 4 Eingange mit jeweils 8 bit zu bauen. Sinn und Zweck soll es sein, Wahlweise je ein Sinussignal mit 5kHz und 7kHz, den AD-Umsetzer-Ausgang und Stille auf den Eingang des DA-Wandlers zu schalten und im Laufsprecher hörbar zu machen.
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics{VHDL_Tutorial/Diagramme/04_EPS/8-bit-4-to-1-mux.eps}
+	\caption{8-bit 4-zu-1 Multiplexer}
+	\label{fig:8-bit-4-to-1-mux}
+\end{figure}
+
+\subsection{Die IDE: Integrated Development Environment}
+
+Ein vorgefertigtes Projekt mit allen nötigen Dateien findet Ihr in eurem VHDL-Pro\-jekt\-ver\-zeich\-nis. Dazu öffnet Ihr die ispLEVER Umgebung (vgl. Abb. \ref{fig:ispLever_maid}) von Lattice und darin das Projekt
+\pathtoisp{01\textunderscore Multiplexer\textbackslash Multiplexer.syn}
+mittels \textit{File -> Open Project\textellipsis}.
+
+
+\begin{figure}
+	\centering
+		\includegraphics[width=15cm]{VHDL_Tutorial/Screenshots/02_EPS/ispLever_maid.eps}
+	\caption{Ein jungfräuliches ispLEVER}
+	\label{fig:ispLever_maid}
+\end{figure}
+
+\subsection{Der VHDL-Editor}
+
+Hat man das Projekt geöffnet, erscheint auch schon die Hierarchie. Wie anfangs beschrieben, kann man die einzelnen Module erkennen. Wie Ihr sicherlich schon erkannt habt, ist das Modul multiplexer.vhd das für euch wichtige. Dieses öffnet Ihr durch einen Doppelklick. Dann dürfte sich der XEmacs\footnote{http://www.xemacs.org} öffnen und Euch den VHDL-Code des Moduls präsentieren. Sicherlich stellt sich euch die Frage, warum wir nicht auf den integrierten Editor von ispLEVER zurückgreifen. Das liegt einfach daran, dass der XEmacs mittlerweile so viele nützliche Funktionen integriert, die einerseits die Produktivität extrem steigern und andererseits einfach Fehler vermeiden. Auf die einzelnen Funktionen werden wir bei Gelegenheit jedoch genauer eingehen.
+
+Nachdem der Code nun vor Euch erschienen ist, sucht Ihr die Stelle
+
+\begin{verbatim}
+  -- WRITE HERE
+\end{verbatim}
+
+Beim XEmacs kann mann relativ einfach mit Hilfe des XEmacs-Befehls\footnote{\textbf{C-} meint hierbei die Taste \textsc{Strg}, \textbf{M-} würde die Taste \textsc{Alt} bedeuten, das Zeichen dahinter ist der Buchstabe auf der Tastatur} C-s suchen und bei nochmaligem Drücken weitersuchen.
+
+Genau hier fängt Eure Arbeit an. Wie Ihr sicher noch wisst, sollt Ihr einen 8-Bit Multiplexer mit 4 Eingängen und einem Ausgang programmieren. Schematisch sollte das wie in Abb. \ref{fig:8-bit-4-to-1-mux} aussehen.
+
+Wenn Ihr fertig seid, dann müsste der Code entweder eine Zeile lang sein, oder bei schöner Strukturierung auch 3 oder 4 Zeilen.
+
+Falls Ihr noch ein nettes Faetures von XEmacs kennen lernen wollt, dann führt den XEmacs-Befehl C-c C-b aus und beobachtet, was er mit eurem Code macht. Wer jetzt nichts merkt, der hat zu langsam geschaut oder sehr sauber die einzelnen Zeilen eingerückt. Ein großer Vorteil dieses Faetures ist, dass man sehr schnell anhand der Einrückungen sieht, ob man \emph{;}, \emph{begin} oder \emph{end} vergessen hat. Außerdem wird der Code einfach besser lesbar.
+
+Nun sollten wir versuchen, ob unsere Beschreibung auch in Hardware funktioniert. Dazu speichern wir ab und wechseln hinüber ins ispLEVER. Dort 
+
+Und dort geht's morgen weiter ;-) ;-) ;-) ;-)
+

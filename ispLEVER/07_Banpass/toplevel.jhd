@@ -1,0 +1,38 @@
+
+
+MODULE toplevel
+
+	SUBMODULE stud_toplevel
+		INSTANCE stud_toplevel_1
+
+	SUBMODULE segment_decoder
+		INSTANCE segment_decoder_1
+		INSTANCE segment_decoder_2
+		INSTANCE segment_decoder_3
+		INSTANCE segment_decoder_4
+
+	SUBMODULE bargraph_decoder
+		INSTANCE bargraph_decoder_1
+		INSTANCE bargraph_decoder_2
+
+	SUBMODULE chatter_suppress
+		INSTANCE chatter_suppress_1
+		INSTANCE chatter_suppress_2
+
+	SUBMODULE gain_control
+		INSTANCE gain_control_1
+
+	SUBMODULE i2s_transmitter
+		INSTANCE i2s_transmitter_1
+
+	SUBMODULE i2s_receiver
+		INSTANCE i2s_receiver_1
+
+	SUBMODULE reset_gen
+		INSTANCE reset_gen_1
+
+	SUBMODULE clockgen_main
+		INSTANCE clockgen_main_1
+
+	SUBMODULE clockgen
+		INSTANCE clockgen_1

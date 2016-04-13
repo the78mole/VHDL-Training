@@ -1,0 +1,13 @@
+#-- Synplicity, Inc.
+#-- Version Synplify for Lattice 8.5D
+#-- Project file p:\SLCNGE~O\isplever\02DKY1~N\toplevel.prd
+#-- Written on Mon Nov 27 02:57:09 2006
+
+#
+### Watch Implementation type ###
+#
+watch_impl -all
+#
+### Watch Implementation properties ###
+#
+watch_prop -clear

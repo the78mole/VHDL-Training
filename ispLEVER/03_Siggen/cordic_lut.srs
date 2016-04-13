@@ -1,0 +1,79 @@
+#
+#
+#
+# Created by Synplify VHDL Compiler version 3.4.1, Build 089R from Synplicity, Inc.
+# Copyright 1994-2004 Synplicity, Inc. , All rights reserved.
+# Synthesis Netlist written on Sat Nov 25 20:02:33 2006
+#
+#
+#OPTIONS:"|-top|cordic_lut|-fixsmult|-infer_seqShift|-nram|-autosm|-fid2|-sharing|on|-encrypt|-ui|-lite|-ram|-ignore_undefined_lib|-ll|2000|-lib|work|-lib|work"
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\bin\\c_vhdl.exe":1141815388
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\location.map":1140701870
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\std.vhd":1131367166
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\std.vhd":1131367166
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\std.vhd":1131367166
+#CUR:"C:\\ispTOOLS6_0_STRT\\ispcpld\\..\\cae_library\\synthesis\\vhdl\\ecp.vhd":1145586876
+#CUR:"C:\\ispTOOLS6_0_STRT\\ispcpld\\..\\cae_library\\synthesis\\vhdl\\ecp.vhd":1145586876
+#CUR:"C:\\ispTOOLS6_0_STRT\\ispcpld\\..\\cae_library\\synthesis\\vhdl\\ecp.vhd":1145586876
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\std1164.vhd":927307056
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\std1164.vhd":927307056
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\std1164.vhd":927307056
+#CUR:"P:\\SLCNGE~O\\isplever\\02ZQ4F~2\\cordic_lut.vhd":1164481375
+#CUR:"P:\\SLCNGE~O\\isplever\\02ZQ4F~2\\cordic_lut.vhd":1164481375
+#CUR:"P:\\SLCNGE~O\\isplever\\02ZQ4F~2\\cordic_lut.vhd":1164481375
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\signed.vhd":953650964
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\signed.vhd":953650964
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\signed.vhd":953650964
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\arith.vhd":1035378278
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\arith.vhd":1035378278
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\arith.vhd":1035378278
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\numeric.vhd":1113998792
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\numeric.vhd":1113998792
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\numeric.vhd":1113998792
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\math_real.vhd":1140632170
+#CUR:"C:\\ISPTOOLS6_0_STRT\\SYNPBASE\\lib\\vhd\\math_real.vhd":1140632170
+f "C:\ISPTOOLS6_0_STRT\SYNPBASE\lib\vhd\std.vhd"; # file 0
+af .is_vhdl 1;
+f "C:\ispTOOLS6_0_STRT\ispcpld\..\cae_library\synthesis\vhdl\ecp.vhd"; # file 1
+af .is_vhdl 1;
+f "C:\ISPTOOLS6_0_STRT\SYNPBASE\lib\vhd\std1164.vhd"; # file 2
+af .is_vhdl 1;
+f "P:\SLCNGE~O\isplever\02ZQ4F~2\cordic_lut.vhd"; # file 3
+af .is_vhdl 1;
+f "C:\ISPTOOLS6_0_STRT\SYNPBASE\lib\vhd\signed.vhd"; # file 4
+af .is_vhdl 1;
+f "C:\ISPTOOLS6_0_STRT\SYNPBASE\lib\vhd\arith.vhd"; # file 5
+af .is_vhdl 1;
+f "C:\ISPTOOLS6_0_STRT\SYNPBASE\lib\vhd\numeric.vhd"; # file 6
+af .is_vhdl 1;
+f "C:\ISPTOOLS6_0_STRT\SYNPBASE\lib\vhd\math_real.vhd"; # file 7
+af .is_vhdl 1;
+@E
+@ 
+ftell;
+@E@MR@dd:n::(d4n:nFRIsO	RFHs8Ok_D0CRLEHNPFDsN;P
+NR#3HPDE8R
+4;N3PRHP#_ER8D4N;
+P#R3$VM_lRNb"sIF	"R\B\:\Ha#bm1mpn__j1aa)\#\HbDOb83\\3O\\NDC_HNLss\$\#0$MEHC##P\\E\8D\bCO38PE\I"
+FRs	\:"u\p\1B ht~\m\HD#bCsPC\.\jZwTc~\.\O8FsHDO_kP03E"8\
+
+";
+@HR@cd:d::cc(d:R 1au:rdj19Rar ud9:j;
+
+
+
+@FR@cd:c::cc4c:jpRqu_]qQ:r(jq9Rpqu]_(Qr:;j9
+@FR@cd:6::cc46:cqRahp_qu_]qQ:r(ja9Rqqh_pqu]_(Qr:;j9
+@FR@cd:n::ccnn:RQi_rj(:9sR0kVC,NCD#,DVN#VC,NCD#,DVN#VC,NCD#,DVN#VC,NCD#;
+
+
+
+@FR@cd:(::ccn(:Rti_rj(:9NRVD,#CV#NDCN,VD,#C0Csk,k0sCN,VD,#CV#NDCs,0k
+C;b@R@j::44::4.sR0k0CRsRkC0Csk;R
+b@:@j4::44R:.V#NDCNRVDR#CV#NDCb;
+Rd@@::c6c6:c:R4cLRkVq]puqr_Q(9:jRuqp]Qq_rj(:9NRVD,#CV#NDCN,VD,#CV#NDCN,VD,#C0Csk,DVN#0C,s;kC
+@bR@cd:6::cc46:ckRLVqRahp_qu_]qQ:r(ja9Rqqh_pqu]_(Qr:Rj9V#NDCN,VD,#CV#NDCN,VD,#CV#NDCs,0kVC,NCD#,k0sCC;
+;
+
+
+

@@ -1,0 +1,260 @@
+//
+// Written by Synplify
+// Synplify 8.4.0.p, Build 075R.
+// Sun Nov 26 04:40:21 2006
+//
+// Source file index table:
+// Object locations will have the form <file>:<line>
+// file 0 "noname"
+// file 1 "noname"
+// file 2 "\c:\isptools6_0_strt\synpbase\lib\vhd\std.vhd "
+// file 3 "\c:\isptools6_0_strt\ispcpld\..\cae_library\synthesis\vhdl\ecp.vhd "
+// file 4 "\c:\isptools6_0_strt\synpbase\lib\vhd\std1164.vhd "
+// file 5 "\p:\slcnge~o\isplever\common_files\barrel_shifter.vhd "
+// file 6 "\c:\isptools6_0_strt\synpbase\lib\vhd\arith.vhd "
+// file 7 "\c:\isptools6_0_strt\synpbase\lib\vhd\signed.vhd "
+// file 8 "\c:\isptools6_0_strt\synpbase\lib\vhd\numeric.vhd "
+// file 9 "\p:\slcnge~o\isplever\02zq4f~2\cordic_lut.vhd "
+// file 10 "\c:\isptools6_0_strt\synpbase\lib\vhd\math_real.vhd "
+// file 11 "\p:\slcnge~o\isplever\02zq4f~2\cordic.vhd "
+// file 12 "\p:\slcnge~o\isplever\02zq4f~2\cordic_full.vhd "
+
+`timescale 100 ps/100 ps
+module VLO (
+  Z
+);
+output Z ;
+wire Z ;
+wire GND ;
+wire VCC ;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+assign Z = GND;
+endmodule /* VLO */
+
+module VHI (
+  Z
+);
+output Z ;
+wire Z ;
+wire VCC ;
+wire GND ;
+  assign VCC = 1'b1;
+  assign GND = 1'b0;
+assign Z = VCC;
+endmodule /* VHI */
+
+module OB (
+  I,
+  O
+);
+input I ;
+output O ;
+wire I ;
+wire O ;
+wire GND ;
+wire VCC ;
+  assign #(1)  O = I;
+  assign GND = 1'b0;
+  assign VCC = 1'b1;
+endmodule /* OB */
+
+module cordic_full (
+  CLK_IN,
+  nRESET,
+  DVAL_IN,
+  DVAL_OUT,
+  MODE,
+  PARAM_M,
+  X_IN,
+  Y_IN,
+  Z_IN,
+  X_OUT,
+  Y_OUT,
+  Z_OUT
+);
+input CLK_IN ;
+input nRESET ;
+input DVAL_IN ;
+output DVAL_OUT ;
+input MODE ;
+input [1:0] PARAM_M ;
+input [7:0] X_IN ;
+input [7:0] Y_IN ;
+input [7:0] Z_IN ;
+output [7:0] X_OUT ;
+output [7:0] Y_OUT ;
+output [7:0] Z_OUT ;
+wire CLK_IN ;
+wire nRESET ;
+wire DVAL_IN ;
+wire DVAL_OUT ;
+wire MODE ;
+wire N_27 ;
+wire N_26 ;
+wire N_25 ;
+wire N_24 ;
+wire N_23 ;
+wire N_22 ;
+wire N_21 ;
+wire N_20 ;
+wire N_19 ;
+wire N_18 ;
+wire N_17 ;
+wire N_16 ;
+wire N_15 ;
+wire N_14 ;
+wire N_13 ;
+wire N_12 ;
+wire N_11 ;
+wire N_10 ;
+wire N_9 ;
+wire N_8 ;
+wire N_7 ;
+wire N_6 ;
+wire N_5 ;
+wire N_4 ;
+wire N_3 ;
+wire N_2 ;
+wire VCC ;
+wire GND ;
+// @2:1
+  VLO GND_cZ (
+	.Z(GND)
+);
+  VHI VCC_0 (
+	.Z(VCC)
+);
+// @12:49
+  OB \Z_OUT_pad[7]  (
+	.I(GND),
+	.O(Z_OUT[7])
+);
+// @12:49
+  OB \Z_OUT_pad[6]  (
+	.I(GND),
+	.O(Z_OUT[6])
+);
+// @12:49
+  OB \Z_OUT_pad[5]  (
+	.I(GND),
+	.O(Z_OUT[5])
+);
+// @12:49
+  OB \Z_OUT_pad[4]  (
+	.I(GND),
+	.O(Z_OUT[4])
+);
+// @12:49
+  OB \Z_OUT_pad[3]  (
+	.I(GND),
+	.O(Z_OUT[3])
+);
+// @12:49
+  OB \Z_OUT_pad[2]  (
+	.I(GND),
+	.O(Z_OUT[2])
+);
+// @12:49
+  OB \Z_OUT_pad[1]  (
+	.I(GND),
+	.O(Z_OUT[1])
+);
+// @12:49
+  OB \Z_OUT_pad[0]  (
+	.I(GND),
+	.O(Z_OUT[0])
+);
+// @12:48
+  OB \Y_OUT_pad[7]  (
+	.I(GND),
+	.O(Y_OUT[7])
+);
+// @12:48
+  OB \Y_OUT_pad[6]  (
+	.I(GND),
+	.O(Y_OUT[6])
+);
+// @12:48
+  OB \Y_OUT_pad[5]  (
+	.I(GND),
+	.O(Y_OUT[5])
+);
+// @12:48
+  OB \Y_OUT_pad[4]  (
+	.I(GND),
+	.O(Y_OUT[4])
+);
+// @12:48
+  OB \Y_OUT_pad[3]  (
+	.I(GND),
+	.O(Y_OUT[3])
+);
+// @12:48
+  OB \Y_OUT_pad[2]  (
+	.I(GND),
+	.O(Y_OUT[2])
+);
+// @12:48
+  OB \Y_OUT_pad[1]  (
+	.I(GND),
+	.O(Y_OUT[1])
+);
+// @12:48
+  OB \Y_OUT_pad[0]  (
+	.I(GND),
+	.O(Y_OUT[0])
+);
+// @12:47
+  OB \X_OUT_pad[7]  (
+	.I(GND),
+	.O(X_OUT[7])
+);
+// @12:47
+  OB \X_OUT_pad[6]  (
+	.I(GND),
+	.O(X_OUT[6])
+);
+// @12:47
+  OB \X_OUT_pad[5]  (
+	.I(GND),
+	.O(X_OUT[5])
+);
+// @12:47
+  OB \X_OUT_pad[4]  (
+	.I(GND),
+	.O(X_OUT[4])
+);
+// @12:47
+  OB \X_OUT_pad[3]  (
+	.I(GND),
+	.O(X_OUT[3])
+);
+// @12:47
+  OB \X_OUT_pad[2]  (
+	.I(GND),
+	.O(X_OUT[2])
+);
+// @12:47
+  OB \X_OUT_pad[1]  (
+	.I(GND),
+	.O(X_OUT[1])
+);
+// @12:47
+  OB \X_OUT_pad[0]  (
+	.I(GND),
+	.O(X_OUT[0])
+);
+// @12:41
+  OB DVAL_OUT_pad (
+	.I(GND),
+	.O(DVAL_OUT)
+);
+  GSR GSR_INST (
+	.GSR(VCC)
+);
+  PUR PUR_INST (
+	.PUR(VCC)
+);
+endmodule /* cordic_full */
+

@@ -1,0 +1,156 @@
+--------------------------------------------------------------------------------
+Lattice TRACE Report, Version ispLever_v60_PROD_Build (36)
+Sun Nov 26 05:34:07 2006
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 1 -o checkpnt.twr siggen.ncd siggen.prf 
+Design file:     siggen.ncd
+Preference file: siggen.prf
+Device,speed:    LFECP20E,3
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+Preference: FREQUENCY NET "CLK_c" 32.768000 MHz ;
+            571 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 21.630ns
+
+ Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
+
+   Source:         FF         Q              reset_gen_1/reset_count_vn_count_10__Q  (from E5GDCS20_CLK_c +)
+   Destination:    FF         Data in        reset_gen_1/nRESET_Q  (to E5GDCS20_CLK_c +)
+
+   Delay:               8.723ns  (21.3% logic, 78.7% route), 5 logic levels.
+
+ Constraint Details:
+
+       8.723ns physical path delay reset_gen_1/SLICE_38 to reset_gen_1/SLICE_45 meets
+      30.517ns delay constraint less
+       0.000ns skew and 
+       0.164ns DIN_SET requirement (totaling 30.353ns) by 21.630ns
+
+ Physical Path Details:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.508    R31C26D.CLK to     R31C26D.Q1 reset_gen_1/SLICE_38 (from E5GDCS20_CLK_c)
+ROUTE         2     2.226     R31C26D.Q1 to     R31C27A.C1 reset_gen_1_reset_count_vn_count_10
+CTOF_DEL    ---     0.337     R31C27A.C1 to     R31C27A.F1 SLICE_49
+ROUTE         2     1.060     R31C27A.F1 to     R31C26B.A0 g0Z0Z_13
+CTOF_DEL    ---     0.337     R31C26B.A0 to     R31C26B.F0 SLICE_47
+ROUTE         1     2.543     R31C26B.F0 to     R31C25D.C1 reset_gen_1/nRESETs_iZ0Z_1
+CTOF_DEL    ---     0.337     R31C25D.C1 to     R31C25D.F1 reset_gen_1/SLICE_45
+ROUTE         1     1.038     R31C25D.F1 to     R31C25D.A0 reset_gen_1/nRESETs_iZ0
+CTOF_DEL    ---     0.337     R31C25D.A0 to     R31C25D.F0 reset_gen_1/SLICE_45
+ROUTE         1     0.000     R31C25D.F0 to    R31C25D.DI0 reset_gen_1/Q_0_16 (to E5GDCS20_CLK_c)
+                  --------
+                    8.723   (21.3% logic, 78.7% route), 5 logic levels.
+
+ Clock Skew Details: 
+
+ Source Clock: 
+           Delay              Connection
+          0.626ns    LLDCS0.DCSOUT to R31C26D.CLK     
+
+ Destination Clock :
+           Delay              Connection
+          0.626ns    LLDCS0.DCSOUT to R31C25D.CLK     
+
+Report:  112.524MHz is the maximum frequency for this preference.
+
+
+================================================================================
+Preference: FREQUENCY NET "DA_SCKI_c" 49.152000 MHz ;
+            166 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed:  The following path meets requirements by 13.872ns
+
+ Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
+
+   Source:         FF         Q              segment_decoder_1/OUTPUT_e_ie  (from DA_SCKI_c +)
+   Destination:    FF         Data in        gain_control_1/proc_change_detect_vb_overload_changed_Q  (to DA_SCKI_c +)
+
+   Delay:               6.309ns  (13.4% logic, 86.6% route), 2 logic levels.
+
+ Constraint Details:
+
+       6.309ns physical path delay SLICE_44 to gain_control_1/SLICE_21 meets
+      20.345ns delay constraint less
+       0.000ns skew and 
+       0.164ns DIN_SET requirement (totaling 20.181ns) by 13.872ns
+
+ Physical Path Details:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.508     R2C40B.CLK to      R2C40B.Q0 SLICE_44 (from DA_SCKI_c)
+ROUTE        51     5.464      R2C40B.Q0 to     R38C20C.C0 segment_decoder_1_OUTPUT_e_i_0
+CTOF_DEL    ---     0.337     R38C20C.C0 to     R38C20C.F0 gain_control_1/SLICE_21
+ROUTE         1     0.000     R38C20C.F0 to    R38C20C.DI0 gain_control_1/un1_sl_changedZ0Z_1 (to DA_SCKI_c)
+                  --------
+                    6.309   (13.4% logic, 86.6% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+ Source Clock: 
+           Delay              Connection
+          4.076ns PLL3_R40C1.CLKOK to R2C40B.CLK      
+
+ Destination Clock :
+           Delay              Connection
+          4.076ns PLL3_R40C1.CLKOK to R38C20C.CLK     
+
+Report:  154.488MHz is the maximum frequency for this preference.
+
+
+================================================================================
+Preference: FREQUENCY NET "clockgen_main_1/sl_clk_98m304" 98.304000 MHz ;
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+Report Summary
+--------------
+----------------------------------------------------------------------------
+Preference                              |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+FREQUENCY NET "CLK_c" 32.768000 MHz ;   |   32.768 MHz|  112.524 MHz|     5
+                                        |             |             |
+FREQUENCY NET "DA_SCKI_c" 49.152000 MHz |             |             |
+;                                       |   49.152 MHz|  154.488 MHz|     2
+                                        |             |             |
+FREQUENCY NET                           |             |             |
+"clockgen_main_1/sl_clk_98m304"         |             |             |
+98.304000 MHz ;                         |            -|            -|     0
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+All preferences were met.
+
+
+Timing summary:
+---------------
+
+Timing errors: 0  Score: 0
+
+Constraints cover 737 paths, 4 nets, and 346 connections (79.2% coverage)
+
+--------------------------------------------------------------------------------
+

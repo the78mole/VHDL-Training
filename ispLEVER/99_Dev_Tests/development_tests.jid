@@ -1,0 +1,2 @@
+. toplevel toplevel.vhd p:\isplever\99_dev_tests\toplevel.vhd
+FS_CLOCK_GEN FS_CLOCK_GEN ..\common_files\fs_clock_gen.vhd p:\isplever\common_files\fs_clock_gen.vhd

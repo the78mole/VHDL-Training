@@ -1,0 +1,9 @@
+Viele Zeichnungen wurden unter Visio erstellt, dann als wmf gespeichert, 
+in Corel eingelesen und von dort als EPS exportiert. Eine direkte Speicherung
+als EPS in Visio hatte zur Folge, dass die Formatierung komplett aus dem Ruder lief.
+
+Daher ist die Visio-Vorlage auch die Grundlage für alle Diagramme. Änderungen sollten
+wenn möglich hier geschehen und dann den beschriebenen Weg nehmen.
+
+Viel Spaß wünscht
+Daniel Glaser

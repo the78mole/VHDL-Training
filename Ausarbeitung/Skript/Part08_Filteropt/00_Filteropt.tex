@@ -1,0 +1,24 @@
+\section{Versuch 8: VHDL: Optimierung der Filterhardware}\label{sec:vhdl:filtopt}
+	\develnote{Hardware soll nun mehrfach genutzt werden.}
+
+Nach der Hardwaremäßig aufwändigen Implementierung des Filters in Linearphasenstruktur sollen im Weiteren Konzepte für ein effizienteres Design gefunden werden. Einer der üblichen Ansätze besteht in der mehrfachen Verwendung von Hardware, hier speziell der Multiplizierer, da es sich um die am stärksten begrenzte Ressource handelt.
+
+Wie erreichen sie eine mehrfache Verwendung der Hardware, beachten sie speziell die Möglichkeiten der sysDSP-Blöcke?
+
+\answergame{6}{Durch eine MAC-Einheit, welche die verschiedenen Verzögerungselemente nacheinander mit den entsprechenden Koeffizienten multipliziert und akkumuliert, also einen Multiplexer verwendet. Weiterhin ist eine Steuerung z.B. in Form einer FSM nötig.}
+
+Zeichnen sie nun schematisch den Aufbau ihres optimierten Filters, speziell die Komponenten rings um die gewählte sysDSP-Struktur. Lassen sie ihre Lösung von einem Betreuer verifizieren.
+
+\answerfig{10cm}{5cm}{bilder/empfaenger/filter/firoptLinearphase.eps}
+
+Welches zusätzliche Signal benötigen sie, um diese Funktionsweise implementieren zu können? Welche Eigenschaften muss dieses besitzen?
+
+\answergame{3}{Einen schnelleren Takt, der mindestens um den Faktor der Verwendung des Moduls schneller ist, als der Takt, mit dem die neuen Daten eintreffen.}
+
+\paragraph{Aufgabe 1:}
+
+Implementieren sie ihre neue Filterstruktur in \verb|08_FilterOpt\bandpass.vhd|. Diese soll sich nach außen ähnlich verhalten wie die vorherige Struktur, also mit nur geringen Änderungen der äußeren Beschaltung und der Ports einsetzbar sein.
+
+Welche Auswirkungen wird diese Änderungen nach sich ziehen, was sie bei größeren Designs nie aus dem Auge verlieren sollten? Hinweis: Bei der Technologie handelt es sich um CMOS.
+
+\answergame{4}{Höhere Verlustleistung aufgrund höherer Taktraten.}

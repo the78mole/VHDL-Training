@@ -1,0 +1,128 @@
+\chapter{Praktikumskonzept}
+
+Da eine komplette Implementierung aller benötigten Funktionen durch die Praktikumsteilnehmer aufgrund der kurzen Praktikumsdauer von einer Woche ausscheidet, wurde nach einer effizienten Möglichkeit gesucht, die Kenntnisse anhand praktischer Versuche zu vermitteln. Das Ziel des Praktikums stellt ein Übertragungssystem dar, auf das Schritt für Schritt hingearbeitet wird. Die einzelnen Versuche unterscheiden sich stark in der Implementierung und sorgen für Abwechslung durch unterschiedliche Probleme, die gelöst werden müssen. Trotz dieser Aufteilung ist jeder Versuch separat mit der Hardware testbar und nicht nur auf die Simulation begrenzt.
+
+\section{Aufbau des Praktikums}
+
+Um die Lernphase zu verkürzen und schnell zu ersten praktischen Ergebnissen zu kommen, wird im ersten Versuch fast der komplette VHDL-Code vorgegeben und hauptsächlich auf die Bedienung der Software eingegangen. Lediglich ein kurzer Teil geht auf wenige Eigenschaften der Sprache VHDL ein, der gerade ausreicht, um den Aufbau eines VHDL-Moduls zu verstehen. Trotz der Einfachheit ist der Abschluss des ersten Versuchs eine funktionsfähige Hardware.
+
+Durch den hoffentlich schnellen Erfolg des ersten Versuchs bleibt die Motivation erhalten, die bei der vorbereitenden Durcharbeitung eines Tutorials schnell verloren ginge. Die MATLAB-Teile der einzelnen Versuche des Empfängers stehen den VHDL-Teilen direkt voran. Unmittelbar bevor die noch unbekannten Konstrukte Verwendung finden, werden diese in den "`VHDL-Basics"' genannten Abschnitten bekannt gemacht und erklärt. Gegebenenfalls wird noch auf Besonderheiten und häufige Fehlerquellen hingewiesen. Durch die kurze zeitliche Differenz von Lerninhalt und Anwendung sollte ein Nachschlagen bei der Programmierung unnötig sein und sich durch die Anwendung selbst besser einprägen. 
+
+Die Notwendigkeit, dem Teilnehmer zusätzliche Hilfestellungen zu geben, entfällt zum Großteil auch, da die Nutzung der im gleichen Kapitel erlernten Inhalte dem Teilnehmer logisch erscheint. 
+
+In den weiteren Versuchen steigt der Programmieraufwand der Teilnehmer über die Implementierung eines kompletten Moduls bis hin zur selbstständigen Partitionierung in Teilmodule und deren komplette Programmierung.
+
+Um auch die Unterschiede der verschiedenen Konzepte herauszustellen, wird am Beispiel des Signalgenerators die Variante der direkten digitalen Synthese vorgegeben und den Teilnehmern die Implementierung des eleganteren, jedoch schwieriger zu implementierenden Algorithmus überlassen.
+
+Gegen Ende der Versuche wird es aufgrund der wachsenden Anzahl der zur Verfügung stehenden Module in Bezug auf die Konzepte und deren Umsetzung wieder einfacher. Allerdings wird das Gesamtsystem komplexer und die Schwierigkeit der Verschaltung der einzelnen Module untereinander drängt in den Vordergrund. Hier kommt eine unangenehme Eigenschaft von VHDL zum Tragen, die bei großen Projekten dazu führt, dass der Deklarationsteil und die Instanziierung der Komponenten im Verhältnis zum eigentlichen Code immer mehr überwiegen.
+
+\section{Konzeptauswahl und Reihenfolge}
+
+Aus den Vorgaben zum Gesamtsystem ergeben sich viele der zu implementierenden Konzepte. Der vorangegangene Abschnitt erfordert gründliche Überlegungen bezüglich der Reihenfolge. Hier bietet es sich an, mit einfachen Grundkonzepten zu beginnen, die im weiteren Verlauf häufig benötigt werden. Die hierfür gewählten Versuche sind der Multiplexer und ein Pseudo-Zufallsfolgen-Generator, der als Quelle digitaler Daten bei der Simulation eingesetzt werden kann. Diese Versuche dienen hauptsächlich dazu, den Vorgaben im Hinblick auf das Vorwissen der Teilnehmer Sorge zu tragen.
+
+\subsection{Sender}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.70\linewidth]{bilder/sender_blockschaltbild}
+	\caption{Blockschaltbild des Senders}
+	\label{fig:diag:sender}
+\end{figure}
+
+
+Es erscheint auch sinnvoll, mit der Signalquelle der Übertragungsstrecke zu beginnen, da von ihr die Verifikation des Empfängers abhängt. Der Sender selbst (vgl. Abb. \ref{fig:diag:sender} besteht aus einfachen Modulen, die sich gut dazu eignen, in die Sprache VHDL einzuführen, die Umsetzung der Code-Konstrukte in Hardware zu erläutern und Unterschiede zur Simulation in MATLAB aufzuzeigen. Der Sender selbst besteht aus den Teilen Signalgenerator, Pegelanzeige und Modulator.
+
+\paragraph{Der Signalgenerator} behandelt den CORDIC-Algorithmus, einen der elegantesten Algorithmen der digitalen Signalverarbeitung, dessen Behandlung in diesem Praktikum praktisch unumgänglich ist. Durch die Vereinfachung, die sich durch den Einsatz als Signalgenerator ergeben, entfallen viele problematische Teile. Indem man keine Einschränkungen bezüglich des Hardwareaufwandes macht und die Pipeline-Architektur zulässt, entfällt auch das, aufgrund der variablen Schiebeweite, schwer zu implementierende Schieberegister. Will der Teilnehmer den CORDIC in Bit-Parallel-Architektur aufbauen, muss er hierzu eine Lösung finden. Da die Simulation in MATLAB nur einen begrenzten Zeitabschnitt betrachtet, wirken sich Fehler, die sich aufsummieren, nur sehr wenig aus. Bei der derzeitigen Implementierung des Oszillators fällt auf, dass der Ausgangspunkt der folgenden Drehung immer das Ergebnis der letzten ist. Was bei Verwendung von Fließkommazahlen noch über sehr viele Perioden funktioniert, endet bei Verwendung von Fixed-Point Arithmetik bereits nach wenigen Zyklen, je nach Rundungsverfahren, entweder in einem Überlauf oder in einer verschwindend kleinen Amplitude. In Hardware ist daher, ausgehend von einem festen Verktor, der Winkel mit jedem Schritt zu vergrößern.
+
+\paragraph{Die Pegelanzeige} dient dem Zweck, die Verifikation zu erleichtern. Das lautstarke Testen kann damit meist entfallen. Anhand dieses einfachen Beispiels wird die Multiplikation und deren Verwendung eingeführt.
+
+\paragraph{Der Modulator} gestaltet sich sehr einfach und kann in mehreren Varianten implementiert werden. Eine Variante der Multiplikation des aktiven Signals mit 1, des inaktivn mit 0 bzw. eines Multiplexers besitzt den Vorteil der einfachen Implementierung in VHDL. Die zweite Möglichkeit der Umschaltung des Phaseninkrements erfordert mehr Programmieraufwand, reduziert die Hardware jedoch erheblich. Durch die Implementierung beider Varianten durch die Teilnehmer soll aufgezeigt werden, dass einfache Programmierung nicht immer die beste Umsetzung in Hardware bedeutet und immer überlegt werden muss, ob es möglich ist, durch mehrfache Verwendung oder geschickte Programmierung Hardware einzusparen.
+
+\subsection{Empfänger}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.70\linewidth]{bilder/Empfängerstufe}
+	\caption{Blockschaltbild des Empfängers}
+	\label{fig:diag:empfaengerstufe}
+\end{figure}
+
+Nachdem der Signalgenerator fertig gestellt ist und als Quelle für Simulationen dienen kann, erfolgt die Implementierung des Empfängers (vgl. Abb. \ref{fig:diag:empfaengerstufe}). Hierzu ist eine Einführung in die Grundlagen der digitalen Filter notwendig (abgedeckt von der Studienarbeit von Andreas Schedel). Der nachfolgende MATLAB-Teil behandelt das komplette Empfängerdesign.
+
+Im Empfänger finden hauptsächlich verschiedene Filter Einsatz, deren Koeffizienten im MAT\-LAB-Teil bereits berechnet wurden. In einigen Fällen ist es notwendig diese nochmals zu ermitteln, um bestimmte Eigenschaften der verwendeten Hardware, beispielsweise der 4-fach Multiplizierer, zu nutzen. Die Konzepte, die zur Anwendung kommen sind Bandpassfilter, Filteroptimierung, Hüllkurvendemodulation, Tiefpassfilterung und Signalregeneration.
+
+\paragraph{Das Filter} besteht im ersten Anlauf aus einem direkt in Hardware umgesetzen FIR-Filter in Linear-Phasen-Struktur. Der Aufwand für das Filter ist jedoch zu hoch, um die übrigen Module implementieren zu können.
+
+\paragraph{Die Filteroptimierung} durch Mehrfachnutzung der Hardware beseitigt das vorhergehende Problem und besitzt großes Einsparpotenzial, erfordert jedoch einen erheblichen Aufwand in der Programmierung. Diese gestaltet sich wegen der komplexen Kontrollstruktur sehr fehleranfällig.
+
+\paragraph{Die Hüllkurvendemodulation} ist lediglich eine andere Anwendung der Multiplikation, wie sie schon bei der Pegelanzeige verwendet wurde, ist an dieser Stelle aber für den Empfänger notwendig.
+
+\paragraph{Die Tiefpassfilterung} erfolgt hier erneut durch einen FIR-Filter, sollte aber wegen der niedrigen Grenzfrequenz durch Abtastratenumsetzung erfolgen. Andererseit hat die Filteroptimierung das Potenzial, selbst Filter mit Ordnungen größer 500 mit einem DSP-Block zu realisieren. Würde man die RAM-Blöcke noch geschickt verwenden, wären kaum Logik-Ressourcen notwendig. Dies würde aber im Rahmen dieses Praktikums deutlich zu weit führen.
+
+\subsection{Gesamtsystem}
+
+Nachdem nun auch die Module des Empfängers komplett umgesetzt wurden, erfolgt die Erprobung des Gesamtsystem. Dabei wird in zwei Schritten vorgegangen, der direkten elektrischen Verbindung und der realen Übertragung über die Luft.
+
+\paragraph{Die elektrische Verbindung} ermöglicht die Kopplung von Sender und Empfänger (Loop) fast ohne Störeinflüsse und ermöglicht die Verifikation der Algorithmen. Als Informationsquelle für die Modulation kommt die serielle Schnittstelle zum Einsatz, da sie eine einfache Überprüfung der Korrektheit bei höheren Datenraten (110 Baud) erlaubt. In dieser Phase sollten noch alle Zeichen korrekt übertragen werden.
+
+\paragraph{Die reale Übertragung} in Form einer Unterhaltung mittels Terminal (Chat) schließt alle störenden Einflüsse wie Mehrwegeausbreitung, Störer und Dämpfung mit ein. Damit kann die Robustheit der Algorithmen erprobt werden. Die Fehler in der Übertragung werden direkt am Bildschirm sichtbar. Ein Test aller Gruppen zur gleichen Zeit soll die Grenzen des Modulationsverfahrens und der verwendeten Algorithmen aufzeigen.
+
+\section{Abstraktion der Schnittstellen}
+
+Die Anbindung einiger wichtiger Komponenten geschieht durch serielle Schnittstellen, der Informationsfluss in den Algorithmen ist jedoch parallel. Um die Teilnehmer nicht unnötig zu belasten, wurde eine Abstraktionsebene eingeführt, die diese Teile verbirgt. Auch Teile die wenig Lernerfolg versprechen und für die Anbindung notwendig sind, beispielsweise die Entprellung der Schalter, werden vorgegeben. Durch eine zusätzliche Abstraktionsebene (vgl. Abb. \ref{fig:abstraktion}) mittels des toplevels, der dazwischen liegenden Module und des stud\_toplevels wird erreicht, dass den Teilnehmern ein unberührter toplevel zur Verfügung steht. Ein angenehmer Nebeneffekt der Abstraktion besteht in der einfachen Anpassung an Hardwareänderungen.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.95\linewidth]{bilder/hardwareabstraktion}
+	\caption{Abstraktion der Hardware}
+	\label{fig:abstraktion}
+\end{figure}
+
+Die in die Abstraktion einfließenden Module umfassen die im Folgenden erläuterten Bestandteile.
+
+\subsection{Taktversorgung}
+
+Die verschiedenen Takte im FPGA werden von zwei Modulen erzeugt, die mittels IP\footnote{\textbf{IP}: Intellectual Property (dt. Geistiges Eigentum) bezeichnet vorgefertigte Module, teilweise von Drittanbietern und evtl. kostenpflichtig}Express\footnote{\textbf{IPExpress}: Mittels dieser in ispLEVER integrierten Software können diese IP-Module konfiguriert werden} generiert wurden. Sie stellen einen langsamen ($768kHz$) und einen schnellen ($49,152MHz$) Takt zur Verfügung. Der langsame Takt kann der Verarbeitung der Audiodaten dienen, hauptsächlich bei einfacher Nutzung von Hardware. Der schnelle Takt wird für den Betrieb des AD- und DA-Wandlers benötigt, eignet sich aber auch gut bei Mehrfachnutzung von Hardware. Als Zwischenstufe jeder der beiden PLLs wird ein Takt mit $98,304MHz$ generiert, der grundsätzlich auch verwendet werden könnte.
+
+\subsection{I2S-Interface}
+
+Sowohl der AD- (vgl. Abb. \ref{fig:pcm1803}), als auch DA-Umsetzer (vgl. Abb. \ref{fig:pcm1730}) besitzen ein serielles $I^{2}S$-Interface. Hierfür stehen zwei getrennte Module zur Verfügung. Der Receiver implementiert den Slave-Modus und empfängt die Daten des AD-Umsetzers. Der Transmitter schickt die Daten im Master-Modus zum DA-Umsetzer. Das verwendete Protokoll und die zugehörigen Einstellungen mittels der Konfigurationspins folgen aus den Datenblättern der Schaltkreise.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.60\linewidth]{bilder/pcm1803}
+	\caption{Blockschaltbild des AD-Umsetzers PCM1803}
+	\label{fig:pcm1803}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.60\linewidth]{bilder/pcm1730}
+	\caption{Blockschaltbild des DA-Umsetzers PCM1730}
+	\label{fig:pcm1730}
+\end{figure}
+
+
+\subsection{Mikrofon Vorverstärkung}
+
+Im Mikrofonvorverstärker ist ein synchrones, serielles Protokoll zur Einstellung der Parameter implementiert (vgl. Abb. \ref{fig:pga2500}. Das VHDL-Modul besitzt eine parallele Schnittstelle als Eingang, über welche die Verstärkung und einige weitere Parameter kommuniziert werden. Bei Änderungen an der FPGA-internen, parallelen Schnittstelle werden die neuen Einstellungen an den Vorverstärker übertragen und erlangen beim nächsten Nulldurchgang des analogen Signals Gültigkeit. Gegebenenfalls kann hier noch ein Modul programmiert werden, das die Verstärkung automatisch regelt.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.50\linewidth]{bilder/pga2500.eps}
+	\caption{Blockschaltbild des PGA2500}
+	\label{fig:pga2500}
+\end{figure}
+
+
+\subsection{Anzeigendecoder}
+
+Die einzelnen 7-Segment-Anzeigen des Systems stellen sich dem Praktikumsteilnehmer als 4-Bit-Schnittstelle dar. In dem Abstraktionsmodul werden dann die 4-Bit-Daten in eine hexadezimale Darstellung umgewandelt.
+
+\subsection{Entprellung}
+
+Die Entprellung der Schalter und eine zusätzliche Entprellung der Taster erfolgt durch einen Algorithmus, der kurzzeitige Pegelwechsel unterdrückt. Die Anzahl der Takte, nachdem eine Änderung als statisch angenommen wird, ist einstellbar.
+
+\subsection{Pegelanzeige}
+
+Die Pegelanzeige kann auf Wunsch auf einen Modus umgeschaltet werden, bei dem lediglich zwei LEDs leuchten. Dies dient hauptsächlich der geringeren Stromaufnahme, kann aber auch der besseren Ablesbarkeit der Anzeige dienen.

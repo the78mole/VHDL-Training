@@ -1,0 +1,4 @@
+-rem
+-log bandpass_filter.log
+-o bandpass_filter_mp.par
+-pr bandpass_filter.prf

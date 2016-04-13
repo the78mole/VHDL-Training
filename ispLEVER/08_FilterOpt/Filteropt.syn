@@ -1,0 +1,12 @@
+JDF B
+// Created by Version 6.0 
+PROJECT Filteropt
+DESIGN filteropt Normal
+DEVKIT LFECP20E-3F484C
+ENTRY Schematic/VHDL
+MODULE stud_toplevel.vhd
+MODSTYLE stud_toplevel Normal
+MODULE FilterCell.lpc
+MODSTYLE filtercell Normal
+SYNTHESIS_TOOL Synplify
+TOPMODULE stud_toplevel

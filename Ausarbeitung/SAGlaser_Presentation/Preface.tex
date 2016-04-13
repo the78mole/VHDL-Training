@@ -1,0 +1,21 @@
+\begin{frame}
+	\titlepage
+	
+\end{frame}
+
+\setcounter{tocdepth}{1}
+
+\begin{frame}
+  \frametitle{Übersicht}
+  \tableofcontents[pausesections]
+\end{frame}
+
+\setcounter{tocdepth}{2}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Überblick}
+    \tableofcontents[current,currentsection]
+  \end{frame}
+}

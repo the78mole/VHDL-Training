@@ -1,0 +1,23 @@
+\section{Versuch 6: Simulation der Empfängerhardware in MATLAB}\label{sec:receiver:matlab:sim}
+
+\paragraph{Aufgabe 1: Bandpassdesign}
+
+\begin{enumerate}
+	\item Erzeugen sie zwei Bandpässe, deren Durchlassbereich jeweils im Bereich ihrer beiden (vom Betreuer festgelegten) Signalfrequenzen liegt und legen sie ihre Entwürfe im Verzeichnis \pathtomatlab{Empfänger\textbackslash EmpfängerhardwareMATLAB\\\textbackslash Aufgabe\_01\_Bandpassdesign} ab. Die Bandbreite sollte mindestens ein kHz betragen. Notieren sie die festgelegten Eckfrequenzen:
+	\answergame{3}{}
+	\item Welche Ordnung haben ihre Bandpässe? Bestimmen sie die Anzahl der Koeffizienten und geben sie die Zahl der notwendigen Multiplikationen an.
+		\answergame{4}{Abhängig von den gewählten Eckfrequenzen}
+	\item Ist die Ordnung der Filter im Hinblick auf die Hardware vertretbar? Sollten sie zu dem Ergebnis kommen, das dies nicht der Fall ist, so passen sie ihre Filter den Gegebenheiten an.
+		\answergame{3}{Insgesamt müssen in Hardware drei Filter (zwei Bandpässe und ein Tiefpass) realisiert werden. Hierzu stehen bei 8-Bit Filter\-koeffizienten\-wortbreite 56 Multiplizierer zur Verfügung. Pro Filter der Ordnung N fallen bei Verwendung der Funktion \textit{filtfir\_symm\_qa.m} (also einer Linearphasenstruktur) $N/2$ Multiplikationen an. Die maximal mögliche Filterordnung ist also abhängig vom Verhältnis des Systemtaktes zur Samplingrate der Filter.}
+\end{enumerate}
+
+\paragraph{Aufgabe 2: Simulation der Filter}
+
+\begin{enumerate}
+	\item Filtern sie ihr Sendesignal nun mit ihren generierten Bandpässen.
+	\item Stellen sie das Ergebnis graphisch dar und legen sie die Ergebnisse im folgenden Verzeichnis ab: 
+	\pathtomatlab{Empfänger\textbackslash EmpfängerhardwareMATLAB\\\textbackslash Aufgabe\_02\_Filtersimulation}
+	Wenn alles passt sollten ihre Signale ähnlich den auf Seite \pageref{fig:Bandpassig} Abb. \ref{fig:Bandpassig} dargestellten sein.
+	\item Dokumentieren sie ihre Ergebnisse.
+\end{enumerate}
+

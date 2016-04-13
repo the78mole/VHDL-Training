@@ -1,0 +1,108 @@
+\section{Versuch 4: Pegelanzeige}\label{sec:level}
+  \develnote{Hier programmieren wir eine Pegelanzeige. Evtl. wird diese auch vorgegeben!? Wir werden sehen}
+
+\subsection{Konzept}\label{subsec:level:idea}
+
+Da die Pegel am Mikrofoneingang stark schwanken, ist es wünschenswert, die Verstärkung nachzuführen, um eine maximale Aussteuerung der AD-Wandler zu erhalten. Ebenso ist es nützlich, die Pegel am Ausgang des später verwendeten Filters anzeigen zu können. Da die Funktion einer Pegelanzeige am Einfachsten mit dem Ausgang des Signalgenerators verifiziert werden kann, wird dieser Block an diese Stelle vorgezogen.
+
+\subsection{Realisierungsmöglichkeiten}\label{subsec:level:possibilities}
+
+Da Pegel leistungsbezogene Angaben sind, muss eine quadratische Mittelwertbildung über die Amplitude der Spannung durchgeführt werden. Die Leistung eines Signals ist definiert durch:
+
+\begin{equation}
+	\bar{P} = frac{1}{t_M} \cdot \int\limits_{t}^{t+t_M} \left|U^2\right| \cdot dt = frac{1}{t_M} \cdot \int\limits_{t}^{t+t_M} U^2 \cdot dt
+\end{equation}
+
+Um eine richtige Anzeige zu erhalten, muss eine Mittelung über einen relativ langen Zeitraum $t_M$ erfolgen. Dieser sollte zwischen 50 und 100 ms betragen, um noch synchron zum Gehörten zu wirken.
+
+\subsubsection{Pegeldefinition}\label{subsubsec:level:definition}
+
+Pegel werden meist in dBm angegeben. Der die Spannung bei einem Pegel von 3dBm beträgt $\approx0,31 V_{eff}$. 
+
+Auf eine Simulation in MATLAB kann hier aufgrund der Einfachheit verzichtet werden.
+
+\subsection{VHDL: Realisierung}\label{subsec:level:realization}
+
+\subsubsection{VHDL-Basics: Variablen}
+
+Bisher wurde die Möglichkeit gezeigt, Werte in Signalen zu speichern. Besitzt eine Architecture hingegen mehrere Prozesse, wird dies schnell unübersichtlich. 
+
+In Prozessen darf man sogenannte Variablen deklarieren, die lediglich lokale Gültigkeit besitzen. Im Vergleich zu Signalen ergeben sich jedoch erhebliche Unterschiede, die selbst für erfahrene Programmierer eine Fehlerquelle darstellen.
+
+Der syntaktische Teil, die Deklaration, ist folgendermaßen aufgebaut.
+
+\begin{verbatim}
+<PROCNAME>: process (<SENSITIVITY LIST>)
+  variable <VARNAME>: <TYPE>[ := <INITIALIZATION>];
+  ...
+begin
+  ...
+end process <PROCNAME>;
+\end{verbatim}
+
+Variablen haben, wie bereits erwähnt, nur lokale Gültigkeit. Dies schlägt sich auch in einer schlechten Zugänglichkeit während der Simulation nieder. Auch ändert sich die Syntax der Wertzuweisung. Signalen wird mittels \verb|<=| ein Wert zugewiesen, Variablen hingegen mittels \verb|:=|. Ein Beispiel hierzu:
+
+\begin{verbatim}
+sig_1 <= sig_2;
+sig_2 <= var_1;
+var_1 := var_2;
+var_2 := sig_2;
+\end{verbatim}
+
+Ein grundlegender Unterschied zwischen Siganlen und Variablen ist, dass Signale bis zum nächsten Ereignis ihren Wert behalten, egal in welcher Reihenfolge im Code sie stehen, Variablen hingegen sofort den zugewiesenen Wert erhalten.
+
+Folgendes Beispiel soll dies verdeutlichen:
+
+\begin{verbatim}
+var_1 := var_1 + 5;
+var_2 := var_1 + 5;
+
+sig_1 := sig_1 + 5;
+sig_2 := sig_1 + 5;
+\end{verbatim}
+
+Hier erhält \verb|var_2| sofort den Wert von \verb|var_1 + 10|, während \verb|sig_2| den Wert von \verb|sig_1 + 5| erst beim nächsten Ereignis erhält.
+
+Eine Variable in dieser Verwendung stellt ein erhebliches Problem für die Synthese dar und kann diese trotz der Einfachheit der Anweisung sehr komplexen Code erzeugen. Im einfachsten Fall wird Hardware doppelt erzeugt, um die Berechnung vorwegzunehmen. Auch die Geschwindigkeit kann sich erheblich reduzieren. 
+
+\advise{Reihenfolge der Zuweisung von Variablen beachten, sonst kann es zu unerwartetem Verhalten führen.}
+
+Beachtet man bestimmte Regeln, so treten wenig Probleme bei der Verwendung von Variablen auf. Die wichtigste Regel bei Variablen besteht darin, die Zuweisung der Variablen an das Ende des Prozesses zu verlegen, wenn man nicht ausdrücklich plant, das spezielle Verhalten der Variablen zu nutzen um den Code zu verschlanken.
+
+In Software-Programmiersprachen wird davon abgeraten, globale Variablen (bei VHDL  vergleichbar mit Signalen) zu verwenden. In VHDL gestaltet sich dies ein wenig anders. Hier wird unerfahrenen Programmierern geraten, nur Signale zu verwenden. Bei überschaubaren Prozessen von wenigen Zeilen ist es jedoch ratsam, auf Variablen zurückzugreifen, um den Aufwand an Signaldeklarationen im Deklarationsteil so gering wie möglich zu halten.
+
+Ein weiterer Grund für die Verwendung von Variablen ist, dass oft temporäre Signale in vielen Prozessen gleiche Namen tragen, allerdings nicht den gleichen Wert besitzen. Einigt man sich hier auf gleiche Namen, so wird das Verständnis des Codes erleichtert, da man sich an bekannten Strukturen orientieren kann. Ein Beispiel ist die Flankenerkennung von Signalen. Hierzu benötigt man ein temporäres Signal (respektive Variable), die den Wert des Signals des letzten Taktzyklusses speichert, um im Nächsten diesen mit dem aktuellen vergleichen zu können. Hier bietet sich beispielsweise der Variablenname vl\_edge\_detect an. So später zu jeder Zeit bekannt, dass es sich hier um die Flankenerkennung handelt.
+
+\subsubsection[VHDL-Basics: Simulation <-> Synthese]{VHDL-Basics: Unterscheidung Simulation <-> Synthese}
+
+In Modelsim lassen sich keine Variablen auslesen. Es ist daher unumgänglich, für das Debugging ein Signal zu verwenden. In Handware darf dieses nicht implementiert werden, und die Synthese ist anzuweisen, dieses zu ignorierenIn VHDL geschieht dies durch folgende Schlüsselworte:
+
+\begin{verbatim}
+--synopsis translate_off
+...
+--synopsis translate_on
+\end{verbatim}
+
+Die Anweisungen an Stelle des Platzhalters werden von der Synthese ausgenommen. Somit wird es möglich, Signale und deren Zuweisungen lediglich in der Simulation zu erlauben.
+
+Auch andere Anwendungen existieren, die auf solche Anweisungen angewiesen sind. Beispielsweise die Modelle für die Multiplizierer die in IPExpress generiert wurden. Die Synthese verwendet dann die DSP-Blöcke, die in der Hardware verfügbar sind.
+
+\subsection{VHDL: Beschreibung der Hardware}\label{subsec:level:HWdesc}
+
+Die Pegelanzeige soll Pegel in Abstufungen von 3 dB anzeigen, wobei die rote LED ab einem Pegel von $+1,5 dBm$ leuchten soll, die obere gelbe ab einem Pegel von $-1,5 dBm$, die zweite gelbe ab $-4,5 dBm$, usw.
+
+\paragraph{Aufgabe 1.1:}
+
+Realisieren sie in VHDL die Pegelanzeige in der Datei \\ \verb|04_Levelmeter\levelmeter.vhd|.
+
+\subsection{MODELSIM: Simulation der Beschreibung}\label{subsec:level:sim}
+
+\paragraph{Aufgabe 1.2:}
+
+Simulieren sie die zuvor programmierte Pegelanzeige. Erstellen sie hierzu Ihre eigene Testbench mit geeigneten Stimuli. Orientieren sie sich an den bereits verwendeten Testbenches.
+
+\subsection{TEST: Praxis}\label{subsec:level:test}
+
+\paragraph{Aufgabe 2:}
+
+Verknüpfen sie nun den Eingang der Pegelanzeige mit dem von AD-Wandler kommenden Mikrofonsignal und testen sie die Anzeige in der Realität. Alternativ schließen sie den Line-In-Eingang an den PC an und spielen mit Winamp ein kurzes Musikstück ab.

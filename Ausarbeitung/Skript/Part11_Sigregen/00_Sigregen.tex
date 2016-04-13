@@ -1,0 +1,15 @@
+\section{Versuch 10: VHDL: Tiefpass}\label{sec:receiver:vhdl:lowpass}
+	\develnote{Die Höcker glattbügeln}
+
+\paragraph{Aufgabe 1:}
+
+Filtern sie das quadrierte Signal mit einem Tiefpass. Dazu verwenden sie die Koeffizienten, die sie in der vorherigen MATLAB-Übung berechnet haben. Falls sie bei der Programmierung auf eine Effizienz bedacht waren, haben sie jetzt weniger Arbeit, falls nicht, versuchen sie dies jetzt. Hinweis: Es ist ihnen natürlich jederzeit erlaubt, eigene Module zu erstellen.
+
+\section{Versuch 11: VHDL: Signalregeneration}\label{sec:receiver:vhdl:sigregen}
+	\develnote{Die beiden Signale vergleichen und eine Entscheidung treffen}
+
+Um das übertragene Bit rekonstruieren zu können, muss aufgrund der vorliegenden Information eine Entscheidung getroffen werden. Hierzu ist es nötig, beide Signale miteinander zu vergleichen. In unserem Fall geschieht dies über eine Subtraktion der beiden nachbearbeiteten Signale. Ist das Ergebnis negativ, so handelt es sich um eine 0, ist es positiv, um eine 1. Zur Verbesserung der Robustheit sollte eine kleine Hysterese eingebaut werden.
+
+\paragraph{Aufgabe 1:}
+
+Implementieren Sie die beschriebene Funktion und testen sie diese in der Simulation und der Hardware. Ist dies erfolgreich, haben sie bereits alle Komponenten.

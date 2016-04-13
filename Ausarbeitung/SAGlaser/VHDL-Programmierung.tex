@@ -1,0 +1,645 @@
+\chapter{VHDL-Programmierung}
+
+In den folgenden Abschnitten wird systhematisch die Verifikation der VHDL-Module aus \ref{sec:vhdlsrc:main} und \ref{sec:vhdlsrc:spec} ab S. \pageref{chap:vhdlsrc} vorgenommen. Im ersten Schritt erfolgt die Beschreibung der notwenidgen Stimuli, um die Module zu testen. Teilweise werden Takt und Initialisierungssignale nicht speziell genannt, da sie meist selbstverständlich sind.
+
+Anschließend wird diskutiert, welche Werte zu erwarten sind. Schließlich erfolgt noch eine kurze analytiche Betrachtung des Simulationswaveforms, wie es von Modelsim generiert wurde. Auf die Einstellungen von Modelsim (z.B. Simulationsdauer) soll nicht genauer eingegangen werden, da dies im Normalfall aus dem Waveform bzw. aus dem Quellcode \ref{sec:vhdlsrc:test} S. \pageref{sec:vhdlsrc:test} hervorgeht. In den Abbildungen gilt folgende Vereinbarung für die Farben der einzelnen Signalverläufe:
+
+\begin{description}
+	\item[rot] Systembedingte Stimuli (synchrone Schaltung)
+	\item[blau] Eingangsgrößen/-signale
+	\item[gold-orange] Ausgangsgrößen/-signale
+	\item[grün] Hilfssignale
+\end{description}
+
+Die Hilfssignale dienen nur der besseren Lesbarkeit der Ergebnisse und werden zumeist nur für die Simulation generiert. Manchmal handelt es sich allerdings auch um interne Zustände des Moduls. Die Funktion der einzelnen Signale kann aus dem Namen im linken Teil des Waveforms abgeleitet werden. Auf diese Namen wird auch in der Analyse Bezug genommen.
+
+\section{Bereitgestellte Module}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Bargraph Decoder
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Bargraph Decoder}
+
+Der Bargraph Decoder dient der einfachen Ansteuerung der Pegelanzeigen. Um Strom zu sparen, kann die Pegelanzeige so konfiguriert werden, dass jeweils nur die obersten Anzeigeelemente leuchten. Diese relativ einfache Schaltung wurde allerdings so optimiert, dass nur wenige Hardwareressourcen benötigt werden. Auch ein einfaches Abschalten der Anzeige ist damit möglich.
+
+\subsubsection{Stimuli}
+
+Als Stimuli kommen verschiedene Eingangssignale zum Einsatz, die eine möglichst gute Testabdeckung erreichen sollen. Getestet werden mit der Testbench speziell die Fälle, in denen Fehler zu erwarten sind:
+
+\begin{itemize}
+	\item Kein Bit gesetzt
+	\item Ein Bit gesetzt
+	\item Mehere Bits gesetzt
+\end{itemize}
+
+Weitere denkbare Fälle bedürfen nicht der Beachtung.
+
+\subsubsection{Erwartungswerte}
+
+Das höchstwertige gesetzte Bit und ein weiteres (\verb|BAR_LIGHT_COUNT=2|) sollen am Ausgang erscheinen. Alle weiteren Bits sollen inaktiv sein.
+
+\subsubsection{Simulationsergebnisse}
+
+In Abb. \ref{fig:wave:bargraph-decoder} is das Ergebnis der Simulation zu sehen. Die Verzögerung von einigen Takten ergibt sich aus der VHDL-Beschreibung und ist beabsichtigt.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/bargraph_decoder}	
+	\caption{Simulationswaveform des Bargraph Decoders}
+	\label{fig:wave:bargraph-decoder}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Barrel Shifter
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Barrel Shifter}
+
+Diese Schaltung ermöglicht es, innerhalb eines Taktes ein Wort um mehrere Schritte nach links oder rechts zu verschieben. Mathematisch handelt es sich dabei um eine Multiplikation oder eine Division mit einer Zweierpotenz.
+
+\subsubsection{Stimuli}
+
+Als Stimuli werden ein Datenwort \verb|INPUT| und die Anzahl der zu verschiebenden Stellen \verb|SHIFT_AMOUNT| verwendet. Das \verb|SIGNED_SHIFT|-Eingangssignal dient der Aktivierung der Sign-Extension.
+
+\subsubsection{Erwartungswerte}
+
+Zu erwarten ist eine Links- bzw. Rechtsverschiebung des Eingangssignals. 
+
+\subsubsection{Simulationsergebnisse}
+
+In Abb. \ref{fig:wave:barrel-shifter} ist zu erkennen, dass die Verschiebung nach links mit positiven und die Verschiebung nach recht mit negativen Werten des Eingangssignals \verb|SHIFT_AMOUNT| korrekt abläuft. In Abb. \ref{fig:wave:barrel-shifter-signed} ist der Verlauf mir aktivierter Sign-Extension gezeigt.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/barrel_shifter}	
+	\caption{Simulationswaveform des Barrel Shifters}
+	\label{fig:wave:barrel-shifter}
+\end{figure}
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/barrel_shifter_signed}	
+	\caption{Simulationswaveform des Barrel Shifters mit aktivierter Sign-Extension}
+	\label{fig:wave:barrel-shifter-signed}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Chatter suppress
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Tasterentprellung}
+
+Die Tasterentprellung dient der Entprellung der Schalter und Taster, die beim Öffnen und Schließen aufgrund der federnden Wirkung der Kontakte ein sogenanntes Prellen verursachen (s. Abb. \ref{fig:prellen}). Zwar übernimmt dies zum Teil schon ein RC-Tiefpass, es kann aber nicht davon ausgegangen werden, dass dieser korrekt funktioniert, da die Eingänge des FPGA keine Hysterese besitzen.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=0.80\linewidth]{bilder/prellen.eps}
+	\caption{Oszillogramm eines prellenden Tasters (Quelle: Wikipedia)}
+	\label{fig:prellen}
+\end{figure}
+
+
+\subsubsection{Stimuli}
+
+Als Stimuli kommen Signale zum Einsatz, die möglichst gut einen prellenden Taster darstellen. Da nur digitale Signale zur Verfügung stehen, werden kurze Impulse generiert, bevor der Signalpegel in den stationären Zustand übergeht. Impulse kürzer als die Taktperiode sind in der Simulation nicht sinnvoll, da das Eingangssignal abgetastet wird.
+
+\subsubsection{Erwartungswerte}
+
+Das Ausgangssignal soll dem Eingangssignal folgen, wenn dieses einen stabilen Zustand über einen einstellbaren Zeitraum eingenommen hat.
+
+\subsubsection{Simulationsergebnisse}
+
+In Abb. \ref{fig:wave:chatter-suppress} ist gut zu erkennen, dass das Ausgangssignal erst nach der eingestellten Zeit von 8 Taktperioden dem Eingangssignal folgt. Kommt es innerhalb dieser 8 Takperdioden zu einer Änderung des Eingangssignals (300 bis 400 ns), so wird diese Totzeit zurück gesetzt und beginnt erneut abzulaufen.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/chatter_suppress}		
+	\caption{Simulationswaveform der Tasterentprellung}
+	\label{fig:wave:chatter-suppress}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% DDS Sinus
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{DDS-Signalgenerator}
+
+Der DDS-Signalgenerator erzeugt mit Hilfe einer Look-Up-Table eine angenäherte Sinusfunktion.
+
+\subsubsection{Stimuli}
+
+Als Stimuli kommt lediglich ein Taktsignal und das gewünschte Phaseninkrement zur Anwendung. Ein Phaseninkrement entspricht in der Standrardeinstellung etwa $200 Hz$. In der Simulation wird ein Phaseninkrement von 100 und 50 verwendet.
+
+\subsubsection{Erwartungswerte}
+
+Das Ausgangssignal soll mögichst einer Sinusfunktion mit der gewünschten Frequenz, die abhängig vom Phaseninkrement ist, entsprechen. Es sollten sich Sinusschwingungen mit etwa $20 kHz$ und $10 kHz$ zeigen.
+
+\subsubsection{Simulationsergebnisse}
+
+Im Bereich von 0 bis 1 ms weist das Signal in Waveform \ref{fig:wave:dds-sinus} die erwartete Frequenz von $20 kHz$ auf. Nach dem Zeitpunkt 1 ms die erwarteten $10 kHz$.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/dds_sinus}	
+	\caption{Simulationswaveform des DDS-Sinus-Signalgenerators}
+	\label{fig:wave:dds-sinus}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Gain Control
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Mikrofonvorverstärkungseinstellung}
+
+\subsubsection{Stimuli}
+
+Die Eingangssignale sind die Verstärkung und einige weitere Einstellungen. Nach kurzer Zeit wird ein Eingangssignal geändert, um zu überprüfen, ob bei neuen Eingangswerten eine erneute Übertragung stattfindet.
+
+\subsubsection{Erwartungswerte}
+
+Bei einer Änderung der Eingangswerte sollen die Eingangszustände als Einstellungen seriell an den Mikrofonvorverstärker übertragen werden. Die genauen Spezifikationen finden sich in \cite{pga2500}, Seite 10, Abb. 5.
+
+\subsubsection{Simulationsergebnisse}
+
+Wie erwartet zeigt ich in Abb. \ref{fig:wave:gain-control}, dass die Einstellungen seriell in der richtigen Reihenfolge übertragen werden. Bei Änderung eines Eingangssignals erfolgt die erneute Übertragung.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/gain_control}	
+	\caption{Simulationswaveform der Mikrofonvorverstärkungseinstellung}
+	\label{fig:wave:gain-control}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% I2S Receiver
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{I2S Empfänger}
+
+\subsubsection{Stimuli}
+
+Als Eingangssignal wird ein zufällig gewählter Wert jeweils für den linken und den rechten Audio-Kanal in einen seriellen Bitstrom gewandelt, der den Spezifikationen in \cite{pcm1803}, Seite 13, Format 1 entspricht. Die Signale \verb|LEFT_IN| und \verb|RIGHT_IN| stellen die zu übertragenden Daten dar und sind nur in der Testbench vorhanden.
+
+\subsubsection{Erwartungswerte}
+
+Nach erfolgter serieller Übertragung sollte das empfangene Datenwort parallel an dem entsprechenden Ausgang \verb|DOUTL| bzw. \verb|DOUTR| erscheinen und eine Invertierung von \verb|DVAL| erfolgen, um die Gültigkeit der neuen Daten zu signalisieren.
+
+\subsubsection{Simulationsergebnisse}
+
+Aus Abb. \ref{fig:wave:i2s-receiver} geht hervor, dass die Erwartungen erfüllt werden und nach erfolgter Übertragung und einer kurzen Latenzzeit die Daten am Ausgang zur Verfügun stehen. Kurz danach wird auch deren Gültigkeit signlisiert. Die Pegel von \verb|DVAL| haben gleiche Bedeutung wie die von \verb|LRCK|, \verb|'0'| für den linken, \verb|'1'| für den rechten Kanal.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/i2s_receiver}	
+	\caption{Simulationswaveform des $I^2S$-Receivers}
+	\label{fig:wave:i2s-receiver}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% I2S Transmitter
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{I2S Sender}
+
+\subsubsection{Stimuli}
+
+Beim Sender müssen lediglich die parallelen Daten und ein Taktsignal zur Verfügung gestellt werden.
+
+\subsubsection{Erwartungswerte}
+
+Gemäß der Spezifikation \cite{pcm1730}, Seite 10, (3) ist die Funktion des Moduls leicht zu überprüfen. Ab der zweiten steigenden Flanke von \verb|BCK| nach einer Flanke von \verb|LRCK| muss mit dem MSB des ersten Datenwortes eines Kanals begonnen werden. Nach erfolgter Übertragung und einem geeigneten zeitlichen Abtand erfolgt die nächste Flanke von \verb|LRCK| und leitet die Datenübertragung des anderen Kanals ein.
+
+\subsubsection{Simulationsergebnisse}
+
+Wie in Abb. \ref{fig:wave:i2s-transmitter} zu erkennen folgt die Simulation den Erwartungen und serialisiert die parallel angelegten Daten nach dem $I^2S$-Format.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/i2s_transmitter}	
+	\caption{Simulationswaveform des $I^2S$-Transmitters}
+	\label{fig:wave:i2s-transmitter}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Reset Generator
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Initialisierung}
+
+\subsubsection{Stimuli}
+
+Das Initialisierungsmodul benötigt keine Stimuli. Lediglich ein Takt muss zur Verfügung gestellt werden.
+
+\subsubsection{Erwartungswerte}
+
+Zu Beginn soll das \verb|RESET|- respektive das \verb|nRESET|-Signal unmittelbar in den aktiven Zustand übergehen, nach einer einstellbaren Zeit (50 ms) in den inaktiven Zustand wechseln und die Funktion der übrigen Hardare, hier nicht enthalten, freigeben.
+
+\subsubsection{Simulationsergebnisse}
+
+Gleich zu Anfang wechselt das \verb|RESET|-Signal in den aktivn Zustand. Nach der eingestellten Zeit von etwa 50 ms geht \verb|RESET| auf LOW-Pegel. Das Komplementäre Signal \verb|nRESET| verhält sich erwartungsgemäß gleich mit komplementären Pegeln.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/reset_gen}	
+	\caption{Simulationswaveform des Initialisierungsmoduls}
+	\label{fig:wave:reset-gen}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Segment Decoder
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{7-Segment-Anzeigen-Decoder}
+
+\subsubsection{Stimuli}
+
+Als Stimuli kommt eine ansteigende Folge von 0 bis 15 zur Anwendung. Weiterhin ein \verb|CE|-Signal, das die Ausgänge aktiviert bzw. deaktiviert.
+
+\subsubsection{Erwartungswerte}
+
+Zu erwarten ist die Ansteuerung der Anzeige mit LOW-Aktiven Signalen, jeweils um einen Takt verzögert. Die Codierung entspricht der einer gewöhnlichen 7-Segment-Anzeige (vgl. \ref{fig:segment}). Der Dezimalpunkt wird durch das LSB des Ausgangssignals angestuert und ist bei Ziffern aktiv, die nicht im dezimalen Bereich liegen, also bei Werten von A(10) bis F(15).
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=1.5cm]{bilder/segment}
+	\caption{7-Segment-Anzeige}
+	\label{fig:segment}
+\end{figure}
+
+
+\subsubsection{Simulationsergebnisse}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/segment_decoder}	
+	\caption{Simulationswaveform des Anzeigen-Decoders}
+	\label{fig:wave:segment-decoder}
+\end{figure}
+
+In Abb. \ref{fig:wave:segment-decoder} ist zu erkennen, dass die Dekodierung einen Taktzyklus in Anspruch nimmt. Zu beachten ist, dass die Ausgänge LOW-Aktiv sind und \verb|'0'| für ein leuchtendes Segment steht.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Musterimplementierungen
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Musterimplementierungen}
+
+Nicht zuletzt um den Betreuern die Möglichkeit zu geben, den Studenten bei Bedarf eine funktionierende Implementierung zur Hand geben zu können, sollten diese die Aufgabe nicht korrekt lösen können, sondern auch, um die Machbarkeit der Aufgabe unter Beweis zu stellen, wurde jedes benötigte Modul komplett und funktionsfähig implementiert. Zwar konnte die Funktion nicht in der realen Hardware nachgewiesen werden, aufgrund der Erfahrungen sollten allenfalls kleine Anpassungen notwendig sein. Die Simulation mit Hilfe von Modelsim garantiert zumindest die Korrektheit der implementierten Algorithmen.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Multiplexer
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Multiplexer}
+
+\subsubsection{Stimuli}
+
+Um den Aufwand in der Testbench zu reduzieren, wurde auf sinusförmige Stimuli verzichtet, stattdessen werden einfache Rampen mit verschiedenen Anstiegsgeschwindigkeiten erzeugt und als Signale verwendet. Damit kann die Funktion anschaulich dargestellt werden. Auf die Verwendung des Taktsignals wird ebenfalls verzichtet, da es sich beim Multiplexer um eine asynchrone Schaltung handelt.
+
+\subsubsection{Erwartungswerte}
+
+Die Eingangssignale \verb|sine_5kHz|, \verb|sine_7kHz|, \verb|adc_data| sollen in Abhängigkeit von \verb|sel_s1| und \verb|sel_s2| am Ausgang erscheinen.
+
+\subsubsection{Simulationsergebnisse}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/multiplexer}		
+	\caption{Simulationswaveform des Multiplexers}
+	\label{fig:wave:multiplexer}
+\end{figure}
+
+Wie in der Signaldarstellung (Abb. \ref{fig:wave:multiplexer}) zu sehen, schaltet der Multipexer wie erwartet in Abhängigkeit der Eingangssignale \verb|sel_s1| und \verb|sel_s2| den entsprechenden Eingang auf den Ausgang durch.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Zufallsfolgengenerator
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Zufallsfolgengenerator}
+
+\subsubsection{Stimuli}
+
+Der Zufallsfolgengenerator benötigt nur ein Takt- und ein Aktivierungssignal.
+
+\subsubsection{Erwartungswerte}
+
+Bei Aktivität, gesteuert durch \verb|CE| soll eine Pseudo-Zufallsfolge am Ausgang zur Verfügung stehen.
+
+\subsubsection{Simulationsergebnisse}
+
+Aus Abb. \ref{fig:wave:prn-shiftreg} geht hervor, dass am Ausgang eine beinahe unvorhersagbare Folge erscheint.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/prn_shiftreg}	
+	\caption{Simulationswaveform des Zufallsfolgengenerators}
+	\label{fig:wave:prn-shiftreg}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Signalgenerator (CORDIC)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{CORDIC-Signalgenerator}
+
+\subsubsection{Stimuli}
+
+Für den Signalgenerator sind nur wenige Stimuli nötig. Hierbei handelt es sich um folgende Signale:
+
+\begin{description}
+	\item[CLK] Dient dem Signalgenerator als Zeitbasis
+	\item[nRESET] Als Initilisierungssignal
+	\item[PHASE\_INC] Steht für den Drehwinkel pro Zeitschritt (Vielfache des Taktes)
+\end{description}
+
+Weiterhin sind einige systembedingte Vorgaben zu treffen, welche die Anzahl der Iterationen (\verb|ITERATIONS|) und die Verarbeitungswortbreite (\verb|DATA_WIDTH|) betreffen.
+
+\subsubsection{Erwartungswerte}
+
+Da am Ausgang des Signalgenerators die Werte eines Sinussignals mit festgelegter Frequenz zur Verfügung gestellt werden sollen, wird am Ausgang des Moduls ein Wert erwartet, der dem Sinus entspricht, der mit Ablauf der Zeit ${1}/{CLK} * ITERATIONS$ jeweils um den Winkel \verb|PHASE_INC| fortschreitet. Um die Simulation besser nachvollziehen zu können, sei noch erwähnt, dass im Quellcode Integer-Typen verwendet werden, deren Wertebereich umdefiniert wurde, da VHDL keine Festkommazahlen unterstützt. Die Skalierungskonstanten sind
+$\textnormal{cn\_scale\_factor}=2^{\textnormal{DATA\_WIDTH}-2}=16384$ sowie $\textnormal{cn\_angle\_scale\_factor}=2^{\textnormal{DATA\_WIDTH}-3}=8192$, wodurch sich ein Wertebereich von $\left[-2;2\right]$ bzw. $\left[-4;4\right]$ ergibt.
+
+\subsubsection{Simulationsergebnisse}
+
+Abb. \ref{fig:wave:cordic-lut} zeigt die Simulation der Look-Up-Tabelle des CORDIC. Abb. \ref{fig:wave:cordic-base} zeigt den Basis-Algorithmus, Abb. \ref{fig:wave:cordic-full} den auf 360\textdegree erweiterten, mit dem es möglich ist, um $\pm180\textnormal{\textdegree}$ zu drehen. Genau genommen ist eine Drehung um $\pm229\textnormal{\textdegree}$ entsrechend dem Wertebereich $\left[-4;4\right]$ möglich. Zur Veranschaulichung werden in der Testbench die Integer-Werte in reelle Zahlen bzw. in Grad umgerechnet.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/cordic_lut}	
+	\caption{Simulationswaveform der Cordic-Look-Up-Tabelle}
+	\label{fig:wave:cordic-lut}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/cordic_base}
+	\caption{Simulationswaveform des Cordic-Basis-Algorithmus}
+	\label{fig:wave:cordic-base}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/cordic_full}
+	\caption{Simulationswaveform des 360\textdegree-Cordic-Algorithmus}
+	\label{fig:wave:cordic-full}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/cordic_siggen}
+	\caption{Simulationswaveform des Cordic-Signalgenerators}
+	\label{fig:wave:cordic-siggen}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Pegelanzeige
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Pegelanzeige}
+
+\subsubsection{Stimuli}
+
+Für die Pegelanzeige kommt im ersten Simulationsabschnitt ein Pseudozufallssignal zum Einsatz. Im zweiten Abschnitt werden statische Werte verwendet.
+
+\subsubsection{Erwartungswerte}
+
+Im ersten Abschnitt sollte sich bei einem gut statistisch verteilten Signal etwa der halbe Pegel, also ein Viertel der Ausgangsleistung einstellen. Bei statischen Signalen entsprechend das Quadrat des Eingangswertes, gewichtet mit einem Skalierungsfaktor.
+
+\subsubsection{Simulationsergebnisse}
+
+Wie man in Abb. \ref{fig:wave:levelmeter} erkennen kann, stellt sich ein relativ stabiler Wert im Bereich des Rauschsignals ein. Im Bereich der statischen Werte $\frac{(DATA\_IN^2)-1}{64}$, wenn man von den Übergangsbereichen absieht. Mit dem Skalierungsfaktor ist sichergestellt, dass das Ausgangssignal die maximale Dynamik bei gleicher Wortbreite aufweist, ohne den erlaubten Wertebereich zu verlassen.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/levelmeter}	
+	\caption{Simulationswaveform der Pegelanzeige}
+	\label{fig:wave:levelmeter}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Modulator
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\subsection{Modulator}
+%
+%\subsubsection{Stimuli}
+%
+%\subsubsection{Erwartungswerte}
+%
+%\subsubsection{Simulationsergebnisse}
+%
+%\begin{figure}[ht]
+%	\centering
+%%		\includegraphics[width=\linewidth]{bilder/simulationen/}	
+%%	\caption{Simulationswaveform }
+%%	\label{fig:wave:}
+%\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Bandpassfilter
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Filter in Linearphasenstruktur}
+
+\subsubsection{Stimuli}
+
+Als Stimulus werden vier Sinussignale unterschiedlicher Frequenzen verwendet. Um den Tiefpasscharakter besser darstellen zu können, wurde noch ein Rechteckimpuls generiert. Ein Taktsignal ist ebenfalls nötig. Das \verb|CE|-Signal aktiviert das Pipeline-Register des Filters nur, wenn ein neues Datenwort zur Verfügung steht. Dies erfolgt mit $96kHz$, wie es auch später vom AD-Umsetzer geliefert wird. Zwar soll im Versuch ein Bandpass implementiert werden, die Koeffizienten entsprechen jedoch einem Tiefpassfilter, da dies in der Simulation leichter zu verifizieren ist. Diese wurden \cite{tietzeschenk} (Tiefpass, $F_g = 0,1 f_s$, $N=15$) entnommen:
+
+\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
+		$c0=c15$   & $c1=c14$   & $c2=c13$   & $c3=c12$   \\\hline 
+	  $-0.00101$ & $-0.00521$ & $-0.01269$ & $-0.01214$ \\\hline\hline
+	  $c4=c11$   & $c4=c10$   & $c6=c9$    & $c7=c8$    \\\hline
+	  $+0.01830$ & $+0.08914$ & $+0.17962$ & $+0.24399$ \\\hline
+	\end{tabular}
+\end{center}
+
+\subsubsection{Erwartungswerte}
+
+Die höherfrequenten Anteile sollten unterdrückt werden, die niederfrequenten hingegen nur sehr schwach. Eine Verzögerung ist auch zu erwarten.
+
+\subsubsection{Simulationsergebnisse}
+
+Wie in Abb. \ref{fig:wave:linear} gut zu erkennen, hat die Struktur einen Tiefpasscharakter. Speziell der Rechteck-Impuls gegen Ende der Simulationszeit, dessen Flanken verschliffen sind, zeigt das Verhalten deutlich. Die hochfrequenten Spitzen im Signal werden ebenfalls reduziert.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/linear}	
+	\caption{Simulationswaveform der Linearphasenstruktur}
+	\label{fig:wave:linear}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Filteroptimierung
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Filteroptimierung}
+
+\subsubsection{Stimuli}
+
+Auch hier kommen wieder 4 Sinussignale unterschiedlicher Frequenz zum Einsatz. Ein Rechteckimpuls mit der Dauer einer Halbperiode der Mittenfrequenz soll den Charakter des Bandpasses weiter verdeutlichen. In allen nachfolgenden Simulationen wird ein Impulsignal erzeugt, welches die Länge einer Taktperiode besitzt und mit $\approx 96kHz$ wiederholt wird. Folgende Koeffizienten, die aus dem MATLAB-Quellen von Andreas Schedel hervorgehen, wurden für den Filter verwendet:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}\hline
+	$c0=c36$   & $c1=c35$   & $c2=c34$   & $c3=c33$   & $c4=c32$   & $c4=c31$   & $c6=c30$ \\\hline 
+	$-0.00128$ & $-0.04028$ & $-0.02579$ & $-0.02100$ & $-0.00510$ & $+0.01782$ & $+0.04010$ \\\hline\hline
+	$c7=c29$   & $c8=c28$   & $c9=c27$   & $c10=c26$  & $c11=c25$  & $c12=c24$  & $c13=c23$ \\\hline
+	$+0.05267$ & $+0.04843$ & $+0.02582$ & $-0.00974$ & $-0.04694$ & $-0.07233$ & $-0.07553$ \\\hline\hline
+	$c14=c22$  & $c15=c21$  & $c16=c20$  & $c17=c19$  & $c18$      &            & \\\hline
+	$-0.05338$ & $-0.01187$ & $+0.03558$ & $+0.07288$ & $+0.08694$ &            & \\\hline
+\end{tabular}
+\end{center}
+
+Die gleichen Abhängigkeiten wie im Skript von Herrn Schedel sind nicht zu erwarten, da dieser offenbar eine Abtastfrequenz von $44 kHz$ zu Grunde gelegt hat, hier allerdings $96 kHZ$ verwendet werden. Dies entspricht einer Skalierung der Mittenfrequenz mit Faktor $\approx 0.5$.
+
+\subsubsection{Erwartungswerte}
+
+Zu erwarten ist aufgrund der relativ hohen Ordnung eine sehr gute Selektion. Der Rechteckimpuls sollte ein ungefähres Abbild der Filterkoeffizienten sein.
+
+\subsubsection{Simulationsergebnisse}
+
+Im Abb. \ref{fig:wave:filteropt_rect} ist gut die erwartete Impulsantwort des Filters zu erkennen. In Abb. \ref{fig:wave:filteropt} erkennt man die Selektionseigenschaft des Filters, dessen Mittenfrequenz im Bereich von $4.5kHz$ liegt und eine Bandbreite von etwa 1 kHz besitzt. Die Unterdrückung der restlichen Anteile ist nicht besonders gut und auf die geringe Genauigkeit von 9 Bit und die relativ niedrige Ordnung zurückzuführen.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/filteropt_rect}	
+	\caption{Simulationswaveform des Bandpases mit Recheckimpulsanregung}
+	\label{fig:wave:filteropt_rect}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/filteropt}	
+	\caption{Simulationswaveform des Bandpasses mit unterschiedlichen Eingangsfrequenzen}
+	\label{fig:wave:filteropt}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Demodulator
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Demodulator}
+
+\subsubsection{Stimuli}
+
+Als Stimuli kommen zwei unterschiedliche Eingangsfrequenzen zum Einsatz, die mit Hilfe eines Multiplexers moduliert werden. Weiterhin sind die üblichen Signale notwendig.
+
+\subsubsection{Erwartungswerte}
+
+Am Ausgang sollte ein zeitlich verzögertes Abbild der Eingangssignale anliegen, allerdings verzerrt.
+
+\subsubsection{Simulationsergebnisse}
+
+Aus der Abbildung \ref{fig:wave:huellkurve} geht nicht unmittelbar hervor, dass es sich beim Ausangssignal um ein vorzeichenloses Signal handelt. Auch schlecht darzustellen ist die quadratische Abhängigkeit von \verb|DATA_IN_A/B| und \verb|DATA_OUT_A/B|. Allerdings erkennt man an der Periodendauer/Frequenz z.B. von \verb|DATA_IN_A| ($10kHz$) und \verb|DATA_OUT_A| ($20kHz$), dass eine Quadrierung erfolgt sein muss.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/huellkurve}
+	\caption{Simulationswaveform des Demodulators}
+	\label{fig:wave:huellkurve}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Tiefpassfilter
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Tiefpassfilter}
+
+\subsubsection{Stimuli}
+
+Die Stimuli des Tiefpassfilters entsprechen denen des Bandpassfilters, allerdings mit Koeffizienten eines Tiefpasses. Folgende Filterkoeffizienten, wieder aus \cite{tietzeschenk} entnommen (Tiefpass, $F_g = 0,025 f_s$, $N=31$), wurden verwendet:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}\hline
+	$c0=c31$   & $c1=c30$   & $c2=c29$   & $c3=c28$   & $c4=c27$   & $c4=c26$   \\\hline 
+  $+0.00077$ & $-0.00132$ & $+0.00236$ & $+0.00417$ & $+0.00698$ & $+0.01095$ \\\hline\hline
+	$c6=c25$   & $c7=c24$   & $c8=c23$   & $c9=c22$   & $c10=c21$  & $c11=c20$  \\\hline
+  $+0.01613$ & $+0.02244$ & $+0.02968$ & $+0.03754$ & $+0.04559$ & $+0.05335$ \\\hline\hline
+	$c12=c19$  & $c13=c18$  & $c14=c17$  & $c15=c16$  &            &            \\\hline
+  $+0.06033$ & $+0.06606$ & $+0.07012$ & $+0.07222$ &            &            \\\hline
+\end{tabular}
+\end{center}
+     
+\subsubsection{Erwartungswerte}
+
+Zu erwarten ist ein Einbrechen der Amplitude ab $\approx 2,4 kHz$.
+
+\subsubsection{Simulationsergebnisse}
+
+Im Simulationswaveform Abb. \ref{fig:wave:tiefpass} ist deutlich der Tiefpasscharakter zu erkennen. Bei welcher Frequenz die Amplitude auf $-3dB$ abgefallen ist, kann nur schwer genau ermittelt werden.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/tiefpass}	
+	\caption{Simulationswaveform des Tiefpassfilters}
+	\label{fig:wave:tiefpass}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Signalrückgewinnung
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Signalrückgewinnung}
+
+\subsubsection{Stimuli}
+
+Als Stimuli dienen zwei Sinusschwingungen mit $10$ und $14 kHz$, die mit einem Wert \verb|AMP_A| bzw. \verb|AMP_B| skaliert werden. Diese werden dem Modul zugeführt. Weiterhin sind die üblichen Signale \verb|DVAL_IN| und \verb|CLK| nötig. Die Hysterese wurde auf $2$ eingestellt.
+
+\subsubsection{Erwartungswerte}
+
+Mit einer Verzögerung entsprechend den Verzögerungen der Filter sollte sich das Eingangssignal \verb|DATA_IN| am Ausgang einstellen.
+
+\subsubsection{Simulationsergebnisse}
+
+Die Simulation in Abb. \ref{fig:wave:sigregen} lässt darauf hoffen, dass die Signalrückgewinnung auch in der Praxis gut funktioniert. Selbst bei einem nur sehr kleinen Unterschied der beiden Signale wird trotz der Hystere das Vorherrschende gut erkannt (im Bereich der beiden Cursor) und auf den richtigen Pegel gewechselt. Allerdings muss ein relativ großes Signal anliegen, um eine Erkennung zu ermöglichen. Dies ist auf die vorherige Quadrierung zurückzuführen, die kleine Signale weiter unterdrückt.
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=\linewidth]{bilder/simulationen/sigregen}	
+	\caption{Simulationswaveform des Signalregenerierungsmoduls}
+	\label{fig:wave:sigregen}
+\end{figure}

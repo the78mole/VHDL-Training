@@ -1,0 +1,212 @@
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":27:7:27:14|Synthesizing work.toplevel.behavioral 
+@W: CD277 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":195:6:195:13|Port direction mismatch between component and entity
+@N: CD630 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":30:7:30:19|Synthesizing work.stud_toplevel.behavioral 
+@N: CD630 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":33:7:33:14|Synthesizing work.bandpass.behavioral 
+Post processing for work.bandpass.behavioral
+@W: CL169 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register sai_prod_sum_sum_3(18 downto 0)  
+@W: CL169 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register sai_prod_sum_sum_2(18 downto 0)  
+@W: CL112 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Feedback mux created for signal si_whole_scaled[7:0]. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Feedback mux created for signal si_whole_sum[19:0]. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Feedback mux created for signal DATA_OUT[7:0]. Did you forget the set/reset assignment for this signal?
+@W: CL169 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register sai_pipe_sum_0(8 downto 0)  
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_prod_6(0) to a constant 0
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_prod_7(0) to a constant 0
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_prod_7(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_prod_6(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <16> of sai_prod_1(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <1> of sai_prod_1(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <16> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <15> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <14> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <13> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <12> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <11> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <10> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <9> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <8> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <7> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <6> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <5> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <4> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <3> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <2> of sai_prod_0(16 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <1> of sai_prod_0(16 downto 0)  
+@W: CL189 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Register bit sai_prod_1(0) is always 0, optimizing ...
+@W: CL189 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Register bit sai_prod_sum_3(0) is always 0, optimizing ...
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_pipe_sum_7(0) to a constant 0
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_pipe_sum_6(0) to a constant 0
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_pipe_sum_5(0) to a constant 0
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_pipe_sum_4(0) to a constant 0
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_pipe_sum_3(0) to a constant 0
+@W: CL190 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Optimizing register bit sai_pipe_sum_2(0) to a constant 0
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_pipe_sum_2(8 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_pipe_sum_3(8 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_pipe_sum_4(8 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_pipe_sum_5(8 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_pipe_sum_6(8 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_pipe_sum_7(8 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <17> of sai_prod_sum_0(17 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <0> of sai_prod_sum_3(17 downto 0)  
+@W: CL171 :"P:\SLCNGE~O\isplever\02DKY1~N\bandpass.vhd":122:4:122:5|Pruning Register bit <1> of sai_prod_sum_0(16 downto 0)  
+Post processing for work.stud_toplevel.behavioral
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":109:4:109:10|DA_DVAL is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":108:4:108:13|DA_PDOUT_R is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":99:4:99:10|MA_GAIN is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":93:4:93:11|PC_SDOUT is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":87:4:87:18|BARGRAPH_DEC_EN is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":86:4:86:17|BARGRAPH_RIGHT is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":85:4:85:16|BARGRAPH_LEFT is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":82:4:82:15|SEGMENT_LED4 is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":81:4:81:15|SEGMENT_LED3 is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":80:4:80:15|SEGMENT_LED2 is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":79:4:79:15|SEGMENT_LED1 is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":76:4:76:15|STATUS_R_GRE is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":75:4:75:15|STATUS_R_YEL is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":74:4:74:15|STATUS_R_RED is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":73:4:73:15|STATUS_M_GRE is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":72:4:72:15|STATUS_M_YEL is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":71:4:71:15|STATUS_M_RED is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":70:4:70:15|STATUS_L_GRE is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":69:4:69:15|STATUS_L_YEL is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":68:4:68:15|STATUS_L_RED is not assigned a value (floating) 
+@W: CL169 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|Pruning Register sl_bp_ce  
+@W: CL169 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|Pruning Register proc_bp_test.sv_bp_data_out_3(7 downto 0)  
+@W: CL168 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":136:2:136:11|Pruning instance bandpass_1 - not in use ... 
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(0) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(1) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(2) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(3) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(4) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(5) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(6) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(7) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(8) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(9) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(10) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(11) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(12) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(13) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(14) assign '0', register removed by optimization
+@W: CL111 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to DA_PDOUT_L(15) assign '0', register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 0 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 1 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 2 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 3 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 4 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 5 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 6 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 7 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 8 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 9 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 10 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 11 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 12 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 13 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 14 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL208 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|All reachable assignments to bit 15 of DA_PDOUT_L(23 downto 0) assign 0, register removed by optimization
+@W: CL112 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":150:4:150:5|Feedback mux created for signal sv_bp_data_in[7:0]. Did you forget the set/reset assignment for this signal?
+@W: CL209 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":102:4:102:12|Input port bit <15> of ad_pdin_l(23 downto 0) is unused 
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":39:4:39:11|Input clk_fast is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":49:4:49:11|Input switch_1 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":50:4:50:11|Input switch_2 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":51:4:51:11|Input switch_3 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":52:4:52:11|Input switch_4 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":53:4:53:11|Input switch_5 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":54:4:54:11|Input switch_6 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":55:4:55:11|Input switch_7 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":56:4:56:11|Input switch_8 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":58:4:58:11|Input button_1 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":59:4:59:11|Input button_2 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":60:4:60:11|Input button_3 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":61:4:61:11|Input button_4 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":62:4:62:11|Input button_5 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":63:4:63:11|Input button_6 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":64:4:64:11|Input button_7 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":65:4:65:11|Input button_8 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":92:4:92:10|Input pc_sdin is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":103:4:103:12|Input ad_pdin_r is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\02DKY1~N\stud_toplevel.vhd":104:4:104:10|Input ad_dval is unused
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":29:7:29:21|Synthesizing work.segment_decoder.behavioral 
+Post processing for work.segment_decoder.behavioral
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":58:6:58:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":58:6:58:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":58:6:58:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":58:6:58:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":58:6:58:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":58:6:58:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\segment_decoder.vhd":58:6:58:7|Sharing sequential element OUTPUT_e.
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":33:7:33:22|Synthesizing work.bargraph_decoder.behavioral 
+@N: CD231 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":51:23:51:24|Using onehot encoding for type tu_fsm_states (start="10000")
+@W: CD604 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":126:10:126:23|OTHERS clause is not synthesized 
+Post processing for work.bargraph_decoder.behavioral
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":72:4:72:5|Feedback mux created for signal vu_fsm_state[0:4]. Did you forget the set/reset assignment for this signal?
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":80:6:80:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":80:6:80:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":80:6:80:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":80:6:80:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":80:6:80:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":80:6:80:7|Sharing sequential element OUTPUT_e.
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":80:6:80:7|Sharing sequential element OUTPUT_e.
+@W: CL190 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":72:4:72:5|Optimizing register bit calc_output.vn_barcount(2) to a constant 0
+@W: CL171 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":72:4:72:5|Pruning Register bit <2> of vn_barcount(2 downto 0)  
+@W: CL190 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":72:4:72:5|Optimizing register bit vn_barcount(1) to a constant 0
+@W: CL171 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":72:4:72:5|Pruning Register bit <1> of vn_barcount(1 downto 0)  
+@W: CL190 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":72:4:72:5|Optimizing register bit vn_barcount(0) to a constant 0
+@N: CL201 :"P:\SLCNGE~O\isplever\common_files\bargraph_decoder.vhd":72:4:72:5|Trying to extract state machine for register vu_fsm_state
+Extracted state machine for register vu_fsm_state
+State machine has 5 reachable states with original encodings of:
+   00001
+   00010
+   00100
+   01000
+   10000
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\chatter_suppress.vhd":29:7:29:22|Synthesizing work.chatter_suppress.behavioral 
+Post processing for work.chatter_suppress.behavioral
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":30:7:30:18|Synthesizing work.gain_control.behavioral 
+Post processing for work.gain_control.behavioral
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":48:4:48:7|DOUT is not assigned a value (floating) 
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":152:4:152:5|Feedback mux created for signal vn_counter[4:0]. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":152:4:152:5|Feedback mux created for signal sl_changed_ack. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":152:4:152:5|Feedback mux created for signal nCS. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":97:4:97:5|Feedback mux created for signal sl_changed. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":152:4:152:5|Feedback mux created for signal vl_last_toggle. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":97:4:97:5|Feedback mux created for signal vb_servo_changed. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":97:4:97:5|Feedback mux created for signal vb_overload_changed. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":97:4:97:5|Feedback mux created for signal vb_gpo_changed. Did you forget the set/reset assignment for this signal?
+@W: CL112 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":97:4:97:5|Feedback mux created for signal vb_gain_changed. Did you forget the set/reset assignment for this signal?
+@W: CL159 :"P:\SLCNGE~O\isplever\common_files\gain_control.vhd":49:4:49:6|Input din is unused
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\i2s_transmitter.vhd":40:7:40:21|Synthesizing work.i2s_transmitter.behavioral 
+Post processing for work.i2s_transmitter.behavioral
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\i2s_transmitter.vhd":192:4:192:5|Sharing sequential element vl_sync.
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\i2s_receiver.vhd":40:7:40:18|Synthesizing work.i2s_receiver.behavioral 
+Post processing for work.i2s_receiver.behavioral
+@N: CL177 :"P:\SLCNGE~O\isplever\common_files\i2s_receiver.vhd":78:4:78:5|Sharing sequential element vl_bck.
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\reset_gen.vhd":37:7:37:15|Synthesizing work.reset_gen.behavioral 
+Post processing for work.reset_gen.behavioral
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\clockgen_main.vhd":14:7:14:19|Synthesizing work.clockgen_main.structure 
+@W: CD280 :"P:\SLCNGE~O\isplever\common_files\clockgen_main.vhd":45:14:45:16|Unbound component VLO mapped to black box
+@W: CD280 :"P:\SLCNGE~O\isplever\common_files\clockgen_main.vhd":31:14:31:20|Unbound component EHXPLLB mapped to black box
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\clockgen_main.vhd":31:14:31:20|Synthesizing work.ehxpllb.syn_black_box 
+Post processing for work.ehxpllb.syn_black_box
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\clockgen_main.vhd":45:14:45:16|Synthesizing work.vlo.syn_black_box 
+Post processing for work.vlo.syn_black_box
+Post processing for work.clockgen_main.structure
+@N: CD630 :"P:\SLCNGE~O\isplever\common_files\clockgen.vhd":14:7:14:14|Synthesizing work.clockgen.structure 
+Post processing for work.clockgen.structure
+Post processing for work.toplevel.behavioral
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":107:4:107:9|PA_nEN is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":104:4:104:10|DA_MUTE is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":103:4:103:9|DA_FMT is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":102:4:102:10|DA_DEMP is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":99:4:99:10|DA_nRST is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":92:4:92:11|AD_nPDWN is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":91:4:91:9|AD_OSR is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":90:4:90:11|AD_BYPAS is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":89:4:89:10|AD_MODE is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":88:4:88:9|AD_FMT is not assigned a value (floating) 
+@W: CL162 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":62:4:62:12|RS232_DTR is not assigned a value (floating) 
+@W: CL159 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":63:4:63:12|Input rs232_dsr is unused
+@W: CL158 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":68:4:68:14|Inout extender_b7 is unused
+@W: CL158 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":69:4:69:14|Inout extender_b5 is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":100:4:100:11|Input da_zerol is unused
+@W: CL159 :"P:\SLCNGE~O\isplever\common_files\toplevel.vhd":101:4:101:11|Input da_zeror is unused

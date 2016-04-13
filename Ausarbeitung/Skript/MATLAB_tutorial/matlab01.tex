@@ -1,0 +1,1027 @@
+%
+%
+%
+\section{Bedeutung von MATLAB}\label{sec:MATLAB}
+%
+%
+%
+
+\begin{quotation}
+``It is probably fair to say that one of the three or four most
+important developments in numerical computation in the past decade
+has been the emergence of MATLAB as the preferred language of tens
+of thousands of leading scientists and engineers.''
+\footnote{Lloyd N.Trefethen, Professor of Numerical Analysis,
+Oxford University, 1997}
+\end{quotation}
+Bei MATLAB handelt es sich um ein leistungsfähiges
+Softwaresystem, mit dem sich alle Arten von Berechnungen
+durchführen lassen. Der Name MATLAB kommt von MATrix-LABoratory.
+Bei der Namensgebung spielten zwei Überlegungen eine Rolle:
+
+\begin{enumerate}
+\item Grundelemente der Berechnungen unter MATLAB sind Matritzen und deren
+Manipulation, die in numerischen Verfahren optimal eingesetzt
+werden können.
+\item Laboratory bezieht sich auf den Gedanken der möglichen Entwicklung
+und Erweiterung der Softwareumgebung.
+\end{enumerate}
+Mit MATLAB wird dem Ingenieur ein interaktives, matrixorientiertes
+Softwaresystem an die Hand gegeben, mit dem Probleme und Lösungen
+in der vertrauten mathematischen Schreibweise dargestellt werden
+können.
+
+\medskip{}
+ Typische Anwendungen von MATLAB sind:
+
+\begin{itemize}
+\item Numerische Berechnungen aller Art,
+\item Die Entwicklung von Algorithmen (zum Beispiel in der Signalverarbeitung),
+\item Die Modellierung, Simulation und Entwicklung von Prototypen technischer
+und wirtschaftlicher Probleme,
+\item Die Analyse, Auswertung sowie graphische Darstellung von Datenmengen,
+\item Visualisierungen,
+\item Wissenschaftliche und technische Darstellungen und
+\item Applikationsentwicklung mit Aufbau einer graphischen Benutzerschnittstelle.
+\end{itemize}
+\medskip{}
+In den siebziger Jahren wurde in den USA eine intensive Aktivität zur Entwicklung qualitativ hochwertiger Software gestartet: das NATS\footnote{was heisst NATS denn ausgeschrieben?}-Projekt. 1976 lag als Ergebnis dieser Bemühungen das Softwarepaket Eispack zur Lösung algebraischer Eigenwertprobleme vor (Genaueres s. \cite{eispack}). Im Jahr 1975 begannen die Arbeiten an einem effizienten und portablen Softwarepaket zur Lösung linearer Gleichungssysteme. Das Ergebnis war das Softwarepaket Linpack (vgl. \cite{linpack}). Linpack und Eispack gewährleisteten lange Zeit das zuverlässige und portable Lösen von Problemen der Linearen Algebra. Um diese beiden Pakete leichter handhabbar zu machen, wurde MATLAB entwickelt. Damit bestand auch die Möglichkeit, ausgereifte Software effizient in der Lehre - zunächst in der (Numerischen) Linearen Algebra, später auch in vielen anderen Bereichen - einzusetzen.
+
+MATLAB vereinfacht dem Ingenieur und Naturwissenschaftler die Lösung von Problemen aus Technik und Natur erheblich. Der Umfang von MATLAB ist in den letzten Jahren stark angestiegen. Hierzu trägt vor allem der Umstand bei, \textit{dass relativ einfach Toolboxes\footnote{Funktionssammlungen zu bestimmten Anwendungsgebieten} nachgerüstet werden können}. Informationen zu den aktuellen Versionen von MATLAB können auf der Herstellerhomepage \footnote{http://www.mathworks.de} eingeholt werden.
+
+Die drei wichtigsten Funktionskomponenten von MATLAB sind:
+
+\begin{itemize}
+\item Berechnung
+\item Programmierung und 
+\item Visualisierung
+\end{itemize}
+\medskip
+\paragraph{Berechnung:} Durch die Programmsammlung von MATLAB bleibt es Nutzern in vielen Fällen erspart,
+Standartalgorithmen neu programmieren zu müssen. Er kann auf fertige und getestete Programme zurückgreifen und darauf aufbauend eigene Algorithmen realisieren.
+
+\medskip
+\paragraph{Visualisierung:} Mittels der vielfältigen
+Visualisierungsmöglichkeiten kann der Benutzer berechnete Ergebnisse anschaulich darstellen.
+
+\medskip
+\paragraph{Programmierung:} MATLAB bietet dem Anwender Möglichkeiten, seine Funktionalität durch eigene Programme beliebig zu erweitern. Dies kann mittels eigener MATLAB-Programme (m-files\index{m-files}), oder durch das Einbinden von Codes einer anderen höheren Programmiersprache erreicht werden.
+
+\medskip
+Auf Grund seiner vielfältigen Anwendungsmöglichkeiten und seiner intuitiven Syntax erfreut sich MATLAB heute in der Industrie großer Beliebtheit in den Bereichen Forschung, Entwicklung, Datenauswertung und Visualisierung. 
+
+\medskip
+Das folgende Tutorial soll lediglich einen Überblick über die Möglichkeiten von MATLAB liefern. Detailliertere Beschreibungen finden sie in der einschlägigen Literatur (zum Beispiel \cite{MATLAB7}) sowie in der Online-Hilfe (vgl. Kapitel \ref{subsec:hilfe}) von MATLAB selbst.
+\clearpage
+
+%
+%
+%
+\section{Die MATLAB-Umgebung}\label{sec:Umgebung}
+%
+%
+%
+
+Nach dem Starten des Programms durch einen Doppelklick auf das
+MATLAB Desktop-Icon 
+
+\begin{figure}[h] \centering
+	\includegraphics[width=1.5cm]{bilder/matlab/matlabicon}
+	\caption{MATLAB-Desktop-ICON}
+	\label{abb:MATLABicon}
+\end{figure}
+
+wird die MATLAB-Umgebung (vgl. Abb. \ref{abb:MATLABoberfl}) geöffnet.
+
+\begin{figure}[h]
+	\centering \psfrag{01}{MATLAB Workspace}
+	\psfrag{02}{Command-Window} \psfrag{03}{Command-History}
+	\includegraphics[width=14cm]{bilder/matlab/matlaboberfl}
+	\caption{Eine jungfräuliche MATLAB-Benutzeroberfläche}
+	\label{abb:MATLABoberfl}\index{MATLAB-Benutzeroberfläche}
+\end{figure}
+
+Im linken oberen Fenster, dem \textit{Workspace}\index{Workspace}, sind alle zur Zeit im Speicher liegenden Variablen zu sehen.
+
+Das große Fenster rechts ist das \textit{Command Window}\index{Command Window}. Hier erfolgt die direkt Befehls-Eingabe sowie die Ausgabe der Ergebnisse durch MATLAB.
+
+Das kleine Fenster unten links enthält die \textit{Command History}\index{Command History}. In dieser werden alle eingegebenen Kommandos gespeichert und können bei Bedarf (Mittels Befehl oder Mausklick) wieder aufgerufen werden.
+Alle genannten Fenster sollten zum aktuellen Zeitpunkt leer sein! An einem einfachen Beispiel soll die Funktion der drei Hauptfenster noch einmal verdeutlicht werden:
+
+Bewegen sie den Mauszeiger über das Command Window und klicken sie einmal hinein. Jetzt sollte ein blinkender Cursor in der ersten Zeile des Fensters zu sehen sein. Geben sie jetzt folgenden einfachen MATLAB-Code ein:
+\begin{quote}
+\begin{verbatim}
+	>> a = 1;
+	>> b = 2;
+	>> c = a / b;
+	>> c
+\end{verbatim}
+\end{quote}Jetzt sollte MATLAB das Ergebnis \texttt{ c = 0.5 } liefern! 
+
+\medskip Hier kann man gleich eine weitere Eigenschaft der MATLAB-Eingabe erkennen: Wird ein Befehl mit einem Strichpunkt abgeschossen, so liefert MATLAB keine Ausgabe im Command-Window. Daher wurde auch erst nach der Eingabe von \texttt{ c } das Ergebnis der Berechnung ausgegeben. Außerdem kann man jetzt die Variablen a, b und c im Workspace-Bereich finden. In der Command-History können alle bisher vorgenommenen Eingaben nachvollzogen und auch erneut aufgerufen werden. Den hier beschriebenen Eingabemodus bezeichnet man auch als \textit{Direkten Modus\index{Direkter Modus}}.
+
+%
+%
+%
+\section{MATLAB im direkten Modus}\label{sec:directmode}
+%
+%
+%
+
+%
+%
+\subsection{Die MATLAB-Hilfe}\label{subsec:hilfe}\index{Hilfe}
+%
+%
+
+Zunächst soll Ihnen die ausgezeichnete Online-Hilfe\index{Online-Hilfe} der MATLAB-Umgebung ans Herz gelegt werden. Bei einem Mausklick auf das gelbe Fragezeichen in der Symbolleiste öffnet sich das MATLAB-Hilfefenster (vgl. Abb.\ref{abb:MATLABhilfe} auf Seite \pageref{abb:MATLABhilfe}). Hier haben sie die Möglichkeit sich über grundlegende Informationen zu MATLAB und seinen Toolboxen zu informieren oder sich mittels der Suchfunktion bzw. des Indexverzeichnisses gezielt Informationen zu bestimmten Themengebieten anzeigen zu lassen. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{bilder/matlab/matlabhilfe}
+	\caption{Startseite der MATLAB Hilfe}
+	\label{abb:MATLABhilfe}
+\end{figure}
+
+\medskip Eine weitere Möglichkeit schnell Dokumentationen zu Funktionen aufzurufen ist der \texttt{help\index{help}} Befehl. Wenn sie zum Beispiel
+\begin{quote}
+\begin{verbatim}
+>> help sin
+\end{verbatim}
+\end{quote} im MATLAB-Command-Window eingeben wird ihnen MATLAB eine Kurzbeschreibung der Funktion \textit{sin.m} und ihrer möglichen Parameter ausgeben! Zusätzlich bekommen sie am Ende der Hilfe noch eine Link auf die entsprechende Seite der MATLAB-Dokumentation, in der noch einmal genauer, meist mit Beispielen, auf den Befehl eingegangen wird.
+
+\medskip Ist der genaue Name der gesuchten Funktion nicht bekannt, so kann man sich mit dem Befehl \texttt{lookfor \textit{Zeichenkette}\index{lookfor}} helfen. MATLAB listet nun alle Funktionen die die gegebene Zeichenkette enthalten im Command-Window auf. Die Suche kann mit \fbox{Strg}~\fbox{C} abgebrochen werden.
+
+%
+%
+\subsection{Elementare Funktionen}\label{subsec:elfunk}\index{Elementare Funktionen}
+%
+%
+
+Die wichtigsten Funktionen erhält man mit
+\begin{quote}
+\begin{verbatim}
+>> help elfun
+\end{verbatim}
+\end{quote}
+aufgelistet. Wie schon am Beispiel der Sinusfunktion (vgl. Kapitel \ref{subsec:hilfe}) erläutert, kann man sich auch hier detailliertere  Angaben zu den einzelnen Funktionen über die blau unterlegten Links anzeigen lassen. 
+
+\medskip Die Syntax einer MATLAB-Funktion lautet:
+\begin{quote}
+\textit{NameDerAusgabe = MatlabFunktionsname(Eingabewert)}
+\end{quote}
+Beispiel:\\
+Die Eulersche Zahl \textit{e} lässt sich mit \texttt{x = exp(1)} berechnen. Lässt man den Namen der Ausgabevariable (und das Gleichheitszeichen) weg, so legt MATLAB das Ergebnis in der Variable \texttt{ans} ab.
+
+%
+%
+\subsection{Umgang mit dem MATLAB-Workspace}\label{subsec:workspace}
+%
+%
+
+Nachdem wir nun die ersten Ergebnisse berechnet haben noch eine kurze Einführung zu den Möglichkeiten des \textit{Workspace}\index{Workspace}:
+
+\medskip Mittels der Befehle \texttt{save}\index{}save und \texttt{load}\index{load} kann man den Inhalt des Workspace entweder ausschnittsweise oder komplett in eine Datei sichern bzw. auch wieder einlesen. Die Eingabe 
+\begin{quote}
+\begin{verbatim}
+>> save variables.mat\index{save}
+\end{verbatim}
+\end{quote}
+speichert den kompletten Workspaceinhalt in der Datei variables.mat. Will man nur einzelne Variablen speichern, erreicht man dies, indem man die entsprechenden Variablen mit Leerzeichen separiert an den Befehl anhängt:
+\begin{quote}
+\begin{verbatim}
+>> x=1, y=2, z=x+y;
+>> save variables.mat x y 
+\end{verbatim}
+\end{quote}
+Hier werden nur die Variablen \texttt{x} und \texttt{y} im File abgelegt. Löschen lässt sich der Inhalt des Workspace mittels des Befehls \texttt{clear}, wobei man auch hier wieder das Löschen einzelner Variablen durch einfaches Anhängen der Variablennamen an den Befehl erreichen kann.
+
+Zur Wiederherstellung von in  mat-Files\index{mat-Files} gesicherten Variablen dient der \texttt{load}\index{load}-Befehl. Dieser lädt die Inhalte der Dateien wieder in den Workspace.
+
+\advise{Bereits vorhandene Variablen mit gleichen Namen werden ohne Warnung überschrieben!}
+
+%
+%
+\subsection{Matrizen und Vektoren}\label{subsec:matrix}\index{Matrizen}
+%
+%
+
+Die wohl wichtigste Fähigkeit der MATLAB-Tools ist die Möglichkeit direkt mit Matrizen und Vektoren zu arbeiten. Auf diese Weise lassen sich Ausdrücke, die in höheren Programmiersprachen lediglich mittels aufwändiger Schleifenkonstrukte\index{Schleifen} zu verwirklichen sind relativ einfach beschreiben.
+
+%
+%
+\subsubsection{Matrizen}\label{subsubsec:matrix}
+%
+%
+
+%
+\paragraph{Eingabe und Handhabung von Matrizen}\label{par:handhabung}
+%
+
+Matrixelemente werden in eckigen Klammern zeilenweise eingegeben. Elemente einer Zeile werden durch Leerzeichen oder Kommata getrennt, das Ende einer Zeile wird durch einen Strichpunkt abgeschlossen. So erzeugt die Eingabe
+\begin{quote}
+\begin{verbatim}
+>> A = [1 2 3;4,5,6]
+\end{verbatim}
+\end{quote}
+die Matrix
+\begin{quote}
+\begin{verbatim}
+A=
+	  1 2 3
+	  4 5 6
+\end{verbatim}
+\end{quote}
+Einzelne Elemente können durch Angabe ihrer Zeilen- und Spaltenposition direkt angesprochen werden 
+
+\advise{In MATLAB beginnt die Indizierung im Gegensatz zu den meisten anderen Programmiersprachen mit 1 anstatt mit Null!!!}.
+
+\begin{quote}
+\begin{verbatim}
+>> x = A(1,2)
+x = 
+	   2
+\end{verbatim}
+\end{quote}
+
+In Tabelle \ref{tab:WeitereMatrizenoperationen} sind weitere Möglichkeiten zur geschickten Handhabung von Matrizen dargestellt. Der Doppelpunkt dient als Wildcard\index{Wildcard} und kann gelesen werden wie \textit{alle}.
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|l|c|}\hline
+
+			\textbf{Operation} & \textbf{Befehl} & \textbf{Beispiel} & \textbf{Ergebnis}\\\hline
+			Zeile \textit{r} herausgreifen & \texttt{A(r,:)} & \texttt{A(1,:)} & \texttt{[1 0 3]}\\\hline
+			Spalte \textit{s} herausgreifen & \texttt{A(:,s)} & \texttt{A(:,2)} & \texttt{[2 5]} \\\hline
+			\textit{C} neben \textit{A} & [A,C] & [A,C] &
+			\begin{bmatrix}
+				1 & 0 & 3 & 0 & 1\\
+				4 & 5 & 6 & 2 & 3\\ 
+			\end{bmatrix}
+			\\\hline
+			1. Zeile von \textit{A} unter \textit{A}  & [A;A(1,:)] & [A;A(1,:)] & 
+			\begin{bmatrix}
+				1 & 0 & 3 \\
+				4 & 5 & 6 \\ 
+				1 & 0 & 3 \\
+			\end{bmatrix}
+			\\\hline
+
+		\end{tabular}
+	\caption{Weitere Matrizenoperationen}
+	\label{tab:WeitereMatrizenoperationen}\index{Matrixoperationen}
+\end{table}
+
+Standart-Matrizen lassen sich mit den in Tabelle \ref{tab:Standartmatrizen} angeführten Befehlen erzeugen.
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|l|c|}\hline
+
+			\textbf{Name der Matrix} & \textbf{Befehl} & \textbf{Beispiel} & \textbf{Ergebnis}\\\hline
+			Nullmatrix & \texttt{zeros(m,n)} & \texttt{zeros(2,3)} & 
+			\begin{bmatrix}
+				0 & 0 & 0\\0 & 0 & 0\\ \end{bmatrix}
+				\\\hline
+			Einsmatrix & \texttt{ones(m,n)} & \texttt{ones(3,2)} & 
+			\begin{bmatrix}
+			1 & 1\\1 & 1\\1 & 1\\ \end{bmatrix}
+			\\\hline
+			Einheitsmatrix & \texttt{eye(n)} & \texttt{eye(2)} &
+			\begin{bmatrix}
+				1 & 0 \\0 & 1 \\ \end{bmatrix}
+			\\\hline
+			Zufallsmatrix  & \texttt{B=rand(m,n)} & \texttt{B=rand(2,3)} & 
+			\begin{tabular}{c}Matrix vom Typ(2,3) \\ mit Zufallszahlen aus [0,1]\end{tabular} \\\hline
+
+		\end{tabular}
+	\caption{Standartmatrizen}
+	\label{tab:Standartmatrizen}\index{Standartmatrizen}
+\end{table}
+
+%
+\paragraph{Rechnen mit Matrizen}\label{par:rechnen}
+%
+Matrizen können addiert, miteinander multipliziert, potenziert und mit einem Skalar multipliziert werden. Bei der Addition müssen die Typen der beteiligten Matrizen übereinstimmen, bei der Multiplikation muss die Spaltenanzahl der ersten Matrix mit der Zeilenanzahl der zweiten Matrix übereinstimmen und beim Potenzieren mit einer natürlichen Zahl muss die Matrix quadratisch sein. Werden diese Bedingungen nicht erfüllt meldet sich MATLAB wie im folgenden Beispiel recht schnell mit einer Fehlermeldung.
+\begin{quote}
+\begin{verbatim}
+>> A = [1 2 3;4 5 6], C = [1 2;3 4];
+>> addAC = A + C
+
+??? Error using --> plus
+Matrix dimensions must agree.
+\end{verbatim}
+\end{quote}
+Da die beiden Matrizen von unterschiedlichen Typen sind, liefert MATLAB eine Fehlermeldung.
+
+Auf eine Besonderheit bezüglich der Addition soll noch hingewiesen werden: \\Der Befehl
+\begin{quote}
+\begin{verbatim}
+>> Aplus2 = A + 2
+\end{verbatim}
+\end{quote}
+\clearpage
+liefert das Ergebnis
+\begin{quote}
+\begin{verbatim}
+Aplus2 =
+	  3 4 5
+	  6 7 8
+\end{verbatim}
+\end{quote}
+obwohl die Matrix A vom Typ (2,3) und die Zahl 2 (in MATLAB als Matrix vom Typ (1,1) aufgefasst) eigentlich nicht addiert werden können. Intern wird die Matrix (2) aber aufgebläht zur Matrix \begin{pmatrix}{2&2&2\\2&2&2} \end{pmatrix} vom Typ (2,3), die nun zu A addiert werden kann. Diese Anpassung des Typs wird immer dann vorgenommen, wenn eine Zahl zu einer Matrix addiert werden soll. 
+
+%
+\paragraph{Punktoperationen}\label{par:punktoperationen}\index{Punktoperationen}
+%
+In vielen Fällen wären komponentenweise Operationen mit Matrizen (wie sie ja bei der Addition üblich ist) wünschenswert. Dies kann bei MATLAB über Punktoperationen erreicht werden. Am Beispiel der Multiplikation soll dies kurz erläutert werden:
+\begin{quote}
+\begin{verbatim}
+>> A = [1 2 3;4 5 6],B = [2 1 0;1 0 2];
+>> G = A .* B
+G=
+    2 2  0
+    4 0 12
+\end{verbatim}
+\end{quote}
+
+%
+%
+\subsubsection{Vektoren}\label{subsubsec:vectors}\index{Vektoren}
+%
+%
+
+Vektoren werden in MATLAB als einzeilige Matrizen gehandhabt. Auf diese Weise wird ein Zeilen\-vektor mit 3 Elementen als Matrix vom Typ (3,1) dargestellt
+
+\advise{MATLAB unterscheidet streng zwischen Zeilen- und Spalten\-vektoren. Daher immer die Rechenregeln für Matrizen beachten!}.
+
+Ein kurzes Beispiel soll den Umgang mit Vektoren erläutern:
+\begin{quote}
+\begin{verbatim}
+>> ZeilenV = [1 3 3]
+ZeilenV =
+     1 3 3
+>> SpaltenV = [3;2;0]
+SpaltenV = 
+     3
+     2
+     0
+\end{verbatim}
+\end{quote}
+Das Skalarprodukt\index{Skalarprodukt} kann mittels 
+\begin{quote}
+\begin{verbatim}
+>> SkalProd = ZeilenV * SpaltenV
+SkalProd =
+     9
+\end{verbatim}
+\end{quote}
+berechnet werden, wohingegen 
+\begin{quote}
+\begin{verbatim}
+>> Matrix33 = SpaltenV * ZeilenV
+\end{verbatim}
+\end{quote}	
+eine Matrix vom Typ (3,3) ergibt.
+
+\medskip Relativ einfach lassen sich auch Vektoren mit vielen (äquidistant verteilten) Elementen erstellen. Diese können mit der Befehlsstruktur
+\begin{quote}
+>> \textit{Bezeichner = Startwert : Schrittweite : Endwert};
+\end{quote}	
+erzeugt werden. Derartige Zeilenvektoren können die mathematische Berechnung von Funktionen besonders vereinfachen: Indem man die entsprechende Funktion mittels einer Punktoperation auf den Zeilenvektor anwendet, erhält man für jedes einzelne Vektorelement ein Ergebnis:
+
+\begin{quote} \label{bsp:parabel}
+\begin{verbatim}
+>> x = -5 : 1 : 5;
+>> y = x.^2;
+>> plot(x,y) \index{plot}
+\end{verbatim}
+\end{quote}	
+
+Mittels der  \texttt{plot}-Funktion\footnote{vgl. Kapitel \ref{subsec:graphics}}\index{plot} kann man sich nun den dargestellten Ausschnitt der hier berechneten Normalparabel darstellen lassen.
+
+\clearpage
+%
+%
+%
+\section{Programmieren in MATLAB}\label{sec:Programmieren}
+%
+%
+%
+In den bisherigen Kapiteln wurden meist mehrere Kommandos nacheinander direkt im Command-Window ausgeführt. Beendet man eine MATLAB-Sitzung, sind alle Kommandos verloren. Es wäre also wünschenswert, alle Kommandos in eine Datei schreiben zu können, und die Befehlseingabe auf diese Weise zu automatisieren. Wie man solche Dateien - \textit{m-Files} genannt - nutzen kann wird im folgenden Abschnitt behandelt.
+
+%
+%
+\subsection{MATLAB-Skripte}\label{subsec:scripts}\index{Skripte}
+%
+%
+Vorteile der Programmierung mit MATLAB-Skripten:
+\paragraph{Automatisierung}\index{Automatisierung} Mittels M-Files\index{M-Files} können MATLAB-Algorithmen ziemlich einfach automatisiert werden. Standartabläufe können nach einmaliger Programmierung schnell wieder aufgerufen werden.  
+\paragraph{Debugging}\index{Debugging} Durch einfache Änderungen der Inhalte des m-Files kann man schnell ein anderes Verhalten erreichen, oder auch eventuelle Fehlerquellen ``ausklammern''. Bei der Eingabe vieler einzelner Befehle im direkten Modus wäre es nötig die komplette Eingabe noch einmal durchzuführen.
+
+%
+\subsubsection{Erstellen von MATLAB-Skripten}\label{subsubsec:skriptenerstellen}
+%
+
+An einem einfachen Beispiel werden die grundlegenden Eigenschaften eines Skripts verdeutlicht: 
+
+Der von MATLAB genutzte Editor (vgl. Abbildung \ref{abb:editor}) öffnet sich automatisch über den Befehl 
+\begin{quote}
+\textit{File\rightarrow{}New\rightarrow{}M-File} 
+\end{quote}\\
+\medskip in der Menüleiste des MATLAB-Fensters\footnote{Alternativ kann man auch im Command-Window den Befehl \texttt{edit}\index{edit} verwenden, oder auf das Icon in der Symbolleiste klicken}. 
+%
+\clearpage
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=9cm]{bilder/matlab/editor}
+	\caption{MATLAB-Editor}
+	\label{abb:editor}
+\end{figure}
+
+Das Schreiben von MATLAB-Skripten erfolgt ähnlich wie im Command-Window\footnote{Allerdings ohne ``>>'' zu Beginn jeder einzelnen Zeile}, mit den Unterschied, dass nicht jeder Befehl sofort ausgeführt wird, sondern erst beim Starten des M-Files eine Befehls\-abarbei\-tung erfolgt. Die wichtigsten Eigenschaften sollen am Beispiel des folgenden Quelltextes besprochen werden:
+
+\begin{lstlisting}[language=Matlab,
+basicstyle={\sffamily\footnotesize},
+keywordstyle={\color{DarkRed}\bfseries},
+identifierstyle={\color{DarkSlateBlue}},
+commentstyle={\color{OliveDrab}\rmfamily\itshape},
+%stringstyle={\underbar}, % Alle eingegebenen Strings werden unterstrichen
+backgroundcolor={\color{Beige}},
+columns=flexible,
+linewidth=14cm,
+xleftmargin=15pt,
+framerightmargin=5mm,
+frame=single,
+framesept=10pt,
+numbers=left,
+numberstyle=\tiny,
+caption={Erstes MATLAB Skript},
+label=code:firstscript
+]
+% Einfaches Matlab-Skript
+
+x = -3:0.1:3;
+y = x.^2;
+
+figure(1)
+
+subplot(211)
+plot(x,y), axis([-4, 4, 0, 10])
+title('Normalparabel'), xlabel('x'), ylabel('y = f(x)')
+
+subplot(212)
+stem(x,y), axis(-4, 4, 0, 10)
+title('Normalparabel - diskrete Darstellung')
+\end{lstlisting}
+Kommentare\index{Kommentare} werden in MATLAB immer mit \textbf{\%} eingeleitet (vgl. Zeile 1 im Listing \ref{code:firstscript}). Hierzu muss am Anfang jeder Zeile ein \%-Zeichen eingefügt werden\footnote{Alternativ kann man auch komplette Abschnitte markieren und über \specialbutton{Strg}+\keybutton{R} auskommentieren lassen}. Sie sollten von dieser Möglichkeit ausgiebig Gebrauch machen, um den geschriebenen Code lesbar und nachvollziehbar zu halten. Ihr Betreuer wird es ihnen Danken!  \\Ebenso wie im Command-Window werden nur diejenigen Werte auch am Bildschirm ausgegeben, die nicht mit einem Strichpunkt abgeschlossen sind.
+
+\clearpage
+Um ein fertiges Skript zu starten hat man mehrere Möglichkeiten:
+\begin{itemize}
+	\item Direkt, per Eingabe des Skriptnamens im Command-Window 
+	\item Per Klick auf das \textit{RUN}\index{RUN} Symbol in der Symbolleiste des Editors 
+	\item Per Tastaturbefehl \textit{F5}
+\end{itemize}
+Fehler im Code (vgl. Listing \ref{code:firstscript} Zeile 13) werden direkt im Command-Window unter Angabe der Zeilennummer aufgelistet (vgl. Abb \ref{abb:MATLABerror}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{bilder/matlab/error2}
+	\caption{Fehlerausgabe der MATLAB-Umgebung}
+	\label{abb:MATLABerror}
+\end{figure}
+\clearpage
+
+%
+\subsubsection{Debugging}\label{subsubsec:debugging}\index{Debugging}
+%
+
+Im Debug-Mode\index{Debug-Mode} ist es möglich die Abarbeitung eines Skripts an den unterschiedlichsten Stellen anzuhalten, um sich Zwischenergebnisse oder Variablen-Inhalte während der Abarbeitung anzeigen zu lassen. Hierzu stehen in der Symbolleiste des Editorfensters verschiedene Befehle zur Verfügung, mittels derer man Haltepunkte, sogenannte \textit{Breakpoints}\index{}, einfügen und handhaben kann (Vgl. Abb \ref{abb:breakpoints}). Die Befehlsabarbeitung stoppt dann am jeweiligen Breakpoint und wird erst nach manueller Bestätigung wieder aufgenommen.
+
+\begin{figure}[h]
+	\centering 
+	\psfrag{01}{Run-Button}
+	\psfrag{02}{Breakpoint löschen} 
+	\psfrag{03}{Breakpoint setzen}
+	\psfrag{04}{Breakpoint}
+	\includegraphics[width=14cm]{bilder/matlab/breakpoints3}
+	\caption{Einfügen von Breakpoints in ein MATLAB-Skript}
+	\label{abb:breakpoints}
+\end{figure}
+
+%
+%
+\subsection{Graphische Ausgabe}\label{subsec:graphics}\index{Graphische Ausgabe}
+%
+%
+
+Wie bereits im Beispiel auf Seite \pageref{bsp:parabel} dargestellt kann der berechnete Vektor auch graphisch wiedergegeben werden. Im einfachsten Fall kann man mit dem Kommando \texttt{plot(x,y)}\index{plot} den Vektor y über seiner x-Koordinate darstellen lassen(vgl. Abb \ref{abb:parabelplot}, oben).
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8cm]{bilder/matlab/parabelplot}
+	\caption{Plot der Funktion \begin{equation*}y = x^2\end{equation*}}
+	\label{abb:parabelplot}
+\end{figure}
+
+Zur Darstellung diskreter Werte wurde im Beispiel (Listing \ref{code:firstscript}) schon der Befehl \texttt{stem(x,y)}\index{stem} eingeführt. Dieser stellt wirklich nur die berechneten Punkte dar (vgl. Abb \ref{abb:parabelplot}, unten), während der plot-Befehl zwischen den einzelnen Werten linear interpoliert und somit einen kontinuierlichen, ``eckigen'', Graphen erzeugt. Sie können dies einfach nachvollziehen, indem sie als x-Vektor weniger fein gerasterte Stützstellen für die Berechnung verwenden. Für weitere Grafikfunktionen sei auf die MATLAB-Online-Hilfe verwiesen. %- jede einzelne aufzuführen würde den Umfang dieses Tutorials sprengen.
+
+Die im Beispiel verwendeten Formatierungsbefehle \textit{axis, title, xlabel} und \textit{ylabel}\index{axis}\index{title}\index{xlabel}\index{ylabel} beschreiben die verwendete Achsenskalierung und das Aussehen der Achsen. \\
+Über den Befehl \texttt{subplot(yxn)}\index{subplot} können mehrere Graphen im gleichen Fenster dargestellt werden. Die \texttt{x}- und \texttt{y}-Parameter legen die Anordnung der einzelnen Graphen im Fenster fest, der Parameter \texttt{n} beschreibt die Position des aktuellen Plots.\\Genauere Informationen zu den einzelnen Befehlen können der MATLAB-Hilfe entnommen werden.
+
+%
+%
+\subsection{MATLAB-Funktionen}\label{subsec:functions}\index{MATLAB-Funktionen}\index{Funktionen}
+%
+%
+
+Während MATLAB-Skripte in sich geschlossene Befehlsabläufe enthalten, können Funktionen auch Parameter von übergeordneten Files übergeben bekommen. Dies ist besonders dann sinnvoll, wenn die gleiche Funktionalität bei unterschiedlichen Eingangs-Parametern benötigt wird. Ein erstes Funktionsbeispiel ist im Listing \ref{code:parabel} dargestellt. 
+
+\begin{lstlisting}[language=Matlab,
+basicstyle={\sffamily\footnotesize},
+keywordstyle={\color{DarkRed}\bfseries},
+identifierstyle={\color{DarkSlateBlue}},
+commentstyle={\color{OliveDrab}\rmfamily\itshape},
+%stringstyle={\underbar}, % Alle eingegebenen Strings werden unterstrichen
+backgroundcolor={\color{Beige}},
+columns=flexible,
+linewidth=165mm,
+xleftmargin=15pt,
+framerightmargin=5mm,
+frame=single,
+framesept=10pt,
+numbers=left,
+numberstyle=\tiny,
+caption={Erste MATLAB Funktion},
+label=code:parabel
+]
+function [y]=parabel(n, s)
+%% Syntax:   [y]=parabel(n, s)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Berechnung einer Normalparabel mittels der Parameter
+%% n:      Bereich +/-n
+%% s:      Schrittweite der Stützstellen
+
+x = -n:s:n;
+y = x.^2;
+
+figure(1)
+
+subplot(211)
+plot(x,y), axis([-n, n, 0, n^2])
+title('Normalparabel'), xlabel('x'), ylabel('y = f(x)')
+
+subplot(212)
+stem(x,y), axis([-n, n, 0, n^2])
+title('Normalparabel - diskrete Darstellung')
+\end{lstlisting}
+Jede Funktion beginnt mit der Funktionsdeklaration wie in Zeile 1:
+\begin{quote}
+	\textit{function [Ausgabeparameter] = Funktionsname(Übergabeparameter)}
+\end{quote}
+Es können der Funktion mehrere Parameter übergeben, sowie auch mehrere Ausgabeparameter definiert werden. Alles was direkt nach der Funktionsdeklaration im Kommentar enthalten ist wird bei Eingabe des Kommandos
+\begin{quote}
+	\textit{\textbf{help} Funktionsname}
+\end{quote}
+als Ausgabe im Command-Window angezeigt. Dies funktioniert auch bei eigenen Funktionen, vgl. Kapitel \ref{subsec:functions}.
+
+%
+%
+\subsection{Kontrollstrukturen}\label{subsec:control}\index{Kontrollstrukturen}
+%
+%
+Kontrollstrukturen werden für die eingabe- oder berechnungsabhängige Befehlsausführung, sowie für das Beschreibungen von Schleifen\index{Schleifen} (z.B. bei rekursiven Strukturen) benötigt. Die wichtigsten Typen sind konditionale Verzweigungen\index{Verzweigungen} und Schleifenkonstrukte. 
+
+%
+\subsubsection{Konditionale Verzweigung}\label{subsubsec:if}
+%
+
+Der einfachste Fall ist eine bedingte Befehlsausführung:\index{if}\index{bedingte Befehlsausführung}
+\begin{quote}
+	\begin{verbatim}
+	if Bedingung
+	  Anweisung
+	end
+	\end{verbatim}
+\end{quote}
+Wenn die Bedingung ``true'' ist, wird der Anweisungsteil ausgeführt. Dieser kann auch mehrere aufeinanderfolgende Einzelanweisungen enthalten. \\Die konditionale Verzweigung\index{konditionale Verzweigung} 
+\begin{quote}\index{elseif}\index{else}
+	\begin{verbatim}
+	if Bedingung
+	  Anweisung
+	elseif Bedingung
+	  Anweisung
+	...
+	else Bedingung
+	  Anweisung
+	end
+	\end{verbatim}
+\end{quote}
+dient der Verzweigung bei mehreren möglichen Programmvarianten.
+
+Ist die Bedingung wahr, wird der entsprechende Anweisungsteil ausgeführt, wobei - bei sich überschneidenden Bedingungen - immer der erste Zweig, der die Bedingung erfüllt, ausgeführt wird und alle anderen verworfen werden. Zur Formulierung von Bedingungen stehen die Vergleichsoperationen aus Tabelle \ref{tab:Vergleichsoperatoren} sowie die logischen Operatoren aus Tabelle \ref{tab:Logischeoperatoren} (Kapitel \ref{sec:wichtigfunkt}) zur Verfügung.
+
+In MATLAB hat eine richtige Bedingung den Wert 1 (true), während eine falsche Bedingung den Wert 0 (false) besitzt.
+
+Konditionale Verzweigungen können auch bei Matrizen angewandt werden. Hier wird der \texttt{if}-Zweig allerdings nur durchlaufen, wenn alle Elemente der Vergleichsmatrix 1 sind. Der \texttt{else}-Zweig wird durchlaufen, wenn wenigstens ein Element 0 ist. Aus diesem Grund sollten in diesem Fall die Programme gut durchdacht werden, um eventuelle Fehler von vornherein auszuschließen.
+
+Für detailliertere Informationen zum \texttt{if...elseif...else}-Konstrukt sowie zu weiteren konditionale Verzweigungen (z.B. \texttt{switch...case})\index{switch}\index{case} sei auf die Fragezeichenhife von MATLAB verwiesen.
+
+%
+\subsubsection{Schleifen}\label{subsubsec:loops}\index{Schleifen}
+%
+Schleifen lassen sich auf zwei mögliche Arten realisieren: 
+\\Ist die Anzahl der Schleifendurchläufe bekannt, so kann man mit 
+\begin{quote}\index{for}
+	\texttt{for} \textit{Laufanweisung} \textit{  Anweisungsteil} \texttt{end}
+\end{quote}
+arbeiten. Der Anweisungsteil ist äquivalent zur bedingten Verzweigung aufgebaut. Eine \textit{Laufanweisung} hat die Struktur
+\begin{quote}\index{Laufvariable}
+	\textit{Laufvariable = Anfangswert [:Schrittweite] : Endwert}
+\end{quote}
+Der in eckigen Klammern beschriebene Teil ist optional, kann also weggelasssen werden\footnote{In diesem Fall ist die Schrittweite 1}. Nach Beenden der Schleife behält die Laufvariable den zuletzt angenommenen Wert - sie steht also auch außerhalb der Schleife zur Verfügung!\\Häufig kann in MATLAB auf die Verwendung von for-Schleifen verzichtet werden. Dies soll folgendes Beispiel verdeutlichen: \\Mit
+\begin{quote}
+	\begin{verbatim}
+		>> n = 1000;
+		>> a  = rand(1,n);
+	\end{verbatim}
+\end{quote}
+wird ein Vektor mit n Zufallszahlen\index{randn}\index{Zufallszahlen} erzeugt. Sollen die Zahlen nun addiert werden kann man dies mit einer \texttt{for}-Schleife verwirklichen:
+\begin{quote}
+	\begin{verbatim}
+		>> s = 0;
+		>> for k = 1 : n, s = s + a; end
+		>> s
+	\end{verbatim}
+\end{quote}
+Schneller und deutlich übersichtlicher ist aber die Matlabfunktion \texttt{sum}\index{sum}:
+\begin{quote}
+	\begin{verbatim}
+		>> s = sum(a)
+	\end{verbatim}
+\end{quote}
+Die Programmierung mit \texttt{sum} bietet einen weiteren Vorteil: Misst man die Zeit, die zur Berechnung obiger Additionen notwendig ist, so stellt man fest, dass das Programm mit \texttt{sum} deutlich schneller ist als das Programm mit der for-loop! Hier stellt MATLAB die Funktionen \texttt{tic}\index{tic} und \texttt{toc} \index{toc}zur Verfügung:
+\begin{quote}
+	\begin{verbatim}
+		>> tic; s = sum(a);toc
+	\end{verbatim}
+\end{quote}
+\texttt{tic} stellt eine Stoppuhr auf Null und startet, \texttt{toc} hält die Uhr an und gibt die Zeit in Sekunden aus.
+
+Wird die Anzahl der Schleifendurchläufe erst innerhalb des Programms bestimmt, so kann man mit 
+\begin{quote}\index{while}
+	\texttt{while} \textit{Bedingung, Anweisungsteil} \texttt{end}
+\end{quote}
+arbeiten. Solange die Bedingung, die in der Regel im Anweisungsteil neu bestimmt wird, erfüllt ist, wird der Anweisungsteil ausgeführt. Ist die Bedingung falsch, wird der anschließende Anweisungsteil übergangen und das Programm unterhalb der \texttt{end}-Anweisung fortgesetzt.
+\\Beispiel:
+\begin{quote}
+	\begin{verbatim}
+		a = 0
+		while a < 11
+			a = a + 1;
+		end
+	\end{verbatim}
+\end{quote}
+
+\clearpage
+%
+%
+\section{Zusammenfassung}\label{sec:wichtigfunkt}
+%
+%
+Zusammenfassung oft verwendeter MATLAB-Befehle nach Themen\footnote{Eine vollständige Darstellung findet man mit \texttt{>>help, >>help general, >> help ops...}}
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			who 			& listet verwendete Variablen auf\\
+			whos 			& listet verwendete Variable auf, ausführlich\\
+			workspace & aktiviert den Workspace\\
+			clear 		& löscht Variable\\
+			load 			& lädt gespeicherte Daten\\
+			save 			& speichert Daten\\
+			quit 			& beendet die MATLAB-Sitzung\\\hline
+	\end{tabular}
+	\caption{MATLAB Arbeitsspeicher}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\
+			diary 			& speichert Eingaben einer MATLAB-Sitzung\\
+			format 			& legt das Ausgabeformat fest\\
+			beep				& erzeugt einen Piepton\\\hline
+	\end{tabular}
+	\caption{Command-Window Kontrolle}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|l|}\hline
+
+			\textbf{Zeichen}  & \textbf{Klartext}\\\hline
+			+	  					    & Matrizenaddition / Polynomaddition\\
+			* 						    & (Matrizen) multiplizieren\\
+			.*			  		    & Matrizen komponentenweise multiplizieren\\
+			\textbackslash    & Linksdivision von Matrizen\\
+			.\textbackslash   & komponentenweise Linksdivision (bei Matrizen)\\
+			/   					    & Rechtsdivision von Matrizen\\
+			./   					    & komponentenweise Rechtsdivision (bei Matrizen)\\
+			\textasciicircum  & (Matrizen) potenzieren\\
+			.\textasciicircum & Matrizen komponentenweise potenzieren\\\hline
+	\end{tabular}
+	\caption{Arithmetische Operationen}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|c|l|}\hline
+
+			\textbf{Zeichen} & \textbf{Klartext}\\\hline
+			< 					& kleiner als\\
+			> 					& größer als\\
+			<= 					& kleiner gleich\\
+			>= 					& größer gleich\\
+			== 					& genau gleich\\
+			\verb§~§= 	& ungleich\\\hline
+	\end{tabular}
+	\caption{Vergleichsoperatoren}
+	\label{tab:Vergleichsoperatoren}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|l|}\hline
+
+			\textbf{Operator} & \textbf{Klartext}\\\hline
+			\& 		& und\\
+			| 		& oder\\
+			\verb§~§ & nicht\\
+			xor 		& exklusives oder\\\hline
+	\end{tabular}
+	\caption{Logische Operatoren}
+	\label{tab:Logischeoperatoren}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			error 		& Fehlermeldung und Beenden der Funktion\\
+			warning 	& Warnung, ohne die Funktion zu beenden\\
+			disp 			& Meldung\\
+			fprintf 	& siehe Hilfe\\
+			sprintf		& siehe Hilfe\\\hline
+	\end{tabular}
+	\caption{Meldungen im Command Window}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			zeros			& Nullmatrix\\
+			ones 			& Einsmatrix\\
+			eye				& Einheitsmatrix\\
+			rand	 		& Zufallsmatrix, gleichverteilte Zahlen\\
+			randn			& Zufallszahlen, normalverteilte Zahlen\\
+			linspace	& Vektor mit äquidistant verteilten Elementen\\
+			logspace	& Vektor mit logarithmisch verteilten Elementen\\\hline
+	\end{tabular}
+	\caption{Elementare Matrizen}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			size 			& Typ einer Matrix\\
+			length		& Anzahl der Elemente eines Vektors\\\hline
+	\end{tabular}
+	\caption{Grundlegende Informationen über Matrizen}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			ans 			& zuletzt gegebene Antwort\\
+			eps 			& Abstand von 1 zur nächstgrößeren darstellbaren Zahl\\
+			realmax		& größtmögliche darstellbare Zahl\\
+			realmin		& kleinstmögliche positive darstellbare Zahl\\
+			pi	 			& 3.1415926535897\\
+			i,j 			& imaginäre Einheit\\
+			Inf				&	unendlich\\
+			NaN 			& keine Zahl\\\hline
+	\end{tabular}
+	\caption{Spezielle Variable und Konstanten}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			sin 			& Sinus\\
+			sinh 			& Sinushyperbolicus\\
+			asin			& Arcusinus\\
+			asinh 		& Areasinus\\
+			cos 			& Cosinus\\
+			cosh 			& Cosinushyperbolicus\\
+			acos 			& Arcuscosinus\\
+			acosh			& Areascosinus\\
+			tan 			& ATangens\\
+			tanh 			& Tangenshyperbolicus\\
+			atan 			& Arcustangens\\
+			atanh			& Areastangens\\
+			cot 			& Cotangens\\
+			coth 			& Cotangenshyperbolicus\\
+			acot 			& Arcuscotangens\\
+			acoth 		& Areacotangens\\\hline
+	\end{tabular}
+	\caption{Trigonometrische Funktionen}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			exp 			& Exponentialfunktion mit Basis e\\
+			log 			& Logarithmus naturalis (ln)\\
+			log10			& Logarithmus zur Basis 10\\
+			log2	 		& Logarithmus zur Basis 2\\\hline
+	\end{tabular}
+	\caption{Exponentialfunktionen und Logarithmen}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			abs 			& Betragsfunktion\\
+			angle			& Winkelberechnung\\
+			conj			& konjugiert komplexe Zahl\\
+			imag	 		& Imaginärteil\\
+			real 			& Realteil\\
+			unwrap		& beseitigt Phasensprünge\\\hline
+	\end{tabular}
+	\caption{Funktionen bei komplexen Zahlen}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			fix 			& rundet zu Null hin\\
+			floor 		& rundet nach unten\\
+			ceil			& rundet nach oben\\
+			round 		& rundet zur nächsten ganzen Zahl\\
+			mod 			& vorzeichenbehafteter Rest nach Division\\
+			rem 			& Rest nach Division\\
+			sign 			& Vorzeichenfunktion\\\hline
+	\end{tabular}
+	\caption{Runden und Reste}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			norm 			 & Norm\\
+			rank 			 & Rang\\
+			det			   & Determinante\\
+			trace 		 & Spur\\
+			rref 			 & Gauss-Algorithmus\\
+			\backslash & Linksdivision\\
+			/		 			 & Rechsdivision\\
+			inv		     & Inverse\\
+			cond 			 & Kondition\\
+			pinv 			 & Pseudoinverse\\
+			eig 			 & Eigenwerte und Eigenvektoren\\
+			poly 			 & Charakteristisches Polynom\\
+			\hline
+	\end{tabular}
+	\caption{Funktionen bei Matrizen}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			max 			& größtes Element\\
+			min 			& kleinstes Element\\
+			mean		  & Mittelwert\\
+			median 		& Median\\
+			std 			& Standartabweichung\\
+			var 			& Varianz\\
+			sort 			& sortieren (aufsteigend)\\
+			sum 			& Summe (spaltenweise)\\
+			prod 			& Produkt (spaltenweise)\\
+			cumsum 		& kumulative Summe\\
+			cumprod		& kumulatives Produkt\\
+			diff 			& Differenzbildung\\\hline
+	\end{tabular}
+	\caption{Datenanalysis}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			roots 			& Nullstellenbestimmung\\
+			poly 				& Polynom berechnen aus Nullstellen\\
+			polyval 		& Polynom auswerten\\
+			residue 		& Partialbruchzerlegung\\
+			polyfit			& Interpolation oder Regression\\
+			polyder			& Ableitung eines Polynoms\\
+			conv  			& Multiplikation\\
+			deconv  		& Division\\
+			spline 			& Spline\\\hline
+	\end{tabular}
+	\caption{Polynome und Interpolation}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			quad 		& numerische Integration\\
+			quadl 	& numerische Integration\\
+			ode45	  & numerische Lösung von Differentialgleichungen\\\hline
+	\end{tabular}
+	\caption{Funktionen zur numerischen Integration}
+\end{table}
+
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{|l|l|}\hline
+
+			\textbf{Befehl} & \textbf{Klartext}\\\hline
+			plot 			& Linearer Plot\\
+			loglog		& logarithmischer Plot\\
+			semilogx	& halblogarithmischer Plot\\
+			semilogy	& halblogarithmischer Plot\\
+			polar			& Plot in Polarkoordinaten\\
+			axis 			& Kontrolle der Achsen\\
+			grid 			& Gitterhilfslinien\\
+			subplot		& weitere Plots in einem Fenster\\
+			hold on		& weiter ins aktuelle Fenster\\
+			hold off	& Fenster schließen\\
+			legend		& Legende\\
+			title			& Titel\\
+			xlabel		& Beschriftung der x-Achse\\
+			ylabel		& Beschriftung der y-Achse\\
+			text 			& Text positionieren\\
+			gtext			& Text mit der Maus positionieren\\\hline
+	\end{tabular}
+	\caption{Graphiken2D}
+\end{table}
+
+

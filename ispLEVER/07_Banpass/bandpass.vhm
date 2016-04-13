@@ -1,0 +1,4605 @@
+--
+-- Written by Synplicity
+-- Mon Nov 27 02:44:27 2006
+--
+
+-- No definition of black box LUCENT.CCU2.PRIM
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity OB is
+port(
+  I :  in std_logic;
+  O :  out std_logic);
+end OB;
+
+architecture beh of OB is
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  O <= I;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity IB is
+port(
+  I :  in std_logic;
+  O :  out std_logic);
+end IB;
+
+architecture beh of IB is
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  O <= I;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1S3AX is
+port(
+  D :  in std_logic;
+  CK :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1S3AX;
+
+architecture beh of FD1S3AX is
+  signal Q_INT_2 : std_logic ;
+  signal GSRN : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  II_ff: prim_dff port map (Q_INT_2, D, CK, GSRN, '0');
+  QN <= not Q_INT_2;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_2;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity OFS1P3DX is
+port(
+  D :  in std_logic;
+  SP :  in std_logic;
+  SCLK :  in std_logic;
+  CD :  in std_logic;
+  Q :  out std_logic;
+  GSR :  in std_logic);
+end OFS1P3DX;
+
+architecture beh of OFS1P3DX is
+  signal Q_INT_0 : std_logic ;
+  signal GSRN : std_logic ;
+  signal CLR : std_logic ;
+  signal M : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  CLR <= CD or GSRN after 100 ps;
+  M <= Q_INT_0 after 100 ps when SP = '0' else D after 100 ps;
+  II_ff: prim_dff port map (Q_INT_0, M, SCLK, CLR, '0');
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_0;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1P3AX is
+port(
+  D :  in std_logic;
+  SP :  in std_logic;
+  CK :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1P3AX;
+
+architecture beh of FD1P3AX is
+  signal Q_INT_1 : std_logic ;
+  signal GSRN : std_logic ;
+  signal M : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  M <= Q_INT_1 after 100 ps when SP = '0' else D after 100 ps;
+  II_ff: prim_dff port map (Q_INT_1, M, CK, GSRN, '0');
+  QN <= not Q_INT_1;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_1;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity INV is
+port(
+  A :  in std_logic;
+  Z :  out std_logic);
+end INV;
+
+architecture beh of INV is
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  Z <= not A;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity VHI is
+port(
+  Z :  out std_logic);
+end VHI;
+
+architecture beh of VHI is
+  signal GND : std_logic ;
+begin
+  Z <= '1';
+  GND <= '0';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity VLO is
+port(
+  Z :  out std_logic);
+end VLO;
+
+architecture beh of VLO is
+  signal VCC : std_logic ;
+begin
+  Z <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity bandpass is
+port(
+  CLK_IN :  in std_logic;
+  CE :  in std_logic;
+  nRESET :  in std_logic;
+  DATA_IN : in std_logic_vector (7 downto 0);
+  DATA_OUT : out std_logic_vector (7 downto 0));
+end bandpass;
+
+architecture beh of bandpass is
+  signal SI_WHOLE_SCALED : std_logic_vector (7 downto 0);
+  signal \PROC_FILTER.VAI_PIPE_6\ : std_logic_vector (7 downto 0);
+  signal \PROC_FILTER.VAI_PIPE_0\ : std_logic_vector (7 downto 0);
+  signal SAI_PROD_SUM_0 : std_logic_vector (14 downto 2);
+  signal SAI_PROD_1 : std_logic_vector (14 downto 2);
+  signal \PROC_FILTER.VAI_PIPE_7\ : std_logic_vector (7 downto 0);
+  signal \PROC_FILTER.VAI_PIPE_1_2\ : std_logic_vector (7 downto 0);
+  signal SAI_PROD_SUM_SUM_1 : std_logic_vector (18 downto 1);
+  signal SAI_PROD_SUM_2 : std_logic_vector (17 downto 1);
+  signal SAI_PROD_SUM_SUM_0 : std_logic_vector (18 downto 1);
+  signal SAI_PROD_SUM_3 : std_logic_vector (17 downto 2);
+  signal SAI_PROD_SUM_1 : std_logic_vector (17 downto 1);
+  signal \PROC_FILTER.VAI_PIPE_14\ : std_logic_vector (7 downto 0);
+  signal \PROC_FILTER.VAI_PIPE_7_2\ : std_logic_vector (7 downto 0);
+  signal SI_WHOLE_SUM : std_logic_vector (19 downto 1);
+  signal \PROC_FILTER.VAI_PIPE_13_2\ : std_logic_vector (7 downto 0);
+  signal SAI_PROD_3 : std_logic_vector (16 downto 1);
+  signal SAI_PROD_2 : std_logic_vector (15 downto 1);
+  signal SAI_PROD_5 : std_logic_vector (16 downto 1);
+  signal SAI_PROD_4 : std_logic_vector (16 downto 1);
+  signal SAI_PROD_7 : std_logic_vector (16 downto 2);
+  signal SAI_PROD_6 : std_logic_vector (16 downto 2);
+  signal DATA_IN_C : std_logic_vector (7 downto 0);
+  signal DATA_OUT_C : std_logic_vector (7 downto 0);
+  signal VCC : std_logic ;
+  signal GND : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_S_18_0_S0_0 : std_logic ;
+  signal G1_4 : std_logic ;
+  signal G1_5 : std_logic ;
+  signal N_737_I : std_logic ;
+  signal UN8_SI_WHOLE_SCALED_AXB0_0 : std_logic ;
+  signal N_731_I : std_logic ;
+  signal N_732_I : std_logic ;
+  signal N_734_I : std_logic ;
+  signal N_735_I : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_4_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_6_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_6_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_8_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_8_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_10_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_10_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_12_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_12_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_14_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_14_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_16_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_16_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_0_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_2_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_2_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_4_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_10_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_12_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_12_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_14_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_14_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_16_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_16_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_S_18_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_13_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_13_0_S1_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_15_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_15_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_2_0_S0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_2_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_4_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_4_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_6_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_6_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_8_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_8_0_S1_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_10_0_S0_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_15_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_S_17_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_1_0_S0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_1_0_S1_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_3_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_3_0_S1_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_5_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_5_0_S1_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_7_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_7_0_S1_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_9_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_9_0_S1_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_11_0_S0_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_11_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_1_0_S0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_1_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_3_0_S0_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_3_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_5_0_S0_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_5_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_7_0_S0_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_7_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_9_0_S0_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_9_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_11_0_S0_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_11_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_13_0_S0_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_13_0_S1_0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_15_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_3_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_5_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_5_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_7_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_7_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_9_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_9_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_11_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_11_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_13_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_13_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_15_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_15_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_S_17_0_S0_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_1_0_S0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_1_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_3_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_10_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_12_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_12_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_14_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_14_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_16_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_16_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_18_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_18_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_0_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_2_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_2_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_4_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_4_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_6_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_6_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_8_0_S0_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_8_0_S1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_10_0_S0_0 : std_logic ;
+  signal G0_0_4 : std_logic ;
+  signal G0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_16_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0 : std_logic ;
+  signal G0_1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_0_SF_0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_6_0_COUT1 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_S_8_0_COUT0_0 : std_logic ;
+  signal NC0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_S_8_0_S0_0 : std_logic ;
+  signal NC1 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_4_0_COUT1 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_6_0_COUT0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_6_0_S0_0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_6_0_S1_0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_2_0_COUT1 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_4_0_COUT0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_4_0_S0_0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_4_0_S1_0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_0_0_COUT1 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_2_0_COUT0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_2_0_S0_0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_2_0_S1_0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_0_0_COUT0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_0_0_S0 : std_logic ;
+  signal UN51_SAI_PIPE_SUM_CRY_0_0_S1_0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_6_0_COUT1 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_S_8_0_COUT0_0 : std_logic ;
+  signal NC2 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_S_8_0_S0_0 : std_logic ;
+  signal NC3 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_4_0_COUT1 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_6_0_COUT0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_6_0_S0_0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_6_0_S1_0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_2_0_COUT1 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_4_0_COUT0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_4_0_S0_0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_4_0_S1_0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_0_0_COUT1 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_2_0_COUT0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_2_0_S0_0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_2_0_S1_0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_0_0_COUT0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_0_0_S0 : std_logic ;
+  signal UN42_SAI_PIPE_SUM_CRY_0_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_16_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_S_18_0_COUT0_0 : std_logic ;
+  signal NC4 : std_logic ;
+  signal NC5 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_14_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_16_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_12_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_14_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_10_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_12_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_8_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_10_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_10_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_6_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_8_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_8_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_8_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_4_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_6_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_6_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_6_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_2_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_4_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_4_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_4_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_0_0_COUT1 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_2_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_2_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_2_0_S1_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_0_0_COUT0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_0_0_S0_0 : std_logic ;
+  signal UN4_SI_WHOLE_SCALED_CRY_0_0_S1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_15_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_S_17_0_COUT0_0 : std_logic ;
+  signal NC6 : std_logic ;
+  signal NC7 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_13_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_15_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_11_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_13_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_9_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_11_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_7_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_9_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_5_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_7_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_3_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_5_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_1_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_3_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_CRY_1_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_15_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_S_17_0_COUT0_0 : std_logic ;
+  signal NC8 : std_logic ;
+  signal NC9 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_13_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_15_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_11_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_13_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_9_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_11_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_7_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_9_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_5_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_7_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_3_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_5_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_1_0_COUT1 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_3_0_COUT0 : std_logic ;
+  signal UN34_SAI_PROD_SUM_CRY_1_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_13_0_COUT1 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_15_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_15_0_COUT1_0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_11_0_COUT1 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_13_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_9_0_COUT1 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_11_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_7_0_COUT1 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_9_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_5_0_COUT1 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_7_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_3_0_COUT1 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_5_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_1_0_COUT1 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_3_0_COUT0 : std_logic ;
+  signal UN43_SAI_PROD_SUM_CRY_1_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_16_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_18_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_18_0_COUT1_0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_14_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_16_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_12_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_14_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_10_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_12_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_8_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_10_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_6_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_8_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_4_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_6_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_2_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_4_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_0_0_COUT1 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_2_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_0_0_COUT0 : std_logic ;
+  signal UN9_VI_WHOLE_SUM_CRY_0_0_S0_0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_16_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_S_18_0_COUT0_0 : std_logic ;
+  signal NC10 : std_logic ;
+  signal NC11 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_14_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_16_0_COUT0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_12_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_14_0_COUT0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_10_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_12_0_COUT0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_8_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_10_0_COUT0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_6_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_8_0_COUT0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_4_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_6_0_COUT0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_2_0_COUT1 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_4_0_COUT0 : std_logic ;
+  signal UN16_SAI_PROD_SUM_SUM_CRY_2_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_14_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_16_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_16_0_COUT1_0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_12_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_14_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_10_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_12_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_8_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_10_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_6_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_8_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_4_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_6_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_2_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_4_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_0_0_COUT1 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_2_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_0_0_COUT0 : std_logic ;
+  signal UN25_SAI_PROD_SUM_SUM_CRY_0_0_S0_0 : std_logic ;
+  signal N_742 : std_logic ;
+  signal N_741 : std_logic ;
+  signal N_740 : std_logic ;
+  signal UN8_P17_0 : std_logic ;
+  signal UN8_P16_0 : std_logic ;
+  signal UN8_SROA8_0 : std_logic ;
+  signal UN8_SROA7_0 : std_logic ;
+  signal UN8_SROA6_0 : std_logic ;
+  signal UN8_SROA5_0 : std_logic ;
+  signal UN8_SROA4_0 : std_logic ;
+  signal UN8_SROA3_0 : std_logic ;
+  signal UN8_SROA2_0 : std_logic ;
+  signal UN8_SROA1_0 : std_logic ;
+  signal UN8_SROA0_0 : std_logic ;
+  signal UN8_SROB8_0 : std_logic ;
+  signal UN8_SROB7_0 : std_logic ;
+  signal UN8_SROB6_0 : std_logic ;
+  signal UN8_SROB5_0 : std_logic ;
+  signal UN8_SROB4_0 : std_logic ;
+  signal UN8_SROB3_0 : std_logic ;
+  signal UN8_SROB2_0 : std_logic ;
+  signal UN8_SROB1_0 : std_logic ;
+  signal UN8_SROB0_0 : std_logic ;
+  signal UN7_P17_0 : std_logic ;
+  signal UN7_P16_0 : std_logic ;
+  signal UN7_SROA8_0 : std_logic ;
+  signal UN7_SROA7_0 : std_logic ;
+  signal UN7_SROA6_0 : std_logic ;
+  signal UN7_SROA5_0 : std_logic ;
+  signal UN7_SROA4_0 : std_logic ;
+  signal UN7_SROA3_0 : std_logic ;
+  signal UN7_SROA2_0 : std_logic ;
+  signal UN7_SROA1_0 : std_logic ;
+  signal UN7_SROA0_0 : std_logic ;
+  signal UN7_SROB8_0 : std_logic ;
+  signal UN7_SROB7_0 : std_logic ;
+  signal UN7_SROB6_0 : std_logic ;
+  signal UN7_SROB5_0 : std_logic ;
+  signal UN7_SROB4_0 : std_logic ;
+  signal UN7_SROB3_0 : std_logic ;
+  signal UN7_SROB2_0 : std_logic ;
+  signal UN7_SROB1_0 : std_logic ;
+  signal UN7_SROB0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_P17_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_P16_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_P15_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROA0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_7_SROB0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_P17_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_P16_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_P15_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROA0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_6_SROB0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_P17_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_P16_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_P15_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROA0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_3_SROB0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_P17_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_P16_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_P15_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROA0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_2_SROB0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_P17_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_P16_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_P15_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_P14_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_P13_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROA0_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB8_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB7_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB6_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB5_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB4_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB3_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB2_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB1_0 : std_logic ;
+  signal UN1_SAI_PIPE_SUM_1_SROB0_0 : std_logic ;
+  signal N_174 : std_logic ;
+  signal N_173 : std_logic ;
+  signal N_172 : std_logic ;
+  signal N_171 : std_logic ;
+  signal N_170 : std_logic ;
+  signal N_169 : std_logic ;
+  signal N_30 : std_logic ;
+  signal N_1 : std_logic ;
+  signal Q_11 : std_logic ;
+  signal Q_44 : std_logic ;
+  signal Q_45 : std_logic ;
+  signal Q_46 : std_logic ;
+  signal Q_47 : std_logic ;
+  signal Q_48 : std_logic ;
+  signal Q_QN_156 : std_logic ;
+  signal Q_QN_155 : std_logic ;
+  signal Q_QN_154 : std_logic ;
+  signal Q_QN_153 : std_logic ;
+  signal Q_QN_152 : std_logic ;
+  signal Q_QN_151 : std_logic ;
+  signal Q_QN_150 : std_logic ;
+  signal Q_QN_149 : std_logic ;
+  signal Q_QN_148 : std_logic ;
+  signal Q_QN_147 : std_logic ;
+  signal Q_QN_146 : std_logic ;
+  signal Q_QN_145 : std_logic ;
+  signal Q_QN_144 : std_logic ;
+  signal Q_QN_143 : std_logic ;
+  signal Q_QN_142 : std_logic ;
+  signal Q_QN_141 : std_logic ;
+  signal Q_QN_140 : std_logic ;
+  signal Q_QN_139 : std_logic ;
+  signal Q_QN_138 : std_logic ;
+  signal Q_QN_137 : std_logic ;
+  signal Q_QN_136 : std_logic ;
+  signal Q_QN_135 : std_logic ;
+  signal Q_QN_134 : std_logic ;
+  signal Q_QN_133 : std_logic ;
+  signal Q_QN_132 : std_logic ;
+  signal Q_QN_131 : std_logic ;
+  signal Q_QN_130 : std_logic ;
+  signal Q_QN_129 : std_logic ;
+  signal Q_QN_128 : std_logic ;
+  signal Q_QN_127 : std_logic ;
+  signal Q_QN_126 : std_logic ;
+  signal Q_QN_125 : std_logic ;
+  signal Q_QN_124 : std_logic ;
+  signal Q_QN_123 : std_logic ;
+  signal Q_QN_122 : std_logic ;
+  signal Q_QN_121 : std_logic ;
+  signal Q_QN_120 : std_logic ;
+  signal Q_QN_119 : std_logic ;
+  signal Q_QN_118 : std_logic ;
+  signal Q_QN_117 : std_logic ;
+  signal Q_QN_116 : std_logic ;
+  signal Q_QN_115 : std_logic ;
+  signal Q_QN_114 : std_logic ;
+  signal Q_QN_113 : std_logic ;
+  signal Q_QN_112 : std_logic ;
+  signal Q_QN_111 : std_logic ;
+  signal Q_QN_110 : std_logic ;
+  signal Q_QN_109 : std_logic ;
+  signal Q_QN_108 : std_logic ;
+  signal Q_QN_107 : std_logic ;
+  signal Q_QN_106 : std_logic ;
+  signal Q_QN_105 : std_logic ;
+  signal Q_QN_104 : std_logic ;
+  signal Q_QN_103 : std_logic ;
+  signal Q_QN_102 : std_logic ;
+  signal Q_QN_101 : std_logic ;
+  signal Q_QN_100 : std_logic ;
+  signal Q_QN_99 : std_logic ;
+  signal Q_QN_98 : std_logic ;
+  signal Q_QN_97 : std_logic ;
+  signal Q_QN_96 : std_logic ;
+  signal Q_QN_95 : std_logic ;
+  signal Q_QN_94 : std_logic ;
+  signal Q_QN_93 : std_logic ;
+  signal Q_QN_92 : std_logic ;
+  signal Q_QN_91 : std_logic ;
+  signal Q_QN_90 : std_logic ;
+  signal Q_QN_89 : std_logic ;
+  signal Q_QN_88 : std_logic ;
+  signal Q_QN_87 : std_logic ;
+  signal Q_QN_86 : std_logic ;
+  signal Q_QN_85 : std_logic ;
+  signal Q_QN_84 : std_logic ;
+  signal Q_QN_83 : std_logic ;
+  signal Q_QN_82 : std_logic ;
+  signal Q_QN_81 : std_logic ;
+  signal Q_QN_80 : std_logic ;
+  signal Q_QN_79 : std_logic ;
+  signal Q_QN_78 : std_logic ;
+  signal Q_QN_77 : std_logic ;
+  signal Q_QN_76 : std_logic ;
+  signal Q_QN_75 : std_logic ;
+  signal Q_QN_74 : std_logic ;
+  signal Q_QN_73 : std_logic ;
+  signal Q_QN_72 : std_logic ;
+  signal Q_QN_71 : std_logic ;
+  signal Q_QN_70 : std_logic ;
+  signal Q_QN_69 : std_logic ;
+  signal Q_QN_68 : std_logic ;
+  signal Q_QN_67 : std_logic ;
+  signal Q_QN_66 : std_logic ;
+  signal Q_QN_65 : std_logic ;
+  signal Q_QN_64 : std_logic ;
+  signal Q_QN_63 : std_logic ;
+  signal Q_QN_62 : std_logic ;
+  signal Q_QN_61 : std_logic ;
+  signal Q_QN_60 : std_logic ;
+  signal Q_QN_59 : std_logic ;
+  signal Q_QN_58 : std_logic ;
+  signal Q_QN_57 : std_logic ;
+  signal Q_QN_56 : std_logic ;
+  signal Q_QN_55 : std_logic ;
+  signal Q_QN_54 : std_logic ;
+  signal Q_QN_53 : std_logic ;
+  signal Q_QN_52 : std_logic ;
+  signal Q_QN_51 : std_logic ;
+  signal Q_QN_50 : std_logic ;
+  signal Q_QN_49 : std_logic ;
+  signal Q_QN_48 : std_logic ;
+  signal Q_QN_47 : std_logic ;
+  signal Q_QN_46 : std_logic ;
+  signal Q_QN_45 : std_logic ;
+  signal Q_QN_44 : std_logic ;
+  signal Q_QN_43 : std_logic ;
+  signal Q_QN_42 : std_logic ;
+  signal Q_QN_41 : std_logic ;
+  signal Q_QN_40 : std_logic ;
+  signal Q_QN_39 : std_logic ;
+  signal Q_QN_38 : std_logic ;
+  signal Q_QN_37 : std_logic ;
+  signal Q_QN_36 : std_logic ;
+  signal Q_QN_35 : std_logic ;
+  signal Q_QN_34 : std_logic ;
+  signal Q_QN_33 : std_logic ;
+  signal Q_QN_32 : std_logic ;
+  signal Q_QN_31 : std_logic ;
+  signal Q_QN_30 : std_logic ;
+  signal Q_QN_29 : std_logic ;
+  signal Q_QN_28 : std_logic ;
+  signal Q_QN_27 : std_logic ;
+  signal Q_QN_26 : std_logic ;
+  signal Q_QN_25 : std_logic ;
+  signal Q_QN_24 : std_logic ;
+  signal Q_QN_23 : std_logic ;
+  signal Q_QN_22 : std_logic ;
+  signal Q_QN_21 : std_logic ;
+  signal Q_QN_20 : std_logic ;
+  signal Q_QN_19 : std_logic ;
+  signal Q_QN_18 : std_logic ;
+  signal Q_QN_17 : std_logic ;
+  signal Q_QN_16 : std_logic ;
+  signal Q_QN_15 : std_logic ;
+  signal Q_QN_14 : std_logic ;
+  signal Q_QN_13 : std_logic ;
+  signal Q_QN_12 : std_logic ;
+  signal Q_QN_11 : std_logic ;
+  signal Q_QN_10 : std_logic ;
+  signal Q_QN_9 : std_logic ;
+  signal Q_QN_8 : std_logic ;
+  signal Q_QN_7 : std_logic ;
+  signal Q_QN_6 : std_logic ;
+  signal Q_QN_5 : std_logic ;
+  signal Q_QN_4 : std_logic ;
+  signal Q_QN_3 : std_logic ;
+  signal Q_QN_2 : std_logic ;
+  signal Q_QN_1 : std_logic ;
+  signal Q_QN_0 : std_logic ;
+  signal Q_QN : std_logic ;
+  signal CLK_IN_C : std_logic ;
+  signal CE_C : std_logic ;
+  signal NRESET_C : std_logic ;
+  signal NRESET_C_I : std_logic ;
+  component OFS1P3DX
+    port(
+      D : in std_logic;
+      SP : in std_logic;
+      SCLK : in std_logic;
+      CD : in std_logic;
+      Q : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component VLO
+    port(
+      Z : out std_logic  );
+  end component;
+  component VHI
+    port(
+      Z : out std_logic  );
+  end component;
+  component INV
+    port(
+      A : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component ORCALUT4
+    port(
+      A : in std_logic;
+      B : in std_logic;
+      C : in std_logic;
+      D : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component OB
+    port(
+      I : in std_logic;
+      O : out std_logic  );
+  end component;
+  component IB
+    port(
+      I : in std_logic;
+      O : out std_logic  );
+  end component;
+  component FD1P3AX
+    port(
+      D : in std_logic;
+      SP : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component FD1S3AX
+    port(
+      D : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component GSR
+    port(
+      GSR : in std_logic  );
+  end component;
+  component CCU2
+    generic (
+      INIT0 : bit_vector := X"0000";
+      INIT1 : bit_vector := X"0000";
+      INJECT1_0 : string := "NO";
+      INJECT1_1 : string := "NO"
+    );
+    port(
+      A0 : in std_logic;
+      B0 : in std_logic;
+      C0 : in std_logic;
+      D0 : in std_logic;
+      A1 : in std_logic;
+      B1 : in std_logic;
+      C1 : in std_logic;
+      D1 : in std_logic;
+      CIN : in std_logic;
+      COUT0 : out std_logic;
+      COUT1 : out std_logic;
+      S0 : out std_logic;
+      S1 : out std_logic  );
+  end component;
+  component MULT9X9
+    port(
+      P17 : out std_logic;
+      P16 : out std_logic;
+      P15 : out std_logic;
+      P14 : out std_logic;
+      P13 : out std_logic;
+      P12 : out std_logic;
+      P11 : out std_logic;
+      P10 : out std_logic;
+      P9 : out std_logic;
+      P8 : out std_logic;
+      P7 : out std_logic;
+      P6 : out std_logic;
+      P5 : out std_logic;
+      P4 : out std_logic;
+      P3 : out std_logic;
+      P2 : out std_logic;
+      P1 : out std_logic;
+      P0 : out std_logic;
+      SROA8 : out std_logic;
+      SROA7 : out std_logic;
+      SROA6 : out std_logic;
+      SROA5 : out std_logic;
+      SROA4 : out std_logic;
+      SROA3 : out std_logic;
+      SROA2 : out std_logic;
+      SROA1 : out std_logic;
+      SROA0 : out std_logic;
+      SROB8 : out std_logic;
+      SROB7 : out std_logic;
+      SROB6 : out std_logic;
+      SROB5 : out std_logic;
+      SROB4 : out std_logic;
+      SROB3 : out std_logic;
+      SROB2 : out std_logic;
+      SROB1 : out std_logic;
+      SROB0 : out std_logic;
+      A8 : in std_logic;
+      A7 : in std_logic;
+      A6 : in std_logic;
+      A5 : in std_logic;
+      A4 : in std_logic;
+      A3 : in std_logic;
+      A2 : in std_logic;
+      A1 : in std_logic;
+      A0 : in std_logic;
+      B8 : in std_logic;
+      B7 : in std_logic;
+      B6 : in std_logic;
+      B5 : in std_logic;
+      B4 : in std_logic;
+      B3 : in std_logic;
+      B2 : in std_logic;
+      B1 : in std_logic;
+      B0 : in std_logic;
+      SRIA8 : in std_logic;
+      SRIA7 : in std_logic;
+      SRIA6 : in std_logic;
+      SRIA5 : in std_logic;
+      SRIA4 : in std_logic;
+      SRIA3 : in std_logic;
+      SRIA2 : in std_logic;
+      SRIA1 : in std_logic;
+      SRIA0 : in std_logic;
+      SRIB8 : in std_logic;
+      SRIB7 : in std_logic;
+      SRIB6 : in std_logic;
+      SRIB5 : in std_logic;
+      SRIB4 : in std_logic;
+      SRIB3 : in std_logic;
+      SRIB2 : in std_logic;
+      SRIB1 : in std_logic;
+      SRIB0 : in std_logic;
+      SIGNEDAB : in std_logic;
+      CE0 : in std_logic;
+      CE1 : in std_logic;
+      CE2 : in std_logic;
+      CE3 : in std_logic;
+      CLK0 : in std_logic;
+      CLK1 : in std_logic;
+      CLK2 : in std_logic;
+      CLK3 : in std_logic;
+      RST0 : in std_logic;
+      RST1 : in std_logic;
+      RST2 : in std_logic;
+      RST3 : in std_logic  );
+  end component;
+  component PUR
+    port(
+      PUR : in std_logic  );
+  end component;
+begin
+  \II_DATA_OUT_7__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(7),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(7),
+      GSR => NRESET_C);
+  \II_DATA_OUT_6__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(6),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(6),
+      GSR => NRESET_C);
+  \II_DATA_OUT_5__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(5),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(5),
+      GSR => NRESET_C);
+  \II_DATA_OUT_4__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(4),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(4),
+      GSR => NRESET_C);
+  \II_DATA_OUT_3__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(3),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(3),
+      GSR => NRESET_C);
+  \II_DATA_OUT_2__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(2),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(2),
+      GSR => NRESET_C);
+  \II_DATA_OUT_1__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(1),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(1),
+      GSR => NRESET_C);
+  \II_DATA_OUT_0__Qio\: OFS1P3DX port map (
+      D => SI_WHOLE_SCALED(0),
+      SP => NRESET_C,
+      SCLK => CLK_IN_C,
+      CD => GND,
+      Q => DATA_OUT_C(0),
+      GSR => NRESET_C);
+  II_GND: VLO port map (
+      Z => GND);
+  II_VCC: VHI port map (
+      Z => VCC);
+  II_nRESET_c_i: INV port map (
+      A => NRESET_C,
+      Z => NRESET_C_I);
+  G0_0 <= (not SI_WHOLE_SUM(19)) or 
+	  (G0_0_4) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0);
+  Q_48 <= (not NRESET_C and SI_WHOLE_SCALED(3)) or 
+	  (NRESET_C and G0_1 and not UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0) or 
+	  (NRESET_C and not G0_1 and UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0);
+  Q_45 <= (not NRESET_C and SI_WHOLE_SCALED(6)) or 
+	  (NRESET_C and G0_0 and not UN4_SI_WHOLE_SCALED_CRY_16_0_S1_0) or 
+	  (NRESET_C and not G0_0 and UN4_SI_WHOLE_SCALED_CRY_16_0_S1_0);
+  Q_11 <= (SI_WHOLE_SUM(19) and not NRESET_C) or 
+	  (UN9_VI_WHOLE_SUM_CRY_18_0_S1_0 and NRESET_C);
+  Q_44 <= (SI_WHOLE_SCALED(7) and not NRESET_C) or 
+	  (N_737_I and NRESET_C);
+  Q_46 <= (SI_WHOLE_SCALED(5) and not NRESET_C) or 
+	  (N_735_I and NRESET_C);
+  Q_47 <= (SI_WHOLE_SCALED(4) and not NRESET_C) or 
+	  (N_734_I and NRESET_C);
+  \II_DATA_OUT_pad[7]\: OB port map (
+      I => DATA_OUT_C(7),
+      O => DATA_OUT(7));
+  \II_DATA_OUT_pad[6]\: OB port map (
+      I => DATA_OUT_C(6),
+      O => DATA_OUT(6));
+  \II_DATA_OUT_pad[5]\: OB port map (
+      I => DATA_OUT_C(5),
+      O => DATA_OUT(5));
+  \II_DATA_OUT_pad[4]\: OB port map (
+      I => DATA_OUT_C(4),
+      O => DATA_OUT(4));
+  \II_DATA_OUT_pad[3]\: OB port map (
+      I => DATA_OUT_C(3),
+      O => DATA_OUT(3));
+  \II_DATA_OUT_pad[2]\: OB port map (
+      I => DATA_OUT_C(2),
+      O => DATA_OUT(2));
+  \II_DATA_OUT_pad[1]\: OB port map (
+      I => DATA_OUT_C(1),
+      O => DATA_OUT(1));
+  \II_DATA_OUT_pad[0]\: OB port map (
+      I => DATA_OUT_C(0),
+      O => DATA_OUT(0));
+  \II_DATA_IN_pad[7]\: IB port map (
+      I => DATA_IN(7),
+      O => DATA_IN_C(7));
+  \II_DATA_IN_pad[6]\: IB port map (
+      I => DATA_IN(6),
+      O => DATA_IN_C(6));
+  \II_DATA_IN_pad[5]\: IB port map (
+      I => DATA_IN(5),
+      O => DATA_IN_C(5));
+  \II_DATA_IN_pad[4]\: IB port map (
+      I => DATA_IN(4),
+      O => DATA_IN_C(4));
+  \II_DATA_IN_pad[3]\: IB port map (
+      I => DATA_IN(3),
+      O => DATA_IN_C(3));
+  \II_DATA_IN_pad[2]\: IB port map (
+      I => DATA_IN(2),
+      O => DATA_IN_C(2));
+  \II_DATA_IN_pad[1]\: IB port map (
+      I => DATA_IN(1),
+      O => DATA_IN_C(1));
+  \II_DATA_IN_pad[0]\: IB port map (
+      I => DATA_IN(0),
+      O => DATA_IN_C(0));
+  II_nRESET_pad: IB port map (
+      I => nRESET,
+      O => NRESET_C);
+  II_CE_pad: IB port map (
+      I => CE,
+      O => CE_C);
+  II_CLK_IN_pad: IB port map (
+      I => CLK_IN,
+      O => CLK_IN_C);
+  \II_si_whole_sum_9_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_8_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(9),
+      QN => Q_QN,
+      GSR => NRESET_C);
+  \II_si_whole_sum_8_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_8_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(8),
+      QN => Q_QN_0,
+      GSR => NRESET_C);
+  \II_si_whole_sum_7_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_6_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(7),
+      QN => Q_QN_1,
+      GSR => NRESET_C);
+  \II_si_whole_sum_6_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_6_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(6),
+      QN => Q_QN_2,
+      GSR => NRESET_C);
+  \II_si_whole_sum_5_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_4_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(5),
+      QN => Q_QN_3,
+      GSR => NRESET_C);
+  \II_si_whole_sum_4_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_4_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(4),
+      QN => Q_QN_4,
+      GSR => NRESET_C);
+  \II_si_whole_sum_3_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_2_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(3),
+      QN => Q_QN_5,
+      GSR => NRESET_C);
+  \II_si_whole_sum_2_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_2_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(2),
+      QN => Q_QN_6,
+      GSR => NRESET_C);
+  \II_si_whole_sum_1_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_0_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(1),
+      QN => Q_QN_7,
+      GSR => NRESET_C);
+  \II_si_whole_sum_19_.Q\: FD1S3AX port map (
+      D => Q_11,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(19),
+      QN => Q_QN_8,
+      GSR => NRESET_C);
+  \II_si_whole_sum_18_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_18_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(18),
+      QN => Q_QN_9,
+      GSR => NRESET_C);
+  \II_si_whole_sum_17_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_16_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(17),
+      QN => Q_QN_10,
+      GSR => NRESET_C);
+  \II_si_whole_sum_16_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_16_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(16),
+      QN => Q_QN_11,
+      GSR => NRESET_C);
+  \II_si_whole_sum_15_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_14_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(15),
+      QN => Q_QN_12,
+      GSR => NRESET_C);
+  \II_si_whole_sum_14_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_14_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(14),
+      QN => Q_QN_13,
+      GSR => NRESET_C);
+  \II_si_whole_sum_13_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_12_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(13),
+      QN => Q_QN_14,
+      GSR => NRESET_C);
+  \II_si_whole_sum_12_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_12_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(12),
+      QN => Q_QN_15,
+      GSR => NRESET_C);
+  \II_si_whole_sum_11_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_10_0_S1_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(11),
+      QN => Q_QN_16,
+      GSR => NRESET_C);
+  \II_si_whole_sum_10_.Q\: FD1P3AX port map (
+      D => UN9_VI_WHOLE_SUM_CRY_10_0_S0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SUM(10),
+      QN => Q_QN_17,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_7_.Q\: FD1S3AX port map (
+      D => Q_44,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(7),
+      QN => Q_QN_18,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_6_.Q\: FD1S3AX port map (
+      D => Q_45,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(6),
+      QN => Q_QN_19,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_5_.Q\: FD1S3AX port map (
+      D => Q_46,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(5),
+      QN => Q_QN_20,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_4_.Q\: FD1S3AX port map (
+      D => Q_47,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(4),
+      QN => Q_QN_21,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_3_.Q\: FD1S3AX port map (
+      D => Q_48,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(3),
+      QN => Q_QN_22,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_2_.Q\: FD1P3AX port map (
+      D => N_732_I,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(2),
+      QN => Q_QN_23,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_1_.Q\: FD1P3AX port map (
+      D => N_731_I,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(1),
+      QN => Q_QN_24,
+      GSR => NRESET_C);
+  \II_si_whole_scaled_0_.Q\: FD1P3AX port map (
+      D => UN8_SI_WHOLE_SCALED_AXB0_0,
+      SP => NRESET_C,
+      CK => CLK_IN_C,
+      Q => SI_WHOLE_SCALED(0),
+      QN => Q_QN_25,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_9_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_8_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(9),
+      QN => Q_QN_26,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_8_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_6_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(8),
+      QN => Q_QN_27,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_7_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_6_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(7),
+      QN => Q_QN_28,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_6_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_4_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(6),
+      QN => Q_QN_29,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_5_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_4_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(5),
+      QN => Q_QN_30,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_4_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_2_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(4),
+      QN => Q_QN_31,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_3_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_2_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(3),
+      QN => Q_QN_32,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_2_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_0_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(2),
+      QN => Q_QN_33,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_1_.Q\: FD1S3AX port map (
+      D => SAI_PROD_SUM_2(1),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(1),
+      QN => Q_QN_34,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_18_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_16_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(18),
+      QN => Q_QN_35,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_17_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_16_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(17),
+      QN => Q_QN_36,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_16_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_14_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(16),
+      QN => Q_QN_37,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_15_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_14_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(15),
+      QN => Q_QN_38,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_14_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_12_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(14),
+      QN => Q_QN_39,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_13_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_12_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(13),
+      QN => Q_QN_40,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_12_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_10_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(12),
+      QN => Q_QN_41,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_11_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_10_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(11),
+      QN => Q_QN_42,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_1_10_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_SUM_CRY_8_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_1(10),
+      QN => Q_QN_43,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_9_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_8_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(9),
+      QN => Q_QN_44,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_8_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_8_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(8),
+      QN => Q_QN_45,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_7_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_6_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(7),
+      QN => Q_QN_46,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_6_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_6_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(6),
+      QN => Q_QN_47,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_5_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_4_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(5),
+      QN => Q_QN_48,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_4_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_4_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(4),
+      QN => Q_QN_49,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_3_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_2_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(3),
+      QN => Q_QN_50,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_2_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_2_0_S0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(2),
+      QN => Q_QN_51,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_1_.Q\: FD1S3AX port map (
+      D => SAI_PROD_SUM_1(1),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(1),
+      QN => Q_QN_52,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_18_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_S_18_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(18),
+      QN => Q_QN_53,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_17_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_16_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(17),
+      QN => Q_QN_54,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_16_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_16_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(16),
+      QN => Q_QN_55,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_15_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_14_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(15),
+      QN => Q_QN_56,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_14_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_14_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(14),
+      QN => Q_QN_57,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_13_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_12_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(13),
+      QN => Q_QN_58,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_12_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_12_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(12),
+      QN => Q_QN_59,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_11_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_10_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(11),
+      QN => Q_QN_60,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_sum_0_10_.Q\: FD1S3AX port map (
+      D => UN16_SAI_PROD_SUM_SUM_CRY_10_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_SUM_0(10),
+      QN => Q_QN_61,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_9_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_7_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(9),
+      QN => Q_QN_62,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_8_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_7_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(8),
+      QN => Q_QN_63,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_7_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_5_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(7),
+      QN => Q_QN_64,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_6_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_5_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(6),
+      QN => Q_QN_65,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_5_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_3_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(5),
+      QN => Q_QN_66,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_4_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_3_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(4),
+      QN => Q_QN_67,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_3_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_1_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(3),
+      QN => Q_QN_68,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_2_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_1_0_S0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(2),
+      QN => Q_QN_69,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_17_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_15_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(17),
+      QN => Q_QN_70,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_16_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_15_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(16),
+      QN => Q_QN_71,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_15_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_13_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(15),
+      QN => Q_QN_72,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_14_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_13_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(14),
+      QN => Q_QN_73,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_13_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_11_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(13),
+      QN => Q_QN_74,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_12_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_11_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(12),
+      QN => Q_QN_75,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_11_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_9_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(11),
+      QN => Q_QN_76,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_3_10_.Q\: FD1S3AX port map (
+      D => UN43_SAI_PROD_SUM_CRY_9_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_3(10),
+      QN => Q_QN_77,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_9_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_9_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(9),
+      QN => Q_QN_78,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_8_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_7_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(8),
+      QN => Q_QN_79,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_7_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_7_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(7),
+      QN => Q_QN_80,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_6_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_5_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(6),
+      QN => Q_QN_81,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_5_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_5_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(5),
+      QN => Q_QN_82,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_4_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_3_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(4),
+      QN => Q_QN_83,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_3_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_3_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(3),
+      QN => Q_QN_84,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_2_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_1_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(2),
+      QN => Q_QN_85,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_1_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_1_0_S0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(1),
+      QN => Q_QN_86,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_17_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_S_17_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(17),
+      QN => Q_QN_87,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_16_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_15_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(16),
+      QN => Q_QN_88,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_15_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_15_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(15),
+      QN => Q_QN_89,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_14_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_13_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(14),
+      QN => Q_QN_90,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_13_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_13_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(13),
+      QN => Q_QN_91,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_12_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_11_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(12),
+      QN => Q_QN_92,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_11_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_11_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(11),
+      QN => Q_QN_93,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_2_10_.Q\: FD1S3AX port map (
+      D => UN34_SAI_PROD_SUM_CRY_9_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_2(10),
+      QN => Q_QN_94,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_9_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_9_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(9),
+      QN => Q_QN_95,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_8_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_7_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(8),
+      QN => Q_QN_96,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_7_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_7_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(7),
+      QN => Q_QN_97,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_6_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_5_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(6),
+      QN => Q_QN_98,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_5_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_5_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(5),
+      QN => Q_QN_99,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_4_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_3_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(4),
+      QN => Q_QN_100,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_3_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_3_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(3),
+      QN => Q_QN_101,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_2_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_1_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(2),
+      QN => Q_QN_102,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_1_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_1_0_S0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(1),
+      QN => Q_QN_103,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_17_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_S_17_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(17),
+      QN => Q_QN_104,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_16_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_15_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(16),
+      QN => Q_QN_105,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_15_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_15_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(15),
+      QN => Q_QN_106,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_14_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_13_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(14),
+      QN => Q_QN_107,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_13_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_13_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(13),
+      QN => Q_QN_108,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_12_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_11_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(12),
+      QN => Q_QN_109,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_11_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_11_0_S0_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(11),
+      QN => Q_QN_110,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_1_10_.Q\: FD1S3AX port map (
+      D => UN25_SAI_PROD_SUM_CRY_9_0_S1_0,
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_1(10),
+      QN => Q_QN_111,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_9_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(9),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(9),
+      QN => Q_QN_112,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_8_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(8),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(8),
+      QN => Q_QN_113,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_7_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(7),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(7),
+      QN => Q_QN_114,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_6_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(6),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(6),
+      QN => Q_QN_115,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_5_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(5),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(5),
+      QN => Q_QN_116,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_4_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(4),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(4),
+      QN => Q_QN_117,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_3_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(3),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(3),
+      QN => Q_QN_118,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_2_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(2),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(2),
+      QN => Q_QN_119,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_16_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(14),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(14),
+      QN => Q_QN_120,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_13_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(13),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(13),
+      QN => Q_QN_121,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_12_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(12),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(12),
+      QN => Q_QN_122,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_11_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(11),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(11),
+      QN => Q_QN_123,
+      GSR => NRESET_C);
+  \II_sai_prod_sum_0_10_.Q\: FD1S3AX port map (
+      D => SAI_PROD_1(10),
+      CK => CLK_IN_C,
+      Q => SAI_PROD_SUM_0(10),
+      QN => Q_QN_124,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_7_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(7),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(7),
+      QN => Q_QN_125,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_6_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(6),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(6),
+      QN => Q_QN_126,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_5_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(5),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(5),
+      QN => Q_QN_127,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_4_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(4),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(4),
+      QN => Q_QN_128,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_3_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(3),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(3),
+      QN => Q_QN_129,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_2_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(2),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(2),
+      QN => Q_QN_130,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_1_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(1),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(1),
+      QN => Q_QN_131,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_9_0_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_1_2\(0),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_7\(0),
+      QN => Q_QN_132,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_7_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(7),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(7),
+      QN => Q_QN_133,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_6_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(6),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(6),
+      QN => Q_QN_134,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_5_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(5),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(5),
+      QN => Q_QN_135,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_4_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(4),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(4),
+      QN => Q_QN_136,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_3_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(3),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(3),
+      QN => Q_QN_137,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_2_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(2),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(2),
+      QN => Q_QN_138,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_1_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(1),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(1),
+      QN => Q_QN_139,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_3_0_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_0\(0),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_6\(0),
+      QN => Q_QN_140,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_7_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(7),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(7),
+      QN => Q_QN_141,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_6_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(6),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(6),
+      QN => Q_QN_142,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_5_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(5),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(5),
+      QN => Q_QN_143,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_4_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(4),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(4),
+      QN => Q_QN_144,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_3_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(3),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(3),
+      QN => Q_QN_145,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_2_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(2),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(2),
+      QN => Q_QN_146,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_1_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(1),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(1),
+      QN => Q_QN_147,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_13_0_.Q\: FD1P3AX port map (
+      D => \PROC_FILTER.VAI_PIPE_7_2\(0),
+      SP => CE_C,
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_14\(0),
+      QN => Q_QN_148,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_7_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(7),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(7),
+      QN => Q_QN_149,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_6_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(6),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(6),
+      QN => Q_QN_150,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_5_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(5),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(5),
+      QN => Q_QN_151,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_4_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(4),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(4),
+      QN => Q_QN_152,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_3_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(3),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(3),
+      QN => Q_QN_153,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_2_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(2),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(2),
+      QN => Q_QN_154,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_1_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(1),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(1),
+      QN => Q_QN_155,
+      GSR => NRESET_C);
+  \II_proc_filter.vai_pipe_0_0_.Q\: FD1S3AX port map (
+      D => DATA_IN_C(0),
+      CK => CLK_IN_C,
+      Q => \PROC_FILTER.VAI_PIPE_0\(0),
+      QN => Q_QN_156,
+      GSR => NRESET_C);
+  II_GSR_INST: GSR port map (
+      GSR => NRESET_C);
+  II_un51_sai_pipe_sum_s_8_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(7),
+    B0 => \PROC_FILTER.VAI_PIPE_7_2\(7),
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN51_SAI_PIPE_SUM_CRY_6_0_COUT1,
+    COUT0 => UN51_SAI_PIPE_SUM_S_8_0_COUT0_0,
+    COUT1 => NC0,
+    S0 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    S1 => NC1);
+  II_un51_sai_pipe_sum_cry_6_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(6),
+    B0 => \PROC_FILTER.VAI_PIPE_7_2\(6),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(7),
+    B1 => \PROC_FILTER.VAI_PIPE_7_2\(7),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN51_SAI_PIPE_SUM_CRY_4_0_COUT1,
+    COUT0 => UN51_SAI_PIPE_SUM_CRY_6_0_COUT0,
+    COUT1 => UN51_SAI_PIPE_SUM_CRY_6_0_COUT1,
+    S0 => UN51_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    S1 => UN51_SAI_PIPE_SUM_CRY_6_0_S1_0);
+  II_un51_sai_pipe_sum_cry_4_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(4),
+    B0 => \PROC_FILTER.VAI_PIPE_7_2\(4),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(5),
+    B1 => \PROC_FILTER.VAI_PIPE_7_2\(5),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN51_SAI_PIPE_SUM_CRY_2_0_COUT1,
+    COUT0 => UN51_SAI_PIPE_SUM_CRY_4_0_COUT0,
+    COUT1 => UN51_SAI_PIPE_SUM_CRY_4_0_COUT1,
+    S0 => UN51_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    S1 => UN51_SAI_PIPE_SUM_CRY_4_0_S1_0);
+  II_un51_sai_pipe_sum_cry_2_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(2),
+    B0 => \PROC_FILTER.VAI_PIPE_7_2\(2),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(3),
+    B1 => \PROC_FILTER.VAI_PIPE_7_2\(3),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN51_SAI_PIPE_SUM_CRY_0_0_COUT1,
+    COUT0 => UN51_SAI_PIPE_SUM_CRY_2_0_COUT0,
+    COUT1 => UN51_SAI_PIPE_SUM_CRY_2_0_COUT1,
+    S0 => UN51_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    S1 => UN51_SAI_PIPE_SUM_CRY_2_0_S1_0);
+  II_un51_sai_pipe_sum_cry_0_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(0),
+    B0 => \PROC_FILTER.VAI_PIPE_7_2\(0),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(1),
+    B1 => \PROC_FILTER.VAI_PIPE_7_2\(1),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN51_SAI_PIPE_SUM_CRY_0_0_COUT0,
+    COUT1 => UN51_SAI_PIPE_SUM_CRY_0_0_COUT1,
+    S0 => UN51_SAI_PIPE_SUM_CRY_0_0_S0,
+    S1 => UN51_SAI_PIPE_SUM_CRY_0_0_S1_0);
+  II_un42_sai_pipe_sum_s_8_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(7),
+    B0 => \PROC_FILTER.VAI_PIPE_13_2\(7),
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN42_SAI_PIPE_SUM_CRY_6_0_COUT1,
+    COUT0 => UN42_SAI_PIPE_SUM_S_8_0_COUT0_0,
+    COUT1 => NC2,
+    S0 => UN42_SAI_PIPE_SUM_S_8_0_S0_0,
+    S1 => NC3);
+  II_un42_sai_pipe_sum_cry_6_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(6),
+    B0 => \PROC_FILTER.VAI_PIPE_13_2\(6),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(7),
+    B1 => \PROC_FILTER.VAI_PIPE_13_2\(7),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN42_SAI_PIPE_SUM_CRY_4_0_COUT1,
+    COUT0 => UN42_SAI_PIPE_SUM_CRY_6_0_COUT0,
+    COUT1 => UN42_SAI_PIPE_SUM_CRY_6_0_COUT1,
+    S0 => UN42_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    S1 => UN42_SAI_PIPE_SUM_CRY_6_0_S1_0);
+  II_un42_sai_pipe_sum_cry_4_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(4),
+    B0 => \PROC_FILTER.VAI_PIPE_13_2\(4),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(5),
+    B1 => \PROC_FILTER.VAI_PIPE_13_2\(5),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN42_SAI_PIPE_SUM_CRY_2_0_COUT1,
+    COUT0 => UN42_SAI_PIPE_SUM_CRY_4_0_COUT0,
+    COUT1 => UN42_SAI_PIPE_SUM_CRY_4_0_COUT1,
+    S0 => UN42_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    S1 => UN42_SAI_PIPE_SUM_CRY_4_0_S1_0);
+  II_un42_sai_pipe_sum_cry_2_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(2),
+    B0 => \PROC_FILTER.VAI_PIPE_13_2\(2),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(3),
+    B1 => \PROC_FILTER.VAI_PIPE_13_2\(3),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN42_SAI_PIPE_SUM_CRY_0_0_COUT1,
+    COUT0 => UN42_SAI_PIPE_SUM_CRY_2_0_COUT0,
+    COUT1 => UN42_SAI_PIPE_SUM_CRY_2_0_COUT1,
+    S0 => UN42_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    S1 => UN42_SAI_PIPE_SUM_CRY_2_0_S1_0);
+  II_un42_sai_pipe_sum_cry_0_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => \PROC_FILTER.VAI_PIPE_1_2\(0),
+    B0 => \PROC_FILTER.VAI_PIPE_13_2\(0),
+    C0 => GND,
+    D0 => GND,
+    A1 => \PROC_FILTER.VAI_PIPE_1_2\(1),
+    B1 => \PROC_FILTER.VAI_PIPE_13_2\(1),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN42_SAI_PIPE_SUM_CRY_0_0_COUT0,
+    COUT1 => UN42_SAI_PIPE_SUM_CRY_0_0_COUT1,
+    S0 => UN42_SAI_PIPE_SUM_CRY_0_0_S0,
+    S1 => UN42_SAI_PIPE_SUM_CRY_0_0_S1_0);
+  II_un4_si_whole_scaled_s_18_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(18),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_16_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_S_18_0_COUT0_0,
+    COUT1 => NC4,
+    S0 => UN4_SI_WHOLE_SCALED_S_18_0_S0_0,
+    S1 => NC5);
+  II_un4_si_whole_scaled_cry_16_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(16),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(17),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_14_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_16_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_16_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_16_0_S1_0);
+  II_un4_si_whole_scaled_cry_14_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(14),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(15),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_12_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_14_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_14_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0);
+  II_un4_si_whole_scaled_cry_12_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(12),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(13),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_10_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_12_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_12_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0);
+  II_un4_si_whole_scaled_cry_10_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(10),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(11),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_8_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_10_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_10_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_10_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0);
+  II_un4_si_whole_scaled_cry_8_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(8),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(9),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_6_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_8_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_8_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_8_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_8_0_S1_0);
+  II_un4_si_whole_scaled_cry_6_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(6),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(7),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_4_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_6_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_6_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_6_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_6_0_S1_0);
+  II_un4_si_whole_scaled_cry_4_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(4),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(5),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_2_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_4_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_4_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_4_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_4_0_S1_0);
+  II_un4_si_whole_scaled_cry_2_0: CCU2 
+  generic map(
+    INIT0 => X"3005",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SI_WHOLE_SUM(2),
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(3),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN4_SI_WHOLE_SCALED_CRY_0_0_COUT1,
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_2_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_2_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_2_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_2_0_S1_0);
+  II_un4_si_whole_scaled_cry_0_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"3005",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => VCC,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SI_WHOLE_SUM(1),
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => SI_WHOLE_SUM(19),
+    COUT0 => UN4_SI_WHOLE_SCALED_CRY_0_0_COUT0,
+    COUT1 => UN4_SI_WHOLE_SCALED_CRY_0_0_COUT1,
+    S0 => UN4_SI_WHOLE_SCALED_CRY_0_0_S0_0,
+    S1 => UN4_SI_WHOLE_SCALED_CRY_0_0_S1_0);
+  II_un25_sai_prod_sum_s_17_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(16),
+    B0 => SAI_PROD_2(15),
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_15_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_S_17_0_COUT0_0,
+    COUT1 => NC6,
+    S0 => UN25_SAI_PROD_SUM_S_17_0_S0_0,
+    S1 => NC7);
+  II_un25_sai_prod_sum_cry_15_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(16),
+    B0 => SAI_PROD_2(15),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(16),
+    B1 => SAI_PROD_2(15),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_13_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_15_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_15_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_15_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_CRY_15_0_S1_0);
+  II_un25_sai_prod_sum_cry_13_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(13),
+    B0 => SAI_PROD_2(13),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(14),
+    B1 => SAI_PROD_2(14),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_11_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_13_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_13_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_13_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_CRY_13_0_S1_0);
+  II_un25_sai_prod_sum_cry_11_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(11),
+    B0 => SAI_PROD_2(11),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(12),
+    B1 => SAI_PROD_2(12),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_9_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_11_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_11_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_11_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_CRY_11_0_S1_0);
+  II_un25_sai_prod_sum_cry_9_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(9),
+    B0 => SAI_PROD_2(9),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(10),
+    B1 => SAI_PROD_2(10),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_7_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_9_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_9_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_9_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_CRY_9_0_S1_0);
+  II_un25_sai_prod_sum_cry_7_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(7),
+    B0 => SAI_PROD_2(7),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(8),
+    B1 => SAI_PROD_2(8),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_5_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_7_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_7_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_7_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_CRY_7_0_S1_0);
+  II_un25_sai_prod_sum_cry_5_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(5),
+    B0 => SAI_PROD_2(5),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(6),
+    B1 => SAI_PROD_2(6),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_3_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_5_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_5_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_5_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_CRY_5_0_S1_0);
+  II_un25_sai_prod_sum_cry_3_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(3),
+    B0 => SAI_PROD_2(3),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(4),
+    B1 => SAI_PROD_2(4),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_CRY_1_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_3_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_3_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_3_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_CRY_3_0_S1_0);
+  II_un25_sai_prod_sum_cry_1_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_3(1),
+    B0 => SAI_PROD_2(1),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_3(2),
+    B1 => SAI_PROD_2(2),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN25_SAI_PROD_SUM_CRY_1_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_CRY_1_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_CRY_1_0_S0,
+    S1 => UN25_SAI_PROD_SUM_CRY_1_0_S1_0);
+  II_un34_sai_prod_sum_s_17_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(16),
+    B0 => SAI_PROD_4(16),
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_15_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_S_17_0_COUT0_0,
+    COUT1 => NC8,
+    S0 => UN34_SAI_PROD_SUM_S_17_0_S0_0,
+    S1 => NC9);
+  II_un34_sai_prod_sum_cry_15_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(15),
+    B0 => SAI_PROD_4(15),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(16),
+    B1 => SAI_PROD_4(16),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_13_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_15_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_15_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_15_0_S0_0,
+    S1 => UN34_SAI_PROD_SUM_CRY_15_0_S1_0);
+  II_un34_sai_prod_sum_cry_13_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(13),
+    B0 => SAI_PROD_4(13),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(14),
+    B1 => SAI_PROD_4(14),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_11_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_13_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_13_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_13_0_S0_0,
+    S1 => UN34_SAI_PROD_SUM_CRY_13_0_S1_0);
+  II_un34_sai_prod_sum_cry_11_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(11),
+    B0 => SAI_PROD_4(11),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(12),
+    B1 => SAI_PROD_4(12),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_9_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_11_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_11_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_11_0_S0_0,
+    S1 => UN34_SAI_PROD_SUM_CRY_11_0_S1_0);
+  II_un34_sai_prod_sum_cry_9_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(9),
+    B0 => SAI_PROD_4(9),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(10),
+    B1 => SAI_PROD_4(10),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_7_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_9_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_9_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_9_0_S0_0,
+    S1 => UN34_SAI_PROD_SUM_CRY_9_0_S1_0);
+  II_un34_sai_prod_sum_cry_7_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(7),
+    B0 => SAI_PROD_4(7),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(8),
+    B1 => SAI_PROD_4(8),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_5_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_7_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_7_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_7_0_S0_0,
+    S1 => UN34_SAI_PROD_SUM_CRY_7_0_S1_0);
+  II_un34_sai_prod_sum_cry_5_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(5),
+    B0 => SAI_PROD_4(5),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(6),
+    B1 => SAI_PROD_4(6),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_3_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_5_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_5_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_5_0_S0_0,
+    S1 => UN34_SAI_PROD_SUM_CRY_5_0_S1_0);
+  II_un34_sai_prod_sum_cry_3_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(3),
+    B0 => SAI_PROD_4(3),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(4),
+    B1 => SAI_PROD_4(4),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN34_SAI_PROD_SUM_CRY_1_0_COUT1,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_3_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_3_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_3_0_S0_0,
+    S1 => UN34_SAI_PROD_SUM_CRY_3_0_S1_0);
+  II_un34_sai_prod_sum_cry_1_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_5(1),
+    B0 => SAI_PROD_4(1),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_5(2),
+    B1 => SAI_PROD_4(2),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN34_SAI_PROD_SUM_CRY_1_0_COUT0,
+    COUT1 => UN34_SAI_PROD_SUM_CRY_1_0_COUT1,
+    S0 => UN34_SAI_PROD_SUM_CRY_1_0_S0,
+    S1 => UN34_SAI_PROD_SUM_CRY_1_0_S1_0);
+  II_un43_sai_prod_sum_cry_15_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(16),
+    B0 => SAI_PROD_6(16),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(16),
+    B1 => SAI_PROD_6(16),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN43_SAI_PROD_SUM_CRY_13_0_COUT1,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_15_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_15_0_COUT1_0,
+    S0 => UN43_SAI_PROD_SUM_CRY_15_0_S0_0,
+    S1 => UN43_SAI_PROD_SUM_CRY_15_0_S1_0);
+  II_un43_sai_prod_sum_cry_13_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(14),
+    B0 => SAI_PROD_6(14),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(15),
+    B1 => SAI_PROD_6(15),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN43_SAI_PROD_SUM_CRY_11_0_COUT1,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_13_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_13_0_COUT1,
+    S0 => UN43_SAI_PROD_SUM_CRY_13_0_S0_0,
+    S1 => UN43_SAI_PROD_SUM_CRY_13_0_S1_0);
+  II_un43_sai_prod_sum_cry_11_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(12),
+    B0 => SAI_PROD_6(12),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(13),
+    B1 => SAI_PROD_6(13),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN43_SAI_PROD_SUM_CRY_9_0_COUT1,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_11_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_11_0_COUT1,
+    S0 => UN43_SAI_PROD_SUM_CRY_11_0_S0_0,
+    S1 => UN43_SAI_PROD_SUM_CRY_11_0_S1_0);
+  II_un43_sai_prod_sum_cry_9_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(10),
+    B0 => SAI_PROD_6(10),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(11),
+    B1 => SAI_PROD_6(11),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN43_SAI_PROD_SUM_CRY_7_0_COUT1,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_9_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_9_0_COUT1,
+    S0 => UN43_SAI_PROD_SUM_CRY_9_0_S0_0,
+    S1 => UN43_SAI_PROD_SUM_CRY_9_0_S1_0);
+  II_un43_sai_prod_sum_cry_7_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(8),
+    B0 => SAI_PROD_6(8),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(9),
+    B1 => SAI_PROD_6(9),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN43_SAI_PROD_SUM_CRY_5_0_COUT1,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_7_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_7_0_COUT1,
+    S0 => UN43_SAI_PROD_SUM_CRY_7_0_S0_0,
+    S1 => UN43_SAI_PROD_SUM_CRY_7_0_S1_0);
+  II_un43_sai_prod_sum_cry_5_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(6),
+    B0 => SAI_PROD_6(6),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(7),
+    B1 => SAI_PROD_6(7),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN43_SAI_PROD_SUM_CRY_3_0_COUT1,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_5_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_5_0_COUT1,
+    S0 => UN43_SAI_PROD_SUM_CRY_5_0_S0_0,
+    S1 => UN43_SAI_PROD_SUM_CRY_5_0_S1_0);
+  II_un43_sai_prod_sum_cry_3_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(4),
+    B0 => SAI_PROD_6(4),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(5),
+    B1 => SAI_PROD_6(5),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN43_SAI_PROD_SUM_CRY_1_0_COUT1,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_3_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_3_0_COUT1,
+    S0 => UN43_SAI_PROD_SUM_CRY_3_0_S0_0,
+    S1 => UN43_SAI_PROD_SUM_CRY_3_0_S1_0);
+  II_un43_sai_prod_sum_cry_1_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_7(2),
+    B0 => SAI_PROD_6(2),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_7(3),
+    B1 => SAI_PROD_6(3),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN43_SAI_PROD_SUM_CRY_1_0_COUT0,
+    COUT1 => UN43_SAI_PROD_SUM_CRY_1_0_COUT1,
+    S0 => UN43_SAI_PROD_SUM_CRY_1_0_S0,
+    S1 => UN43_SAI_PROD_SUM_CRY_1_0_S1_0);
+  II_un9_vi_whole_sum_cry_18_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(18),
+    B0 => SAI_PROD_SUM_SUM_0(18),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(18),
+    B1 => SAI_PROD_SUM_SUM_0(18),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_16_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_18_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_18_0_COUT1_0,
+    S0 => UN9_VI_WHOLE_SUM_CRY_18_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_18_0_S1_0);
+  II_un9_vi_whole_sum_cry_16_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(16),
+    B0 => SAI_PROD_SUM_SUM_0(16),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(17),
+    B1 => SAI_PROD_SUM_SUM_0(17),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_14_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_16_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_16_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_16_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_16_0_S1_0);
+  II_un9_vi_whole_sum_cry_14_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(14),
+    B0 => SAI_PROD_SUM_SUM_0(14),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(15),
+    B1 => SAI_PROD_SUM_SUM_0(15),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_12_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_14_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_14_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_14_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_14_0_S1_0);
+  II_un9_vi_whole_sum_cry_12_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(12),
+    B0 => SAI_PROD_SUM_SUM_0(12),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(13),
+    B1 => SAI_PROD_SUM_SUM_0(13),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_10_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_12_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_12_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_12_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_12_0_S1_0);
+  II_un9_vi_whole_sum_cry_10_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(10),
+    B0 => SAI_PROD_SUM_SUM_0(10),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(11),
+    B1 => SAI_PROD_SUM_SUM_0(11),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_8_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_10_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_10_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_10_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_10_0_S1_0);
+  II_un9_vi_whole_sum_cry_8_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(8),
+    B0 => SAI_PROD_SUM_SUM_0(8),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(9),
+    B1 => SAI_PROD_SUM_SUM_0(9),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_6_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_8_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_8_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_8_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_8_0_S1_0);
+  II_un9_vi_whole_sum_cry_6_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(6),
+    B0 => SAI_PROD_SUM_SUM_0(6),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(7),
+    B1 => SAI_PROD_SUM_SUM_0(7),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_4_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_6_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_6_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_6_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_6_0_S1_0);
+  II_un9_vi_whole_sum_cry_4_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(4),
+    B0 => SAI_PROD_SUM_SUM_0(4),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(5),
+    B1 => SAI_PROD_SUM_SUM_0(5),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_2_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_4_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_4_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_4_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_4_0_S1_0);
+  II_un9_vi_whole_sum_cry_2_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_SUM_1(2),
+    B0 => SAI_PROD_SUM_SUM_0(2),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(3),
+    B1 => SAI_PROD_SUM_SUM_0(3),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN9_VI_WHOLE_SUM_CRY_0_0_COUT1,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_2_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_2_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_2_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_2_0_S1_0);
+  II_un9_vi_whole_sum_cry_0_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => GND,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_SUM_1(1),
+    B1 => SAI_PROD_SUM_SUM_0(1),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN9_VI_WHOLE_SUM_CRY_0_0_COUT0,
+    COUT1 => UN9_VI_WHOLE_SUM_CRY_0_0_COUT1,
+    S0 => UN9_VI_WHOLE_SUM_CRY_0_0_S0_0,
+    S1 => UN9_VI_WHOLE_SUM_CRY_0_0_S1_0);
+  II_un16_sai_prod_sum_sum_s_18_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(17),
+    B0 => SAI_PROD_SUM_0(14),
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_16_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_S_18_0_COUT0_0,
+    COUT1 => NC10,
+    S0 => UN16_SAI_PROD_SUM_SUM_S_18_0_S0_0,
+    S1 => NC11);
+  II_un16_sai_prod_sum_sum_cry_16_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(16),
+    B0 => SAI_PROD_SUM_0(14),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(17),
+    B1 => SAI_PROD_SUM_0(14),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_14_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_16_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_16_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_16_0_S0_0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_16_0_S1_0);
+  II_un16_sai_prod_sum_sum_cry_14_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(14),
+    B0 => SAI_PROD_SUM_0(14),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(15),
+    B1 => SAI_PROD_SUM_0(14),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_12_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_14_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_14_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_14_0_S0_0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_14_0_S1_0);
+  II_un16_sai_prod_sum_sum_cry_12_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(12),
+    B0 => SAI_PROD_SUM_0(12),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(13),
+    B1 => SAI_PROD_SUM_0(13),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_10_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_12_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_12_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_12_0_S0_0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_12_0_S1_0);
+  II_un16_sai_prod_sum_sum_cry_10_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(10),
+    B0 => SAI_PROD_SUM_0(10),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(11),
+    B1 => SAI_PROD_SUM_0(11),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_8_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_10_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_10_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_10_0_S0_0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_10_0_S1_0);
+  II_un16_sai_prod_sum_sum_cry_8_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(8),
+    B0 => SAI_PROD_SUM_0(8),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(9),
+    B1 => SAI_PROD_SUM_0(9),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_6_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_8_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_8_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_8_0_S0_0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_8_0_S1_0);
+  II_un16_sai_prod_sum_sum_cry_6_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(6),
+    B0 => SAI_PROD_SUM_0(6),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(7),
+    B1 => SAI_PROD_SUM_0(7),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_4_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_6_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_6_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_6_0_S0_0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_6_0_S1_0);
+  II_un16_sai_prod_sum_sum_cry_4_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(4),
+    B0 => SAI_PROD_SUM_0(4),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(5),
+    B1 => SAI_PROD_SUM_0(5),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN16_SAI_PROD_SUM_SUM_CRY_2_0_COUT1,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_4_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_4_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_4_0_S0_0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_4_0_S1_0);
+  II_un16_sai_prod_sum_sum_cry_2_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_1(2),
+    B0 => SAI_PROD_SUM_0(2),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_1(3),
+    B1 => SAI_PROD_SUM_0(3),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN16_SAI_PROD_SUM_SUM_CRY_2_0_COUT0,
+    COUT1 => UN16_SAI_PROD_SUM_SUM_CRY_2_0_COUT1,
+    S0 => UN16_SAI_PROD_SUM_SUM_CRY_2_0_S0,
+    S1 => UN16_SAI_PROD_SUM_SUM_CRY_2_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_16_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(17),
+    B0 => SAI_PROD_SUM_2(17),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(17),
+    B1 => SAI_PROD_SUM_2(17),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_14_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_16_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_16_0_COUT1_0,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_16_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_16_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_14_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(15),
+    B0 => SAI_PROD_SUM_2(15),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(16),
+    B1 => SAI_PROD_SUM_2(16),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_12_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_14_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_14_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_14_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_14_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_12_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(13),
+    B0 => SAI_PROD_SUM_2(13),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(14),
+    B1 => SAI_PROD_SUM_2(14),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_10_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_12_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_12_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_12_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_12_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_10_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(11),
+    B0 => SAI_PROD_SUM_2(11),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(12),
+    B1 => SAI_PROD_SUM_2(12),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_8_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_10_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_10_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_10_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_10_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_8_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(9),
+    B0 => SAI_PROD_SUM_2(9),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(10),
+    B1 => SAI_PROD_SUM_2(10),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_6_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_8_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_8_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_8_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_8_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_6_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(7),
+    B0 => SAI_PROD_SUM_2(7),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(8),
+    B1 => SAI_PROD_SUM_2(8),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_4_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_6_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_6_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_6_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_6_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_4_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(5),
+    B0 => SAI_PROD_SUM_2(5),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(6),
+    B1 => SAI_PROD_SUM_2(6),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_2_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_4_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_4_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_4_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_4_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_2_0: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => SAI_PROD_SUM_3(3),
+    B0 => SAI_PROD_SUM_2(3),
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(4),
+    B1 => SAI_PROD_SUM_2(4),
+    C1 => GND,
+    D1 => GND,
+    CIN => UN25_SAI_PROD_SUM_SUM_CRY_0_0_COUT1,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_2_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_2_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_2_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_2_0_S1_0);
+  II_un25_sai_prod_sum_sum_cry_0_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"5006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN25_SAI_PROD_SUM_SUM_CRY_0_SF_0,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => SAI_PROD_SUM_3(2),
+    B1 => SAI_PROD_SUM_2(2),
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => UN25_SAI_PROD_SUM_SUM_CRY_0_0_COUT0,
+    COUT1 => UN25_SAI_PROD_SUM_SUM_CRY_0_0_COUT1,
+    S0 => UN25_SAI_PROD_SUM_SUM_CRY_0_0_S0_0,
+    S1 => UN25_SAI_PROD_SUM_SUM_CRY_0_0_S1_0);
+  \II_un8[15:0]\: MULT9X9 
+  generic map(
+    REG_INPUTA_CLK => "NONE",
+    REG_INPUTA_CE => "CE0",
+    REG_INPUTA_RST => "RST0",
+    REG_INPUTB_CLK => "CLK0",
+    REG_INPUTB_CE => "CE0",
+    REG_INPUTB_RST => "RST0",
+    REG_PIPELINE_CLK => "CLK0",
+    REG_PIPELINE_CE => "CE0",
+    REG_PIPELINE_RST => "RST0",
+    REG_OUTPUT_CLK => "NONE",
+    REG_OUTPUT_CE => "CE0",
+    REG_OUTPUT_RST => "RST0",
+    REG_SIGNEDAB_0_CLK => "NONE",
+    REG_SIGNEDAB_0_CE => "CE0",
+    REG_SIGNEDAB_0_RST => "RST0",
+    REG_SIGNEDAB_1_CLK => "NONE",
+    REG_SIGNEDAB_1_CE => "CE0",
+    REG_SIGNEDAB_1_RST => "RST0",
+    SHIFT_IN_A => "FALSE",
+    SHIFT_IN_B => "FALSE",
+    GSR => "ENABLED"
+  )
+  port map (
+    P17 => UN8_P17_0,
+    P16 => UN8_P16_0,
+    P15 => SAI_PROD_4(16),
+    P14 => SAI_PROD_4(15),
+    P13 => SAI_PROD_4(14),
+    P12 => SAI_PROD_4(13),
+    P11 => SAI_PROD_4(12),
+    P10 => SAI_PROD_4(11),
+    P9 => SAI_PROD_4(10),
+    P8 => SAI_PROD_4(9),
+    P7 => SAI_PROD_4(8),
+    P6 => SAI_PROD_4(7),
+    P5 => SAI_PROD_4(6),
+    P4 => SAI_PROD_4(5),
+    P3 => SAI_PROD_4(4),
+    P2 => SAI_PROD_4(3),
+    P1 => SAI_PROD_4(2),
+    P0 => SAI_PROD_4(1),
+    SROA8 => UN8_SROA8_0,
+    SROA7 => UN8_SROA7_0,
+    SROA6 => UN8_SROA6_0,
+    SROA5 => UN8_SROA5_0,
+    SROA4 => UN8_SROA4_0,
+    SROA3 => UN8_SROA3_0,
+    SROA2 => UN8_SROA2_0,
+    SROA1 => UN8_SROA1_0,
+    SROA0 => UN8_SROA0_0,
+    SROB8 => UN8_SROB8_0,
+    SROB7 => UN8_SROB7_0,
+    SROB6 => UN8_SROB6_0,
+    SROB5 => UN8_SROB5_0,
+    SROB4 => UN8_SROB4_0,
+    SROB3 => UN8_SROB3_0,
+    SROB2 => UN8_SROB2_0,
+    SROB1 => UN8_SROB1_0,
+    SROB0 => UN8_SROB0_0,
+    A8 => GND,
+    A7 => VCC,
+    A6 => GND,
+    A5 => GND,
+    A4 => GND,
+    A3 => VCC,
+    A2 => VCC,
+    A1 => VCC,
+    A0 => VCC,
+    B8 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    B7 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    B6 => UN51_SAI_PIPE_SUM_CRY_6_0_S1_0,
+    B5 => UN51_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    B4 => UN51_SAI_PIPE_SUM_CRY_4_0_S1_0,
+    B3 => UN51_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    B2 => UN51_SAI_PIPE_SUM_CRY_2_0_S1_0,
+    B1 => UN51_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    B0 => UN51_SAI_PIPE_SUM_CRY_0_0_S1_0,
+    SRIA8 => GND,
+    SRIA7 => GND,
+    SRIA6 => GND,
+    SRIA5 => GND,
+    SRIA4 => GND,
+    SRIA3 => GND,
+    SRIA2 => GND,
+    SRIA1 => GND,
+    SRIA0 => GND,
+    SRIB8 => GND,
+    SRIB7 => GND,
+    SRIB6 => GND,
+    SRIB5 => GND,
+    SRIB4 => GND,
+    SRIB3 => GND,
+    SRIB2 => GND,
+    SRIB1 => GND,
+    SRIB0 => GND,
+    SIGNEDAB => VCC,
+    CE0 => VCC,
+    CE1 => GND,
+    CE2 => GND,
+    CE3 => GND,
+    CLK0 => CLK_IN_C,
+    CLK1 => GND,
+    CLK2 => GND,
+    CLK3 => GND,
+    RST0 => NRESET_C_I,
+    RST1 => GND,
+    RST2 => GND,
+    RST3 => GND);
+  \II_un7[15:0]\: MULT9X9 
+  generic map(
+    REG_INPUTA_CLK => "NONE",
+    REG_INPUTA_CE => "CE0",
+    REG_INPUTA_RST => "RST0",
+    REG_INPUTB_CLK => "CLK0",
+    REG_INPUTB_CE => "CE0",
+    REG_INPUTB_RST => "RST0",
+    REG_PIPELINE_CLK => "CLK0",
+    REG_PIPELINE_CE => "CE0",
+    REG_PIPELINE_RST => "RST0",
+    REG_OUTPUT_CLK => "NONE",
+    REG_OUTPUT_CE => "CE0",
+    REG_OUTPUT_RST => "RST0",
+    REG_SIGNEDAB_0_CLK => "NONE",
+    REG_SIGNEDAB_0_CE => "CE0",
+    REG_SIGNEDAB_0_RST => "RST0",
+    REG_SIGNEDAB_1_CLK => "NONE",
+    REG_SIGNEDAB_1_CE => "CE0",
+    REG_SIGNEDAB_1_RST => "RST0",
+    SHIFT_IN_A => "FALSE",
+    SHIFT_IN_B => "FALSE",
+    GSR => "ENABLED"
+  )
+  port map (
+    P17 => UN7_P17_0,
+    P16 => UN7_P16_0,
+    P15 => SAI_PROD_5(16),
+    P14 => SAI_PROD_5(15),
+    P13 => SAI_PROD_5(14),
+    P12 => SAI_PROD_5(13),
+    P11 => SAI_PROD_5(12),
+    P10 => SAI_PROD_5(11),
+    P9 => SAI_PROD_5(10),
+    P8 => SAI_PROD_5(9),
+    P7 => SAI_PROD_5(8),
+    P6 => SAI_PROD_5(7),
+    P5 => SAI_PROD_5(6),
+    P4 => SAI_PROD_5(5),
+    P3 => SAI_PROD_5(4),
+    P2 => SAI_PROD_5(3),
+    P1 => SAI_PROD_5(2),
+    P0 => SAI_PROD_5(1),
+    SROA8 => UN7_SROA8_0,
+    SROA7 => UN7_SROA7_0,
+    SROA6 => UN7_SROA6_0,
+    SROA5 => UN7_SROA5_0,
+    SROA4 => UN7_SROA4_0,
+    SROA3 => UN7_SROA3_0,
+    SROA2 => UN7_SROA2_0,
+    SROA1 => UN7_SROA1_0,
+    SROA0 => UN7_SROA0_0,
+    SROB8 => UN7_SROB8_0,
+    SROB7 => UN7_SROB7_0,
+    SROB6 => UN7_SROB6_0,
+    SROB5 => UN7_SROB5_0,
+    SROB4 => UN7_SROB4_0,
+    SROB3 => UN7_SROB3_0,
+    SROB2 => UN7_SROB2_0,
+    SROB1 => UN7_SROB1_0,
+    SROB0 => UN7_SROB0_0,
+    A8 => GND,
+    A7 => VCC,
+    A6 => GND,
+    A5 => VCC,
+    A4 => VCC,
+    A3 => GND,
+    A2 => GND,
+    A1 => VCC,
+    A0 => VCC,
+    B8 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    B7 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    B6 => UN51_SAI_PIPE_SUM_CRY_6_0_S1_0,
+    B5 => UN51_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    B4 => UN51_SAI_PIPE_SUM_CRY_4_0_S1_0,
+    B3 => UN51_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    B2 => UN51_SAI_PIPE_SUM_CRY_2_0_S1_0,
+    B1 => UN51_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    B0 => UN51_SAI_PIPE_SUM_CRY_0_0_S1_0,
+    SRIA8 => GND,
+    SRIA7 => GND,
+    SRIA6 => GND,
+    SRIA5 => GND,
+    SRIA4 => GND,
+    SRIA3 => GND,
+    SRIA2 => GND,
+    SRIA1 => GND,
+    SRIA0 => GND,
+    SRIB8 => GND,
+    SRIB7 => GND,
+    SRIB6 => GND,
+    SRIB5 => GND,
+    SRIB4 => GND,
+    SRIB3 => GND,
+    SRIB2 => GND,
+    SRIB1 => GND,
+    SRIB0 => GND,
+    SIGNEDAB => VCC,
+    CE0 => VCC,
+    CE1 => GND,
+    CE2 => GND,
+    CE3 => GND,
+    CLK0 => CLK_IN_C,
+    CLK1 => GND,
+    CLK2 => GND,
+    CLK3 => GND,
+    RST0 => NRESET_C_I,
+    RST1 => GND,
+    RST2 => GND,
+    RST3 => GND);
+  \II_un1_sai_pipe_sum_7[14:0]\: MULT9X9 
+  generic map(
+    REG_INPUTA_CLK => "CLK0",
+    REG_INPUTA_CE => "CE0",
+    REG_INPUTA_RST => "RST0",
+    REG_INPUTB_CLK => "NONE",
+    REG_INPUTB_CE => "CE0",
+    REG_INPUTB_RST => "RST0",
+    REG_PIPELINE_CLK => "CLK0",
+    REG_PIPELINE_CE => "CE0",
+    REG_PIPELINE_RST => "RST0",
+    REG_OUTPUT_CLK => "NONE",
+    REG_OUTPUT_CE => "CE0",
+    REG_OUTPUT_RST => "RST0",
+    REG_SIGNEDAB_0_CLK => "NONE",
+    REG_SIGNEDAB_0_CE => "CE0",
+    REG_SIGNEDAB_0_RST => "RST0",
+    REG_SIGNEDAB_1_CLK => "NONE",
+    REG_SIGNEDAB_1_CE => "CE0",
+    REG_SIGNEDAB_1_RST => "RST0",
+    SHIFT_IN_A => "FALSE",
+    SHIFT_IN_B => "FALSE",
+    GSR => "ENABLED"
+  )
+  port map (
+    P17 => UN1_SAI_PIPE_SUM_7_P17_0,
+    P16 => UN1_SAI_PIPE_SUM_7_P16_0,
+    P15 => UN1_SAI_PIPE_SUM_7_P15_0,
+    P14 => SAI_PROD_7(16),
+    P13 => SAI_PROD_7(15),
+    P12 => SAI_PROD_7(14),
+    P11 => SAI_PROD_7(13),
+    P10 => SAI_PROD_7(12),
+    P9 => SAI_PROD_7(11),
+    P8 => SAI_PROD_7(10),
+    P7 => SAI_PROD_7(9),
+    P6 => SAI_PROD_7(8),
+    P5 => SAI_PROD_7(7),
+    P4 => SAI_PROD_7(6),
+    P3 => SAI_PROD_7(5),
+    P2 => SAI_PROD_7(4),
+    P1 => SAI_PROD_7(3),
+    P0 => SAI_PROD_7(2),
+    SROA8 => UN1_SAI_PIPE_SUM_7_SROA8_0,
+    SROA7 => UN1_SAI_PIPE_SUM_7_SROA7_0,
+    SROA6 => UN1_SAI_PIPE_SUM_7_SROA6_0,
+    SROA5 => UN1_SAI_PIPE_SUM_7_SROA5_0,
+    SROA4 => UN1_SAI_PIPE_SUM_7_SROA4_0,
+    SROA3 => UN1_SAI_PIPE_SUM_7_SROA3_0,
+    SROA2 => UN1_SAI_PIPE_SUM_7_SROA2_0,
+    SROA1 => UN1_SAI_PIPE_SUM_7_SROA1_0,
+    SROA0 => UN1_SAI_PIPE_SUM_7_SROA0_0,
+    SROB8 => UN1_SAI_PIPE_SUM_7_SROB8_0,
+    SROB7 => UN1_SAI_PIPE_SUM_7_SROB7_0,
+    SROB6 => UN1_SAI_PIPE_SUM_7_SROB6_0,
+    SROB5 => UN1_SAI_PIPE_SUM_7_SROB5_0,
+    SROB4 => UN1_SAI_PIPE_SUM_7_SROB4_0,
+    SROB3 => UN1_SAI_PIPE_SUM_7_SROB3_0,
+    SROB2 => UN1_SAI_PIPE_SUM_7_SROB2_0,
+    SROB1 => UN1_SAI_PIPE_SUM_7_SROB1_0,
+    SROB0 => UN1_SAI_PIPE_SUM_7_SROB0_0,
+    A8 => \PROC_FILTER.VAI_PIPE_7_2\(7),
+    A7 => \PROC_FILTER.VAI_PIPE_7_2\(7),
+    A6 => \PROC_FILTER.VAI_PIPE_7_2\(6),
+    A5 => \PROC_FILTER.VAI_PIPE_7_2\(5),
+    A4 => \PROC_FILTER.VAI_PIPE_7_2\(4),
+    A3 => \PROC_FILTER.VAI_PIPE_7_2\(3),
+    A2 => \PROC_FILTER.VAI_PIPE_7_2\(2),
+    A1 => \PROC_FILTER.VAI_PIPE_7_2\(1),
+    A0 => \PROC_FILTER.VAI_PIPE_7_2\(0),
+    B8 => GND,
+    B7 => GND,
+    B6 => VCC,
+    B5 => VCC,
+    B4 => VCC,
+    B3 => VCC,
+    B2 => VCC,
+    B1 => GND,
+    B0 => VCC,
+    SRIA8 => GND,
+    SRIA7 => GND,
+    SRIA6 => GND,
+    SRIA5 => GND,
+    SRIA4 => GND,
+    SRIA3 => GND,
+    SRIA2 => GND,
+    SRIA1 => GND,
+    SRIA0 => GND,
+    SRIB8 => GND,
+    SRIB7 => GND,
+    SRIB6 => GND,
+    SRIB5 => GND,
+    SRIB4 => GND,
+    SRIB3 => GND,
+    SRIB2 => GND,
+    SRIB1 => GND,
+    SRIB0 => GND,
+    SIGNEDAB => VCC,
+    CE0 => VCC,
+    CE1 => GND,
+    CE2 => GND,
+    CE3 => GND,
+    CLK0 => CLK_IN_C,
+    CLK1 => GND,
+    CLK2 => GND,
+    CLK3 => GND,
+    RST0 => NRESET_C_I,
+    RST1 => GND,
+    RST2 => GND,
+    RST3 => GND);
+  \II_un1_sai_pipe_sum_6[14:0]\: MULT9X9 
+  generic map(
+    REG_INPUTA_CLK => "CLK0",
+    REG_INPUTA_CE => "CE0",
+    REG_INPUTA_RST => "RST0",
+    REG_INPUTB_CLK => "NONE",
+    REG_INPUTB_CE => "CE0",
+    REG_INPUTB_RST => "RST0",
+    REG_PIPELINE_CLK => "CLK0",
+    REG_PIPELINE_CE => "CE0",
+    REG_PIPELINE_RST => "RST0",
+    REG_OUTPUT_CLK => "NONE",
+    REG_OUTPUT_CE => "CE0",
+    REG_OUTPUT_RST => "RST0",
+    REG_SIGNEDAB_0_CLK => "NONE",
+    REG_SIGNEDAB_0_CE => "CE0",
+    REG_SIGNEDAB_0_RST => "RST0",
+    REG_SIGNEDAB_1_CLK => "NONE",
+    REG_SIGNEDAB_1_CE => "CE0",
+    REG_SIGNEDAB_1_RST => "RST0",
+    SHIFT_IN_A => "FALSE",
+    SHIFT_IN_B => "FALSE",
+    GSR => "ENABLED"
+  )
+  port map (
+    P17 => UN1_SAI_PIPE_SUM_6_P17_0,
+    P16 => UN1_SAI_PIPE_SUM_6_P16_0,
+    P15 => UN1_SAI_PIPE_SUM_6_P15_0,
+    P14 => SAI_PROD_6(16),
+    P13 => SAI_PROD_6(15),
+    P12 => SAI_PROD_6(14),
+    P11 => SAI_PROD_6(13),
+    P10 => SAI_PROD_6(12),
+    P9 => SAI_PROD_6(11),
+    P8 => SAI_PROD_6(10),
+    P7 => SAI_PROD_6(9),
+    P6 => SAI_PROD_6(8),
+    P5 => SAI_PROD_6(7),
+    P4 => SAI_PROD_6(6),
+    P3 => SAI_PROD_6(5),
+    P2 => SAI_PROD_6(4),
+    P1 => SAI_PROD_6(3),
+    P0 => SAI_PROD_6(2),
+    SROA8 => UN1_SAI_PIPE_SUM_6_SROA8_0,
+    SROA7 => UN1_SAI_PIPE_SUM_6_SROA7_0,
+    SROA6 => UN1_SAI_PIPE_SUM_6_SROA6_0,
+    SROA5 => UN1_SAI_PIPE_SUM_6_SROA5_0,
+    SROA4 => UN1_SAI_PIPE_SUM_6_SROA4_0,
+    SROA3 => UN1_SAI_PIPE_SUM_6_SROA3_0,
+    SROA2 => UN1_SAI_PIPE_SUM_6_SROA2_0,
+    SROA1 => UN1_SAI_PIPE_SUM_6_SROA1_0,
+    SROA0 => UN1_SAI_PIPE_SUM_6_SROA0_0,
+    SROB8 => UN1_SAI_PIPE_SUM_6_SROB8_0,
+    SROB7 => UN1_SAI_PIPE_SUM_6_SROB7_0,
+    SROB6 => UN1_SAI_PIPE_SUM_6_SROB6_0,
+    SROB5 => UN1_SAI_PIPE_SUM_6_SROB5_0,
+    SROB4 => UN1_SAI_PIPE_SUM_6_SROB4_0,
+    SROB3 => UN1_SAI_PIPE_SUM_6_SROB3_0,
+    SROB2 => UN1_SAI_PIPE_SUM_6_SROB2_0,
+    SROB1 => UN1_SAI_PIPE_SUM_6_SROB1_0,
+    SROB0 => UN1_SAI_PIPE_SUM_6_SROB0_0,
+    A8 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    A7 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    A6 => UN51_SAI_PIPE_SUM_CRY_6_0_S1_0,
+    A5 => UN51_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    A4 => UN51_SAI_PIPE_SUM_CRY_4_0_S1_0,
+    A3 => UN51_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    A2 => UN51_SAI_PIPE_SUM_CRY_2_0_S1_0,
+    A1 => UN51_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    A0 => UN51_SAI_PIPE_SUM_CRY_0_0_S1_0,
+    B8 => GND,
+    B7 => GND,
+    B6 => VCC,
+    B5 => VCC,
+    B4 => GND,
+    B3 => VCC,
+    B2 => GND,
+    B1 => VCC,
+    B0 => VCC,
+    SRIA8 => GND,
+    SRIA7 => GND,
+    SRIA6 => GND,
+    SRIA5 => GND,
+    SRIA4 => GND,
+    SRIA3 => GND,
+    SRIA2 => GND,
+    SRIA1 => GND,
+    SRIA0 => GND,
+    SRIB8 => GND,
+    SRIB7 => GND,
+    SRIB6 => GND,
+    SRIB5 => GND,
+    SRIB4 => GND,
+    SRIB3 => GND,
+    SRIB2 => GND,
+    SRIB1 => GND,
+    SRIB0 => GND,
+    SIGNEDAB => VCC,
+    CE0 => VCC,
+    CE1 => GND,
+    CE2 => GND,
+    CE3 => GND,
+    CLK0 => CLK_IN_C,
+    CLK1 => GND,
+    CLK2 => GND,
+    CLK3 => GND,
+    RST0 => NRESET_C_I,
+    RST1 => GND,
+    RST2 => GND,
+    RST3 => GND);
+  \II_un1_sai_pipe_sum_3[14:0]\: MULT9X9 
+  generic map(
+    REG_INPUTA_CLK => "CLK0",
+    REG_INPUTA_CE => "CE0",
+    REG_INPUTA_RST => "RST0",
+    REG_INPUTB_CLK => "NONE",
+    REG_INPUTB_CE => "CE0",
+    REG_INPUTB_RST => "RST0",
+    REG_PIPELINE_CLK => "CLK0",
+    REG_PIPELINE_CE => "CE0",
+    REG_PIPELINE_RST => "RST0",
+    REG_OUTPUT_CLK => "NONE",
+    REG_OUTPUT_CE => "CE0",
+    REG_OUTPUT_RST => "RST0",
+    REG_SIGNEDAB_0_CLK => "NONE",
+    REG_SIGNEDAB_0_CE => "CE0",
+    REG_SIGNEDAB_0_RST => "RST0",
+    REG_SIGNEDAB_1_CLK => "NONE",
+    REG_SIGNEDAB_1_CE => "CE0",
+    REG_SIGNEDAB_1_RST => "RST0",
+    SHIFT_IN_A => "FALSE",
+    SHIFT_IN_B => "FALSE",
+    GSR => "ENABLED"
+  )
+  port map (
+    P17 => UN1_SAI_PIPE_SUM_3_P17_0,
+    P16 => UN1_SAI_PIPE_SUM_3_P16_0,
+    P15 => UN1_SAI_PIPE_SUM_3_P15_0,
+    P14 => SAI_PROD_3(16),
+    P13 => SAI_PROD_3(14),
+    P12 => SAI_PROD_3(13),
+    P11 => SAI_PROD_3(12),
+    P10 => SAI_PROD_3(11),
+    P9 => SAI_PROD_3(10),
+    P8 => SAI_PROD_3(9),
+    P7 => SAI_PROD_3(8),
+    P6 => SAI_PROD_3(7),
+    P5 => SAI_PROD_3(6),
+    P4 => SAI_PROD_3(5),
+    P3 => SAI_PROD_3(4),
+    P2 => SAI_PROD_3(3),
+    P1 => SAI_PROD_3(2),
+    P0 => SAI_PROD_3(1),
+    SROA8 => UN1_SAI_PIPE_SUM_3_SROA8_0,
+    SROA7 => UN1_SAI_PIPE_SUM_3_SROA7_0,
+    SROA6 => UN1_SAI_PIPE_SUM_3_SROA6_0,
+    SROA5 => UN1_SAI_PIPE_SUM_3_SROA5_0,
+    SROA4 => UN1_SAI_PIPE_SUM_3_SROA4_0,
+    SROA3 => UN1_SAI_PIPE_SUM_3_SROA3_0,
+    SROA2 => UN1_SAI_PIPE_SUM_3_SROA2_0,
+    SROA1 => UN1_SAI_PIPE_SUM_3_SROA1_0,
+    SROA0 => UN1_SAI_PIPE_SUM_3_SROA0_0,
+    SROB8 => UN1_SAI_PIPE_SUM_3_SROB8_0,
+    SROB7 => UN1_SAI_PIPE_SUM_3_SROB7_0,
+    SROB6 => UN1_SAI_PIPE_SUM_3_SROB6_0,
+    SROB5 => UN1_SAI_PIPE_SUM_3_SROB5_0,
+    SROB4 => UN1_SAI_PIPE_SUM_3_SROB4_0,
+    SROB3 => UN1_SAI_PIPE_SUM_3_SROB3_0,
+    SROB2 => UN1_SAI_PIPE_SUM_3_SROB2_0,
+    SROB1 => UN1_SAI_PIPE_SUM_3_SROB1_0,
+    SROB0 => UN1_SAI_PIPE_SUM_3_SROB0_0,
+    A8 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    A7 => UN51_SAI_PIPE_SUM_S_8_0_S0_0,
+    A6 => UN51_SAI_PIPE_SUM_CRY_6_0_S1_0,
+    A5 => UN51_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    A4 => UN51_SAI_PIPE_SUM_CRY_4_0_S1_0,
+    A3 => UN51_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    A2 => UN51_SAI_PIPE_SUM_CRY_2_0_S1_0,
+    A1 => UN51_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    A0 => UN51_SAI_PIPE_SUM_CRY_0_0_S1_0,
+    B8 => GND,
+    B7 => GND,
+    B6 => VCC,
+    B5 => VCC,
+    B4 => GND,
+    B3 => VCC,
+    B2 => GND,
+    B1 => VCC,
+    B0 => VCC,
+    SRIA8 => GND,
+    SRIA7 => GND,
+    SRIA6 => GND,
+    SRIA5 => GND,
+    SRIA4 => GND,
+    SRIA3 => GND,
+    SRIA2 => GND,
+    SRIA1 => GND,
+    SRIA0 => GND,
+    SRIB8 => GND,
+    SRIB7 => GND,
+    SRIB6 => GND,
+    SRIB5 => GND,
+    SRIB4 => GND,
+    SRIB3 => GND,
+    SRIB2 => GND,
+    SRIB1 => GND,
+    SRIB0 => GND,
+    SIGNEDAB => VCC,
+    CE0 => VCC,
+    CE1 => GND,
+    CE2 => GND,
+    CE3 => GND,
+    CLK0 => CLK_IN_C,
+    CLK1 => GND,
+    CLK2 => GND,
+    CLK3 => GND,
+    RST0 => NRESET_C_I,
+    RST1 => GND,
+    RST2 => GND,
+    RST3 => GND);
+  \II_un1_sai_pipe_sum_2[14:0]\: MULT9X9 
+  generic map(
+    REG_INPUTA_CLK => "CLK0",
+    REG_INPUTA_CE => "CE0",
+    REG_INPUTA_RST => "RST0",
+    REG_INPUTB_CLK => "NONE",
+    REG_INPUTB_CE => "CE0",
+    REG_INPUTB_RST => "RST0",
+    REG_PIPELINE_CLK => "CLK0",
+    REG_PIPELINE_CE => "CE0",
+    REG_PIPELINE_RST => "RST0",
+    REG_OUTPUT_CLK => "NONE",
+    REG_OUTPUT_CE => "CE0",
+    REG_OUTPUT_RST => "RST0",
+    REG_SIGNEDAB_0_CLK => "NONE",
+    REG_SIGNEDAB_0_CE => "CE0",
+    REG_SIGNEDAB_0_RST => "RST0",
+    REG_SIGNEDAB_1_CLK => "NONE",
+    REG_SIGNEDAB_1_CE => "CE0",
+    REG_SIGNEDAB_1_RST => "RST0",
+    SHIFT_IN_A => "FALSE",
+    SHIFT_IN_B => "FALSE",
+    GSR => "ENABLED"
+  )
+  port map (
+    P17 => UN1_SAI_PIPE_SUM_2_P17_0,
+    P16 => UN1_SAI_PIPE_SUM_2_P16_0,
+    P15 => UN1_SAI_PIPE_SUM_2_P15_0,
+    P14 => SAI_PROD_2(15),
+    P13 => SAI_PROD_2(14),
+    P12 => SAI_PROD_2(13),
+    P11 => SAI_PROD_2(12),
+    P10 => SAI_PROD_2(11),
+    P9 => SAI_PROD_2(10),
+    P8 => SAI_PROD_2(9),
+    P7 => SAI_PROD_2(8),
+    P6 => SAI_PROD_2(7),
+    P5 => SAI_PROD_2(6),
+    P4 => SAI_PROD_2(5),
+    P3 => SAI_PROD_2(4),
+    P2 => SAI_PROD_2(3),
+    P1 => SAI_PROD_2(2),
+    P0 => SAI_PROD_2(1),
+    SROA8 => UN1_SAI_PIPE_SUM_2_SROA8_0,
+    SROA7 => UN1_SAI_PIPE_SUM_2_SROA7_0,
+    SROA6 => UN1_SAI_PIPE_SUM_2_SROA6_0,
+    SROA5 => UN1_SAI_PIPE_SUM_2_SROA5_0,
+    SROA4 => UN1_SAI_PIPE_SUM_2_SROA4_0,
+    SROA3 => UN1_SAI_PIPE_SUM_2_SROA3_0,
+    SROA2 => UN1_SAI_PIPE_SUM_2_SROA2_0,
+    SROA1 => UN1_SAI_PIPE_SUM_2_SROA1_0,
+    SROA0 => UN1_SAI_PIPE_SUM_2_SROA0_0,
+    SROB8 => UN1_SAI_PIPE_SUM_2_SROB8_0,
+    SROB7 => UN1_SAI_PIPE_SUM_2_SROB7_0,
+    SROB6 => UN1_SAI_PIPE_SUM_2_SROB6_0,
+    SROB5 => UN1_SAI_PIPE_SUM_2_SROB5_0,
+    SROB4 => UN1_SAI_PIPE_SUM_2_SROB4_0,
+    SROB3 => UN1_SAI_PIPE_SUM_2_SROB3_0,
+    SROB2 => UN1_SAI_PIPE_SUM_2_SROB2_0,
+    SROB1 => UN1_SAI_PIPE_SUM_2_SROB1_0,
+    SROB0 => UN1_SAI_PIPE_SUM_2_SROB0_0,
+    A8 => UN42_SAI_PIPE_SUM_S_8_0_S0_0,
+    A7 => UN42_SAI_PIPE_SUM_S_8_0_S0_0,
+    A6 => UN42_SAI_PIPE_SUM_CRY_6_0_S1_0,
+    A5 => UN42_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    A4 => UN42_SAI_PIPE_SUM_CRY_4_0_S1_0,
+    A3 => UN42_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    A2 => UN42_SAI_PIPE_SUM_CRY_2_0_S1_0,
+    A1 => UN42_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    A0 => UN42_SAI_PIPE_SUM_CRY_0_0_S1_0,
+    B8 => GND,
+    B7 => GND,
+    B6 => VCC,
+    B5 => GND,
+    B4 => GND,
+    B3 => GND,
+    B2 => VCC,
+    B1 => VCC,
+    B0 => VCC,
+    SRIA8 => GND,
+    SRIA7 => GND,
+    SRIA6 => GND,
+    SRIA5 => GND,
+    SRIA4 => GND,
+    SRIA3 => GND,
+    SRIA2 => GND,
+    SRIA1 => GND,
+    SRIA0 => GND,
+    SRIB8 => GND,
+    SRIB7 => GND,
+    SRIB6 => GND,
+    SRIB5 => GND,
+    SRIB4 => GND,
+    SRIB3 => GND,
+    SRIB2 => GND,
+    SRIB1 => GND,
+    SRIB0 => GND,
+    SIGNEDAB => VCC,
+    CE0 => VCC,
+    CE1 => GND,
+    CE2 => GND,
+    CE3 => GND,
+    CLK0 => CLK_IN_C,
+    CLK1 => GND,
+    CLK2 => GND,
+    CLK3 => GND,
+    RST0 => NRESET_C_I,
+    RST1 => GND,
+    RST2 => GND,
+    RST3 => GND);
+  \II_un1_sai_pipe_sum_1[12:0]\: MULT9X9 
+  generic map(
+    REG_INPUTA_CLK => "CLK0",
+    REG_INPUTA_CE => "CE0",
+    REG_INPUTA_RST => "RST0",
+    REG_INPUTB_CLK => "NONE",
+    REG_INPUTB_CE => "CE0",
+    REG_INPUTB_RST => "RST0",
+    REG_PIPELINE_CLK => "CLK0",
+    REG_PIPELINE_CE => "CE0",
+    REG_PIPELINE_RST => "RST0",
+    REG_OUTPUT_CLK => "NONE",
+    REG_OUTPUT_CE => "CE0",
+    REG_OUTPUT_RST => "RST0",
+    REG_SIGNEDAB_0_CLK => "NONE",
+    REG_SIGNEDAB_0_CE => "CE0",
+    REG_SIGNEDAB_0_RST => "RST0",
+    REG_SIGNEDAB_1_CLK => "NONE",
+    REG_SIGNEDAB_1_CE => "CE0",
+    REG_SIGNEDAB_1_RST => "RST0",
+    SHIFT_IN_A => "FALSE",
+    SHIFT_IN_B => "FALSE",
+    GSR => "ENABLED"
+  )
+  port map (
+    P17 => UN1_SAI_PIPE_SUM_1_P17_0,
+    P16 => UN1_SAI_PIPE_SUM_1_P16_0,
+    P15 => UN1_SAI_PIPE_SUM_1_P15_0,
+    P14 => UN1_SAI_PIPE_SUM_1_P14_0,
+    P13 => UN1_SAI_PIPE_SUM_1_P13_0,
+    P12 => SAI_PROD_1(14),
+    P11 => SAI_PROD_1(13),
+    P10 => SAI_PROD_1(12),
+    P9 => SAI_PROD_1(11),
+    P8 => SAI_PROD_1(10),
+    P7 => SAI_PROD_1(9),
+    P6 => SAI_PROD_1(8),
+    P5 => SAI_PROD_1(7),
+    P4 => SAI_PROD_1(6),
+    P3 => SAI_PROD_1(5),
+    P2 => SAI_PROD_1(4),
+    P1 => SAI_PROD_1(3),
+    P0 => SAI_PROD_1(2),
+    SROA8 => UN1_SAI_PIPE_SUM_1_SROA8_0,
+    SROA7 => UN1_SAI_PIPE_SUM_1_SROA7_0,
+    SROA6 => UN1_SAI_PIPE_SUM_1_SROA6_0,
+    SROA5 => UN1_SAI_PIPE_SUM_1_SROA5_0,
+    SROA4 => UN1_SAI_PIPE_SUM_1_SROA4_0,
+    SROA3 => UN1_SAI_PIPE_SUM_1_SROA3_0,
+    SROA2 => UN1_SAI_PIPE_SUM_1_SROA2_0,
+    SROA1 => UN1_SAI_PIPE_SUM_1_SROA1_0,
+    SROA0 => UN1_SAI_PIPE_SUM_1_SROA0_0,
+    SROB8 => UN1_SAI_PIPE_SUM_1_SROB8_0,
+    SROB7 => UN1_SAI_PIPE_SUM_1_SROB7_0,
+    SROB6 => UN1_SAI_PIPE_SUM_1_SROB6_0,
+    SROB5 => UN1_SAI_PIPE_SUM_1_SROB5_0,
+    SROB4 => UN1_SAI_PIPE_SUM_1_SROB4_0,
+    SROB3 => UN1_SAI_PIPE_SUM_1_SROB3_0,
+    SROB2 => UN1_SAI_PIPE_SUM_1_SROB2_0,
+    SROB1 => UN1_SAI_PIPE_SUM_1_SROB1_0,
+    SROB0 => UN1_SAI_PIPE_SUM_1_SROB0_0,
+    A8 => UN42_SAI_PIPE_SUM_S_8_0_S0_0,
+    A7 => UN42_SAI_PIPE_SUM_CRY_6_0_S1_0,
+    A6 => UN42_SAI_PIPE_SUM_CRY_6_0_S0_0,
+    A5 => UN42_SAI_PIPE_SUM_CRY_4_0_S1_0,
+    A4 => UN42_SAI_PIPE_SUM_CRY_4_0_S0_0,
+    A3 => UN42_SAI_PIPE_SUM_CRY_2_0_S1_0,
+    A2 => UN42_SAI_PIPE_SUM_CRY_2_0_S0_0,
+    A1 => UN42_SAI_PIPE_SUM_CRY_0_0_S1_0,
+    A0 => UN42_SAI_PIPE_SUM_CRY_0_0_S0,
+    B8 => GND,
+    B7 => GND,
+    B6 => GND,
+    B5 => GND,
+    B4 => GND,
+    B3 => VCC,
+    B2 => GND,
+    B1 => GND,
+    B0 => VCC,
+    SRIA8 => GND,
+    SRIA7 => GND,
+    SRIA6 => GND,
+    SRIA5 => GND,
+    SRIA4 => GND,
+    SRIA3 => GND,
+    SRIA2 => GND,
+    SRIA1 => GND,
+    SRIA0 => GND,
+    SRIB8 => GND,
+    SRIB7 => GND,
+    SRIB6 => GND,
+    SRIB5 => GND,
+    SRIB4 => GND,
+    SRIB3 => GND,
+    SRIB2 => GND,
+    SRIB1 => GND,
+    SRIB0 => GND,
+    SIGNEDAB => VCC,
+    CE0 => VCC,
+    CE1 => GND,
+    CE2 => GND,
+    CE3 => GND,
+    CLK0 => CLK_IN_C,
+    CLK1 => GND,
+    CLK2 => GND,
+    CLK3 => GND,
+    RST0 => NRESET_C_I,
+    RST1 => GND,
+    RST2 => GND,
+    RST3 => GND);
+  N_737_I <= (UN4_SI_WHOLE_SCALED_S_18_0_S0_0 and not G1_4 and not G1_5) or 
+	  (not UN4_SI_WHOLE_SCALED_S_18_0_S0_0 and G1_4) or 
+	  (not UN4_SI_WHOLE_SCALED_S_18_0_S0_0 and G1_5);
+  G1_5 <= (not SI_WHOLE_SUM(19)) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_16_0_S1_0);
+  G1_4 <= (UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0);
+  G0_0_4 <= (UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0);
+  G0_1 <= (not SI_WHOLE_SUM(19)) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0);
+  UN8_SI_WHOLE_SCALED_AXB0_0 <= (not UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0 and not SI_WHOLE_SUM(19)) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0 and SI_WHOLE_SUM(19));
+  N_731_I <= (not UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0 and not SI_WHOLE_SUM(19)) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0 and not UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0) or 
+	  (not UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0 and UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0 and SI_WHOLE_SUM(19));
+  N_732_I <= (not UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0 and not SI_WHOLE_SUM(19)) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0 and not UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0 and not UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0) or 
+	  (not UN4_SI_WHOLE_SCALED_CRY_10_0_S1_0 and not UN4_SI_WHOLE_SCALED_CRY_12_0_S0_0 and UN4_SI_WHOLE_SCALED_CRY_12_0_S1_0 and SI_WHOLE_SUM(19));
+  N_734_I <= (UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0 and not UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0) or 
+	  (not UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0 and UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0 and not G0_1) or 
+	  (not UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0 and G0_1);
+  N_735_I <= (UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0 and not UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0) or 
+	  (UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0 and not UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0) or 
+	  (not UN4_SI_WHOLE_SCALED_CRY_14_0_S0_0 and not UN4_SI_WHOLE_SCALED_CRY_14_0_S1_0 and UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0 and not G0_1) or 
+	  (not UN4_SI_WHOLE_SCALED_CRY_16_0_S0_0 and G0_1);
+  \PROC_FILTER.VAI_PIPE_13_2\(0) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(0)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(0));
+  \PROC_FILTER.VAI_PIPE_7_2\(0) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(0)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(0));
+  \PROC_FILTER.VAI_PIPE_1_2\(0) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(0)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(0));
+  \PROC_FILTER.VAI_PIPE_13_2\(1) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(1)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(1));
+  \PROC_FILTER.VAI_PIPE_7_2\(1) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(1)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(1));
+  \PROC_FILTER.VAI_PIPE_1_2\(1) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(1)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(1));
+  \PROC_FILTER.VAI_PIPE_13_2\(2) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(2)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(2));
+  \PROC_FILTER.VAI_PIPE_7_2\(2) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(2)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(2));
+  \PROC_FILTER.VAI_PIPE_1_2\(2) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(2)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(2));
+  \PROC_FILTER.VAI_PIPE_13_2\(3) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(3)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(3));
+  \PROC_FILTER.VAI_PIPE_7_2\(3) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(3)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(3));
+  \PROC_FILTER.VAI_PIPE_1_2\(3) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(3)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(3));
+  \PROC_FILTER.VAI_PIPE_13_2\(4) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(4)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(4));
+  \PROC_FILTER.VAI_PIPE_7_2\(4) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(4)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(4));
+  \PROC_FILTER.VAI_PIPE_1_2\(4) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(4)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(4));
+  \PROC_FILTER.VAI_PIPE_13_2\(5) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(5)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(5));
+  \PROC_FILTER.VAI_PIPE_7_2\(5) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(5)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(5));
+  \PROC_FILTER.VAI_PIPE_1_2\(5) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(5)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(5));
+  \PROC_FILTER.VAI_PIPE_13_2\(6) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(6)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(6));
+  \PROC_FILTER.VAI_PIPE_7_2\(6) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(6)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(6));
+  \PROC_FILTER.VAI_PIPE_1_2\(6) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(6)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(6));
+  \PROC_FILTER.VAI_PIPE_13_2\(7) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(7)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_14\(7));
+  \PROC_FILTER.VAI_PIPE_7_2\(7) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(7)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_7\(7));
+  \PROC_FILTER.VAI_PIPE_1_2\(7) <= (CE_C and \PROC_FILTER.VAI_PIPE_0\(7)) or 
+	  (not CE_C and \PROC_FILTER.VAI_PIPE_6\(7));
+  UN25_SAI_PROD_SUM_SUM_CRY_0_SF_0 <= SAI_PROD_SUM_2(1);
+  II_PUR_INST: PUR port map (
+      PUR => VCC);
+end beh;
+

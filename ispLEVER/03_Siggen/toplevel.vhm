@@ -1,0 +1,2453 @@
+--
+-- Written by Synplicity
+-- Sun Nov 26 05:20:30 2006
+--
+
+-- No definition of black box LUCENT.CCU2.PRIM
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity OBZ is
+port(
+  I :  in std_logic;
+  T :  in std_logic;
+  O :  out std_logic);
+end OBZ;
+
+architecture beh of OBZ is
+  signal TI : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  TI <= not T;
+  O <= I after 100 ps when TI = '1' else 'Z' after 100 ps;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity OB is
+port(
+  I :  in std_logic;
+  O :  out std_logic);
+end OB;
+
+architecture beh of OB is
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  O <= I;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity IB is
+port(
+  I :  in std_logic;
+  O :  out std_logic);
+end IB;
+
+architecture beh of IB is
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  O <= I;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1S3DX is
+port(
+  D :  in std_logic;
+  CK :  in std_logic;
+  CD :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1S3DX;
+
+architecture beh of FD1S3DX is
+  signal Q_INT_29 : std_logic ;
+  signal GSRN : std_logic ;
+  signal CLR : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  CLR <= CD or GSRN after 100 ps;
+  II_ff: prim_dff port map (Q_INT_29, D, CK, CLR, '0');
+  QN <= not Q_INT_29;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_29;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1S3BX is
+port(
+  D :  in std_logic;
+  CK :  in std_logic;
+  PD :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1S3BX;
+
+architecture beh of FD1S3BX is
+  signal Q_INT_28 : std_logic ;
+  signal GSRN : std_logic ;
+  signal PRE : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  PRE <= PD or GSRN after 100 ps;
+  II_ff: prim_dff port map (Q_INT_28, D, CK, '0', PRE);
+  QN <= not Q_INT_28;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_28;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1S3AY is
+port(
+  D :  in std_logic;
+  CK :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1S3AY;
+
+architecture beh of FD1S3AY is
+  signal Q_INT_39 : std_logic ;
+  signal GSRN : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  II_ff: prim_dff port map (Q_INT_39, D, CK, '0', GSRN);
+  QN <= not Q_INT_39;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_39;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1S3AX is
+port(
+  D :  in std_logic;
+  CK :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1S3AX;
+
+architecture beh of FD1S3AX is
+  signal Q_INT_1 : std_logic ;
+  signal GSRN : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  II_ff: prim_dff port map (Q_INT_1, D, CK, GSRN, '0');
+  QN <= not Q_INT_1;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_1;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1P3DX is
+port(
+  D :  in std_logic;
+  SP :  in std_logic;
+  CK :  in std_logic;
+  CD :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1P3DX;
+
+architecture beh of FD1P3DX is
+  signal Q_INT_27 : std_logic ;
+  signal GSRN : std_logic ;
+  signal CLR : std_logic ;
+  signal M : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  CLR <= CD or GSRN after 100 ps;
+  M <= Q_INT_27 after 100 ps when SP = '0' else D after 100 ps;
+  II_ff: prim_dff port map (Q_INT_27, M, CK, CLR, '0');
+  QN <= not Q_INT_27;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_27;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity OFS1P3DX is
+port(
+  D :  in std_logic;
+  SP :  in std_logic;
+  SCLK :  in std_logic;
+  CD :  in std_logic;
+  Q :  out std_logic;
+  GSR :  in std_logic);
+end OFS1P3DX;
+
+architecture beh of OFS1P3DX is
+  signal Q_INT_0 : std_logic ;
+  signal GSRN : std_logic ;
+  signal CLR : std_logic ;
+  signal M : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  CLR <= CD or GSRN after 100 ps;
+  M <= Q_INT_0 after 100 ps when SP = '0' else D after 100 ps;
+  II_ff: prim_dff port map (Q_INT_0, M, SCLK, CLR, '0');
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_0;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity FD1P3AX is
+port(
+  D :  in std_logic;
+  SP :  in std_logic;
+  CK :  in std_logic;
+  Q :  out std_logic;
+  QN :  out std_logic;
+  GSR :  in std_logic);
+end FD1P3AX;
+
+architecture beh of FD1P3AX is
+  signal Q_INT_23 : std_logic ;
+  signal GSRN : std_logic ;
+  signal M : std_logic ;
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  GSRN <= not GSR;
+  M <= Q_INT_23 after 100 ps when SP = '0' else D after 100 ps;
+  II_ff: prim_dff port map (Q_INT_23, M, CK, GSRN, '0');
+  QN <= not Q_INT_23;
+  GND <= '0';
+  VCC <= '1';
+  Q <= Q_INT_23;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity INV is
+port(
+  A :  in std_logic;
+  Z :  out std_logic);
+end INV;
+
+architecture beh of INV is
+  signal GND : std_logic ;
+  signal VCC : std_logic ;
+begin
+  Z <= not A;
+  GND <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity VHI is
+port(
+  Z :  out std_logic);
+end VHI;
+
+architecture beh of VHI is
+  signal GND : std_logic ;
+begin
+  Z <= '1';
+  GND <= '0';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity VLO is
+port(
+  Z :  out std_logic);
+end VLO;
+
+architecture beh of VLO is
+  signal VCC : std_logic ;
+begin
+  Z <= '0';
+  VCC <= '1';
+end beh;
+
+-- No definition of black box work.EHXPLLB.syn_black_box
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity segment_decoder_3_1 is
+port(
+  OUTPUT_e_i :  out std_logic;
+  GND :  in std_logic;
+  OUTPUT_e_i_0 :  in std_logic);
+end segment_decoder_3_1;
+
+architecture beh of segment_decoder_3_1 is
+  signal N_25 : std_logic ;
+  signal N_262 : std_logic ;
+  signal NN_1 : std_logic ;
+  signal VCC : std_logic ;
+  component ORCALUT4
+    port(
+      A : in std_logic;
+      B : in std_logic;
+      C : in std_logic;
+      D : in std_logic;
+      Z : out std_logic  );
+  end component;
+begin
+  OUTPUT_e_i <= OUTPUT_e_i_0;
+  NN_1 <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity segment_decoder_4 is
+port(
+  sl_nreset :  in std_logic;
+  DA_SCKI_c :  in std_logic;
+  GND :  in std_logic;
+  OUTPUT_e_i_0_i :  out std_logic;
+  OUTPUT_e_i_0 :  out std_logic);
+end segment_decoder_4;
+
+architecture beh of segment_decoder_4 is
+  signal OUTPUT_E_I_0_INT_40 : std_logic ;
+  signal OUTPUT_E_IE_QN : std_logic ;
+  signal N_25 : std_logic ;
+  signal NN_1 : std_logic ;
+  signal VCC : std_logic ;
+  component INV
+    port(
+      A : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component FD1S3AY
+    port(
+      D : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+begin
+  II_OUTPUT_e_i_0_i: INV port map (
+      A => OUTPUT_E_I_0_INT_40,
+      Z => OUTPUT_e_i_0_i);
+  II_OUTPUT_e_ie: FD1S3AY port map (
+      D => GND,
+      CK => DA_SCKI_c,
+      Q => OUTPUT_E_I_0_INT_40,
+      QN => OUTPUT_E_IE_QN,
+      GSR => sl_nreset);
+  NN_1 <= '0';
+  VCC <= '1';
+  OUTPUT_e_i_0 <= OUTPUT_E_I_0_INT_40;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity gain_control_1 is
+port(
+  vn_counter : out std_logic_vector (4 downto 0);
+  un16_vl_last_toggle :  in std_logic;
+  OUTPUT_e_i_0 :  in std_logic;
+  nCS_0_sqmuxa_1 :  in std_logic;
+  un9_vl_last_toggle :  in std_logic;
+  VCC :  in std_logic;
+  MA_nCS_c :  out std_logic;
+  OUTPUT_e_i :  in std_logic;
+  vl_last_toggle :  out std_logic;
+  g0_i_m2_L3 :  in std_logic;
+  sl_changed :  out std_logic;
+  sl_changed_ack :  out std_logic;
+  sl_changed_acke_0 :  in std_logic;
+  sl_nreset :  in std_logic;
+  sl_nreset_i :  in std_logic;
+  DA_SCKI_c :  in std_logic;
+  GND :  in std_logic;
+  MA_SCLK_c :  out std_logic);
+end gain_control_1;
+
+architecture beh of gain_control_1 is
+  signal CN_TOGGLE_COUNT_3 : std_logic_vector (1 to 1);
+  signal CN_TOGGLE_COUNT_I : std_logic_vector (0 to 0);
+  signal VN_COUNTER_S_0_COUT0 : std_logic_vector (4 to 4);
+  signal VN_COUNTER_CRY : std_logic_vector (3 downto 0);
+  signal VN_COUNTER_S : std_logic_vector (4 downto 0);
+  signal VN_COUNTER_LM : std_logic_vector (4 downto 0);
+  signal CN_TOGGLE_COUNT : std_logic_vector (2 downto 0);
+  signal MA_SCLK_I : std_logic ;
+  signal Q_QN_11 : std_logic ;
+  signal Q_QN_12 : std_logic ;
+  signal Q_QN_13 : std_logic ;
+  signal Q_QN_14 : std_logic ;
+  signal Q_QN_15 : std_logic ;
+  signal Q_QN_16 : std_logic ;
+  signal Q_QN_17 : std_logic ;
+  signal Q_QN_18 : std_logic ;
+  signal MA_SCLK_C_INT_38 : std_logic ;
+  signal Q_QN_19 : std_logic ;
+  signal Q_QN_20 : std_logic ;
+  signal Q_QN_21 : std_logic ;
+  signal Q_QN_22 : std_logic ;
+  signal Q_QN_23 : std_logic ;
+  signal Q_QN_24 : std_logic ;
+  signal Q_QN_25 : std_logic ;
+  signal NC0 : std_logic ;
+  signal NC1 : std_logic ;
+  signal NCSE_0 : std_logic ;
+  signal VN_COUNTER_1_INT_31 : std_logic ;
+  signal VN_COUNTER_2_INT_32 : std_logic ;
+  signal VN_COUNTER_3_INT_33 : std_logic ;
+  signal VN_COUNTER_4_INT_34 : std_logic ;
+  signal NCSE_L1 : std_logic ;
+  signal MA_NCS_C_INT_35 : std_logic ;
+  signal VN_COUNTER_0_INT_30 : std_logic ;
+  signal NCSE_L3 : std_logic ;
+  signal VB_OVERLOAD_CHANGED : std_logic ;
+  signal VB_SERVO_CHANGED : std_logic ;
+  signal SL_CHANGED_ACK_INT_37 : std_logic ;
+  signal N_62_I : std_logic ;
+  signal UN1_SL_CHANGED_1 : std_logic ;
+  signal N_14_I_I : std_logic ;
+  signal SL_CHANGED_INT_36 : std_logic ;
+  signal UN5_CN_TOGGLE_COUNT : std_logic ;
+  signal N_30 : std_logic ;
+  signal N_31 : std_logic ;
+  signal N_32 : std_logic ;
+  signal N_33 : std_logic ;
+  signal N_34 : std_logic ;
+  signal N_35 : std_logic ;
+  signal N_36 : std_logic ;
+  signal N_37 : std_logic ;
+  signal N_38 : std_logic ;
+  signal N_39 : std_logic ;
+  signal N_72 : std_logic ;
+  signal NN_1 : std_logic ;
+  signal NN_2 : std_logic ;
+  component INV
+    port(
+      A : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component ORCALUT4
+    port(
+      A : in std_logic;
+      B : in std_logic;
+      C : in std_logic;
+      D : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component FD1P3DX
+    port(
+      D : in std_logic;
+      SP : in std_logic;
+      CK : in std_logic;
+      CD : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component FD1S3AX
+    port(
+      D : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component FD1P3AX
+    port(
+      D : in std_logic;
+      SP : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component FD1S3BX
+    port(
+      D : in std_logic;
+      CK : in std_logic;
+      PD : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component FD1S3DX
+    port(
+      D : in std_logic;
+      CK : in std_logic;
+      CD : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component CCU2
+    generic (
+      INIT0 : bit_vector := X"0000";
+      INIT1 : bit_vector := X"0000";
+      INJECT1_0 : string := "NO";
+      INJECT1_1 : string := "NO"
+    );
+    port(
+      A0 : in std_logic;
+      B0 : in std_logic;
+      C0 : in std_logic;
+      D0 : in std_logic;
+      A1 : in std_logic;
+      B1 : in std_logic;
+      C1 : in std_logic;
+      D1 : in std_logic;
+      CIN : in std_logic;
+      COUT0 : out std_logic;
+      COUT1 : out std_logic;
+      S0 : out std_logic;
+      S1 : out std_logic  );
+  end component;
+begin
+  \II_proc_toggle_sig.cn_toggle_count_i[0]\: INV port map (
+      A => CN_TOGGLE_COUNT(0),
+      Z => CN_TOGGLE_COUNT_I(0));
+  II_MA_SCLK_i: INV port map (
+      A => MA_SCLK_C_INT_38,
+      Z => MA_SCLK_I);
+  CN_TOGGLE_COUNT_3(1) <= (CN_TOGGLE_COUNT(1) and CN_TOGGLE_COUNT(0)) or 
+	  (not CN_TOGGLE_COUNT(1) and not CN_TOGGLE_COUNT(0) and CN_TOGGLE_COUNT(2));
+  \II_sl_toggle_sig.Q\: FD1P3DX port map (
+      D => MA_SCLK_I,
+      SP => UN5_CN_TOGGLE_COUNT,
+      CK => DA_SCKI_c,
+      CD => sl_nreset_i,
+      Q => MA_SCLK_C_INT_38,
+      QN => Q_QN_11,
+      GSR => sl_nreset);
+  \II_sl_changed_ack.Q\: FD1S3AX port map (
+      D => sl_changed_acke_0,
+      CK => DA_SCKI_c,
+      Q => SL_CHANGED_ACK_INT_37,
+      QN => Q_QN_12,
+      GSR => sl_nreset);
+  \II_sl_changed.Q\: FD1P3AX port map (
+      D => N_62_I,
+      SP => sl_nreset,
+      CK => DA_SCKI_c,
+      Q => SL_CHANGED_INT_36,
+      QN => Q_QN_13,
+      GSR => sl_nreset);
+  \II_proc_transmit.vn_counter_4_.Q\: FD1P3AX port map (
+      D => VN_COUNTER_LM(4),
+      SP => g0_i_m2_L3,
+      CK => DA_SCKI_c,
+      Q => VN_COUNTER_4_INT_34,
+      QN => Q_QN_14,
+      GSR => sl_nreset);
+  \II_proc_transmit.vn_counter_3_.Q\: FD1P3AX port map (
+      D => VN_COUNTER_LM(3),
+      SP => g0_i_m2_L3,
+      CK => DA_SCKI_c,
+      Q => VN_COUNTER_3_INT_33,
+      QN => Q_QN_15,
+      GSR => sl_nreset);
+  \II_proc_transmit.vn_counter_2_.Q\: FD1P3AX port map (
+      D => VN_COUNTER_LM(2),
+      SP => g0_i_m2_L3,
+      CK => DA_SCKI_c,
+      Q => VN_COUNTER_2_INT_32,
+      QN => Q_QN_16,
+      GSR => sl_nreset);
+  \II_proc_transmit.vn_counter_1_.Q\: FD1P3AX port map (
+      D => VN_COUNTER_LM(1),
+      SP => g0_i_m2_L3,
+      CK => DA_SCKI_c,
+      Q => VN_COUNTER_1_INT_31,
+      QN => Q_QN_17,
+      GSR => sl_nreset);
+  \II_proc_transmit.vn_counter_0_.Q\: FD1P3AX port map (
+      D => VN_COUNTER_LM(0),
+      SP => g0_i_m2_L3,
+      CK => DA_SCKI_c,
+      Q => VN_COUNTER_0_INT_30,
+      QN => Q_QN_18,
+      GSR => sl_nreset);
+  \II_proc_transmit.vl_last_toggle.Q\: FD1P3AX port map (
+      D => MA_SCLK_C_INT_38,
+      SP => sl_nreset,
+      CK => DA_SCKI_c,
+      Q => vl_last_toggle,
+      QN => Q_QN_19,
+      GSR => sl_nreset);
+  \II_proc_toggle_sig.cn_toggle_count_2_.Q\: FD1S3BX port map (
+      D => N_14_I_I,
+      CK => DA_SCKI_c,
+      PD => sl_nreset_i,
+      Q => CN_TOGGLE_COUNT(2),
+      QN => Q_QN_20,
+      GSR => sl_nreset);
+  \II_proc_toggle_sig.cn_toggle_count_1_.Q\: FD1S3DX port map (
+      D => CN_TOGGLE_COUNT_3(1),
+      CK => DA_SCKI_c,
+      CD => sl_nreset_i,
+      Q => CN_TOGGLE_COUNT(1),
+      QN => Q_QN_21,
+      GSR => sl_nreset);
+  \II_proc_toggle_sig.cn_toggle_count_0_.Q\: FD1S3BX port map (
+      D => CN_TOGGLE_COUNT_I(0),
+      CK => DA_SCKI_c,
+      PD => sl_nreset_i,
+      Q => CN_TOGGLE_COUNT(0),
+      QN => Q_QN_22,
+      GSR => sl_nreset);
+  \II_proc_change_detect.vb_servo_changed.Q\: FD1P3AX port map (
+      D => OUTPUT_e_i,
+      SP => sl_nreset,
+      CK => DA_SCKI_c,
+      Q => VB_SERVO_CHANGED,
+      QN => Q_QN_23,
+      GSR => sl_nreset);
+  \II_proc_change_detect.vb_overload_changed.Q\: FD1P3AX port map (
+      D => UN1_SL_CHANGED_1,
+      SP => sl_nreset,
+      CK => DA_SCKI_c,
+      Q => VB_OVERLOAD_CHANGED,
+      QN => Q_QN_24,
+      GSR => sl_nreset);
+  \II_nCS.Q\: FD1S3AX port map (
+      D => NCSE_0,
+      CK => DA_SCKI_c,
+      Q => MA_NCS_C_INT_35,
+      QN => Q_QN_25,
+      GSR => sl_nreset);
+  \II_proc_transmit.vn_counter_s_0[4]\: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => VN_COUNTER_4_INT_34,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => VN_COUNTER_CRY(3),
+    COUT0 => VN_COUNTER_S_0_COUT0(4),
+    COUT1 => NC0,
+    S0 => VN_COUNTER_S(4),
+    S1 => NC1);
+  \II_proc_transmit.vn_counter_cry_0[2]\: CCU2 
+  generic map(
+    INIT0 => X"f006",
+    INIT1 => X"f006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => VN_COUNTER_2_INT_32,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => VN_COUNTER_3_INT_33,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => VN_COUNTER_CRY(1),
+    COUT0 => VN_COUNTER_CRY(2),
+    COUT1 => VN_COUNTER_CRY(3),
+    S0 => VN_COUNTER_S(2),
+    S1 => VN_COUNTER_S(3));
+  \II_proc_transmit.vn_counter_cry_0[0]\: CCU2 
+  generic map(
+    INIT0 => X"f006",
+    INIT1 => X"f006",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => VN_COUNTER_0_INT_30,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => VN_COUNTER_1_INT_31,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => VCC,
+    COUT0 => VN_COUNTER_CRY(0),
+    COUT1 => VN_COUNTER_CRY(1),
+    S0 => VN_COUNTER_S(0),
+    S1 => VN_COUNTER_S(1));
+  NCSE_0 <= (MA_NCS_C_INT_35 and not NCSE_L3) or 
+	  (MA_NCS_C_INT_35 and not NCSE_L1 and not un9_vl_last_toggle) or 
+	  (not NCSE_L3 and un9_vl_last_toggle);
+  NCSE_L1 <= not VN_COUNTER_1_INT_31 and not VN_COUNTER_2_INT_32 and not VN_COUNTER_3_INT_33 and not VN_COUNTER_4_INT_34;
+  NCSE_L3 <= (nCS_0_sqmuxa_1 and not VN_COUNTER_0_INT_30) or 
+	  (not MA_NCS_C_INT_35 and not nCS_0_sqmuxa_1);
+  N_62_I <= (VB_OVERLOAD_CHANGED) or 
+	  (VB_SERVO_CHANGED) or 
+	  (SL_CHANGED_INT_36 and not SL_CHANGED_ACK_INT_37);
+  UN1_SL_CHANGED_1 <= (not SL_CHANGED_INT_36 and not OUTPUT_e_i_0) or 
+	  (SL_CHANGED_INT_36 and OUTPUT_e_i_0);
+  N_14_I_I <= (not CN_TOGGLE_COUNT(0) and not CN_TOGGLE_COUNT(1) and not CN_TOGGLE_COUNT(2)) or 
+	  (CN_TOGGLE_COUNT(0) and CN_TOGGLE_COUNT(2)) or 
+	  (CN_TOGGLE_COUNT(1) and CN_TOGGLE_COUNT(2));
+  VN_COUNTER_LM(0) <= not un16_vl_last_toggle and VN_COUNTER_S(0) and SL_CHANGED_INT_36;
+  VN_COUNTER_LM(1) <= not un16_vl_last_toggle and VN_COUNTER_S(1) and SL_CHANGED_INT_36;
+  VN_COUNTER_LM(2) <= (nCS_0_sqmuxa_1 and un16_vl_last_toggle) or 
+	  (not un16_vl_last_toggle and VN_COUNTER_S(2) and SL_CHANGED_INT_36);
+  VN_COUNTER_LM(3) <= not un16_vl_last_toggle and VN_COUNTER_S(3) and SL_CHANGED_INT_36;
+  VN_COUNTER_LM(4) <= (nCS_0_sqmuxa_1 and un16_vl_last_toggle) or 
+	  (not un16_vl_last_toggle and VN_COUNTER_S(4) and SL_CHANGED_INT_36);
+  UN5_CN_TOGGLE_COUNT <= not CN_TOGGLE_COUNT(0) and not CN_TOGGLE_COUNT(1) and not CN_TOGGLE_COUNT(2);
+  NN_1 <= '0';
+  NN_2 <= '1';
+  vn_counter(0) <= VN_COUNTER_0_INT_30;
+  vn_counter(1) <= VN_COUNTER_1_INT_31;
+  vn_counter(2) <= VN_COUNTER_2_INT_32;
+  vn_counter(3) <= VN_COUNTER_3_INT_33;
+  vn_counter(4) <= VN_COUNTER_4_INT_34;
+  MA_nCS_c <= MA_NCS_C_INT_35;
+  sl_changed <= SL_CHANGED_INT_36;
+  sl_changed_ack <= SL_CHANGED_ACK_INT_37;
+  MA_SCLK_c <= MA_SCLK_C_INT_38;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity i2s_transmitter_1 is
+port(
+  VCC :  in std_logic;
+  DA_BCK_c :  out std_logic;
+  sl_lrck :  out std_logic;
+  un6_sl_sync :  out std_logic;
+  sl_nreset :  in std_logic;
+  DA_SCKI_c :  in std_logic;
+  GND :  in std_logic);
+end i2s_transmitter_1;
+
+architecture beh of i2s_transmitter_1 is
+  signal VN_COUNT_S_0_COUT0 : std_logic_vector (4 to 4);
+  signal VN_COUNT_S : std_logic_vector (4 downto 0);
+  signal VN_COUNT_CRY : std_logic_vector (3 downto 0);
+  signal VN_COUNT_0 : std_logic_vector (2 downto 0);
+  signal VN_COUNT : std_logic_vector (4 downto 0);
+  signal Q_QN : std_logic ;
+  signal Q_QN_0 : std_logic ;
+  signal Q_QN_1 : std_logic ;
+  signal Q_QN_2 : std_logic ;
+  signal Q_QN_3 : std_logic ;
+  signal N_263_I_0 : std_logic ;
+  signal Q_QN_4 : std_logic ;
+  signal Q_QN_5 : std_logic ;
+  signal Q_QN_6 : std_logic ;
+  signal Q_QN_7 : std_logic ;
+  signal Q_QN_8 : std_logic ;
+  signal Q_QN_9 : std_logic ;
+  signal Q_QN_10 : std_logic ;
+  signal NC0 : std_logic ;
+  signal NC1 : std_logic ;
+  signal SL_SYNCE_0 : std_logic ;
+  signal DA_BCK_C_INT_24 : std_logic ;
+  signal SL_BCKE_0 : std_logic ;
+  signal N_191_I : std_logic ;
+  signal N_191_I_1 : std_logic ;
+  signal SL_LRCK_INT_25 : std_logic ;
+  signal N_203_I : std_logic ;
+  signal N_264_I_0_I : std_logic ;
+  signal N_292_I : std_logic ;
+  signal UN6_VN_COUNT : std_logic ;
+  signal UN6_VN_COUNT_2 : std_logic ;
+  signal VL_SYNC : std_logic ;
+  signal SL_SYNC : std_logic ;
+  signal UN6_SL_SYNC_INT_26 : std_logic ;
+  signal N_335 : std_logic ;
+  signal N_336 : std_logic ;
+  signal N_337 : std_logic ;
+  signal N_263 : std_logic ;
+  signal N_391 : std_logic ;
+  signal N_445 : std_logic ;
+  signal N_446 : std_logic ;
+  signal N_447 : std_logic ;
+  signal N_482 : std_logic ;
+  signal N_629 : std_logic ;
+  signal N_630 : std_logic ;
+  signal N_631 : std_logic ;
+  signal N_632 : std_logic ;
+  signal N_633 : std_logic ;
+  signal N_634 : std_logic ;
+  signal N_635 : std_logic ;
+  signal N_636 : std_logic ;
+  signal N_637 : std_logic ;
+  signal N_638 : std_logic ;
+  signal N_639 : std_logic ;
+  signal N_640 : std_logic ;
+  signal N_641 : std_logic ;
+  signal N_642 : std_logic ;
+  signal N_643 : std_logic ;
+  signal N_644 : std_logic ;
+  signal N_645 : std_logic ;
+  signal N_646 : std_logic ;
+  signal N_647 : std_logic ;
+  signal N_648 : std_logic ;
+  signal N_649 : std_logic ;
+  signal N_650 : std_logic ;
+  signal N_651 : std_logic ;
+  signal N_652 : std_logic ;
+  signal NN_1 : std_logic ;
+  signal NN_2 : std_logic ;
+  component ORCALUT4
+    port(
+      A : in std_logic;
+      B : in std_logic;
+      C : in std_logic;
+      D : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component FD1S3AX
+    port(
+      D : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component FD1P3AX
+    port(
+      D : in std_logic;
+      SP : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component CCU2
+    generic (
+      INIT0 : bit_vector := X"0000";
+      INIT1 : bit_vector := X"0000";
+      INJECT1_0 : string := "NO";
+      INJECT1_1 : string := "NO"
+    );
+    port(
+      A0 : in std_logic;
+      B0 : in std_logic;
+      C0 : in std_logic;
+      D0 : in std_logic;
+      A1 : in std_logic;
+      B1 : in std_logic;
+      C1 : in std_logic;
+      D1 : in std_logic;
+      CIN : in std_logic;
+      COUT0 : out std_logic;
+      COUT1 : out std_logic;
+      S0 : out std_logic;
+      S1 : out std_logic  );
+  end component;
+begin
+  N_263_I_0 <= (VN_COUNT_0(0) and not SL_SYNC and not VL_SYNC) or 
+	  (not VN_COUNT_0(0) and SL_SYNC and not VL_SYNC) or 
+	  (not VN_COUNT_0(0) and not SL_SYNC and VL_SYNC) or 
+	  (VN_COUNT_0(0) and SL_SYNC and VL_SYNC);
+  \II_sl_sync.Q\: FD1S3AX port map (
+      D => SL_SYNCE_0,
+      CK => DA_SCKI_c,
+      Q => SL_SYNC,
+      QN => Q_QN,
+      GSR => sl_nreset);
+  \II_sl_lrck.Q\: FD1P3AX port map (
+      D => N_203_I,
+      SP => UN6_SL_SYNC_INT_26,
+      CK => DA_SCKI_c,
+      Q => SL_LRCK_INT_25,
+      QN => Q_QN_0,
+      GSR => sl_nreset);
+  \II_sl_bck.Q\: FD1S3AX port map (
+      D => SL_BCKE_0,
+      CK => DA_SCKI_c,
+      Q => DA_BCK_C_INT_24,
+      QN => Q_QN_1,
+      GSR => sl_nreset);
+  \II_lrck_gen.vn_count_2_.Q\: FD1P3AX port map (
+      D => N_292_I,
+      SP => UN6_SL_SYNC_INT_26,
+      CK => DA_SCKI_c,
+      Q => VN_COUNT(2),
+      QN => Q_QN_2,
+      GSR => sl_nreset);
+  \II_lrck_gen.vn_count_1_.Q\: FD1P3AX port map (
+      D => N_264_I_0_I,
+      SP => UN6_SL_SYNC_INT_26,
+      CK => DA_SCKI_c,
+      Q => VN_COUNT(1),
+      QN => Q_QN_3,
+      GSR => sl_nreset);
+  \II_lrck_gen.vn_count_0_.Q\: FD1S3AX port map (
+      D => N_263_I_0,
+      CK => DA_SCKI_c,
+      Q => VN_COUNT_0(0),
+      QN => Q_QN_4,
+      GSR => sl_nreset);
+  \II_lrck_gen.vl_sync.Q\: FD1S3AX port map (
+      D => SL_SYNC,
+      CK => DA_SCKI_c,
+      Q => VL_SYNC,
+      QN => Q_QN_5,
+      GSR => sl_nreset);
+  \II_bck_gen.vn_count_4_.Q\: FD1S3AX port map (
+      D => VN_COUNT_S(4),
+      CK => DA_SCKI_c,
+      Q => VN_COUNT(4),
+      QN => Q_QN_6,
+      GSR => sl_nreset);
+  \II_bck_gen.vn_count_3_.Q\: FD1S3AX port map (
+      D => VN_COUNT_S(3),
+      CK => DA_SCKI_c,
+      Q => VN_COUNT(3),
+      QN => Q_QN_7,
+      GSR => sl_nreset);
+  \II_bck_gen.vn_count_2_.Q\: FD1S3AX port map (
+      D => VN_COUNT_S(2),
+      CK => DA_SCKI_c,
+      Q => VN_COUNT_0(2),
+      QN => Q_QN_8,
+      GSR => sl_nreset);
+  \II_bck_gen.vn_count_1_.Q\: FD1S3AX port map (
+      D => VN_COUNT_S(1),
+      CK => DA_SCKI_c,
+      Q => VN_COUNT_0(1),
+      QN => Q_QN_9,
+      GSR => sl_nreset);
+  \II_bck_gen.vn_count_0_.Q\: FD1S3AX port map (
+      D => VN_COUNT_S(0),
+      CK => DA_SCKI_c,
+      Q => VN_COUNT(0),
+      QN => Q_QN_10,
+      GSR => sl_nreset);
+  \II_bck_gen.vn_count_s_0[4]\: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"0000",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => VN_COUNT(4),
+    B0 => VCC,
+    C0 => GND,
+    D0 => GND,
+    A1 => GND,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => VN_COUNT_CRY(3),
+    COUT0 => VN_COUNT_S_0_COUT0(4),
+    COUT1 => NC0,
+    S0 => VN_COUNT_S(4),
+    S1 => NC1);
+  \II_bck_gen.vn_count_cry_0[2]\: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "YES",
+    INJECT1_1 => "YES"
+  )
+  port map (
+    A0 => VN_COUNT_0(2),
+    B0 => VCC,
+    C0 => GND,
+    D0 => GND,
+    A1 => VN_COUNT(3),
+    B1 => VCC,
+    C1 => GND,
+    D1 => GND,
+    CIN => VN_COUNT_CRY(1),
+    COUT0 => VN_COUNT_CRY(2),
+    COUT1 => VN_COUNT_CRY(3),
+    S0 => VN_COUNT_S(2),
+    S1 => VN_COUNT_S(3));
+  \II_bck_gen.vn_count_cry_0[0]\: CCU2 
+  generic map(
+    INIT0 => X"5006",
+    INIT1 => X"5006",
+    INJECT1_0 => "YES",
+    INJECT1_1 => "YES"
+  )
+  port map (
+    A0 => VN_COUNT(0),
+    B0 => VCC,
+    C0 => GND,
+    D0 => GND,
+    A1 => VN_COUNT_0(1),
+    B1 => VCC,
+    C1 => GND,
+    D1 => GND,
+    CIN => GND,
+    COUT0 => VN_COUNT_CRY(0),
+    COUT1 => VN_COUNT_CRY(1),
+    S0 => VN_COUNT_S(0),
+    S1 => VN_COUNT_S(1));
+  SL_SYNCE_0 <= (UN6_VN_COUNT and not SL_SYNC) or 
+	  (not UN6_VN_COUNT and SL_SYNC);
+  SL_BCKE_0 <= (DA_BCK_C_INT_24 and not N_191_I) or 
+	  (DA_BCK_C_INT_24 and VN_COUNT(0)) or 
+	  (N_191_I and VN_COUNT(0));
+  N_191_I <= (N_191_I_1 and UN6_VN_COUNT_2 and not VN_COUNT(0) and not VN_COUNT(4)) or 
+	  (not N_191_I_1 and VN_COUNT(0) and not VN_COUNT(4));
+  N_191_I_1 <= (not VN_COUNT(3)) or 
+	  (VN_COUNT(0) and not VN_COUNT_0(2)) or 
+	  (VN_COUNT(0) and not VN_COUNT_0(1));
+  N_203_I <= (VN_COUNT_0(0) and VN_COUNT(1) and not VN_COUNT(2)) or 
+	  (VN_COUNT_0(0) and SL_LRCK_INT_25) or 
+	  (VN_COUNT(1) and SL_LRCK_INT_25) or 
+	  (VN_COUNT(2) and SL_LRCK_INT_25);
+  N_264_I_0_I <= (not VN_COUNT_0(0) and not VN_COUNT(1)) or 
+	  (VN_COUNT_0(0) and VN_COUNT(1));
+  N_292_I <= (not VN_COUNT_0(0) and not VN_COUNT(1) and not VN_COUNT(2)) or 
+	  (VN_COUNT_0(0) and VN_COUNT(2)) or 
+	  (VN_COUNT(1) and VN_COUNT(2));
+  UN6_VN_COUNT <= UN6_VN_COUNT_2 and VN_COUNT(0) and not VN_COUNT(3) and not VN_COUNT(4);
+  UN6_VN_COUNT_2 <= not VN_COUNT_0(1) and not VN_COUNT_0(2);
+  UN6_SL_SYNC_INT_26 <= (VL_SYNC and not SL_SYNC) or 
+	  (not VL_SYNC and SL_SYNC);
+  NN_1 <= '0';
+  NN_2 <= '1';
+  DA_BCK_c <= DA_BCK_C_INT_24;
+  sl_lrck <= SL_LRCK_INT_25;
+  un6_sl_sync <= UN6_SL_SYNC_INT_26;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity reset_gen_1 is
+port(
+  vn_count : out std_logic_vector (19 downto 1);
+  un5_vn_count_i_0 : out std_logic_vector (32 downto 32);
+  g0_13 :  in std_logic;
+  g0_12 :  in std_logic;
+  VCC :  in std_logic;
+  CLK_c :  in std_logic;
+  GND :  in std_logic;
+  g0_x1 :  in std_logic;
+  g0_10 :  in std_logic;
+  g0_11 :  in std_logic;
+  sl_nreset_i :  out std_logic;
+  sl_nreset :  out std_logic);
+end reset_gen_1;
+
+architecture beh of reset_gen_1 is
+  signal Q_0_14 : std_logic ;
+  signal Q_QN_26 : std_logic ;
+  signal Q_0_15 : std_logic ;
+  signal Q_QN_27 : std_logic ;
+  signal Q_0 : std_logic ;
+  signal Q_QN_28 : std_logic ;
+  signal Q_0_0 : std_logic ;
+  signal Q_QN_29 : std_logic ;
+  signal Q_0_1 : std_logic ;
+  signal Q_QN_30 : std_logic ;
+  signal Q_0_2 : std_logic ;
+  signal Q_QN_31 : std_logic ;
+  signal Q_0_3 : std_logic ;
+  signal Q_QN_32 : std_logic ;
+  signal Q_0_4 : std_logic ;
+  signal Q_QN_33 : std_logic ;
+  signal Q_0_5 : std_logic ;
+  signal Q_QN_34 : std_logic ;
+  signal Q_QN_35 : std_logic ;
+  signal Q_QN_36 : std_logic ;
+  signal Q_0_17 : std_logic ;
+  signal Q_QN_37 : std_logic ;
+  signal Q_0_7 : std_logic ;
+  signal Q_QN_38 : std_logic ;
+  signal Q_0_8 : std_logic ;
+  signal Q_QN_39 : std_logic ;
+  signal Q_0_9 : std_logic ;
+  signal Q_QN_40 : std_logic ;
+  signal Q_0_10 : std_logic ;
+  signal Q_QN_41 : std_logic ;
+  signal Q_0_11 : std_logic ;
+  signal Q_QN_42 : std_logic ;
+  signal Q_0_12 : std_logic ;
+  signal Q_QN_43 : std_logic ;
+  signal Q_0_13 : std_logic ;
+  signal Q_QN_44 : std_logic ;
+  signal Q_0_6 : std_logic ;
+  signal Q_QN_45 : std_logic ;
+  signal Q_0_16 : std_logic ;
+  signal Q_QN_46 : std_logic ;
+  signal SL_NRESET_INT_22 : std_logic ;
+  signal UN5_VN_COUNT_CRY_18_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_18_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_18_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_18_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_16_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_16_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_16_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_16_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_14_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_14_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_14_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_14_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_12_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_12_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_12_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_12_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_10_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_10_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_10_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_10_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_8_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_8_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_8_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_8_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_6_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_6_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_6_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_6_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_4_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_4_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_4_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_4_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_2_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_2_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_2_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_2_0_S1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_0_0_COUT0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_0_0_COUT1 : std_logic ;
+  signal UN5_VN_COUNT_CRY_0_0_S0 : std_logic ;
+  signal UN5_VN_COUNT_CRY_0_0_S1 : std_logic ;
+  signal NRESETS_I : std_logic ;
+  signal NRESETS_I_1 : std_logic ;
+  signal VN_COUNT_19_INT_20 : std_logic ;
+  signal UN5_VN_COUNT_AXB_19 : std_logic ;
+  signal VN_COUNT_18_INT_19 : std_logic ;
+  signal UN5_VN_COUNT_AXB_18 : std_logic ;
+  signal VN_COUNT_17_INT_18 : std_logic ;
+  signal UN5_VN_COUNT_AXB_17 : std_logic ;
+  signal VN_COUNT_16_INT_17 : std_logic ;
+  signal UN5_VN_COUNT_AXB_16 : std_logic ;
+  signal VN_COUNT_15_INT_16 : std_logic ;
+  signal UN5_VN_COUNT_AXB_15 : std_logic ;
+  signal VN_COUNT_14_INT_15 : std_logic ;
+  signal UN5_VN_COUNT_AXB_14 : std_logic ;
+  signal VN_COUNT_13_INT_14 : std_logic ;
+  signal UN5_VN_COUNT_AXB_13 : std_logic ;
+  signal VN_COUNT_12_INT_13 : std_logic ;
+  signal UN5_VN_COUNT_AXB_12 : std_logic ;
+  signal VN_COUNT_11_INT_12 : std_logic ;
+  signal UN5_VN_COUNT_AXB_11 : std_logic ;
+  signal VN_COUNT_10_INT_11 : std_logic ;
+  signal UN5_VN_COUNT_AXB_10 : std_logic ;
+  signal VN_COUNT_9_INT_10 : std_logic ;
+  signal UN5_VN_COUNT_AXB_9 : std_logic ;
+  signal VN_COUNT_8_INT_9 : std_logic ;
+  signal UN5_VN_COUNT_AXB_8 : std_logic ;
+  signal VN_COUNT_7_INT_8 : std_logic ;
+  signal UN5_VN_COUNT_AXB_7 : std_logic ;
+  signal VN_COUNT_6_INT_7 : std_logic ;
+  signal UN5_VN_COUNT_AXB_6 : std_logic ;
+  signal VN_COUNT_5_INT_6 : std_logic ;
+  signal UN5_VN_COUNT_AXB_5 : std_logic ;
+  signal VN_COUNT_4_INT_5 : std_logic ;
+  signal UN5_VN_COUNT_AXB_4 : std_logic ;
+  signal VN_COUNT_3_INT_4 : std_logic ;
+  signal UN5_VN_COUNT_AXB_3 : std_logic ;
+  signal VN_COUNT_2_INT_3 : std_logic ;
+  signal UN5_VN_COUNT_AXB_2 : std_logic ;
+  signal VN_COUNT_1_INT_2 : std_logic ;
+  signal UN5_VN_COUNT_AXB_1 : std_logic ;
+  signal UN5_VN_COUNT_I_0_32_INT_21 : std_logic ;
+  signal UN5_VN_COUNT_AXB_0 : std_logic ;
+  signal N_261 : std_logic ;
+  signal NN_1 : std_logic ;
+  signal NN_2 : std_logic ;
+  component INV
+    port(
+      A : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component ORCALUT4
+    port(
+      A : in std_logic;
+      B : in std_logic;
+      C : in std_logic;
+      D : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component FD1S3AX
+    port(
+      D : in std_logic;
+      CK : in std_logic;
+      Q : out std_logic;
+      QN : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component CCU2
+    generic (
+      INIT0 : bit_vector := X"0000";
+      INIT1 : bit_vector := X"0000";
+      INJECT1_0 : string := "NO";
+      INJECT1_1 : string := "NO"
+    );
+    port(
+      A0 : in std_logic;
+      B0 : in std_logic;
+      C0 : in std_logic;
+      D0 : in std_logic;
+      A1 : in std_logic;
+      B1 : in std_logic;
+      C1 : in std_logic;
+      D1 : in std_logic;
+      CIN : in std_logic;
+      COUT0 : out std_logic;
+      COUT1 : out std_logic;
+      S0 : out std_logic;
+      S1 : out std_logic  );
+  end component;
+begin
+  \II_nRESET.sl_nreset_i\: INV port map (
+      A => SL_NRESET_INT_22,
+      Z => sl_nreset_i);
+  Q_0_15 <= (UN5_VN_COUNT_CRY_8_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_14 <= (UN5_VN_COUNT_CRY_8_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_13 <= (UN5_VN_COUNT_CRY_10_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_12 <= (UN5_VN_COUNT_CRY_10_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_11 <= (UN5_VN_COUNT_CRY_12_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_10 <= (UN5_VN_COUNT_CRY_12_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_9 <= (UN5_VN_COUNT_CRY_14_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_8 <= (UN5_VN_COUNT_CRY_14_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_7 <= (UN5_VN_COUNT_CRY_16_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_6 <= (not UN5_VN_COUNT_I_0_32_INT_21) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_5 <= (UN5_VN_COUNT_CRY_0_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_4 <= (UN5_VN_COUNT_CRY_2_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_3 <= (UN5_VN_COUNT_CRY_2_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_2 <= (UN5_VN_COUNT_CRY_4_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_1 <= (UN5_VN_COUNT_CRY_4_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_0 <= (UN5_VN_COUNT_CRY_6_0_S0) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0 <= (UN5_VN_COUNT_CRY_6_0_S1) or 
+	  (g0_11 and g0_10 and g0_x1);
+  Q_0_17 <= (UN5_VN_COUNT_CRY_16_0_S1 and not g0_x1) or 
+	  (UN5_VN_COUNT_CRY_16_0_S1 and not g0_10) or 
+	  (UN5_VN_COUNT_CRY_16_0_S1 and not g0_11);
+  Q_0_16 <= (not UN5_VN_COUNT_I_0_32_INT_21) or 
+	  (NRESETS_I);
+  \II_reset_count.vn_count_9_.Q\: FD1S3AX port map (
+      D => Q_0_14,
+      CK => CLK_c,
+      Q => VN_COUNT_9_INT_10,
+      QN => Q_QN_26,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_8_.Q\: FD1S3AX port map (
+      D => Q_0_15,
+      CK => CLK_c,
+      Q => VN_COUNT_8_INT_9,
+      QN => Q_QN_27,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_7_.Q\: FD1S3AX port map (
+      D => Q_0,
+      CK => CLK_c,
+      Q => VN_COUNT_7_INT_8,
+      QN => Q_QN_28,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_6_.Q\: FD1S3AX port map (
+      D => Q_0_0,
+      CK => CLK_c,
+      Q => VN_COUNT_6_INT_7,
+      QN => Q_QN_29,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_5_.Q\: FD1S3AX port map (
+      D => Q_0_1,
+      CK => CLK_c,
+      Q => VN_COUNT_5_INT_6,
+      QN => Q_QN_30,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_4_.Q\: FD1S3AX port map (
+      D => Q_0_2,
+      CK => CLK_c,
+      Q => VN_COUNT_4_INT_5,
+      QN => Q_QN_31,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_3_.Q\: FD1S3AX port map (
+      D => Q_0_3,
+      CK => CLK_c,
+      Q => VN_COUNT_3_INT_4,
+      QN => Q_QN_32,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_2_.Q\: FD1S3AX port map (
+      D => Q_0_4,
+      CK => CLK_c,
+      Q => VN_COUNT_2_INT_3,
+      QN => Q_QN_33,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_1_.Q\: FD1S3AX port map (
+      D => Q_0_5,
+      CK => CLK_c,
+      Q => VN_COUNT_1_INT_2,
+      QN => Q_QN_34,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_19_.Q\: FD1S3AX port map (
+      D => UN5_VN_COUNT_CRY_18_0_S1,
+      CK => CLK_c,
+      Q => VN_COUNT_19_INT_20,
+      QN => Q_QN_35,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_18_.Q\: FD1S3AX port map (
+      D => UN5_VN_COUNT_CRY_18_0_S0,
+      CK => CLK_c,
+      Q => VN_COUNT_18_INT_19,
+      QN => Q_QN_36,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_17_.Q\: FD1S3AX port map (
+      D => Q_0_17,
+      CK => CLK_c,
+      Q => VN_COUNT_17_INT_18,
+      QN => Q_QN_37,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_16_.Q\: FD1S3AX port map (
+      D => Q_0_7,
+      CK => CLK_c,
+      Q => VN_COUNT_16_INT_17,
+      QN => Q_QN_38,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_15_.Q\: FD1S3AX port map (
+      D => Q_0_8,
+      CK => CLK_c,
+      Q => VN_COUNT_15_INT_16,
+      QN => Q_QN_39,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_14_.Q\: FD1S3AX port map (
+      D => Q_0_9,
+      CK => CLK_c,
+      Q => VN_COUNT_14_INT_15,
+      QN => Q_QN_40,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_13_.Q\: FD1S3AX port map (
+      D => Q_0_10,
+      CK => CLK_c,
+      Q => VN_COUNT_13_INT_14,
+      QN => Q_QN_41,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_12_.Q\: FD1S3AX port map (
+      D => Q_0_11,
+      CK => CLK_c,
+      Q => VN_COUNT_12_INT_13,
+      QN => Q_QN_42,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_11_.Q\: FD1S3AX port map (
+      D => Q_0_12,
+      CK => CLK_c,
+      Q => VN_COUNT_11_INT_12,
+      QN => Q_QN_43,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_10_.Q\: FD1S3AX port map (
+      D => Q_0_13,
+      CK => CLK_c,
+      Q => VN_COUNT_10_INT_11,
+      QN => Q_QN_44,
+      GSR => SL_NRESET_INT_22);
+  \II_reset_count.vn_count_0_.Q\: FD1S3AX port map (
+      D => Q_0_6,
+      CK => CLK_c,
+      Q => UN5_VN_COUNT_I_0_32_INT_21,
+      QN => Q_QN_45,
+      GSR => SL_NRESET_INT_22);
+  \II_nRESET.Q\: FD1S3AX port map (
+      D => Q_0_16,
+      CK => CLK_c,
+      Q => SL_NRESET_INT_22,
+      QN => Q_QN_46,
+      GSR => SL_NRESET_INT_22);
+  II_un5_vn_count_cry_18_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_18,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_19,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_16_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_18_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_18_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_18_0_S0,
+    S1 => UN5_VN_COUNT_CRY_18_0_S1);
+  II_un5_vn_count_cry_16_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_16,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_17,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_14_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_16_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_16_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_16_0_S0,
+    S1 => UN5_VN_COUNT_CRY_16_0_S1);
+  II_un5_vn_count_cry_14_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_14,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_15,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_12_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_14_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_14_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_14_0_S0,
+    S1 => UN5_VN_COUNT_CRY_14_0_S1);
+  II_un5_vn_count_cry_12_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_12,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_13,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_10_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_12_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_12_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_12_0_S0,
+    S1 => UN5_VN_COUNT_CRY_12_0_S1);
+  II_un5_vn_count_cry_10_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_10,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_11,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_8_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_10_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_10_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_10_0_S0,
+    S1 => UN5_VN_COUNT_CRY_10_0_S1);
+  II_un5_vn_count_cry_8_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_8,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_9,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_6_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_8_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_8_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_8_0_S0,
+    S1 => UN5_VN_COUNT_CRY_8_0_S1);
+  II_un5_vn_count_cry_6_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_6,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_7,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_4_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_6_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_6_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_6_0_S0,
+    S1 => UN5_VN_COUNT_CRY_6_0_S1);
+  II_un5_vn_count_cry_4_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_4,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_5,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_2_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_4_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_4_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_4_0_S0,
+    S1 => UN5_VN_COUNT_CRY_4_0_S1);
+  II_un5_vn_count_cry_2_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_2,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_3,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => UN5_VN_COUNT_CRY_0_0_COUT1,
+    COUT0 => UN5_VN_COUNT_CRY_2_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_2_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_2_0_S0,
+    S1 => UN5_VN_COUNT_CRY_2_0_S1);
+  II_un5_vn_count_cry_0_0: CCU2 
+  generic map(
+    INIT0 => X"300a",
+    INIT1 => X"300a",
+    INJECT1_0 => "NO",
+    INJECT1_1 => "NO"
+  )
+  port map (
+    A0 => UN5_VN_COUNT_AXB_0,
+    B0 => GND,
+    C0 => GND,
+    D0 => GND,
+    A1 => UN5_VN_COUNT_AXB_1,
+    B1 => GND,
+    C1 => GND,
+    D1 => GND,
+    CIN => VCC,
+    COUT0 => UN5_VN_COUNT_CRY_0_0_COUT0,
+    COUT1 => UN5_VN_COUNT_CRY_0_0_COUT1,
+    S0 => UN5_VN_COUNT_CRY_0_0_S0,
+    S1 => UN5_VN_COUNT_CRY_0_0_S1);
+  NRESETS_I <= (not g0_11) or 
+	  (not g0_10) or 
+	  (NRESETS_I_1) or 
+	  (VN_COUNT_17_INT_18);
+  NRESETS_I_1 <= (not VN_COUNT_15_INT_16) or 
+	  (not VN_COUNT_14_INT_15) or 
+	  (not g0_13) or 
+	  (not g0_12);
+  UN5_VN_COUNT_AXB_19 <= VN_COUNT_19_INT_20;
+  UN5_VN_COUNT_AXB_18 <= VN_COUNT_18_INT_19;
+  UN5_VN_COUNT_AXB_17 <= VN_COUNT_17_INT_18;
+  UN5_VN_COUNT_AXB_16 <= VN_COUNT_16_INT_17;
+  UN5_VN_COUNT_AXB_15 <= VN_COUNT_15_INT_16;
+  UN5_VN_COUNT_AXB_14 <= VN_COUNT_14_INT_15;
+  UN5_VN_COUNT_AXB_13 <= VN_COUNT_13_INT_14;
+  UN5_VN_COUNT_AXB_12 <= VN_COUNT_12_INT_13;
+  UN5_VN_COUNT_AXB_11 <= VN_COUNT_11_INT_12;
+  UN5_VN_COUNT_AXB_10 <= VN_COUNT_10_INT_11;
+  UN5_VN_COUNT_AXB_9 <= VN_COUNT_9_INT_10;
+  UN5_VN_COUNT_AXB_8 <= VN_COUNT_8_INT_9;
+  UN5_VN_COUNT_AXB_7 <= VN_COUNT_7_INT_8;
+  UN5_VN_COUNT_AXB_6 <= VN_COUNT_6_INT_7;
+  UN5_VN_COUNT_AXB_5 <= VN_COUNT_5_INT_6;
+  UN5_VN_COUNT_AXB_4 <= VN_COUNT_4_INT_5;
+  UN5_VN_COUNT_AXB_3 <= VN_COUNT_3_INT_4;
+  UN5_VN_COUNT_AXB_2 <= VN_COUNT_2_INT_3;
+  UN5_VN_COUNT_AXB_1 <= VN_COUNT_1_INT_2;
+  UN5_VN_COUNT_AXB_0 <= UN5_VN_COUNT_I_0_32_INT_21;
+  NN_1 <= '0';
+  NN_2 <= '1';
+  vn_count(1) <= VN_COUNT_1_INT_2;
+  vn_count(2) <= VN_COUNT_2_INT_3;
+  vn_count(3) <= VN_COUNT_3_INT_4;
+  vn_count(4) <= VN_COUNT_4_INT_5;
+  vn_count(5) <= VN_COUNT_5_INT_6;
+  vn_count(6) <= VN_COUNT_6_INT_7;
+  vn_count(7) <= VN_COUNT_7_INT_8;
+  vn_count(8) <= VN_COUNT_8_INT_9;
+  vn_count(9) <= VN_COUNT_9_INT_10;
+  vn_count(10) <= VN_COUNT_10_INT_11;
+  vn_count(11) <= VN_COUNT_11_INT_12;
+  vn_count(12) <= VN_COUNT_12_INT_13;
+  vn_count(13) <= VN_COUNT_13_INT_14;
+  vn_count(14) <= VN_COUNT_14_INT_15;
+  vn_count(15) <= VN_COUNT_15_INT_16;
+  vn_count(16) <= VN_COUNT_16_INT_17;
+  vn_count(17) <= VN_COUNT_17_INT_18;
+  vn_count(18) <= VN_COUNT_18_INT_19;
+  vn_count(19) <= VN_COUNT_19_INT_20;
+  un5_vn_count_i_0(32) <= UN5_VN_COUNT_I_0_32_INT_21;
+  sl_nreset <= SL_NRESET_INT_22;
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity clockgen_main_1 is
+port(
+  DA_SCKI_c :  out std_logic;
+  GND :  in std_logic;
+  CLK_c :  in std_logic);
+end clockgen_main_1;
+
+architecture beh of clockgen_main_1 is
+  signal SL_CLK_98M304 : std_logic ;
+  signal CLKOS : std_logic ;
+  signal SL_CLK_LOCK : std_logic ;
+  signal DDAOZR : std_logic ;
+  signal DDAOLAG : std_logic ;
+  signal DDAODEL0 : std_logic ;
+  signal DDAODEL1 : std_logic ;
+  signal DDAODEL2 : std_logic ;
+  signal AD_SCKI_I : std_logic ;
+  signal NN_1 : std_logic ;
+  signal VCC : std_logic ;
+  component EHXPLLB
+    port(
+      CLKI : in std_logic;
+      CLKFB : in std_logic;
+      RST : in std_logic;
+      DDAMODE : in std_logic;
+      DDAIZR : in std_logic;
+      DDAILAG : in std_logic;
+      DDAIDEL0 : in std_logic;
+      DDAIDEL1 : in std_logic;
+      DDAIDEL2 : in std_logic;
+      CLKOP : out std_logic;
+      CLKOS : out std_logic;
+      CLKOK : out std_logic;
+      LOCK : out std_logic;
+      DDAOZR : out std_logic;
+      DDAOLAG : out std_logic;
+      DDAODEL0 : out std_logic;
+      DDAODEL1 : out std_logic;
+      DDAODEL2 : out std_logic  );
+  end component;
+begin
+  II_PLLBInst_0: EHXPLLB port map (
+      CLKI => CLK_c,
+      CLKFB => SL_CLK_98M304,
+      RST => GND,
+      DDAMODE => GND,
+      DDAIZR => GND,
+      DDAILAG => GND,
+      DDAIDEL0 => GND,
+      DDAIDEL1 => GND,
+      DDAIDEL2 => GND,
+      CLKOP => SL_CLK_98M304,
+      CLKOS => CLKOS,
+      CLKOK => AD_SCKI_I,
+      LOCK => SL_CLK_LOCK,
+      DDAOZR => DDAOZR,
+      DDAOLAG => DDAOLAG,
+      DDAODEL0 => DDAODEL0,
+      DDAODEL1 => DDAODEL1,
+      DDAODEL2 => DDAODEL2);
+  DA_SCKI_c <= AD_SCKI_I;
+  NN_1 <= '0';
+  VCC <= '1';
+end beh;
+
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library synplify;
+use synplify.components.all;
+
+entity toplevel is
+port(
+  CLK :  in std_logic;
+  SWITCHES : in std_logic_vector (7 downto 0);
+  BUTTONS : in std_logic_vector (7 downto 0);
+  STATUS_RED : out std_logic_vector (2 downto 0);
+  STATUS_YELLOW : out std_logic_vector (2 downto 0);
+  STATUS_GREEN : out std_logic_vector (2 downto 0);
+  SEGMENT_LED1 : out std_logic_vector (7 downto 0);
+  SEGMENT_LED2 : out std_logic_vector (7 downto 0);
+  SEGMENT_LED3 : out std_logic_vector (7 downto 0);
+  SEGMENT_LED4 : out std_logic_vector (7 downto 0);
+  BARGRAPH_LEFT : out std_logic_vector (7 downto 0);
+  BARGRAPH_RIGHT : out std_logic_vector (7 downto 0);
+  RS232_TX :  out std_logic;
+  RS232_RX :  in std_logic;
+  RS232_DTR :  out std_logic;
+  RS232_DSR :  in std_logic;
+  EXTENDER_B7 : in std_logic_vector (15 downto 0);
+  EXTENDER_B5 : in std_logic_vector (15 downto 0);
+  MA_ZCEN :  out std_logic;
+  MA_nDCEN :  out std_logic;
+  MA_nCS :  out std_logic;
+  MA_SCLK :  out std_logic;
+  MA_SDI :  out std_logic;
+  MA_SDO :  in std_logic;
+  AD_SCKI :  out std_logic;
+  AD_LRCK :  in std_logic;
+  AD_BCK :  in std_logic;
+  AD_DOUT :  in std_logic;
+  AD_FMT : out std_logic_vector (1 downto 0);
+  AD_MODE : out std_logic_vector (1 downto 0);
+  AD_BYPAS :  out std_logic;
+  AD_OSR :  out std_logic;
+  AD_nPDWN :  out std_logic;
+  DA_SCKI :  out std_logic;
+  DA_LRCK :  out std_logic;
+  DA_BCK :  out std_logic;
+  DA_DIN :  out std_logic;
+  DA_nRST :  out std_logic;
+  DA_ZEROL :  in std_logic;
+  DA_ZEROR :  in std_logic;
+  DA_DEMP : out std_logic_vector (1 downto 0);
+  DA_FMT : out std_logic_vector (2 downto 0);
+  DA_MUTE :  out std_logic;
+  PA_nEN :  out std_logic);
+end toplevel;
+
+architecture beh of toplevel is
+  signal \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\ : std_logic_vector (4 downto 0);
+  signal \RESET_GEN_1.RESET_COUNT.VN_COUNT\ : std_logic_vector (19 downto 1);
+  signal \RESET_GEN_1.UN5_VN_COUNT_I_0\ : std_logic_vector (32 to 32);
+  signal G0_I_M2_L3 : std_logic ;
+  signal G0_I_M2_L5 : std_logic ;
+  signal \GAIN_CONTROL_1.PROC_TRANSMIT.UN9_VL_LAST_TOGGLE\ : std_logic ;
+  signal \GAIN_CONTROL_1.SL_CHANGED\ : std_logic ;
+  signal \GAIN_CONTROL_1.SL_CHANGED_ACKE_0\ : std_logic ;
+  signal G0_8_X1 : std_logic ;
+  signal G0_X1 : std_logic ;
+  signal G0_10 : std_logic ;
+  signal G0_11 : std_logic ;
+  signal G0_I_M2_L1 : std_logic ;
+  signal \GAIN_CONTROL_1.PROC_TRANSMIT.VL_LAST_TOGGLE\ : std_logic ;
+  signal SL_NRESET : std_logic ;
+  signal G0_2_0 : std_logic ;
+  signal \GAIN_CONTROL_1.SL_CHANGED_ACK\ : std_logic ;
+  signal G0_12 : std_logic ;
+  signal G0_13 : std_logic ;
+  signal G0_14 : std_logic ;
+  signal \GAIN_CONTROL_1.PROC_TRANSMIT.UN16_VL_LAST_TOGGLE\ : std_logic ;
+  signal \GAIN_CONTROL_1.NCS_0_SQMUXA_1\ : std_logic ;
+  signal \SEGMENT_DECODER_1.OUTPUT_E_I\ : std_logic ;
+  signal \SEGMENT_DECODER_1.OUTPUT_E_I_0\ : std_logic ;
+  signal \I2S_TRANSMITTER_1.SL_LRCK\ : std_logic ;
+  signal UN6_SL_SYNC : std_logic ;
+  signal CLK_C : std_logic ;
+  signal VCC : std_logic ;
+  signal MA_NCS_C : std_logic ;
+  signal MA_SCLK_C : std_logic ;
+  signal DA_SCKI_C : std_logic ;
+  signal DA_LRCK_C : std_logic ;
+  signal DA_BCK_C : std_logic ;
+  signal GND : std_logic ;
+  signal \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\ : std_logic ;
+  signal SL_NRESET_I : std_logic ;
+  component OFS1P3DX
+    port(
+      D : in std_logic;
+      SP : in std_logic;
+      SCLK : in std_logic;
+      CD : in std_logic;
+      Q : out std_logic;
+      GSR : in std_logic  );
+  end component;
+  component VLO
+    port(
+      Z : out std_logic  );
+  end component;
+  component VHI
+    port(
+      Z : out std_logic  );
+  end component;
+  component OB
+    port(
+      I : in std_logic;
+      O : out std_logic  );
+  end component;
+  component OBZ
+    port(
+      I : in std_logic;
+      T : in std_logic;
+      O : out std_logic  );
+  end component;
+  component IB
+    port(
+      I : in std_logic;
+      O : out std_logic  );
+  end component;
+  component GSR
+    port(
+      GSR : in std_logic  );
+  end component;
+  component ORCALUT4
+    port(
+      A : in std_logic;
+      B : in std_logic;
+      C : in std_logic;
+      D : in std_logic;
+      Z : out std_logic  );
+  end component;
+  component clockgen_main_1
+    port(
+      DA_SCKI_c : out std_logic;
+      GND : in std_logic;
+      CLK_c : in std_logic  );
+  end component;
+  component reset_gen_1
+    port(
+      vn_count : out std_logic_vector(19 downto 1);
+      un5_vn_count_i_0 : out std_logic_vector(32 downto 32);
+      g0_13 : in std_logic;
+      g0_12 : in std_logic;
+      VCC : in std_logic;
+      CLK_c : in std_logic;
+      GND : in std_logic;
+      g0_x1 : in std_logic;
+      g0_10 : in std_logic;
+      g0_11 : in std_logic;
+      sl_nreset_i : out std_logic;
+      sl_nreset : out std_logic  );
+  end component;
+  component i2s_transmitter_1
+    port(
+      VCC : in std_logic;
+      DA_BCK_c : out std_logic;
+      sl_lrck : out std_logic;
+      un6_sl_sync : out std_logic;
+      sl_nreset : in std_logic;
+      DA_SCKI_c : in std_logic;
+      GND : in std_logic  );
+  end component;
+  component gain_control_1
+    port(
+      vn_counter : out std_logic_vector(4 downto 0);
+      un16_vl_last_toggle : in std_logic;
+      OUTPUT_e_i_0 : in std_logic;
+      nCS_0_sqmuxa_1 : in std_logic;
+      un9_vl_last_toggle : in std_logic;
+      VCC : in std_logic;
+      MA_nCS_c : out std_logic;
+      OUTPUT_e_i : in std_logic;
+      vl_last_toggle : out std_logic;
+      g0_i_m2_L3 : in std_logic;
+      sl_changed : out std_logic;
+      sl_changed_ack : out std_logic;
+      sl_changed_acke_0 : in std_logic;
+      sl_nreset : in std_logic;
+      sl_nreset_i : in std_logic;
+      DA_SCKI_c : in std_logic;
+      GND : in std_logic;
+      MA_SCLK_c : out std_logic  );
+  end component;
+  component segment_decoder_4
+    port(
+      sl_nreset : in std_logic;
+      DA_SCKI_c : in std_logic;
+      GND : in std_logic;
+      OUTPUT_e_i_0_i : out std_logic;
+      OUTPUT_e_i_0 : out std_logic  );
+  end component;
+  component segment_decoder_3_1
+    port(
+      OUTPUT_e_i : out std_logic;
+      GND : in std_logic;
+      OUTPUT_e_i_0 : in std_logic  );
+  end component;
+  component PUR
+    port(
+      PUR : in std_logic  );
+  end component;
+begin
+  II_i2s_transmitter_1_shift_regs_and_output_vl_lrck_Qio: OFS1P3DX port map (
+      D => \I2S_TRANSMITTER_1.SL_LRCK\,
+      SP => UN6_SL_SYNC,
+      SCLK => DA_SCKI_C,
+      CD => GND,
+      Q => DA_LRCK_C,
+      GSR => SL_NRESET);
+  II_GND: VLO port map (
+      Z => GND);
+  II_VCC: VHI port map (
+      Z => VCC);
+  II_PA_nEN_pad: OB port map (
+      I => GND,
+      O => PA_nEN);
+  II_DA_MUTE_pad: OB port map (
+      I => GND,
+      O => DA_MUTE);
+  \II_DA_FMT_pad[2]\: OB port map (
+      I => GND,
+      O => DA_FMT(2));
+  \II_DA_FMT_pad[1]\: OB port map (
+      I => GND,
+      O => DA_FMT(1));
+  \II_DA_FMT_pad[0]\: OB port map (
+      I => GND,
+      O => DA_FMT(0));
+  \II_DA_DEMP_pad[1]\: OB port map (
+      I => GND,
+      O => DA_DEMP(1));
+  \II_DA_DEMP_pad[0]\: OB port map (
+      I => GND,
+      O => DA_DEMP(0));
+  II_DA_nRST_pad: OB port map (
+      I => GND,
+      O => DA_nRST);
+  II_DA_DIN_pad: OB port map (
+      I => GND,
+      O => DA_DIN);
+  II_DA_BCK_pad: OB port map (
+      I => DA_BCK_C,
+      O => DA_BCK);
+  II_DA_LRCK_pad: OB port map (
+      I => DA_LRCK_C,
+      O => DA_LRCK);
+  II_DA_SCKI_pad: OB port map (
+      I => DA_SCKI_C,
+      O => DA_SCKI);
+  II_AD_nPDWN_pad: OB port map (
+      I => GND,
+      O => AD_nPDWN);
+  II_AD_OSR_pad: OB port map (
+      I => GND,
+      O => AD_OSR);
+  II_AD_BYPAS_pad: OB port map (
+      I => GND,
+      O => AD_BYPAS);
+  \II_AD_MODE_pad[1]\: OB port map (
+      I => GND,
+      O => AD_MODE(1));
+  \II_AD_MODE_pad[0]\: OB port map (
+      I => GND,
+      O => AD_MODE(0));
+  \II_AD_FMT_pad[1]\: OB port map (
+      I => GND,
+      O => AD_FMT(1));
+  \II_AD_FMT_pad[0]\: OB port map (
+      I => GND,
+      O => AD_FMT(0));
+  II_AD_SCKI_pad: OB port map (
+      I => DA_SCKI_C,
+      O => AD_SCKI);
+  II_MA_SDI_pad: OB port map (
+      I => GND,
+      O => MA_SDI);
+  II_MA_SCLK_pad: OB port map (
+      I => MA_SCLK_C,
+      O => MA_SCLK);
+  II_MA_nCS_pad: OB port map (
+      I => MA_NCS_C,
+      O => MA_nCS);
+  II_MA_nDCEN_pad: OB port map (
+      I => GND,
+      O => MA_nDCEN);
+  II_MA_ZCEN_pad: OB port map (
+      I => VCC,
+      O => MA_ZCEN);
+  II_RS232_DTR_pad: OB port map (
+      I => GND,
+      O => RS232_DTR);
+  II_RS232_TX_pad: OB port map (
+      I => GND,
+      O => RS232_TX);
+  \II_BARGRAPH_RIGHT_pad[7]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(7));
+  \II_BARGRAPH_RIGHT_pad[6]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(6));
+  \II_BARGRAPH_RIGHT_pad[5]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(5));
+  \II_BARGRAPH_RIGHT_pad[4]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(4));
+  \II_BARGRAPH_RIGHT_pad[3]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(3));
+  \II_BARGRAPH_RIGHT_pad[2]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(2));
+  \II_BARGRAPH_RIGHT_pad[1]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(1));
+  \II_BARGRAPH_RIGHT_pad[0]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_RIGHT(0));
+  \II_BARGRAPH_LEFT_pad[7]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(7));
+  \II_BARGRAPH_LEFT_pad[6]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(6));
+  \II_BARGRAPH_LEFT_pad[5]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(5));
+  \II_BARGRAPH_LEFT_pad[4]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(4));
+  \II_BARGRAPH_LEFT_pad[3]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(3));
+  \II_BARGRAPH_LEFT_pad[2]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(2));
+  \II_BARGRAPH_LEFT_pad[1]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(1));
+  \II_BARGRAPH_LEFT_pad[0]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => BARGRAPH_LEFT(0));
+  \II_SEGMENT_LED4_pad[7]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(7));
+  \II_SEGMENT_LED4_pad[6]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(6));
+  \II_SEGMENT_LED4_pad[5]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(5));
+  \II_SEGMENT_LED4_pad[4]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(4));
+  \II_SEGMENT_LED4_pad[3]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(3));
+  \II_SEGMENT_LED4_pad[2]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(2));
+  \II_SEGMENT_LED4_pad[1]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(1));
+  \II_SEGMENT_LED4_pad[0]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED4(0));
+  \II_SEGMENT_LED3_pad[7]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(7));
+  \II_SEGMENT_LED3_pad[6]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(6));
+  \II_SEGMENT_LED3_pad[5]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(5));
+  \II_SEGMENT_LED3_pad[4]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(4));
+  \II_SEGMENT_LED3_pad[3]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(3));
+  \II_SEGMENT_LED3_pad[2]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(2));
+  \II_SEGMENT_LED3_pad[1]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(1));
+  \II_SEGMENT_LED3_pad[0]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED3(0));
+  \II_SEGMENT_LED2_pad[7]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(7));
+  \II_SEGMENT_LED2_pad[6]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(6));
+  \II_SEGMENT_LED2_pad[5]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(5));
+  \II_SEGMENT_LED2_pad[4]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(4));
+  \II_SEGMENT_LED2_pad[3]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(3));
+  \II_SEGMENT_LED2_pad[2]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(2));
+  \II_SEGMENT_LED2_pad[1]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(1));
+  \II_SEGMENT_LED2_pad[0]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED2(0));
+  \II_SEGMENT_LED1_pad[7]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(7));
+  \II_SEGMENT_LED1_pad[6]\: OBZ port map (
+      I => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(6));
+  \II_SEGMENT_LED1_pad[5]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(5));
+  \II_SEGMENT_LED1_pad[4]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(4));
+  \II_SEGMENT_LED1_pad[3]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(3));
+  \II_SEGMENT_LED1_pad[2]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(2));
+  \II_SEGMENT_LED1_pad[1]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(1));
+  \II_SEGMENT_LED1_pad[0]\: OBZ port map (
+      I => GND,
+      T => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      O => SEGMENT_LED1(0));
+  \II_STATUS_GREEN_pad[2]\: OB port map (
+      I => GND,
+      O => STATUS_GREEN(2));
+  \II_STATUS_GREEN_pad[1]\: OB port map (
+      I => GND,
+      O => STATUS_GREEN(1));
+  \II_STATUS_GREEN_pad[0]\: OB port map (
+      I => GND,
+      O => STATUS_GREEN(0));
+  \II_STATUS_YELLOW_pad[2]\: OB port map (
+      I => GND,
+      O => STATUS_YELLOW(2));
+  \II_STATUS_YELLOW_pad[1]\: OB port map (
+      I => GND,
+      O => STATUS_YELLOW(1));
+  \II_STATUS_YELLOW_pad[0]\: OB port map (
+      I => GND,
+      O => STATUS_YELLOW(0));
+  \II_STATUS_RED_pad[2]\: OB port map (
+      I => GND,
+      O => STATUS_RED(2));
+  \II_STATUS_RED_pad[1]\: OB port map (
+      I => GND,
+      O => STATUS_RED(1));
+  \II_STATUS_RED_pad[0]\: OB port map (
+      I => GND,
+      O => STATUS_RED(0));
+  II_CLK_pad: IB port map (
+      I => CLK,
+      O => CLK_C);
+  II_GSR_INST: GSR port map (
+      GSR => SL_NRESET);
+  \GAIN_CONTROL_1.SL_CHANGED_ACKE_0\ <= (not G0_I_M2_L3 and not G0_I_M2_L5) or 
+	  (not G0_I_M2_L5 and \GAIN_CONTROL_1.SL_CHANGED\) or 
+	  (G0_I_M2_L3 and \GAIN_CONTROL_1.PROC_TRANSMIT.UN9_VL_LAST_TOGGLE\ and \GAIN_CONTROL_1.SL_CHANGED\);
+  \GAIN_CONTROL_1.PROC_TRANSMIT.UN9_VL_LAST_TOGGLE\ <= G0_8_X1 and \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(0);
+  G0_I_M2_L1 <= not \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(0) and not \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(3) and \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(4);
+  G0_I_M2_L3 <= not MA_SCLK_C and \GAIN_CONTROL_1.PROC_TRANSMIT.VL_LAST_TOGGLE\ and SL_NRESET;
+  G0_I_M2_L5 <= (not G0_2_0 and not \GAIN_CONTROL_1.SL_CHANGED_ACK\) or 
+	  (not G0_I_M2_L3 and not \GAIN_CONTROL_1.SL_CHANGED_ACK\) or 
+	  (not G0_I_M2_L1 and not \GAIN_CONTROL_1.SL_CHANGED_ACK\);
+  G0_8_X1 <= \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(1) and \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(2) and \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(3) and not \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(4);
+  G0_X1 <= G0_12 and G0_13 and G0_14;
+  \GAIN_CONTROL_1.PROC_TRANSMIT.UN16_VL_LAST_TOGGLE\ <= G0_2_0 and not \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(0) and not \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(3) and \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(4);
+  G0_2_0 <= not \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(1) and \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(2);
+  \GAIN_CONTROL_1.NCS_0_SQMUXA_1\ <= not MA_SCLK_C and \GAIN_CONTROL_1.PROC_TRANSMIT.VL_LAST_TOGGLE\ and \GAIN_CONTROL_1.SL_CHANGED\ and SL_NRESET;
+  G0_14 <= \RESET_GEN_1.RESET_COUNT.VN_COUNT\(14) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(15) and not \RESET_GEN_1.RESET_COUNT.VN_COUNT\(17) and \RESET_GEN_1.UN5_VN_COUNT_I_0\(32);
+  G0_13 <= \RESET_GEN_1.RESET_COUNT.VN_COUNT\(8) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(10) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(13) and not \RESET_GEN_1.RESET_COUNT.VN_COUNT\(18);
+  G0_12 <= \RESET_GEN_1.RESET_COUNT.VN_COUNT\(6) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(9) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(11) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(12);
+  G0_11 <= \RESET_GEN_1.RESET_COUNT.VN_COUNT\(2) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(5) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(7) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(16);
+  G0_10 <= \RESET_GEN_1.RESET_COUNT.VN_COUNT\(1) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(3) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(4) and \RESET_GEN_1.RESET_COUNT.VN_COUNT\(19);
+  II_clockgen_main_1: clockgen_main_1 port map (
+      DA_SCKI_c => DA_SCKI_C,
+      GND => GND,
+      CLK_c => CLK_C);
+  II_reset_gen_1: reset_gen_1 port map (
+      vn_count(1) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(1),
+      vn_count(2) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(2),
+      vn_count(3) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(3),
+      vn_count(4) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(4),
+      vn_count(5) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(5),
+      vn_count(6) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(6),
+      vn_count(7) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(7),
+      vn_count(8) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(8),
+      vn_count(9) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(9),
+      vn_count(10) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(10),
+      vn_count(11) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(11),
+      vn_count(12) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(12),
+      vn_count(13) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(13),
+      vn_count(14) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(14),
+      vn_count(15) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(15),
+      vn_count(16) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(16),
+      vn_count(17) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(17),
+      vn_count(18) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(18),
+      vn_count(19) => \RESET_GEN_1.RESET_COUNT.VN_COUNT\(19),
+      un5_vn_count_i_0(32) => \RESET_GEN_1.UN5_VN_COUNT_I_0\(32),
+      g0_13 => G0_13,
+      g0_12 => G0_12,
+      VCC => VCC,
+      CLK_c => CLK_C,
+      GND => GND,
+      g0_x1 => G0_X1,
+      g0_10 => G0_10,
+      g0_11 => G0_11,
+      sl_nreset_i => SL_NRESET_I,
+      sl_nreset => SL_NRESET);
+  II_i2s_transmitter_1: i2s_transmitter_1 port map (
+      VCC => VCC,
+      DA_BCK_c => DA_BCK_C,
+      sl_lrck => \I2S_TRANSMITTER_1.SL_LRCK\,
+      un6_sl_sync => UN6_SL_SYNC,
+      sl_nreset => SL_NRESET,
+      DA_SCKI_c => DA_SCKI_C,
+      GND => GND);
+  II_gain_control_1: gain_control_1 port map (
+      vn_counter(0) => \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(0),
+      vn_counter(1) => \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(1),
+      vn_counter(2) => \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(2),
+      vn_counter(3) => \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(3),
+      vn_counter(4) => \GAIN_CONTROL_1.PROC_TRANSMIT.VN_COUNTER\(4),
+      un16_vl_last_toggle => \GAIN_CONTROL_1.PROC_TRANSMIT.UN16_VL_LAST_TOGGLE\,
+      OUTPUT_e_i_0 => \SEGMENT_DECODER_1.OUTPUT_E_I_0\,
+      nCS_0_sqmuxa_1 => \GAIN_CONTROL_1.NCS_0_SQMUXA_1\,
+      un9_vl_last_toggle => \GAIN_CONTROL_1.PROC_TRANSMIT.UN9_VL_LAST_TOGGLE\,
+      VCC => VCC,
+      MA_nCS_c => MA_NCS_C,
+      OUTPUT_e_i => \SEGMENT_DECODER_1.OUTPUT_E_I\,
+      vl_last_toggle => \GAIN_CONTROL_1.PROC_TRANSMIT.VL_LAST_TOGGLE\,
+      g0_i_m2_L3 => G0_I_M2_L3,
+      sl_changed => \GAIN_CONTROL_1.SL_CHANGED\,
+      sl_changed_ack => \GAIN_CONTROL_1.SL_CHANGED_ACK\,
+      sl_changed_acke_0 => \GAIN_CONTROL_1.SL_CHANGED_ACKE_0\,
+      sl_nreset => SL_NRESET,
+      sl_nreset_i => SL_NRESET_I,
+      DA_SCKI_c => DA_SCKI_C,
+      GND => GND,
+      MA_SCLK_c => MA_SCLK_C);
+  II_segment_decoder_1: segment_decoder_4 port map (
+      sl_nreset => SL_NRESET,
+      DA_SCKI_c => DA_SCKI_C,
+      GND => GND,
+      OUTPUT_e_i_0_i => \SEGMENT_DECODER_1.OUTPUT_E_I_0_I\,
+      OUTPUT_e_i_0 => \SEGMENT_DECODER_1.OUTPUT_E_I_0\);
+  II_segment_decoder_4: segment_decoder_3_1 port map (
+      OUTPUT_e_i => \SEGMENT_DECODER_1.OUTPUT_E_I\,
+      GND => GND,
+      OUTPUT_e_i_0 => \SEGMENT_DECODER_1.OUTPUT_E_I_0\);
+  II_PUR_INST: PUR port map (
+      PUR => VCC);
+end beh;
+

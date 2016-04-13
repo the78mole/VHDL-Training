@@ -1,0 +1,74 @@
+\documentclass[9pt]{beamer}
+
+\usetheme{Boadilla}
+
+%\usepackage{extsizes}
+
+\setbeamersize{sidebar width left=2cm}
+
+%\setbeamercolor{palette sidebar primary}{fg=craneblue}
+%\setbeamercolor{palette sidebar secondary}{fg=craneblue!75}
+
+%\logo{\includegraphics[height=0.8cm]{bilder/te-logo}}
+
+\usepackage[ngerman]{babel}
+\usepackage{pgf}
+\usepackage{amsmath,amssymb}
+\usepackage[latin1]{inputenc}
+\usepackage{helvet}
+
+\usepackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{10mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{0mm}{0mm}
+\setlength{\parindent}{0pt}
+
+\setbeamertemplate{sidebar canvas right}{%
+	\begin{textblock}{1.5}(10.5,0.1)%
+		\includegraphics[height=0.8cm]{bilder/te-logo}%
+	\end{textblock}%
+	\begin{textblock}{1.5}(0.65,2.5)%
+		\rotatebox{90}{\usebeamercolor[blue!60]{Sidebar}University of Erlangen-Nuremberg}%
+	\end{textblock}%
+	\begin{textblock}{1.5}(1.15,2)%
+		\rotatebox{90}{\usebeamercolor[blue!60]{Sidebar}Institute for Electrotechnics Engineering}%
+	\end{textblock}%
+}
+\setbeamercolor{sidebar}{bg=blue!30}
+
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{eurosym}
+
+\hypersetup{
+	pdftitle={Seminarvortrag, Ausarbeitung eines Praktikums zur Vorlesung ADS, LTE, Uni Erlangen-Nürnberg},
+	pdfauthor={\textcopyright\ LTE Daniel Glaser},
+%	pdfpagemode=FullScreen,
+	pdffitwindow=true,
+%	bookmarks=true,
+	bookmarksopen=true,
+	bookmarksopenlevel=2,
+	urlcolor=green
+}
+
+\title[Ausarbeitung eines Praktikums zur Vorl. ADS]{Ausarbeitung eines Praktikums \\zur Vorlesung \\Architekturen der Digitalen Signalverarbeitung}
+\author{Daniel Glaser}
+\date{\today}
+
+\subtitle{Entwurf einer Plattform und Programmierung in VHDL}
+
+\institute[Lehrstuhl für Technische Elektronik]{\textbf{Lehrstuhl für Technische Elektronik} \\ Prof. Dr.-Ing. Dr.-Ing. habil. Robert Weigel}
+
+\begin{document}
+
+	\include{Preface}
+	
+	\include{Intro}
+	
+	\include{Concepts}
+	
+	\include{VHDL}
+	
+	\include{Conclusion}
+
+\end{document}

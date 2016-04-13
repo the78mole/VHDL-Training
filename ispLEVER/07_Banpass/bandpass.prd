@@ -1,0 +1,13 @@
+#-- Synplicity, Inc.
+#-- Version Synplify for Lattice 8.5D
+#-- Project file p:\SLCNGE~O\isplever\02DKY1~N\bandpass.prd
+#-- Written on Mon Nov 27 02:43:24 2006
+
+#
+### Watch Implementation type ###
+#
+watch_impl -all
+#
+### Watch Implementation properties ###
+#
+watch_prop -clear

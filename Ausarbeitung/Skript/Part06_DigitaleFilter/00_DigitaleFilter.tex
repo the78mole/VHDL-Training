@@ -1,0 +1,713 @@
+\section{Grundlagen Digitaler Filter}\label{sec:digifilt}
+
+%
+%
+%
+%
+\subsection{Einführung}\label{subsec:digifilt:introduction}
+%
+%
+
+Der Entwurf, die Realisierung und der Einsatz von digitalen Filtern ist das klassische Anwendungsgebiet der digitalen Signalverarbeitung. In der Theorie sind digitale Filter schon seit Beginn der 1970er Jahre bekannt. Allerdings konnten sie erst mit Aufkommen der DSPs in den 1980er Jahren an Popularität gewinnen.
+
+\medskip Unter einem Filter versteht man ein System, das gewisse Frequenzkomponenten im Vergleich zu anderen verändert, beispielsweise unterdrückt, verstärkt oder in ihrer Phase verschiebt. Im Bereich der digitalen Filter spielen stabile und kausale LTI-Systeme\index{LTI-Systeme}, die durch rationale Übertragungsfunktionen mit reelen Koeffizienten beschrieben werden können, die wichtigste Rolle. Solche Filter werden meistens als \textit{lineare Digitalfilter}\index{lineare Digitalfilter} bezeichnet.
+
+%
+\subsubsection{Echtzeitsystem zur digitalen Filterung}
+%
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$x_{in}(t)$}
+	\psfrag{04}{$x[n]$}
+	\psfrag{06}{$y[n]$}
+	\psfrag{09}{$y_{out}(t)$}
+	\psfrag{10}{$f_s$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filter/DigiFilt}
+	\caption{Echtzeitsystem zur digitalen Filterung}
+	\label{fig:DigiFilt}
+\end{figure}
+
+Im Bild \ref{fig:DigiFilt} wird der grundsätzliche Aufbau eines Echtzeitsystems zur digitalen Filterung dargestellt. Das zeitkontinuierliche Eingangssignal $x_{in}(t)$ wird zunächst auf ein analoges Tiefpassfilter $TP_1$ geführt, das der Bandbegrenzung dient (Antialiasing\index{Antialiasing}). Das bandbegrenzte Signal wird durch den folgenden AD-Wandler abgetastet und in die ``digitale Welt'' übersetzt. Das Signal besteht nun aus einer Folge von Abtastwerten, die dem digitalen Filter zugeführt werden. Die Filterfunktion wird von einem Digitalrechner übernommen, der aus den Eingangswerten $x[n]$ die Ausgangsfolgewerte $y[n]$ berechnet. Der DA-Wandler setzt das vom Filter ausgegebene Signal in eine zeitkontinuierliche, treppenförmige Spannung um. Anschließend wird es mit einem Tiefpassfilter $TP_2$ geglättet und der wertekontinuierliche Verlauf zurückgegeben.
+
+Die Tiefpässe $TP_1$ und $TP_2$ sind Bandbegrenzungsfilter zur Unterdrückung hoher Frequenzen. Wünscht man zusätzlich eine Unterdrückung der DC-Komponenten, wie zum Beispiel in der Audiosignalverarbeitung, dann werden sie durch Bandpassfilter ersetzt. 
+
+%
+\subsubsection{Grundlegende Filterfunktionen}\label{subsubsec:digifilt:filterfunctions}
+%
+
+Für unsere Anwendung sind lediglich die klassischen Filter, wie Tiefpass-, Bandpass- und Hochpassfilter von Bedeutung. Die Funktion der Filter wird durch die schematische Darstellung der Amplituden-Frequenzgänge in Abb. \ref{fig:amplitudenfreq} verdeutlicht.
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$|H(f)|$}
+	\psfrag{02}{Tiefpass}
+	\psfrag{03}{$f$}
+	\psfrag{04}{$f_{pass}$}
+	\psfrag{05}{$f_{stop}$}
+	\psfrag{06}{$0.5f_s$}
+	\psfrag{07}{$|H(f)|$}
+	\psfrag{08}{Bandpass}
+	\psfrag{09}{$f_{stop1}$}
+	\psfrag{10}{$f_{pass1}$}
+	\psfrag{31}{$f_{pass2}$}
+	\psfrag{12}{$f_{stop2}$}
+	\psfrag{13}{$0.5f_s$}
+	\psfrag{14}{$f$}
+	\psfrag{15}{$|H(f)|$}
+	\psfrag{16}{Hochpass}
+	\psfrag{17}{$f_{stop}$}
+	\psfrag{18}{$f_{pass}$}
+	\psfrag{19}{$0.5f_s$}
+	\psfrag{20}{$f$}
+	\psfrag{21}{$|H(f)|$}
+	\psfrag{22}{Bandsperre}
+	\psfrag{23}{$f_{pass1}$}
+	\psfrag{24}{$f_{stop1}$}
+	\psfrag{25}{$f_{stop2}$}
+	\psfrag{26}{$f_{pass2}$}
+	\psfrag{27}{$0.5f_s$}
+	\psfrag{28}{$f$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filter/filter}
+	\caption{Filterfrequenzgänge}
+	\label{fig:amplitudenfreq}
+\end{figure}
+
+Die Parameter $f_{pass x}$ nennt man Durchlassfrequenzen\index{Durchlassfrequenzen}, die $f_{stop x}$ Sperrfrequenzen\index{Sperrfrequenzen}. Die drei Frequenzbereiche, die durch die Durchlass- und Sperrfrequenzen begrenzt werden heissen Durchlass-\index{Durchlassbereich}, Übergangs-\index{Übergangsbereich} und Sperrbereich\index{Sperrbereich}.
+
+%
+\subsubsection{Das Digitalfilter als LTI-System}\label{subsubsec:digifilt:lti}
+%
+
+Digitale Filter sind stabile, kausale LTI-Systeme, die sich mit einer rationalen Übertragungsfunktion beschreiben lassen: 
+\begin{equation}
+	H_z(z)=\cfrac{Y_z(z)}{X_z(z)}=\cfrac{b_0+b_1z^{-1}+...+b_Nz^{-N}}{1+a_1z^{-1}+...+a_Mz^{-M}}
+	\label{math:übertragungsfkt}
+\end{equation}
+
+Die \textit{Übertragungsfunktion}\index{Übertragungsfunktion} $H(z)$ definiert das Übertragungsverhalten des Systems und die größere der beiden natürlichen Zahlen N und M legt ihre Ordnung fest. Sind alle rekursiven Koeffizienten $a_i$ gleich Null, so spricht man von einem \textit{nichtrekursiven LTI-System} oder einfach von einem \textit{FIR-Filter\index{FIR-Filter}}\footnote{Finite-Impulse-Response Filter}, andernfalls von einem \textit{rekursiven LTI-System} oder einem \textit{IIR-Filter}\index{IIR-Filter}\footnote{Infinite-Impulse-Response Filter}.
+
+\medskip Unter dem \textit{Frequenzgang}\index{Frequenzgang} versteht man die Übertragungsfunktion, ausgewertet auf dem Einheitskreis der z-Ebene:
+\begin{equation} 
+	H(e^{j2\pi fT})=H(z)|_{e^{j2\pi fT}} 
+\end{equation}
+Den Betrag $|H(e^{j2\pi fT})|$ nennt man \textit{Amplitudengang}\index{Amplitudengang}, den Winkel $\angle H(e^{j2\pi fT})$ \textit{Phasengang}\index{Phasengang}. Die negative Ableitung des Phasengangs ist die \textit{Gruppenlaufzeit}\index{Gruppenlaufzeit}:
+\begin{equation}
+  \tau _g(e^{j2\pi fT})=-\cfrac{1}{2\pi}\cfrac{d\angle H(e^{j2\pi fT})}{df} 
+\end{equation}
+Die Gruppenlaufzeit charakterisiert die Verzögerung eines LTI-Systems. Eine weitere, weniger gebräuchliche, Größe ist die \textit{Phasenlaufzeit}\index{Phasenlaufzeit}:
+\begin{equation}
+	\tau_p(e^{j\Omega}=-\cfrac{arg(H(\Omega))}{\Omega}=-\cfrac{\angle H(e^{j\Omega})}{\Omega}\textnormal{ mit }\Omega=2\pi fT
+\end{equation}
+
+Mit diesem Parameter kann die Reaktion eines LTI-Systems auf eine sinusförmige Eingangsgröße der Frequenz $\Omega$ im eingeschwungenen Zustand in der Form
+\begin{equation}
+	y[n]=\lvert H(\Omega)\rvert cos(\Omega(n-\tau_p))
+\end{equation}
+geschrieben werden. \\Die Phasenlaufzeit ist somit gleich der Anzahl der Abtastintervalle, mit der eine Sinusschwingung beim Durchlaufen eines zeitdiskreten LTI-Systems verzögert wird. \\Die Gruppenlaufzeit dagegen ist gleich der Anzahl der Abtastintervalle, um die die Hüllkurve eines modulierten Systems verzögert wird.
+
+\medskip Transformieren wir die Übertragungsfunktion in den Zeitbereich, so erhält man die Impulsantwort $h[n]$:
+\begin{equation} 
+	H(z) \ifouriersymb h[n]
+\end{equation}
+Im Frequenzbereich ist das Ausgangssignal gleich dem Eigangssignal multipliziert mit der Übertragungsfunktion,
+\begin{equation}
+	Y(z)=H(z)X(z)
+	\label{math:EmultH}
+\end{equation}
+im Zeitbereich gleich dem Eingangssignal gefaltet mit der Impulsantwort.
+\begin{equation} 
+	y[n]=h[n]\ast x[n]
+\end{equation}
+Setzen wir für $H(z)$ in Gl. (\ref{math:EmultH}) die rationale Funktion (\ref{math:übertragungsfkt}) ein, führt die Rücktransformation auf die \textit{Differenzengleichung}\index{Differenzengleichung}:
+\begin{equation}
+	y[n]=-\sum_{i=0}^M a_iy[n-i]+\sum_{i=0}^N b_ix[n-i]
+	\label{math:Differenzengleichung}
+\end{equation}
+Betrachtet man die Differenzengleichung genauer, so kann man leicht erkennen, dass diese mit Hilfe  einfacher Addierer, Multiplizierer und Verzögerungsglieder in Hardware realisierbar ist.
+
+
+Letztendlich kann man die Übertragungsfunktion noch in einer \textit{Pol-Null\-stel\-len-Dar\-stel\-lung}\index{Pol-Nullstellen-Darstellung} angeben: 
+\begin{equation}
+	H_z(z)=b_0z^{M-N}\cfrac{(z-z_1)(z-z_2)...(z-z_N)}{(z-p_1)(z-p_2)...(z-p_M)}
+  \label{math:PolNullstellen}
+\end{equation}
+Die Parameter $p_i$ werden als \textit{Pole}\index{Pole} bezeichnet, die $z_i$ als \textit{Nullstellen}\index{Nullstellen}.
+
+\paragraph*{Zusammenfassung:} Ein lineares Digitalfilter beschreibt man gewöhnlich mit Hilfe seiner Übertragungsfunktion. Aus ihr lassen sich die wichtigsten Funktionen und Gesetzmässigkeiten einfach ableiten.
+
+Aufgabe des Filterentwurfs ist es, die Ordnung und die Koeffizienten der Filterübertragungsfunktion zu einem vorgegebenen Zielfrequenzgang zu bestimmen. Wir werden in der Folge geeignete Methoden dazu diskutieren.
+
+%
+%
+\subsection{Eigenschaften und Strukturen von FIR-Filtern}\label{subsec:digifilt:fir}\index{FIR-Filter}
+%
+%
+
+Wie oben schon angesprochen teilt man die digitalen Filter in FIR- und IIR-Filter ein. Beide Klassen haben interessante Eigenschaften, wobei wir uns in diesem Praktikum auf die Verwendung von FIR-Filtern beschränken werden. 
+
+Die Struktur der Filter beschreibt man häufig in Form eines Signalflussdiagramms\index{Signalflussdiagramm} oder auch eines Blockdiagramms\index{Blockdiagramm}. Kennen wir diese, so sind wir in der Lage ein Programm zu schreiben und digitale Filter auf einem Rechner zu implementieren. 
+
+%
+\subsubsection{Grundlagen}\label{subsubsec:digifilt:fir:basics}
+%
+
+Die Differenzengleichung eines FIR-Filters lautet:
+\begin{equation}
+	y[n]=\sum_{i=0}^Nb_ix[n-i]
+\end{equation}
+Damit könnte ein nichtrekursives FIR-System 3. Ordnung folgendermaßen aussehen:
+\begin{equation}
+y[n]=b_0x[n]+b_1x[n-1]+b_2x[n-2]+b_3x[n-3]
+\end{equation}
+
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$x[n]$}
+	\psfrag{02}{$y[n]$}
+	\psfrag{03}{$b_0$}
+	\psfrag{04}{$b_1$}
+	\psfrag{05}{$b_2$}
+	\psfrag{06}{$b_3$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filter/FIR3}
+	\caption{FIR-Filter 3. Ordnung}
+	\label{fig:FIR3}
+\end{figure}
+
+Anhand dieses einfachen Beispiels kann man erkennen, dass die Impulsantwort eines nichtrekursiven LTI-Systems N-ter Ordnung gleich den Koeffizienten der Differentialgleichung ist. Die Länge der Impulsantwort ist dann $N+1$:
+\begin{equation}
+	h[n]={h_0,h_1,...,h_N}={b_0,b_1,...,b_N}
+\end{equation}
+Diese endliche Länge führte zur Bezeichnung FIR-Filter (Finite-Impulse-Response-Filter).
+
+Die Übertragungsfunktion lautet allgemein:
+\begin{equation}
+	H(z)=b_0+b_1z^{-1}+...+b_Nz^{-N}
+	\label{math:FIRÜbertragungsfkt}
+\end{equation}
+
+Durch Erweiterung mit $z^N$ kann die Übertragungsfunktion auch in der Form
+\begin{equation}
+	H(z)=\cfrac{b_0z^N+b_1z^{N-1}+...+b_N}{z^N}
+\end{equation}
+geschrieben werden. Daraus geht hervor, dass alle Pole im Ursprung liegen und dass das FIR-Filter somit immer stabil ist.
+
+%
+\subsubsection{Eigenschaften von FIR-Filtern}\label{subsubsec:digifilt:fir:characteristics}
+%
+
+Alle Entwurfsverfahren liefern symmetrische FIR-Filter, deren Impulsantwort immer spie\-gel- oder punktsymmetrisch ist (vgl. Abb. \ref{fig:FIRSymm}).
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$h[n]$}
+	\psfrag{02}{$n$}
+	\psfrag{03}{$\cfrac{N}{2}$}
+	\psfrag{04}{$1$}
+	\psfrag{05}{$0$}
+	\psfrag{06}{$N$}
+	\includegraphics[width=9cm]{bilder/empfaenger/filter/FIRImpulsantw}
+	\caption{Symmetrieeigenschaften von FIR Filter}
+	\label{fig:FIRSymm}
+\end{figure}
+
+Symmetrische FIR-Filter haben, abgesehen von 180\textdegree-Phasensprüngen, einen linearen Phasengang. Daher werden sie auch als linearphasige Filter bezeichnet. Die Gruppenlaufzeit $\tau_g(f)$ symmetrischer Filter ist konstant und ihr Wert gleich NT/2. Es kommt also zu keinen Gruppenlaufzeitverzerrungen! 
+
+Filter mit konstanter Gruppenlaufzeit haben die angenehme Eigenschaft, dass sie Signale im Durchlassbereich nur verzögern, aber nicht verzerren. Zudem bleibt die Symmetrie symmetrischer Pulse erhalten, was für viele Anwendungen vorteilhaft ist.
+
+\paragraph{Beispiel:} Hier als Beispiel ein linearphasiger FIR-Tiefpass (vgl. Abbildungen \ref{fig:FIRTP} bis \ref{fig:FIRTPFrequber}):
+
+\begin{figure}[ht]
+	\centering 
+	\includegraphics[width=8cm]{bilder/empfaenger/filter/LinTPFilter}
+	\caption{Frequenzgang eines linearphasigen TP-Filters}
+	\label{fig:FIRTP}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=7cm]{bilder/empfaenger/filter/LinTPImpulsantw}
+	\caption{Im\-puls\-ant\-wort eines linearphasigen TP-Fil\-ters}
+	\label{fig:FIRTPImpulsantw}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=7cm]{bilder/empfaenger/filter/LinTPPolNst}
+	\caption{Pol-Null\-stel\-len\-dia\-gramm eines linearphasigen TP-Fil\-ters}
+	\label{fig:FIRTPPolNst}
+\end{figure}
+
+Es handelt sich um ein linearphasiges Tiefpassfilter. Abgesehen von 180\textdegree-Pha\-sen\-sprün\-gen (die an den Nullstellen des Amplitudengangs auftreten und daher keinen Einfluss auf das Übertragungsverhalten haben) ist der Phasengang linear. Die Länge des Filters ist 22, demnach muss die Übertragungsfunktion 21 Nullstellen und 21 im Ursprung liegende Pole haben.
+
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=9cm]{bilder/empfaenger/filter/LinTPZeitber}
+	\caption{Ein- und Ausgangsverhalten bei Anregung mit einem punktsymmetrischen Doppelrechteckpuls: Zeitbereich}
+	\label{fig:FIRTPZeitber}
+\end{figure}
+
+Der tiefpassgefilterte Rechteckimpuls ist erwartungsgemäß an seinen Ecken abgerundet, aber immer noch punktsymmetrisch (vgl. Abb. \ref{fig:FIRTPZeitber}). Der Schwerpunkt des Ausgangs-Pulses ist gegenüber dem Schwerpunkt des Eingangs-Pulses um die Gruppenlaufzeit \\$\tau_g$ = 1.05 ms verzögert.
+
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=7cm]{bilder/empfaenger/filter/LinTPFrequber}
+	\caption{Ein- und Ausgangsverhalten im Frequenzbereich}
+	\label{fig:FIRTPFrequber}
+\end{figure}
+
+\develnote{Wenn noch Zeit ist sollten die Graphiken noch ein bisschen aufgemöbelt werden!}
+
+%
+\subsubsection{Strukturen von FIR-Filtern}\label{subsubsec:FIRStrukturen}
+%
+Am einfachsten lässt sich das Filter in einer Straight-Forward-Implementierung realisieren, indem man die Differenzengleichung 1:1 umsetzt. Diese Form nennt sich Direktform- \index{Direktformstruktur}oder Transversalfilterstruktur\index{Transversalfilterstruktur} (vgl. Abb. \ref{fig:FIRDirektform}).
+
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filter/FIRDirektform}
+	\caption{Direktform- oder Transversalfilterstruktur bei FIR-Filtern}
+	\label{fig:FIRDirektform}
+\end{figure}
+\medskip Durch Ausnutzung der Symmetrie kann man etwa die Hälfte der Multiplikationen einsparen (vgl. Abb. \ref{fig:FIRLinearphasenstruktur}).
+
+\begin{figure}[ht]
+	\centering  
+%	\psfrag{06}{$N$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filter/FIRLinearphasenstruktur}
+	\caption{Linearphasenstruktur eines FIR-Filters}
+	\label{fig:FIRLinearphasenstruktur}
+\end{figure}
+Die Differenzengleichung lautet dann: 
+\begin{equation}
+	y[n]=b_0(x[n]+x[n-N])+b_1(x[n-1]+x[n-N+1])+...+b_{N/2}x[n-N/2]
+\end{equation}
+
+%
+\subsection{Entwurf von FIR-Filtern}\label{subsec:digifilt:fir:design}
+%
+Man beginnt das Filterdesign mit der Spezifikation der einzelnen Filtergrenzfrequenzen. Da Filter mit rechteckförmigen Amplitudengängen eine unendlich hohe Ordnung besitzen würden, sind sie in der Praxis nicht realisierbar. Man legt daher, wie beim Bandpass in Abb. \ref{fig:FIREntwurf} dargestellt, einen Toleranzbereich\index{Toleranzbereich} fest, in dem sich der Amplitudengang des Filters befinden darf.
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$|H(f)|$}
+	\psfrag{02}{$f$}
+	\psfrag{03}{$1+\delta_1$}
+	\psfrag{04}{$1-\delta_1$}
+	\psfrag{05}{$f_{stop1}$}
+	\psfrag{06}{$f_{pass1}$}
+	\psfrag{07}{$f_{pass2}$}
+	\psfrag{08}{$f_{stop2}$}
+	\psfrag{09}{$0.5f_s$}
+	\psfrag{10}{$\delta_2$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filter/FIREntwurf}
+	\caption{Toleranzschema des Amplitudengangs}
+	\label{fig:FIREntwurf}
+\end{figure}
+
+Die maximal zulässigen Abweichungen $\delta_1$ und $\delta_2$ vom idealen Amplitudengang heißen \textit{Rippel}\index{Rippel} im Durchlass- bzw. Sperrbereich. Die Bereiche, die durch das Festlegen der Grenzfrequenzen entstehen, nennt man Durchlass-\index{Durchlassbereich}, Übergangs-\index{Übergangsbereich} und Sperrbereich\index{Sperrbereich}. Die zugehörigen Grenzfrequenzen\index{Grenzfrequenzen} heißen Durchlass-\index{Durchlassfrequenzen} und Sperrfrequenzen\index{Sperrfrequenzen}. 
+
+Üblicherweise wird nur der Frequenzbereich von 0 bis $f_s/2$ bzw. von 0 bis $\pi$ dargestellt, da sich danach der Frequenzgang wiederholt. 
+
+Die Wahl eines geeigneten Toleranzschemas\index{Toleranzschema} ist eine typische Ingenieursaufgabe und hängt von der Anwendung des Filters ab. 
+
+Allgemein gilt, dass die Ordnung, und damit die Komplexität des Filters, steigt, je enger das Toleranzschema gewählt wird. Für eine gegebene Anwendung wird der Toleranzbereich daher so groß wie möglich gewählt, um die Filterordnung und somit auch die Zahl der nötigen Multiplikationen klein zu halten. 
+
+Die beiden wichtigsten Entwurfsmethoden für FIR-Filter sind die
+\begin{itemize}
+	\item Fenstermethode\index{Fenstermethode} und die
+	\item Optimalmethode\index{Optimalmethode}\index{Equirippleverfahren} (auch Equi\-ripple-Ver\-fah\-ren, Re\-mez-Ent\-wurf oder Che\-by\-chev-Ap\-proxi\-mation genannt).
+\end{itemize}
+
+%
+\subsubsection{Filterentwurf mit der Fenstermethode}\label{subsubsec:digifilt:fir:design:window}\index{Fenstermethode}
+%
+\paragraph*{Entwurfsschritte der Fenstermethode}
+\begin{enumerate}
+\item Festlegen der Eck\-fre\-quenz(en)\index{Eckfrequenzen} des idealen recht\-eck\-förmigen Filter\-frequenzgangs \\ $H_{ideal}(\Omega)$.
+\item Berechnen (oder nachlesen in Tabellen) der entsprechenden Filter\-impuls\-antwort $h_{ideal}(n)$ (diese ist unendlich lang und nicht kausal und daher nicht realisierbar)
+\item Multiplizieren der idealen Impulsantwort $h_{ideal}(n)$ mit einer geeigneten Fenster\-funktion\index{Fensterfunktion} $w[n]$
+\begin{equation}
+h[n]=h_{ideal}[n]\cdot w[n]
+\end{equation}
+\item Verzögern der resultierenden Impulsantwort $h[n]$, so dass ein kausales (realisierbares) System entsteht.
+\end{enumerate}
+
+\clearpage
+\paragraph*{Ideale Impulsantworten der grundlegenden Filterfunktionen}
+\begin{itemize}
+	\item Idealer Tiefpass mit der Eckfrequenz $\Omega_c$
+	\begin{equation}
+		h_{ideal}[n]=\cfrac{\Omega_c}{\pi}sinc(n\Omega_c)
+	\end{equation}
+	\item Idealer Bandpass mit den Eckfrequenzen $\Omega_1$ und $\Omega_2$
+	\begin{equation}
+		h_{ideal}[n]=\cfrac{\Omega_2}{\pi}sinc(n\Omega_2)-\cfrac{\Omega_1}{\pi}sinc(n\Omega_1)
+	\end{equation}
+\end{itemize}
+
+In den Abb. (\ref{fig:FensterZeitber}) und (\ref{fig:FensterFrequber}) ist der Entwurfsablauf mit der Fenstermethode im Zeit- und Frequenzbereich dargestellt.
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{A}{Ideale Impulsantwort}
+	\psfrag{B}{Fenster}
+	\psfrag{C}{Gefensterte Impulsantwort}
+	\psfrag{D}{Verzögerte Impulsantwort}
+	\includegraphics[width=8cm]{bilder/empfaenger/filter/FenstermethodeZeitber}
+	\caption{Fenstermethode im Zeitbereich}
+	\label{fig:FensterZeitber}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{A}{Ideale Impulsantwort}
+	\psfrag{B}{Impulsantwort des Fensters}
+	\psfrag{C}{Gefensterte Impulsantwort}
+	\psfrag{D}{Verzögerte Impulsantwort}
+	\includegraphics[width=8cm]{bilder/empfaenger/filter/FenstermethodeFrequber}
+	\caption{Fenstermethode im Frequenzbereich}
+	\label{fig:FensterFrequber}
+\end{figure}
+
+
+
+\paragraph*{Zur Wahl des Fensters:}
+
+Für die Fenstermethode stehen unterschiedliche Fenstertypen zur Verfügung. Hier sind drei der Gebräuchlichsten aufgeführt. Informationen zu weiteren Fenstertypen finden sie unter anderem in der Online-Hilfe von MATLAB.
+
+\begin{itemize}
+	\item Rechteckfenster:\index{Rechteckfenster}
+	\begin {itemize}
+		\item hat große Rippel im Amplitudengang zur Folge
+		\item Das Toleranzschema resultiert nicht aus dem Input des Entwurfs, sondern ist das mehr oder weniger zufällige Resultat des Entwurfs
+	\end{itemize}
+	\item Hanningfenster:\index{Hanningfenster}
+	\begin {itemize}
+		\item Die Rippel im Durchlassbereich sind deutlich kleiner als beim Entwurf mit einem Rechteckfenster
+		\item Wie schon beim Entwurf mit dem Rechteckfenster ist das Toleranzschema nicht der Input des Entwurfs, sondern ein mehr oder weniger zufälliges Resultat
+	\end{itemize}
+	\item Kaiserfenster:\index{Kaiserfenster}
+	\begin {itemize}
+		\item Zusätzlich zur Fensterlänge kann ein zusätzlicher Parameter ($\beta$) frei gewählt werden
+		\item Dies ermöglicht, dass mit dem Kaiserfenster tatsächlich das Toleranzschema vorgegeben werden kann. Die beiden Parameter $N+1$ (Fensterlänge) und $\beta$ können in der Folge bestimmt werden, das Endresultat des Entwurfs sind wiederum die Ordnung\index{Ordnung} N des Filters sowie die Filterkoeffizienten\index{Filterkoeffizienten} $b_0,...,b_n$
+		\item Die Filterordnung ist üblicherweise relativ hoch, da das Toleranzschema nicht optimal ausgenutzt wird
+	\end{itemize}
+\end{itemize}
+
+Eine graphische Darstellung hierzu finden sie in Abb. \ref{fig:Fenstertypen}.
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{A}{Rechteckfenster}
+	\psfrag{B}{Kaiserfenster}
+	\psfrag{C}{Hanningfenster}
+	\includegraphics[width=7cm]{bilder/empfaenger/filter/Fenstertypen}
+	\caption{Fenstertypen}
+	\label{fig:Fenstertypen}
+\end{figure}
+
+%
+\subsubsection{Filterentwurf mit der Optimalmethode}\label{subsubsec:digifilt:fir:design:optimal}\index{Optimalmethode}
+%
+
+Mit dieser Methode lassen sich Filter entwerfen, die eine gleichmäßige Welligkeit\index{Welligkeit} im Durchlass- und Sperr\-bereich aufweisen. Dabei nutzen sie den gesamten Toleranzbereich aus. Die daraus resultierende Filterordnung N ist im Allgemeinen wesentlich kleiner, als diejenige des Fensterentwurfs. Die Theorie hinter der Optimalmethode ist sehr umfangreich und würde den Rahmen des Praktikums sprengen. Allerdings wird die Optimalmethode als Standardverfahren von vielen Programmpaketen zur Signalverarbeitung unterstützt. 
+
+Die Optimalmethode ermöglicht nicht nur den Entwurf der vier Filtergrundarten, sondern auch den Entwurf von Multibandfiltern, Differentiatoren u.a.
+
+%
+%
+\subsection{Nichtideale Effekte bei digitalen Filtern}\label{subsec:digifilt:nonideal}
+%
+%
+
+%
+\subsubsection{Quantisierungsrauschen durch AD-Wandlung}\label{subsubsec:digifilt:nonideal:quantnoise}
+%
+Bei der AD-Wandlung wird das analoge Signal zunächst abgetastet und in ein zeitdiskretes Signal überführt. Dieses wird in einem zweiten Schritt mit Hilfe einer Quantisierungs\-kennlinie bewertet. Das resultierende digitale Signal ist jetzt zeit- und wertediskret.
+
+Da digitale Signale, je nach Wortlänge, nur bestimmte Werte annehmen können, muss das Analogsignal entsprechend abgeschnitten oder gerundet werden. In jedem Fall geht bei diesem Schritt ein geringer Teil der Information verloren, weshalb das ursprüngliche Signal nicht mehr fehlerfrei rekonstruiert werden kann. Man spricht von einem \textbf{Quantisierungsfehler}\index{Quantisierungsfehler}. Je größer die Wortlänge des AD-Wandlers ist, desto geringer fällt der resultierende Fehler aus. 
+
+\paragraph{Quantisierungsrauschen:}
+Man kann den Quantisierungsfehler als ein Zufallssignal $e[n]$ modellieren, das durch die Quantisierung entsteht und deshalb als Quantisierungsrauschen bezeichnet wird:
+\begin{equation}
+	x_Q[n]=x[n]+e[n]
+\end{equation}
+Das quantisierte Signal $x_Q[n]$ kann als Überlagerung des amplitudenkontinuierlichen Signals $x[n]$ und des Fehlersignals $e[n]$ aufgefasst werden. 
+
+\medskip Ein Qualitätsmaß in der Signalverarbeitung ist der sogenannte Signal-Rauschabstand SNR (Signal to Noise Ration):
+\begin{equation}
+	SNR_{dB} = 10\cdot log\left(\cfrac{P_S}{P_N}\right)
+\end{equation}
+mit: $P_S$ $\rightarrow$ Mittlere Leistung des Nutzsignals $x[n]$\\
+\textcolor{white}{mit:} $P_N$ $\rightarrow$ Mittlere Leistung des Fehlersignals $e[n]$
+
+\medskip Für den Sonderfall, dass das Eingangssignal symmetrisch gleichförmig mit der Auflösung B (Anzahl und Bits) quantisiert wird und im gesamten Aussteuerbereich gleichverteilt ist, gilt:
+\begin{equation}
+	SNR_{dB} \approx B\cdot 6dB
+\end{equation}
+$\rightarrow$ Jede Erhöhung der Auflösung um 1 Bit verbessert also den Abstand zwischen Nutzanteil und Quantisierungs\-rauschen um 6dB!
+%
+
+
+\subsubsection{Quantisierung der Filterkoeffizienten}\label{subsubsec:digifilt:nonideal:koeffquant}\index{Filterkoeffizienten}\index{Quantisierung}
+%
+
+Die Entwurfsverfahren für digitale Filter liefern die $b$- und $a$-Koeffizienten der Übertragungsfunktion
+\begin{equation}
+	H_z(z)=\cfrac{b_0+b_1z^{-1}+...+b_Nz^{-N}}{1+a_1z^{-1}+...+a_Mz^{-M}}
+	\label{math:übertragungsfkt2}
+\end{equation}
+mit großer Genauigkeit (meist in Double-Precision-Floating-Point). Bei der Implementierung in Hard- oder Software können die Koeffizienten aber nur mit einer begrenzten Anzahl von Bits dargestellt werden, und aufgrund der günstigeren Komponenten meist auch nur in Fixed-Point-Darstellung. Die Folgen dieser reduzierten Genauigkeit können zum Beispiel
+\begin{itemize}
+	\item eine Verletzung der Entwurfsspezifikation nach der Quantisierung oder
+	\item Instabilitäten ehemals stabiler Filter bei IIR-Systemen 
+\end{itemize}
+sein.
+
+\paragraph{FIR-Filter:}\index{FIR-Filter}
+
+Bei FIR-Filtern der Länge N entsprechen die Filterkoeffizienten der Impuls\-antwort\index{Impulsantwort}:
+\begin{equation}
+	h[n]=
+	\begin{cases}
+		b_n	&
+		\textnormal{für } n=0,1,...,N\\
+		0	&
+		\textnormal{sonst}
+	\end{cases}
+\end{equation}
+Die Quantisierung der Filterkoeffizienten wirkt sich also direkt auf die Impulsantwort des Systems aus und damit auf die Übertragungsfunktion und den Frequenzgang.
+
+\medskip Fasst man die Koeffi\-zienten-Quanti\-sierungs\-fehler\index{Quantisierungsfehler} als additive Störgröße\index{Störgröße} $\Delta h[n]$ auf, so resultiert das Modell einer Parallelschaltung aus dem unquantisierten, also dem idealen System, und der Störung durch die Koeffizientenquantisierung (vgl. Abb. \ref{fig:FIRquantkoeff})
+\begin{equation}
+	h_Q[n]=h[n]+\Delta h[n]
+\end{equation}
+
+\begin{figure}[ht]
+	\centering 
+	\psfrag{01}{$h[n]$}
+	\psfrag{02}{$\Delta h[n]$}
+	\psfrag{03}{$x[n]$}
+	\psfrag{04}{$y[n]$}
+	\includegraphics[width=7cm]{bilder/empfaenger/filter/quantkoeff}
+	\caption{Fehlermodell für quantisierte Koeffizienten}
+	\label{fig:FIRquantkoeff}
+\end{figure}
+
+\develnote{Abschätzungsrechnung auf S. 110???}
+
+Damit gilt für die obere Schranke des Fehlers im Frequenzgang:
+\begin{equation}
+	\underset{\Omega}{max}\lvert \Delta H(\Omega)\rvert \le (N+1)\cfrac{LSB}{2}
+\end{equation}
+Für diese Abschätzung wurde die sehr pessimistische Annahme unterstellt, dass sich alle Quantisierungsfehler der einzelnen Koeffizienten ungünstig überlagern. Insbesondere bei langen Impulsantworten kompensieren sich die Fehler zum Teil. Daher arbeiten realistische Abschätzungen meist mit stochastischen Modellen. In der Praxis sollte man in JEDEM Fall vor der Implementierung das Filter simulieren!
+
+\paragraph{IIR-Filter:}\index{IIR-Filter}
+
+Auf IIR-Filter und die bei der Koeffizientenquantisierung entstehenden Probleme soll hier nicht weiter eingegangen werden, da wir aufgrund der deutlich besseren Stabilität ausschließlich mit FIR-Strukturen arbeiten werden. Näheres hierzu kann man allerdings in \cite{DigiSig} oder in \cite{ADS} nachlesen.
+
+%
+\subsubsection{Quantisierte Arithmetik}\label{subsubsec:digifilt:nonideal:arithquant}\index{Quantisierte Arithmetik}
+%
+
+Die Quantisierung der Filterkoeffizienten ändert ``nur'' die Übertragungsfunktion und kann prinzipiell schon im Filterentwurf berücksichtigt werden. Wortlängeneffekte bei den arithmetischen Operationen treten dagegen während des Betriebs auf und können sehr unschöne Effekte verursachen. 
+
+\medskip Lineare Digitalfilter bestehen aus Addierern, Verzögerungsgliedern und Multiplizierern. Sowohl die Additionen als auch die Multiplikationen sind von der Quantisierung direkt betroffen.
+
+\medskip Realisiert man ein Digitalfilter in Gleitkommadarstellung\index{Gleitkommadarstellung}, so können Quantisierungsfehler in der Regel ausgeschlossen werden und auch Überläufe brauchen nicht berücksichtigt zu werden, da sie vernachlässigbar klein sind. 
+
+\medskip Bei der Realisierung in Festkommadarstellung\index{Festkommadarstellung} dagegen können bei der Addition \textit{Überläufe}\index{Überläufe} und in der Folge \textit{große Grenzzyklen}\index{große Grenzzyklen} entstehen. 
+
+Bei der Multiplikation kann es zu \textit{Rundungsfehlern}\index{Rundungsfehler} kommen, die \textit{kleine Grenzzyklen}\index{kleine Grenzzyklen} nach sich ziehen. Da man bei Fest\-komma\-im\-ple\-men\-tie\-rung\-en allerdings in der Regel Abtastwerte und Koeffizienten als Fractional-Zahlen darstellt liegen die Ergebnisse von Multiplikationen im Bereich von [-1,1[, wodurch Überläufe vermieden werden (Ausnahme: $(-1)\cdot(-1)=1$).
+
+\paragraph{Grenzzyklen:}\index{Grenzzyklen}
+
+Bei der Implementierung digitaler Systeme mit endlicher Wortlänge können parasitäre Schwingungen beobachtet werden, die trotz Stabilität der Filter auftreten. Diese Oszillationen werden Grenzzyklen oder Limit-Cycles genannt und entstehen durch Nicht\-linearitäten in den Rückkoppelschleifen der Filter. Man unterscheidet
+\begin{description}
+	\item[Kleine Grenzzyklen] (auch Granulargrenzzyklen) mit kleinen Amplituden, deren Ursache die Quantisierung bei Multiplikationen im Rückkoppelzweig ist und
+	\item [Große Grenz\-zyklen] (auch Über\-lauf\-grenz\-zyklen) mit großen Ampli\-tuden, die durch eine Überlauf\-behandlung bei Additionen in den Rück\-kopplungen hervorgerufen werden. 
+\end{description}
+
+Da Grenzzyklen nur bei Filterstrukturen mit Rückkopplung entstehen können sollen sie hier nur kurz angerissen werden. Für eine genauere Betrachtung sei auf die einschlägige Literatur verwiesen.
+
+Das Auftreten dieser Effekte hängt von verschiedenen Parametern ab:
+\begin{itemize}
+	\item Filterkoeffizienten (steile und schmalbandige Filter neigen mehr dazu)
+	\item Inhalt der Verzögerungselemente vor dem Einschalten
+	\item Eingangssignal (z.B. Zero-Input-Limit-Cycles)
+	\item Filterstruktur
+	\item Skalierung
+	\item Wortlänge
+	\item Quantisierungsart bzw. Überlaufkennlinie
+\end{itemize}	
+
+\paragraph{Kleine Grenzzyklen:}
+
+Sowohl beim Runden, als auch beim Abschneiden entstehen Fehler (Rundungsfehler oder Quantisierungsfehler). Während beim Betragsabschneiden die Wortlängenverkürzung stets zur Null hin vorgenommen wird, der Betrag der Zahl durch die Quantisierung also nicht zunehmen kann, wirkt eine Quantisierung mit Runden beim Aufrunden wie eine zusätzliche Signalquelle, die dem System zusätzliche Energie zuführt und zu kleinen Grenzzyklen führen kann. Bei Quantisierung mit Betragsabschneiden wird dem System keine zusätzliche Energie zugeführt, kleine Grenzzyklen werden auf Kosten einer größeren Ungenauigkeit vermieden.
+
+\medskip Da kleine Grenzzyklen nur im Zusammenhang mit einer Rückkopplung auftreten können sind sie für uns uninteressant. Lediglich bei Verwendung von IIR-Filtern sollte man diesen Effekt im Hinterkopf behalten.
+
+\paragraph{Große Grenzzyklen:}
+Große Grenzzyklen sind weitaus unangenehmer, da ihre Amplitude den gesamten Aussteuerbereich umfassen kann. Das Auftreten großer Grenzzyklen macht daher die Ergebnisse der Filterung komplett unbrauchbar. Mögliche Gegenmaßnahmen sind:
+\begin{itemize}
+	\item \textbf{Sättigungskennlinien:} In diesem Fall wird bei einem positiven oder negativen Überlauf die größte bzw. die kleinste darstellbare Maschinenzahl gesetzt. 
+	\item Geeignete \textbf{Skalierung der Filterkoeffizienten}.
+\end{itemize}
+
+\paragraph{Skalierung von FIR-Filtern (zur Vermeidung von Überläufen):}
+Da eine Skalierung der Filterkoeffizienten nur bei Filtern in Direktform-Struktur einen Effekt erzielen würde soll hier nur kurz auf diese Möglichkeit eingegangen werden. In den späteren Versuchen wird das Filter in einer Linearphasenstruktur implementiert, die durch diese Entwurfsmodifikation nicht zu beeinflussen ist.
+
+\medskip Betrachtet man ein FIR-Filter in Direktform-\index{Direktform-Struktur} oder Trans\-versal\-struktur \index{Transversal-Struktur}(vgl. Abb. \ref{fig:FIRDirektform}), so sieht es auf den ersten Blick so aus, als müsste für jeden einzelnen Summen\-knoten dafür gesorgt werden, dass an dessen Ausgang kein Überlauf auftreten kann. Da Teilüberläufe bei der Summenbildung in Zweier\-komplement-Arithmetik keine Rolle spielen, solange das End\-ergebnis im Bereich [-1,1[ liegt, ist dies glück\-lich\-er\-weise nicht der Fall. Bei der Zweier\-komplement-Arithmetik entsteht dann unab\-hängig von der Reihenfolge der einzelnen Additionen die richtige Gesamt\-summe. Aus diesem Grund können für unsere Über\-legungen alle Einzel\-summen der FIR-Struktur wie im Bild dargestellt, zu einem Summen\-knoten zusammengefasst werden und es reicht sicher\-zustellen, dass das Ergebnis der Gesamt\-summe (das Ausgangs\-signal) nicht überläuft.
+
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filter/FIRDirektform2}
+	\caption{Überlaufbehandlung bei FIR-Filtern in Direktformstruktur}
+	\label{fig:FIRDirektform2}
+\end{figure}
+
+Mit der Einführung der $l_1$-Norm \index{$l_1$-Norm}
+\begin{equation}
+	l_1=\sum_{i=0}^N\lvert b_i\rvert
+\end{equation}
+und der Skalierung der b-Koeffizienten
+\begin{equation}
+	\overset{~}{b_i}=s_1b_i\textnormal{ mit } s_1=\cfrac{1}{l_1}
+\end{equation}
+kann somit Überlauffreiheit (bei der Direktform) garantiert werden. Allerdings wird durch die Skalierung das Ausgangssignal um den Faktor $s_1$ abgeschwächt (wenn $s_1$<1), während das Rundungsrauschen unverändert bleibt, wodurch sich das SNR mitunter deutlich verschlechtert. Man ist aus diesem Grund daran interessiert, den Skalierungsfaktor so groß wie möglich zu halten!
+
+\medskip Das Ziel der richtigen Wahl von Filterstruktur und Skalierung ist es also, die Wahrscheinlichkeit von Überläufen zu minimieren und gleichzeitig das SNR am Ausgang zu maximieren!
+
+\textbf{Anmerkung:}\\
+Neben der $l_1$-Norm gibt es noch weitere alter\-native Skalierungs\-faktoren wie die Tsche\-by\-scheff-Norm oder die $l_2$-Norm. Für detailiertere Informationen sei auch hier wieder auf \cite{ADS} verwiesen.
+
+
+\paragraph{Rundungsrauschen:}\index{Rundungsrauschen}
+
+Ein Maß für die Größe des Rundungsrauschens ist das vom Rundungsrauschen verursachte SNR am Filterausgang. Dieses kann man einfach durch ein möglichst starkes Anheben der Signalpegel im Inneren des Filters optimieren. Da das Rundungsrauschen bei gegebener Filterstruktur und Wortlänge unverändert bleibt wird das SNR maximiert. Allerdings darf der Dynamikbereich der Festkomma-Arithmetik nicht überschritten werden, da es sonst zu Überläufen kommen würde. Um die Maximierung des SNR zu erreichen, und gleichzeitig die Wahrscheinlichkeit von Überläufen zu minimieren kann man die Filterkoeffizienten skalieren. 
+
+\medskip Quantisierungsrauschen am Ausgang eines Filters kann durch eine additive Überlagerung eines Fehlersignals am Ausgang eines idealen Filters modelliert werden:
+\begin{equation}
+	y_Q[n]=y[n]+e[n]
+\end{equation}
+Das Fehlersignal\index{Fehlersignal} $e[n]$ setzt sich dabei aus mehreren Fehlerquellen zusammen:
+\begin{enumerate}
+	\item \textit{Quantisierungsfehler des AD-Wandlers am Filtereingang:} Dieses Fehlersignal wird wie 			das Nutzsignal über das Filter übertragen und so auf den Filterausgang übersetzt.
+	\item \textit{Rundungsrauschen des Filters:} Setzt sich zusammen aus Fehlern durch Runden oder 					Abschneiden nach Multiplikationen. Diese Fehler, die an unterschiedlichen Stellen innerhalb der 				Filterstruktur auftreten, werden jeweils (über unterschiedliche Teil\-über\-tragungs\-funk\-tionen) 		auf den Filterausgang übersetzt, wo sie als zusammen\-gesetzter Rundungs\-fehler betrachtet werden 			können.
+	\item \textit{Quantisierung des Ausgangssignal auf weniger Bits}, falls (wie es in Anwendungen häufig 	der Fall ist) der DA-Wandler oder ein Folgesystem mit kleineren Wortbreiten arbeiten.
+\end{enumerate}
+
+Die letzte Fehlerquelle wird oft übersehen, da aufgrund der Akkumulierung der Rundungsrauschquellen normalerweise für die interne Arithmetik mehr Bits verwendet werden, als am Ausgang notwendig sind um dieses zu minimieren.
+
+\medskip Wird nach den Multiplikationen gerundet, so kann der Fehler als gleichverteilt im Intervall $-q/2 < e < q/2$ (q = LSB) angesehen werden. 
+Der Mittelwert (der eigentliche Erwartungswert) ist 0, die Varianz oder mittlere Leistung des Fehlers ist $\sigma_0^2=q^2/12$. Beim Abschneiden liegt der Fehler im Bereich $-q < e < 0$, der Mittelwert ist dann -q/2. 
+Der Mittelwert aller Abschneide\-fehler\-operationen pflanzt sich durch das Filter bis zum Ausgang der Schaltung fort und überlagert sich dort. Der resultierende DC-Wert am Ausgang ist einfach zu berechnen, meist aber vernachlässigbar.
+Die Varianz der Abschneidefehler ist gleich der des Runden. Aus diesem Grund werden Abschneiden und Runden in der analytischen Betrachtung in der Regel gleich behandelt.
+Die durch die Rauschquelle\index{Rauschquelle} verursachte mittlere Rauschleistung\index{Rauschleistung} $\sigma_y^2$ ergibt sich, indem $\sigma_0^2$ mit der Rauschzahl NG multipliziert wird.
+
+\begin{equation}
+	NG=\cfrac{1}{2\pi}\int_{-\pi}^{\pi}|\hat H(\Omega)| d\Omega
+\end{equation}
+
+($ \widehat H(\Omega)$ gibt die Übertragungsfunktion vom Rauschknoten zum Systemausgang an)
+Hat das System mehrere unkorrelierte Rauschquellen, dann überlagern sich am Ausgang des Systems die übertragenen mittleren Rauschleistungen. 
+
+
+\paragraph{Zusammenfassung:}
+
+Unerwünschte Effekte aufgrund von Koeffizienten\-quantisierung und quantisierter Arithmetik sind:
+\begin{itemize}
+	\item	Die realisierte Übertragungsfunktion weicht von der idealen Übertragungsfunktion ab. Bei großen Abweichungen können das Toleranzschema und sogar die Stabilitätsbedingung verletzt werden. Ursache ist die Quantisierung.
+	\item Es können Überläufe auftreten, die im Ausgangssignal zu Verzerrungen führen. Bei einem IIR-Filter können diese Überläufe Oszillationen mit großer Amplitude (große Grenzzyklen) zur Folge haben, die das Filter unbrauchbar machen.
+	\item Runden und Abschneiden von Zwischenergebnissen führt zu Rundungsrauschen. Bei einem IIR-Filter können daraus kleine Grenzzyklen, d.h. Oszillationen mit kleinen Amplituden am Ausgang entstehen.
+\end{itemize}
+
+\paragraph{Maßnahmen zur Eliminierung oder Verminderung der genannten Effekte:}
+
+
+\begin{itemize}
+	\item	\textit{FIR-Filter statt IIR-Filter verwenden:} FIR-Filter sind weniger sensitiv bezüglich ungenauer Filterkoeffizienten, haben ein kleineres Rundungsrauschen und sind immer stabil und frei von Grenzzyklen. 
+%	\item \textit{Gute Strukturen für IIR-Filter verwenden:} Eine bewährte Struktur ist die Kaskadenstruktur mit Blöcken zweiter Ordnung. Skalierung, Paarung der Pol- und Nullstellenpaare, sowie Reihenfolge der Blöcke beachten!
+	\item \textit{Abtastfrequenz verkleinern:} Bei Verkleinerung der Abtastfrequenz werden Digitalfilter weniger empfindlich bezüglich ungenauer Filterkoeffizienten. Eine kleinere Abtastfrequenz bei IIR-Filtern vermindert zudem das Quantisierungsrauschen und die Tendenz zu Grenzzyklen.
+	\item \textit{Wortlänge vergrößern:} Eine größere Wortlänge vermindert das Rundungsrauschen und erhöht die Genauigkeit der Übertragungsfunktion.
+	\item \textit{Fließkommarechner verwenden:} Diese Maßnahme führt zu Digitalfiltern mit genauen Filterkoeffizienten, geringem Quantisierungs\-rauschen und überlauf\-freiem Ausgangssignal, erfordert aber kompliziertere Hardware.
+\end{itemize}	
+
+%
+%
+\subsection{Entwurf digitaler Filter mit MATLAB}\label{subsec:digifilt:matlab}
+%
+%
+Unter MATLAB stehen mehrere Möglichkeiten zur Verfügung digitale Filter zu designen. Ein sehr schönes und praktisches Tool ist das \textbf{Filter Design and Analysistool (FDA-Tool)\index{FDA-Tool}}. Man kann es über die Eingabe
+\begin{verbatim}
+>> fdatool
+\end{verbatim}
+im MATLAB-Command-Window starten. 
+
+
+%
+\subsubsection{Das Filterdesigntool FDA}\label{subsubsec:digifilt:matlab:fda}
+%
+Die Oberfläche des Tools ist in Abbildung \ref{fig:FDATool} dargestellt.
+
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=13cm]{bilder/empfaenger/filterdesign/FDATool}
+	\caption{Graphische Oberfläches des FDA-Tools}
+	\label{fig:FDATool}
+\end{figure}
+
+Beim FDA-Tool handelt es sich um ein graphisches Design-Tool, mit dessen Hilfe man sich den Entwurfsablauf deutlich vereinfachen kann.
+
+\paragraph{Vorgehen beim Filterentwurf\index{Filterentwurf} mit FDA:}
+Die gewünschten Spezifikationen des Filters lassen sich in der unteren Hälfte des Fensters festlegen:
+\begin{itemize}
+	\item Im \textbf{Response Type\index{Response Type}} Fenster stellt man den gewünschten Filter und die Entwurfs\-methode ein
+	\item Im Fenster \textbf{Filter Order\index{Filter Order}} kann man dem Tool eine feste Ordnung vorgeben, oder den Entwurf mit kleinst\-möglicher Ordnung berechnen lassen. 
+	\item Das Toleranzschema für den Amplitudengang legt man in den \textbf{Frequency Specifcations\index{Frequency Specifications}} fest.
+	\item Mit den \textbf{Magnitude Specifications}\index{Magnitude Specifications} gibt man ein Maß für die maximalen Rippel im Durchlass- und Sperrbereich an, wobei $A_{pass}$ den Durchlassbereich und $A_{stop}$ den Sperrbereich charakterisiert.
+\end{itemize}
+
+ Sind alle gewünschten Parameter festgelegt, so braucht man nur noch auf die Schaltfläche \textbf{Design Filter}\index{Design Filter} am unteren Rand des Fensters klicken und FDA berechnet alle nötigen Koeffizienten.
+ 
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=8cm]{bilder/empfaenger/filterdesign/FDATool2}
+	\caption{Iconleiste im FDA-Tool}
+	\label{fig:FDATool2}
+\end{figure}
+
+Mit den in Abb. \ref{fig:FDATool2} dargestellten Icons in der Menüleiste kann man sich jetzt genauere Informationen (wie Phasenverläufe, Pol-Nullstellen-Diagramme, Filterkoeffizienten, etc.) zum berechneten Filter anzeigen lassen.
+
+\advise{Die berechneten Filterkoeffizienten sind im Double-Precision-Floating-Point-Format berechnet. Benötigt man Fil\-ter\-ko\-effi\-zien\-ten in Fixed-Point-Arithmetik, so muss man dies IMMER extra einstellen!}
+
+\textbf{Filterkoeffizienten in Fixed-Point-Darstellung}\index{Fixed-Point Darstellung}\\
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=11cm]{bilder/empfaenger/filterdesign/FDATool3}
+	\caption{Fixed-Point Koeffizienten mit FDA-Tool}
+	\label{fig:FDATool3}
+\end{figure}
+Über das in Abb. \ref{fig:FDATool3} markierte Icon in der linken Symbol\-leiste lässt sich das Format der zu berechnenden Filter\-koeffizienten festlegen.
+
+\paragraph{Portierung der Filterkoeffizienten nach MATLAB:}
+\begin{figure}[ht]
+	\centering 
+%	\psfrag{06}{$N$}
+	\includegraphics[width=4cm]{bilder/empfaenger/filterdesign/FDATool4}
+	\caption{Export von Filterkoeffizienten}
+	\label{fig:FDATool4}
+\end{figure}
+In der Menüleiste öffnet man über den Menüpunkt File $\rightarrow$ Export die in Abb. \ref{fig:FDATool4} dargestellte Exportfunktion von FDA. Hier hat man die Möglichkeit die Koeffizienten entweder direkt im Workspace\index{Workspace} oder in einem mat-File\index{mat-File} abzulegen, um später in MATLAB mit ihnen arbeiten zu können.
+
+\paragraph{Filtern eines digitalen Signals:}
+Um die entworfenen Filter in der MATLAB Simulation verwenden zu können, steht ihnen in ihrem Praktikumsverzeichnis die MATLAB-Funktion \textit{filtfir\_symm\_qa.m} zur Verfügung. Diese Funktion rechnet bereits mit quantisierten Koeffizienten. Nach jedem Rechenschritt werden die Ergebnisse ebenfalls quantisiert, so dass die resultierenden Ergebnisse später zum Vergleich mit der Hardware herangezogen werden können.

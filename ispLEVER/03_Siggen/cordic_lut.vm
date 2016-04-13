@@ -1,0 +1,254 @@
+//
+// Written by Synplify
+// Synplify 8.4.0.p, Build 075R.
+// Sat Nov 25 20:03:37 2006
+//
+// Source file index table:
+// Object locations will have the form <file>:<line>
+// file 0 "noname"
+// file 1 "noname"
+// file 2 "\c:\isptools6_0_strt\synpbase\lib\vhd\std.vhd "
+// file 3 "\c:\isptools6_0_strt\ispcpld\..\cae_library\synthesis\vhdl\ecp.vhd "
+// file 4 "\c:\isptools6_0_strt\synpbase\lib\vhd\std1164.vhd "
+// file 5 "\p:\slcnge~o\isplever\02zq4f~2\cordic_lut.vhd "
+// file 6 "\c:\isptools6_0_strt\synpbase\lib\vhd\signed.vhd "
+// file 7 "\c:\isptools6_0_strt\synpbase\lib\vhd\arith.vhd "
+// file 8 "\c:\isptools6_0_strt\synpbase\lib\vhd\numeric.vhd "
+// file 9 "\c:\isptools6_0_strt\synpbase\lib\vhd\math_real.vhd "
+
+`timescale 100 ps/100 ps
+module VLO (
+  Z
+);
+output Z ;
+wire Z ;
+wire GND ;
+wire VCC ;
+  assign GND = 1'b0;
+//@2:1
+  assign VCC = 1'b1;
+assign Z = GND;
+endmodule /* VLO */
+
+module VHI (
+  Z
+);
+output Z ;
+wire Z ;
+wire VCC ;
+wire GND ;
+  assign VCC = 1'b1;
+//@2:1
+  assign GND = 1'b0;
+assign Z = VCC;
+endmodule /* VHI */
+
+module OB (
+  I,
+  O
+);
+input I ;
+output O ;
+wire I ;
+wire O ;
+wire GND ;
+wire VCC ;
+  assign #(1)  O = I;
+//@2:1
+  assign GND = 1'b0;
+//@2:1
+  assign VCC = 1'b1;
+endmodule /* OB */
+
+module cordic_lut (
+  STEP,
+  ALPHA_I,
+  TAN_ALPHA_I,
+  K_I,
+  K_G
+);
+input [3:0] STEP ;
+output [7:0] ALPHA_I ;
+output [7:0] TAN_ALPHA_I ;
+output [7:0] K_I ;
+output [7:0] K_G ;
+wire VCC ;
+wire GND ;
+// @2:1
+  VLO GND_cZ (
+	.Z(GND)
+);
+// @2:1
+  VHI VCC_cZ (
+	.Z(VCC)
+);
+// @5:47
+  OB \K_G_pad[7]  (
+	.I(GND),
+	.O(K_G[7])
+);
+// @5:47
+  OB \K_G_pad[6]  (
+	.I(GND),
+	.O(K_G[6])
+);
+// @5:47
+  OB \K_G_pad[5]  (
+	.I(GND),
+	.O(K_G[5])
+);
+// @5:47
+  OB \K_G_pad[4]  (
+	.I(VCC),
+	.O(K_G[4])
+);
+// @5:47
+  OB \K_G_pad[3]  (
+	.I(VCC),
+	.O(K_G[3])
+);
+// @5:47
+  OB \K_G_pad[2]  (
+	.I(GND),
+	.O(K_G[2])
+);
+// @5:47
+  OB \K_G_pad[1]  (
+	.I(GND),
+	.O(K_G[1])
+);
+// @5:47
+  OB \K_G_pad[0]  (
+	.I(VCC),
+	.O(K_G[0])
+);
+// @5:46
+  OB \K_I_pad[7]  (
+	.I(VCC),
+	.O(K_I[7])
+);
+// @5:46
+  OB \K_I_pad[6]  (
+	.I(GND),
+	.O(K_I[6])
+);
+// @5:46
+  OB \K_I_pad[5]  (
+	.I(GND),
+	.O(K_I[5])
+);
+// @5:46
+  OB \K_I_pad[4]  (
+	.I(GND),
+	.O(K_I[4])
+);
+// @5:46
+  OB \K_I_pad[3]  (
+	.I(GND),
+	.O(K_I[3])
+);
+// @5:46
+  OB \K_I_pad[2]  (
+	.I(GND),
+	.O(K_I[2])
+);
+// @5:46
+  OB \K_I_pad[1]  (
+	.I(GND),
+	.O(K_I[1])
+);
+// @5:46
+  OB \K_I_pad[0]  (
+	.I(GND),
+	.O(K_I[0])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[7]  (
+	.I(GND),
+	.O(TAN_ALPHA_I[7])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[6]  (
+	.I(GND),
+	.O(TAN_ALPHA_I[6])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[5]  (
+	.I(GND),
+	.O(TAN_ALPHA_I[5])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[4]  (
+	.I(GND),
+	.O(TAN_ALPHA_I[4])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[3]  (
+	.I(GND),
+	.O(TAN_ALPHA_I[3])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[2]  (
+	.I(VCC),
+	.O(TAN_ALPHA_I[2])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[1]  (
+	.I(GND),
+	.O(TAN_ALPHA_I[1])
+);
+// @5:45
+  OB \TAN_ALPHA_I_pad[0]  (
+	.I(VCC),
+	.O(TAN_ALPHA_I[0])
+);
+// @5:44
+  OB \ALPHA_I_pad[7]  (
+	.I(GND),
+	.O(ALPHA_I[7])
+);
+// @5:44
+  OB \ALPHA_I_pad[6]  (
+	.I(GND),
+	.O(ALPHA_I[6])
+);
+// @5:44
+  OB \ALPHA_I_pad[5]  (
+	.I(GND),
+	.O(ALPHA_I[5])
+);
+// @5:44
+  OB \ALPHA_I_pad[4]  (
+	.I(GND),
+	.O(ALPHA_I[4])
+);
+// @5:44
+  OB \ALPHA_I_pad[3]  (
+	.I(GND),
+	.O(ALPHA_I[3])
+);
+// @5:44
+  OB \ALPHA_I_pad[2]  (
+	.I(VCC),
+	.O(ALPHA_I[2])
+);
+// @5:44
+  OB \ALPHA_I_pad[1]  (
+	.I(GND),
+	.O(ALPHA_I[1])
+);
+// @5:44
+  OB \ALPHA_I_pad[0]  (
+	.I(VCC),
+	.O(ALPHA_I[0])
+);
+// @2:1
+  GSR GSR_INST (
+	.GSR(VCC)
+);
+// @2:1
+  PUR PUR_INST (
+	.PUR(VCC)
+);
+endmodule /* cordic_lut */
+

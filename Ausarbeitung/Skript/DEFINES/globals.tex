@@ -1,0 +1,106 @@
+% Are we producing colored output
+\newcommand{\printcolor}{\boolean{true}}
+
+% true --> Musterlösung, false --> Studentenskript
+% Are we as perfect that we know the solution ;-)
+\newcommand{\printsolution}{\boolean{true}}
+
+% Do we use XEmacs or the integrated something
+\newcommand{\xemacs}{\boolean{false}}
+
+% Include notes for developing the script
+\newcommand{\shownotes}{\boolean{false}}
+
+% The relative path to the VHDL Source while tex-compiling
+\newcommand{\texpathtovhdl}[1]{../ispLEVER/}
+
+% This command is useful for changing the root of the students
+\newcommand{\pathtoadsp}[1]{\begin{quote}\texttt{P:\textbackslash #1}\end{quote}}
+\newcommand{\pathtoisp}[1]{\pathtoadsp{ispLEVER\textbackslash #1}}
+\newcommand{\pathtomatlab}[1]{\begin{quote}\texttt{MATLAB\_src\textbackslash #1}\end{quote}}
+
+% The question and answer game
+% Arg 1: Count of lines to be insertet
+% Arg 2: The answer to the question
+\newcommand{\answergame}[2]{%
+  \paragraph{}
+	\begin{samepage}
+		\ifthenelse{\printsolution}
+		{
+			\fbox
+			{
+				\begin{minipage}{0.85\linewidth}
+					#2
+				\end{minipage}
+			}
+		}
+		{
+			%else
+			\begin{minipage}{0.94\linewidth}
+				%\textbf{Lösung:}\\
+				\multido{\i=0+1}{#1}{
+					\begin{minipage}{\linewidth}
+						\hrulefill
+					\end{minipage}
+				}
+			\end{minipage}
+		}
+	\end{samepage}
+}
+
+\newcommand{\answerfig}[3]{%
+	\ifthenelse{\printsolution}{	
+		\begin{center}
+			\includegraphics{#3}
+			\vspace{#2}
+		\end{center}
+	}{%
+		\vspace{#1}
+	}
+}
+% Something for design
+\newcommand{\graphbox}[2]{%
+	\shadowbox{%
+		\begin{minipage}{0.90\linewidth}
+			\begin{minipage}{0.18\linewidth}
+				\includegraphics[width=50pt,height=50pt]{#1}
+			\end{minipage}
+			\begin{minipage}{0.80\linewidth}
+				#2
+			\end{minipage}
+		\end{minipage}
+	}
+}
+
+\newcommand{\pargraphbox}[2]{%
+	\par
+	\setlength{\parindent}{4ex}
+	\setlength{\parskip}{0.5ex}
+	\setlength{\fboxsep}{0.3em}
+	\graphbox{#1}{#2}
+}
+
+\newcommand{\advise}[1]{\pargraphbox{bilder/global/advice.eps}{#1}}
+
+\newcommand{\prohibit}[1]{\pargraphbox{bilder/global/prohibition.eps}{#1}}
+
+\newcommand{\keybutton}[1]{\ovalbox{#1}}
+\newcommand{\specialbutton}[1]{\Ovalbox{#1}}
+
+
+\newcommand{\develnote}[1]{%
+	\ifthenelse{\shownotes}
+	{
+		\fbox{
+			\begin{minipage}{0.90\textwidth}
+				\textcolor{red}{#1}
+			\end{minipage}
+		}
+	}{ }
+}
+
+% Definition der Fourier-Transformations-Symbole
+\def\ifouriersymb {\bullet \mkern-7mu - \mkern-8mu - \mkern-7mu \circ~}
+\def\fouriersymb {\circ \mkern-7mu - \mkern-8mu - \mkern-7mu \bullet~}
+
+

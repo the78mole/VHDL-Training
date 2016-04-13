@@ -1,0 +1,4 @@
+-rem
+-log siggen.log
+-o siggen_mp.par
+-pr siggen.prf

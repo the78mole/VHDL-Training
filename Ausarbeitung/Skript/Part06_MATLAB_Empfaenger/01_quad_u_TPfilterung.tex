@@ -1,0 +1,24 @@
+\paragraph{Aufgabe 3: Quadrierung der Einzelsignale}
+
+\begin{enumerate}
+	\item Quadrieren sie nun ihre beiden Bandpassgefilterten Signale
+	\item Stellen sie das Ergebnis wieder graphisch dar.
+\end{enumerate}
+
+\paragraph{Aufgabe 4: Tiefpass-Design}
+\begin{enumerate}
+	\item Erzeugen sie ein Tiefpassfilter, das die gewünschte Funktion erfüllt. Wie würden sie die Durchlassfrequenz einstellen?
+		\answergame{2}{Der Durchlassbereich sollte deutlich größer als die Bitfrequenz der Daten sein!}
+	\item Welche Ordnung hat ihr Tiefpass? Bestimmen sie die Anzahl der Koeffizienten und geben sie die Zahl der notwendigen Multiplikationen an.
+		\answergame{4}{Abhängig vom vorgegebenen Toleranzschema.}
+	\item Ist die Ordnung des Filters im Hinblick auf die Hardware vertretbar? Sollten sie zu dem Ergebnis kommen, das dies nicht der Fall ist, so passen sie ihre Filter den Gegebenheiten an.
+		\answergame{3}{Vergleiche Aufgabe 1.3}
+\end{enumerate}
+Speichern sie ihr Filter im Ordner
+\pathtomatlab{Empfänger\textbackslash EmpfängerhardwareMATLAB\\\textbackslash Aufgabe\_04\_Tiefpass-Design}
+
+\paragraph{Aufgabe 5: Tiefpass-Simulation}
+\begin{enumerate}
+	\item Bauen sie ihr Tiefpassfilter, wie in Abb. \ref{fig:Empfänger} auf Seite \pageref{fig:Empfänger} dargestellt, in ihr bestehendes System ein. 
+	\item Simulieren sie nun die Funktion und stellen sie die Ausgangssignale graphisch dar. Stimmt ihr Ergebnis?
+\end{enumerate}

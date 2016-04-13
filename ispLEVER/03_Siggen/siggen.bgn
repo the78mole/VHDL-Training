@@ -1,0 +1,15 @@
+-g CfgMode:Disable -g ReadBack:SRAM -g RamCfg:Reset -g SYNSRC:No -g PllSET:None -g ES:No -w siggen.ncd siggen.prf 
+
+Loading design for application Bitgen from file siggen.ncd.
+   "toplevel" is an NCD, version 3.1, vendor LATTICE, device LFECP20E,
+package FPBGA484, speed 3
+Loading device for application Bitgen from file 'ep5g49x58.nph' in
+environment C:/ispTOOLS6_0_STRT/ispfpga.
+Package: Version 1.10, Status: FINAL
+Speed Hardware Data: version 9.999
+
+Running DRC.
+DRC detected 0 errors and 0 warnings.
+
+Creating bit map...
+Saving bit stream in "siggen.bit".

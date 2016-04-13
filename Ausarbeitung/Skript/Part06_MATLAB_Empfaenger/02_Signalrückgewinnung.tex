@@ -1,0 +1,16 @@
+\paragraph{Aufgabe 6: Signalrückgewinnung}
+\begin{enumerate}
+	\item Implementieren sie eine Funktion, die aus den beiden tiefpassgefilterten Signalen das ursprüngliche Sendesignal zurückgewinnen kann. Wie würden sie diese aufbauen?
+		\answergame{4}{Man kann beide Signale voneinander subtrahieren. Auf diese Weise bekommt man ein Signal, das dem ursprünglichen Bitstrom ähnlich ist. Die Datenbits können wieder rekonstruiert werden, indem man von dem empfangenen Signal abschnittsweise den Mittelwert bildet und vergleicht, ob dieser kleiner oder größer Null ist. Hierzu muss allerdings die Filterverzögerung bekannt sein.}
+	\item Erweitern sie ihr Programm dahingehend, dass es die auftretenden Bitfehler erfasst und im Command-Window ausgibt. Wie würden sie diese Funktion implementieren?
+	\answergame{3}{Zum Beispiel mit einer XOR-Verknüpfung, die das generierte Sendesignal mit dem empfangenen Signal vergleicht. Sind zwei Symbole unterschiedlich, wird eine Eins zurückgegeben und auf eine Zählvariable aufaddiert.}
+\end{enumerate}
+	
+\paragraph{Aufgabe 7: Vereinfachung der Schaltung}
+\begin{enumerate}
+	\item Ist es möglich, die Schaltung mit einem einzigen Tiefpass aufzubauen und wenn ja, wo würden sie diesen in ihr System einbinden? Begründen sie ihre Anwort
+		\answergame{3}{Ja, da die Signale lediglich additiv miteinander verknüpft werden spielt es keine Rolle, ob ich jedes Signal für sich durch einen Filter schicke, oder ob beide Signale zusammen nach der Subtraktion tiefpassgefiltert werden.}
+	\item Verifizieren sie ihre Behauptung in der Simulation und legen sie das Skript im Verzeichnis 
+	\pathtomatlab{Empfänger\textbackslash EmpfängerhardwareMATLAB\\\textbackslash Aufgabe\_07\_Vereinfachung} ab.
+	\answergame{0}{Kann man anhand der fertig implementierten Übertragungsstrecke \pathtomatlab{Gesamtsystem\textbackslash main.m} nachvollziehen.}
+\end{enumerate}

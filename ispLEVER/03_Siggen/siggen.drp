@@ -1,0 +1,148 @@
+ngdbuild:  version ispLever_v60_PROD_Build (36)
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights
+     reserved.
+Reading 'toplevel.ngo' ...
+Loading NGL library
+     'C:/ispTOOLS6_0_STRT/ispfpga/ep5g00/data/ep5glib.ngl'...
+Loading NGL library
+     'C:/ispTOOLS6_0_STRT/ispfpga/mg5g00/data/mg5glib.ngl'...
+Loading NGL library
+     'C:/ispTOOLS6_0_STRT/ispfpga/or5g00/data/orc5glib.ngl'...
+
+Running DRC...
+WARNING - ngdbuild: logical net 'segment_decoder_4/GNDZ1' has no driver
+WARNING - ngdbuild: logical net 'segment_decoder_4/GNDZ1' has no load
+WARNING - ngdbuild: logical net 'segment_decoder_4/VCCZ0' has no driver
+WARNING - ngdbuild: logical net 'segment_decoder_4/VCCZ0' has no load
+WARNING - ngdbuild: logical net 'segment_decoder_1/GNDZ1' has no driver
+WARNING - ngdbuild: logical net 'segment_decoder_1/GNDZ1' has no load
+WARNING - ngdbuild: logical net 'segment_decoder_1/VCCZ0' has no driver
+WARNING - ngdbuild: logical net 'segment_decoder_1/VCCZ0' has no load
+WARNING - ngdbuild: logical net 'gain_control_1/vn_counter_s_0_COUT0_4' has
+     no load
+WARNING - ngdbuild: logical net 'gain_control_1/NC0' has no load
+WARNING - ngdbuild: logical net 'gain_control_1/NC1' has no load
+WARNING - ngdbuild: logical net 'gain_control_1/vn_counter_cry_2' has no
+     load
+WARNING - ngdbuild: logical net 'gain_control_1/vn_counter_cry_0' has no
+     load
+WARNING - ngdbuild: logical net 'gain_control_1/GNDZ1' has no driver
+WARNING - ngdbuild: logical net 'gain_control_1/GNDZ1' has no load
+WARNING - ngdbuild: logical net 'gain_control_1/VCCZ1' has no driver
+WARNING - ngdbuild: logical net 'gain_control_1/VCCZ1' has no load
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/vn_count_s_0_COUT0_4'
+     has no load
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/NC0' has no load
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/NC1' has no load
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/vn_count_cry_2' has no
+     load
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/vn_count_cry_0' has no
+     load
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/GNDZ1' has no driver
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/GNDZ1' has no load
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/VCCZ1' has no driver
+WARNING - ngdbuild: logical net 'i2s_transmitter_1/VCCZ1' has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_18_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_18_0_COUT1'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_16_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_14_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_12_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_10_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_8_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_6_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_4_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_2_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_0_0_COUT0'
+     has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/un5_vn_count_cry_0_0_S0' has
+     no load
+WARNING - ngdbuild: logical net 'reset_gen_1/GNDZ1' has no driver
+WARNING - ngdbuild: logical net 'reset_gen_1/GNDZ1' has no load
+WARNING - ngdbuild: logical net 'reset_gen_1/VCCZ1' has no driver
+WARNING - ngdbuild: logical net 'reset_gen_1/VCCZ1' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/CLKOS' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/sl_clk_lock' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/DDAOZR' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/DDAOLAG' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/DDAODEL0' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/DDAODEL1' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/DDAODEL2' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/GNDZ1' has no driver
+WARNING - ngdbuild: logical net 'clockgen_main_1/GNDZ1' has no load
+WARNING - ngdbuild: logical net 'clockgen_main_1/VCCZ0' has no driver
+WARNING - ngdbuild: logical net 'clockgen_main_1/VCCZ0' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_0' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_1' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_2' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_3' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_4' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_5' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_6' has no load
+WARNING - ngdbuild: logical net 'SWITCHES_7' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_0' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_1' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_2' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_3' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_4' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_5' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_6' has no load
+WARNING - ngdbuild: logical net 'BUTTONS_7' has no load
+WARNING - ngdbuild: logical net 'RS232_RX' has no load
+WARNING - ngdbuild: logical net 'RS232_DSR' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_0' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_1' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_2' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_3' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_4' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_5' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_6' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_7' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_8' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_9' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_10' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_11' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_12' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_13' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_14' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B7_15' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_0' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_1' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_2' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_3' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_4' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_5' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_6' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_7' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_8' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_9' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_10' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_11' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_12' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_13' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_14' has no load
+WARNING - ngdbuild: logical net 'EXTENDER_B5_15' has no load
+WARNING - ngdbuild: logical net 'MA_SDO' has no load
+WARNING - ngdbuild: logical net 'AD_LRCK' has no load
+WARNING - ngdbuild: logical net 'AD_BCK' has no load
+WARNING - ngdbuild: logical net 'AD_DOUT' has no load
+WARNING - ngdbuild: logical net 'DA_ZEROL' has no load
+WARNING - ngdbuild: logical net 'DA_ZEROR' has no load
+WARNING - ngdbuild: DRC complete with 109 warnings
+
+Design Results:
+    241 blocks expanded
+Writing 'siggen.ngd' ...

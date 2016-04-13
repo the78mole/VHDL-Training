@@ -1,0 +1,22 @@
+PAR: Place And Route ispLever_v60_PROD_Build (36).
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2006 Lattice Semiconductor Corporation,  All rights reserved.
+Sun Nov 26 05:23:27 2006
+
+C:/ispTOOLS6_0_STRT/ispfpga\bin\nt\par -f siggen.p2t siggen_map.ncd siggen.dir
+siggen.prf
+
+Preference file: siggen.prf.
+
+Level/      Number      Timing      Run         NCD
+Cost [ncd]  Unrouted    Score       Time        Status
+----------  --------    --------    -----       ------------
+5_1   *     0           0           06:54       Complete        
+
+
+* : Design saved.
+
+par done!

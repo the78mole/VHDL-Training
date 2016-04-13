@@ -1,0 +1,17 @@
+\section{Versuch 9: VHDL: Demodulator}
+	\develnote{Das Quadrat des Signals bilden}
+
+Im Folgenden soll wie auf Seite \pageref{fig:Quadriertessig} beschrieben, die Hüllkurvendemodulation in VHDL durchgeführt werden. Hierzu müssen sie die Ausgangssignale der beiden Bandpässe quadrieren.
+
+\paragraph{Aufgabe 1:}
+
+Implementieren sie die Quadrierung so, dass die Hardware wieder mehrfach genutzt wird, aber achten Sie darauf, dass nur die benötigten Berechnungen durchgeführt werden und in den übrigen Zyklen keine unnötigen Schaltvorgänge auftreten, da dies nur zu einer erhöhten Stromaufnahme und somit zu unnötiger Verlustleistung führt.
+
+Verwenden sie die Struktur aus Abbildung \ref{fig:quadschema}
+
+\begin{figure}[hb]
+	\centering
+		\includegraphics{bilder/empfaenger/quadratur.eps}
+	\caption{Quadrierungsschema}
+	\label{fig:quadschema}
+\end{figure}

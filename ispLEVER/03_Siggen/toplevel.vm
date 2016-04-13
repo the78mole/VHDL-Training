@@ -1,0 +1,2578 @@
+//
+// Written by Synplify
+// Synplify 8.4.0.p, Build 075R.
+// Sun Nov 26 05:20:30 2006
+//
+// Source file index table:
+// Object locations will have the form <file>:<line>
+// file 0 "noname"
+// file 1 "noname"
+// file 2 "\c:\isptools6_0_strt\synpbase\lib\vhd\std.vhd "
+// file 3 "\c:\isptools6_0_strt\ispcpld\..\cae_library\synthesis\vhdl\ecp.vhd "
+// file 4 "\c:\isptools6_0_strt\synpbase\lib\vhd\std1164.vhd "
+// file 5 "\p:\slcnge~o\isplever\common_files\barrel_shifter.vhd "
+// file 6 "\c:\isptools6_0_strt\synpbase\lib\vhd\arith.vhd "
+// file 7 "\c:\isptools6_0_strt\synpbase\lib\vhd\signed.vhd "
+// file 8 "\c:\isptools6_0_strt\synpbase\lib\vhd\numeric.vhd "
+// file 9 "\p:\slcnge~o\isplever\02zq4f~2\cordic_lut.vhd "
+// file 10 "\c:\isptools6_0_strt\synpbase\lib\vhd\math_real.vhd "
+// file 11 "\p:\slcnge~o\isplever\02zq4f~2\cordic.vhd "
+// file 12 "\p:\slcnge~o\isplever\02zq4f~2\cordic_full.vhd "
+// file 13 "\p:\slcnge~o\isplever\02zq4f~2\stud_toplevel.vhd "
+// file 14 "\p:\slcnge~o\isplever\common_files\segment_decoder.vhd "
+// file 15 "\p:\slcnge~o\isplever\common_files\bargraph_decoder.vhd "
+// file 16 "\p:\slcnge~o\isplever\common_files\chatter_suppress.vhd "
+// file 17 "\p:\slcnge~o\isplever\common_files\gain_control.vhd "
+// file 18 "\p:\slcnge~o\isplever\common_files\i2s_transmitter.vhd "
+// file 19 "\p:\slcnge~o\isplever\common_files\i2s_receiver.vhd "
+// file 20 "\p:\slcnge~o\isplever\common_files\reset_gen.vhd "
+// file 21 "\c:\isptools6_0_strt\synpbase\lib\vhd\unsigned.vhd "
+// file 22 "\p:\slcnge~o\isplever\common_files\clockgen_main.vhd "
+// file 23 "\p:\slcnge~o\isplever\common_files\clockgen.vhd "
+// file 24 "\p:\slcnge~o\isplever\common_files\toplevel.vhd "
+
+`timescale 100 ps/100 ps
+module OFS1P3DX (
+  D,
+  SP,
+  SCLK,
+  CD,
+  Q,
+  GSR
+);
+input D ;
+input SP ;
+input SCLK ;
+input CD ;
+output Q ;
+input GSR ;
+wire D ;
+wire SP ;
+wire SCLK ;
+wire CD ;
+wire Q ;
+wire GSR ;
+wire gsrn ;
+wire clr ;
+wire m ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  assign #(1)  clr = (CD  | gsrn );
+  assign #(1)  m = ((!SP & Q ) | 
+	(SP & D ) | 
+	(Q & D ));
+  reg Q_r_e_g; // dffr
+  always @(posedge SCLK or posedge clr ) Q_r_e_g = #1 clr ? 1'b0 : m ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* OFS1P3DX */
+
+module VLO (
+  Z
+);
+output Z ;
+wire Z ;
+wire GND ;
+wire VCC ;
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+assign Z = GND;
+endmodule /* VLO */
+
+module VHI (
+  Z
+);
+output Z ;
+wire Z ;
+wire VCC ;
+wire GND ;
+  assign VCC = 1'b1;
+//@24:302
+  assign GND = 1'b0;
+assign Z = VCC;
+endmodule /* VHI */
+
+module OB (
+  I,
+  O
+);
+input I ;
+output O ;
+wire I ;
+wire O ;
+wire GND ;
+wire VCC ;
+  assign #(1)  O = I;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* OB */
+
+module OBZ (
+  I,
+  T,
+  O
+);
+input I ;
+input T ;
+output O /* synthesis syn_tristate = 1 */;
+wire I ;
+wire T ;
+wire O ;
+wire ti ;
+wire GND ;
+wire VCC ;
+  assign #(1)  ti = ~ T;
+  assign #(1)  O = ti ? I : 1'bz;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* OBZ */
+
+module IB (
+  I,
+  O
+);
+input I ;
+output O ;
+wire I ;
+wire O ;
+wire GND ;
+wire VCC ;
+  assign #(1)  O = I;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* IB */
+
+module clockgen_main_1 (
+  DA_SCKI_c,
+  GND,
+  CLK_c
+);
+output DA_SCKI_c ;
+input GND ;
+input CLK_c ;
+wire DA_SCKI_c ;
+wire GND ;
+wire CLK_c ;
+wire sl_clk_98m304 ;
+wire CLKOS ;
+wire sl_clk_lock ;
+wire DDAOZR ;
+wire DDAOLAG ;
+wire DDAODEL0 ;
+wire DDAODEL1 ;
+wire DDAODEL2 ;
+wire AD_SCKI ;
+wire NN_1 ;
+wire VCC ;
+// @22:83
+  EHXPLLB PLLBInst_0 (
+	.CLKI(CLK_c),
+	.CLKFB(sl_clk_98m304),
+	.RST(GND),
+	.DDAMODE(GND),
+	.DDAIZR(GND),
+	.DDAILAG(GND),
+	.DDAIDEL0(GND),
+	.DDAIDEL1(GND),
+	.DDAIDEL2(GND),
+	.CLKOP(sl_clk_98m304),
+	.CLKOS(CLKOS),
+	.CLKOK(AD_SCKI),
+	.LOCK(sl_clk_lock),
+	.DDAOZR(DDAOZR),
+	.DDAOLAG(DDAOLAG),
+	.DDAODEL0(DDAODEL0),
+	.DDAODEL1(DDAODEL1),
+	.DDAODEL2(DDAODEL2)
+);
+//@24:302
+//@24:302
+  assign NN_1 = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+assign DA_SCKI_c = AD_SCKI;
+endmodule /* clockgen_main_1 */
+
+module INV (
+  A,
+  Z
+);
+input A ;
+output Z ;
+wire A ;
+wire Z ;
+wire GND ;
+wire VCC ;
+  assign #(1)  Z = ~ A;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* INV */
+
+module FD1S3AX (
+  D,
+  CK,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input CK ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire CK ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  reg Q_r_e_g; // dffr
+  always @(posedge CK or posedge gsrn ) Q_r_e_g = #1 gsrn ? 1'b0 : D ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* FD1S3AX */
+
+module reset_gen_1 (
+  vn_count,
+  un5_vn_count_i_0,
+  g0_13,
+  g0_12,
+  VCC,
+  CLK_c,
+  GND,
+  g0_x1,
+  g0_10,
+  g0_11,
+  sl_nreset_i,
+  sl_nreset
+);
+output [19:1] vn_count ;
+output [32:32] un5_vn_count_i_0 ;
+input g0_13 ;
+input g0_12 ;
+input VCC ;
+input CLK_c ;
+input GND ;
+input g0_x1 ;
+input g0_10 ;
+input g0_11 ;
+output sl_nreset_i ;
+output sl_nreset ;
+wire g0_13 ;
+wire g0_12 ;
+wire VCC ;
+wire CLK_c ;
+wire GND ;
+wire g0_x1 ;
+wire g0_10 ;
+wire g0_11 ;
+wire sl_nreset_i ;
+wire sl_nreset ;
+wire Q_0_14 ;
+wire Q_QN_26 ;
+wire Q_0_15 ;
+wire Q_QN_27 ;
+wire Q_0 ;
+wire Q_QN_28 ;
+wire Q_0_0 ;
+wire Q_QN_29 ;
+wire Q_0_1 ;
+wire Q_QN_30 ;
+wire Q_0_2 ;
+wire Q_QN_31 ;
+wire Q_0_3 ;
+wire Q_QN_32 ;
+wire Q_0_4 ;
+wire Q_QN_33 ;
+wire Q_0_5 ;
+wire Q_QN_34 ;
+wire Q_QN_35 ;
+wire Q_QN_36 ;
+wire Q_0_17 ;
+wire Q_QN_37 ;
+wire Q_0_7 ;
+wire Q_QN_38 ;
+wire Q_0_8 ;
+wire Q_QN_39 ;
+wire Q_0_9 ;
+wire Q_QN_40 ;
+wire Q_0_10 ;
+wire Q_QN_41 ;
+wire Q_0_11 ;
+wire Q_QN_42 ;
+wire Q_0_12 ;
+wire Q_QN_43 ;
+wire Q_0_13 ;
+wire Q_QN_44 ;
+wire Q_0_6 ;
+wire Q_QN_45 ;
+wire Q_0_16 ;
+wire Q_QN_46 ;
+wire un5_vn_count_cry_18_0_COUT0 ;
+wire un5_vn_count_cry_18_0_COUT1 ;
+wire un5_vn_count_cry_18_0_S0 ;
+wire un5_vn_count_cry_18_0_S1 ;
+wire un5_vn_count_cry_16_0_COUT0 ;
+wire un5_vn_count_cry_16_0_COUT1 ;
+wire un5_vn_count_cry_16_0_S0 ;
+wire un5_vn_count_cry_16_0_S1 ;
+wire un5_vn_count_cry_14_0_COUT0 ;
+wire un5_vn_count_cry_14_0_COUT1 ;
+wire un5_vn_count_cry_14_0_S0 ;
+wire un5_vn_count_cry_14_0_S1 ;
+wire un5_vn_count_cry_12_0_COUT0 ;
+wire un5_vn_count_cry_12_0_COUT1 ;
+wire un5_vn_count_cry_12_0_S0 ;
+wire un5_vn_count_cry_12_0_S1 ;
+wire un5_vn_count_cry_10_0_COUT0 ;
+wire un5_vn_count_cry_10_0_COUT1 ;
+wire un5_vn_count_cry_10_0_S0 ;
+wire un5_vn_count_cry_10_0_S1 ;
+wire un5_vn_count_cry_8_0_COUT0 ;
+wire un5_vn_count_cry_8_0_COUT1 ;
+wire un5_vn_count_cry_8_0_S0 ;
+wire un5_vn_count_cry_8_0_S1 ;
+wire un5_vn_count_cry_6_0_COUT0 ;
+wire un5_vn_count_cry_6_0_COUT1 ;
+wire un5_vn_count_cry_6_0_S0 ;
+wire un5_vn_count_cry_6_0_S1 ;
+wire un5_vn_count_cry_4_0_COUT0 ;
+wire un5_vn_count_cry_4_0_COUT1 ;
+wire un5_vn_count_cry_4_0_S0 ;
+wire un5_vn_count_cry_4_0_S1 ;
+wire un5_vn_count_cry_2_0_COUT0 ;
+wire un5_vn_count_cry_2_0_COUT1 ;
+wire un5_vn_count_cry_2_0_S0 ;
+wire un5_vn_count_cry_2_0_S1 ;
+wire un5_vn_count_cry_0_0_COUT0 ;
+wire un5_vn_count_cry_0_0_COUT1 ;
+wire un5_vn_count_cry_0_0_S0 ;
+wire un5_vn_count_cry_0_0_S1 ;
+wire nRESETs_i ;
+wire nRESETs_i_1 ;
+wire un5_vn_count_axb_19 ;
+wire un5_vn_count_axb_18 ;
+wire un5_vn_count_axb_17 ;
+wire un5_vn_count_axb_16 ;
+wire un5_vn_count_axb_15 ;
+wire un5_vn_count_axb_14 ;
+wire un5_vn_count_axb_13 ;
+wire un5_vn_count_axb_12 ;
+wire un5_vn_count_axb_11 ;
+wire un5_vn_count_axb_10 ;
+wire un5_vn_count_axb_9 ;
+wire un5_vn_count_axb_8 ;
+wire un5_vn_count_axb_7 ;
+wire un5_vn_count_axb_6 ;
+wire un5_vn_count_axb_5 ;
+wire un5_vn_count_axb_4 ;
+wire un5_vn_count_axb_3 ;
+wire un5_vn_count_axb_2 ;
+wire un5_vn_count_axb_1 ;
+wire un5_vn_count_axb_0 ;
+wire N_261 ;
+wire NN_1 ;
+wire NN_2 ;
+// @20:61
+  INV \nRESET.sl_nreset_i  (
+	.A(sl_nreset),
+	.Z(sl_nreset_i)
+);
+assign Q_0_15 = (un5_vn_count_cry_8_0_S0) | (un5_vn_count_cry_8_0_S0 & 
+   ~g0_x1) | (un5_vn_count_cry_8_0_S0 & g0_x1) | (un5_vn_count_cry_8_0_S0 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_8_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_8_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_14 = (un5_vn_count_cry_8_0_S1) | (un5_vn_count_cry_8_0_S1 & 
+   ~g0_x1) | (un5_vn_count_cry_8_0_S1 & g0_x1) | (un5_vn_count_cry_8_0_S1 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_8_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_8_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_13 = (un5_vn_count_cry_10_0_S0) | (un5_vn_count_cry_10_0_S0 & 
+   ~g0_x1) | (un5_vn_count_cry_10_0_S0 & g0_x1) | (un5_vn_count_cry_10_0_S0 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_10_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_10_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_12 = (un5_vn_count_cry_10_0_S1) | (un5_vn_count_cry_10_0_S1 & 
+   ~g0_x1) | (un5_vn_count_cry_10_0_S1 & g0_x1) | (un5_vn_count_cry_10_0_S1 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_10_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_10_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_11 = (un5_vn_count_cry_12_0_S0) | (un5_vn_count_cry_12_0_S0 & 
+   ~g0_x1) | (un5_vn_count_cry_12_0_S0 & g0_x1) | (un5_vn_count_cry_12_0_S0 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_12_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_12_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_10 = (un5_vn_count_cry_12_0_S1) | (un5_vn_count_cry_12_0_S1 & 
+   ~g0_x1) | (un5_vn_count_cry_12_0_S1 & g0_x1) | (un5_vn_count_cry_12_0_S1 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_12_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_12_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_9 = (un5_vn_count_cry_14_0_S0) | (un5_vn_count_cry_14_0_S0 & 
+   ~g0_x1) | (un5_vn_count_cry_14_0_S0 & g0_x1) | (un5_vn_count_cry_14_0_S0 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_14_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_14_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_8 = (un5_vn_count_cry_14_0_S1) | (un5_vn_count_cry_14_0_S1 & 
+   ~g0_x1) | (un5_vn_count_cry_14_0_S1 & g0_x1) | (un5_vn_count_cry_14_0_S1 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_14_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_14_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_7 = (un5_vn_count_cry_16_0_S0) | (un5_vn_count_cry_16_0_S0 & 
+   ~g0_x1) | (un5_vn_count_cry_16_0_S0 & g0_x1) | (un5_vn_count_cry_16_0_S0 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_16_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_16_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_6 = (~un5_vn_count_i_0[32]) | (~un5_vn_count_i_0[32] & ~g0_x1) | 
+   (~un5_vn_count_i_0[32] & g0_x1) | (~un5_vn_count_i_0[32] & ~g0_10 & 
+   g0_x1) | (~un5_vn_count_i_0[32] & g0_10 & g0_x1) | (~un5_vn_count_i_0[32] & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_5 = (un5_vn_count_cry_0_0_S1) | (un5_vn_count_cry_0_0_S1 & ~g0_x1) | 
+   (un5_vn_count_cry_0_0_S1 & g0_x1) | (un5_vn_count_cry_0_0_S1 & ~g0_10 & 
+   g0_x1) | (un5_vn_count_cry_0_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_0_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_4 = (un5_vn_count_cry_2_0_S0) | (un5_vn_count_cry_2_0_S0 & ~g0_x1) | 
+   (un5_vn_count_cry_2_0_S0 & g0_x1) | (un5_vn_count_cry_2_0_S0 & ~g0_10 & 
+   g0_x1) | (un5_vn_count_cry_2_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_2_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_3 = (un5_vn_count_cry_2_0_S1) | (un5_vn_count_cry_2_0_S1 & ~g0_x1) | 
+   (un5_vn_count_cry_2_0_S1 & g0_x1) | (un5_vn_count_cry_2_0_S1 & ~g0_10 & 
+   g0_x1) | (un5_vn_count_cry_2_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_2_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_2 = (un5_vn_count_cry_4_0_S0) | (un5_vn_count_cry_4_0_S0 & ~g0_x1) | 
+   (un5_vn_count_cry_4_0_S0 & g0_x1) | (un5_vn_count_cry_4_0_S0 & ~g0_10 & 
+   g0_x1) | (un5_vn_count_cry_4_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_4_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_1 = (un5_vn_count_cry_4_0_S1) | (un5_vn_count_cry_4_0_S1 & ~g0_x1) | 
+   (un5_vn_count_cry_4_0_S1 & g0_x1) | (un5_vn_count_cry_4_0_S1 & ~g0_10 & 
+   g0_x1) | (un5_vn_count_cry_4_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_4_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_0 = (un5_vn_count_cry_6_0_S0) | (un5_vn_count_cry_6_0_S0 & ~g0_x1) | 
+   (un5_vn_count_cry_6_0_S0 & g0_x1) | (un5_vn_count_cry_6_0_S0 & ~g0_10 & 
+   g0_x1) | (un5_vn_count_cry_6_0_S0 & g0_10 & g0_x1) | (un5_vn_count_cry_6_0_S0 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0 = (un5_vn_count_cry_6_0_S1) | (un5_vn_count_cry_6_0_S1 & ~g0_x1) | 
+   (un5_vn_count_cry_6_0_S1 & g0_x1) | (un5_vn_count_cry_6_0_S1 & ~g0_10 & 
+   g0_x1) | (un5_vn_count_cry_6_0_S1 & g0_10 & g0_x1) | (un5_vn_count_cry_6_0_S1 & 
+   ~g0_11 & g0_10 & g0_x1) | (g0_11 & g0_10 & g0_x1);
+assign Q_0_17 = (un5_vn_count_cry_16_0_S1 & ~g0_11) | (un5_vn_count_cry_16_0_S1 & 
+   ~g0_10) | (un5_vn_count_cry_16_0_S1 & ~g0_11 & g0_10) | (un5_vn_count_cry_16_0_S1 & 
+   ~g0_x1) | (un5_vn_count_cry_16_0_S1 & ~g0_11 & g0_x1) | (un5_vn_count_cry_16_0_S1 & 
+   ~g0_10 & g0_x1) | (un5_vn_count_cry_16_0_S1 & ~g0_11 & g0_10 & g0_x1);
+assign Q_0_16 = (~un5_vn_count_i_0[32]) | (~un5_vn_count_i_0[32] & ~nRESETs_i) | 
+   (nRESETs_i);
+// @20:61
+  FD1S3AX \reset_count.vn_count_9_.Q_Z  (
+	.D(Q_0_14),
+	.CK(CLK_c),
+	.Q(vn_count[9]),
+	.QN(Q_QN_26),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_8_.Q_Z  (
+	.D(Q_0_15),
+	.CK(CLK_c),
+	.Q(vn_count[8]),
+	.QN(Q_QN_27),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_7_.Q_Z  (
+	.D(Q_0),
+	.CK(CLK_c),
+	.Q(vn_count[7]),
+	.QN(Q_QN_28),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_6_.Q_Z  (
+	.D(Q_0_0),
+	.CK(CLK_c),
+	.Q(vn_count[6]),
+	.QN(Q_QN_29),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_5_.Q_Z  (
+	.D(Q_0_1),
+	.CK(CLK_c),
+	.Q(vn_count[5]),
+	.QN(Q_QN_30),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_4_.Q_Z  (
+	.D(Q_0_2),
+	.CK(CLK_c),
+	.Q(vn_count[4]),
+	.QN(Q_QN_31),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_3_.Q_Z  (
+	.D(Q_0_3),
+	.CK(CLK_c),
+	.Q(vn_count[3]),
+	.QN(Q_QN_32),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_2_.Q_Z  (
+	.D(Q_0_4),
+	.CK(CLK_c),
+	.Q(vn_count[2]),
+	.QN(Q_QN_33),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_1_.Q_Z  (
+	.D(Q_0_5),
+	.CK(CLK_c),
+	.Q(vn_count[1]),
+	.QN(Q_QN_34),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_19_.Q_Z  (
+	.D(un5_vn_count_cry_18_0_S1),
+	.CK(CLK_c),
+	.Q(vn_count[19]),
+	.QN(Q_QN_35),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_18_.Q_Z  (
+	.D(un5_vn_count_cry_18_0_S0),
+	.CK(CLK_c),
+	.Q(vn_count[18]),
+	.QN(Q_QN_36),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_17_.Q_Z  (
+	.D(Q_0_17),
+	.CK(CLK_c),
+	.Q(vn_count[17]),
+	.QN(Q_QN_37),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_16_.Q_Z  (
+	.D(Q_0_7),
+	.CK(CLK_c),
+	.Q(vn_count[16]),
+	.QN(Q_QN_38),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_15_.Q_Z  (
+	.D(Q_0_8),
+	.CK(CLK_c),
+	.Q(vn_count[15]),
+	.QN(Q_QN_39),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_14_.Q_Z  (
+	.D(Q_0_9),
+	.CK(CLK_c),
+	.Q(vn_count[14]),
+	.QN(Q_QN_40),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_13_.Q_Z  (
+	.D(Q_0_10),
+	.CK(CLK_c),
+	.Q(vn_count[13]),
+	.QN(Q_QN_41),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_12_.Q_Z  (
+	.D(Q_0_11),
+	.CK(CLK_c),
+	.Q(vn_count[12]),
+	.QN(Q_QN_42),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_11_.Q_Z  (
+	.D(Q_0_12),
+	.CK(CLK_c),
+	.Q(vn_count[11]),
+	.QN(Q_QN_43),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_10_.Q_Z  (
+	.D(Q_0_13),
+	.CK(CLK_c),
+	.Q(vn_count[10]),
+	.QN(Q_QN_44),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \reset_count.vn_count_0_.Q_Z  (
+	.D(Q_0_6),
+	.CK(CLK_c),
+	.Q(un5_vn_count_i_0[32]),
+	.QN(Q_QN_45),
+	.GSR(sl_nreset)
+);
+// @20:61
+  FD1S3AX \nRESET.Q_Z  (
+	.D(Q_0_16),
+	.CK(CLK_c),
+	.Q(sl_nreset),
+	.QN(Q_QN_46),
+	.GSR(sl_nreset)
+);
+// @24:310
+  CCU2 un5_vn_count_cry_18_0 (
+	.A0(un5_vn_count_axb_18),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_19),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_16_0_COUT1),
+	.COUT0(un5_vn_count_cry_18_0_COUT0),
+	.COUT1(un5_vn_count_cry_18_0_COUT1),
+	.S0(un5_vn_count_cry_18_0_S0),
+	.S1(un5_vn_count_cry_18_0_S1)
+);
+defparam un5_vn_count_cry_18_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_18_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_18_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_18_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_16_0 (
+	.A0(un5_vn_count_axb_16),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_17),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_14_0_COUT1),
+	.COUT0(un5_vn_count_cry_16_0_COUT0),
+	.COUT1(un5_vn_count_cry_16_0_COUT1),
+	.S0(un5_vn_count_cry_16_0_S0),
+	.S1(un5_vn_count_cry_16_0_S1)
+);
+defparam un5_vn_count_cry_16_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_16_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_16_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_16_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_14_0 (
+	.A0(un5_vn_count_axb_14),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_15),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_12_0_COUT1),
+	.COUT0(un5_vn_count_cry_14_0_COUT0),
+	.COUT1(un5_vn_count_cry_14_0_COUT1),
+	.S0(un5_vn_count_cry_14_0_S0),
+	.S1(un5_vn_count_cry_14_0_S1)
+);
+defparam un5_vn_count_cry_14_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_14_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_14_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_14_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_12_0 (
+	.A0(un5_vn_count_axb_12),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_13),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_10_0_COUT1),
+	.COUT0(un5_vn_count_cry_12_0_COUT0),
+	.COUT1(un5_vn_count_cry_12_0_COUT1),
+	.S0(un5_vn_count_cry_12_0_S0),
+	.S1(un5_vn_count_cry_12_0_S1)
+);
+defparam un5_vn_count_cry_12_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_12_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_12_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_12_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_10_0 (
+	.A0(un5_vn_count_axb_10),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_11),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_8_0_COUT1),
+	.COUT0(un5_vn_count_cry_10_0_COUT0),
+	.COUT1(un5_vn_count_cry_10_0_COUT1),
+	.S0(un5_vn_count_cry_10_0_S0),
+	.S1(un5_vn_count_cry_10_0_S1)
+);
+defparam un5_vn_count_cry_10_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_10_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_10_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_10_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_8_0 (
+	.A0(un5_vn_count_axb_8),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_9),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_6_0_COUT1),
+	.COUT0(un5_vn_count_cry_8_0_COUT0),
+	.COUT1(un5_vn_count_cry_8_0_COUT1),
+	.S0(un5_vn_count_cry_8_0_S0),
+	.S1(un5_vn_count_cry_8_0_S1)
+);
+defparam un5_vn_count_cry_8_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_8_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_8_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_8_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_6_0 (
+	.A0(un5_vn_count_axb_6),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_7),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_4_0_COUT1),
+	.COUT0(un5_vn_count_cry_6_0_COUT0),
+	.COUT1(un5_vn_count_cry_6_0_COUT1),
+	.S0(un5_vn_count_cry_6_0_S0),
+	.S1(un5_vn_count_cry_6_0_S1)
+);
+defparam un5_vn_count_cry_6_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_6_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_6_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_6_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_4_0 (
+	.A0(un5_vn_count_axb_4),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_5),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_2_0_COUT1),
+	.COUT0(un5_vn_count_cry_4_0_COUT0),
+	.COUT1(un5_vn_count_cry_4_0_COUT1),
+	.S0(un5_vn_count_cry_4_0_S0),
+	.S1(un5_vn_count_cry_4_0_S1)
+);
+defparam un5_vn_count_cry_4_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_4_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_4_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_4_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_2_0 (
+	.A0(un5_vn_count_axb_2),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_3),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(un5_vn_count_cry_0_0_COUT1),
+	.COUT0(un5_vn_count_cry_2_0_COUT0),
+	.COUT1(un5_vn_count_cry_2_0_COUT1),
+	.S0(un5_vn_count_cry_2_0_S0),
+	.S1(un5_vn_count_cry_2_0_S1)
+);
+defparam un5_vn_count_cry_2_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_2_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_2_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_2_0.INJECT1_1="NO";
+// @24:310
+  CCU2 un5_vn_count_cry_0_0 (
+	.A0(un5_vn_count_axb_0),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(un5_vn_count_axb_1),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(VCC),
+	.COUT0(un5_vn_count_cry_0_0_COUT0),
+	.COUT1(un5_vn_count_cry_0_0_COUT1),
+	.S0(un5_vn_count_cry_0_0_S0),
+	.S1(un5_vn_count_cry_0_0_S1)
+);
+defparam un5_vn_count_cry_0_0.INIT0=16'h300a;
+defparam un5_vn_count_cry_0_0.INIT1=16'h300a;
+defparam un5_vn_count_cry_0_0.INJECT1_0="NO";
+defparam un5_vn_count_cry_0_0.INJECT1_1="NO";
+assign nRESETs_i = (nRESETs_i_1) | (~g0_10) | (nRESETs_i_1 & g0_10) | (~g0_11) | 
+   (nRESETs_i_1 & g0_11) | (~g0_10 & g0_11) | (nRESETs_i_1 & g0_10 & g0_11) | 
+   (nRESETs_i_1 & ~vn_count[17]) | (~g0_10 & ~vn_count[17]) | (nRESETs_i_1 & 
+   g0_10 & ~vn_count[17]) | (~g0_11 & ~vn_count[17]) | (nRESETs_i_1 & 
+   g0_11 & ~vn_count[17]) | (~g0_10 & g0_11 & ~vn_count[17]) | (nRESETs_i_1 & 
+   g0_10 & g0_11 & ~vn_count[17]) | (vn_count[17]);
+assign nRESETs_i_1 = (~g0_12) | (~g0_13) | (~g0_12 & g0_13) | (~vn_count[14]) | 
+   (~g0_12 & vn_count[14]) | (~g0_13 & vn_count[14]) | (~g0_12 & g0_13 & 
+   vn_count[14]) | (~vn_count[15]) | (~g0_12 & vn_count[15]) | (~g0_13 & 
+   vn_count[15]) | (~g0_12 & g0_13 & vn_count[15]) | (~vn_count[14] & 
+   vn_count[15]) | (~g0_12 & vn_count[14] & vn_count[15]) | (~g0_13 & 
+   vn_count[14] & vn_count[15]) | (~g0_12 & g0_13 & vn_count[14] & vn_count[15]);
+assign un5_vn_count_axb_19 = (vn_count[19]);
+assign un5_vn_count_axb_18 = (vn_count[18]);
+assign un5_vn_count_axb_17 = (vn_count[17]);
+assign un5_vn_count_axb_16 = (vn_count[16]);
+assign un5_vn_count_axb_15 = (vn_count[15]);
+assign un5_vn_count_axb_14 = (vn_count[14]);
+assign un5_vn_count_axb_13 = (vn_count[13]);
+assign un5_vn_count_axb_12 = (vn_count[12]);
+assign un5_vn_count_axb_11 = (vn_count[11]);
+assign un5_vn_count_axb_10 = (vn_count[10]);
+assign un5_vn_count_axb_9 = (vn_count[9]);
+assign un5_vn_count_axb_8 = (vn_count[8]);
+assign un5_vn_count_axb_7 = (vn_count[7]);
+assign un5_vn_count_axb_6 = (vn_count[6]);
+assign un5_vn_count_axb_5 = (vn_count[5]);
+assign un5_vn_count_axb_4 = (vn_count[4]);
+assign un5_vn_count_axb_3 = (vn_count[3]);
+assign un5_vn_count_axb_2 = (vn_count[2]);
+assign un5_vn_count_axb_1 = (vn_count[1]);
+assign un5_vn_count_axb_0 = (un5_vn_count_i_0[32]);
+//@14:58
+//@24:302
+  assign NN_1 = 1'b0;
+//@24:302
+  assign NN_2 = 1'b1;
+endmodule /* reset_gen_1 */
+
+module FD1P3AX (
+  D,
+  SP,
+  CK,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input SP ;
+input CK ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire SP ;
+wire CK ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire m ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  assign #(1)  m = ((!SP & Q ) | 
+	(SP & D ) | 
+	(Q & D ));
+  reg Q_r_e_g; // dffr
+  always @(posedge CK or posedge gsrn ) Q_r_e_g = #1 gsrn ? 1'b0 : m ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* FD1P3AX */
+
+module i2s_transmitter_1 (
+  VCC,
+  DA_BCK_c,
+  sl_lrck,
+  un6_sl_sync,
+  sl_nreset,
+  DA_SCKI_c,
+  GND
+);
+input VCC ;
+output DA_BCK_c ;
+output sl_lrck ;
+output un6_sl_sync ;
+input sl_nreset ;
+input DA_SCKI_c ;
+input GND ;
+wire VCC ;
+wire DA_BCK_c ;
+wire sl_lrck ;
+wire un6_sl_sync ;
+wire sl_nreset ;
+wire DA_SCKI_c ;
+wire GND ;
+wire [4:4] vn_count_s_0_COUT0;
+wire [4:0] vn_count_s;
+wire [3:0] vn_count_cry;
+wire [2:0] vn_count_0;
+wire [4:0] vn_count;
+wire Q_QN ;
+wire Q_QN_0 ;
+wire Q_QN_1 ;
+wire Q_QN_2 ;
+wire Q_QN_3 ;
+wire N_263_i_0 ;
+wire Q_QN_4 ;
+wire Q_QN_5 ;
+wire Q_QN_6 ;
+wire Q_QN_7 ;
+wire Q_QN_8 ;
+wire Q_QN_9 ;
+wire Q_QN_10 ;
+wire NC0 ;
+wire NC1 ;
+wire sl_synce_0 ;
+wire sl_bcke_0 ;
+wire N_191_i ;
+wire N_191_i_1 ;
+wire N_203_i ;
+wire N_264_i_0_i ;
+wire N_292_i ;
+wire un6_vn_count ;
+wire un6_vn_count_2 ;
+wire vl_sync ;
+wire sl_sync ;
+wire N_335 ;
+wire N_336 ;
+wire N_337 ;
+wire N_263 ;
+wire N_391 ;
+wire N_445 ;
+wire N_446 ;
+wire N_447 ;
+wire N_482 ;
+wire N_629 ;
+wire N_630 ;
+wire N_631 ;
+wire N_632 ;
+wire N_633 ;
+wire N_634 ;
+wire N_635 ;
+wire N_636 ;
+wire N_637 ;
+wire N_638 ;
+wire N_639 ;
+wire N_640 ;
+wire N_641 ;
+wire N_642 ;
+wire N_643 ;
+wire N_644 ;
+wire N_645 ;
+wire N_646 ;
+wire N_647 ;
+wire N_648 ;
+wire N_649 ;
+wire N_650 ;
+wire N_651 ;
+wire N_652 ;
+wire NN_1 ;
+wire NN_2 ;
+assign N_263_i_0 = (vn_count_0[0] & ~sl_sync & ~vl_sync) | (~vn_count_0[0] & 
+   sl_sync & ~vl_sync) | (~vn_count_0[0] & ~sl_sync & vl_sync) | (vn_count_0[0] & 
+   sl_sync & vl_sync);
+// @18:106
+  FD1S3AX \sl_sync.Q_Z  (
+	.D(sl_synce_0),
+	.CK(DA_SCKI_c),
+	.Q(sl_sync),
+	.QN(Q_QN),
+	.GSR(sl_nreset)
+);
+// @18:146
+  FD1P3AX \sl_lrck.Q_Z  (
+	.D(N_203_i),
+	.SP(un6_sl_sync),
+	.CK(DA_SCKI_c),
+	.Q(sl_lrck),
+	.QN(Q_QN_0),
+	.GSR(sl_nreset)
+);
+// @18:106
+  FD1S3AX \sl_bck.Q_Z  (
+	.D(sl_bcke_0),
+	.CK(DA_SCKI_c),
+	.Q(DA_BCK_c),
+	.QN(Q_QN_1),
+	.GSR(sl_nreset)
+);
+// @18:146
+  FD1P3AX \lrck_gen.vn_count_2_.Q_Z  (
+	.D(N_292_i),
+	.SP(un6_sl_sync),
+	.CK(DA_SCKI_c),
+	.Q(vn_count[2]),
+	.QN(Q_QN_2),
+	.GSR(sl_nreset)
+);
+// @18:146
+  FD1P3AX \lrck_gen.vn_count_1_.Q_Z  (
+	.D(N_264_i_0_i),
+	.SP(un6_sl_sync),
+	.CK(DA_SCKI_c),
+	.Q(vn_count[1]),
+	.QN(Q_QN_3),
+	.GSR(sl_nreset)
+);
+// @18:146
+  FD1S3AX \lrck_gen.vn_count_0_.Q_Z  (
+	.D(N_263_i_0),
+	.CK(DA_SCKI_c),
+	.Q(vn_count_0[0]),
+	.QN(Q_QN_4),
+	.GSR(sl_nreset)
+);
+// @18:146
+  FD1S3AX \lrck_gen.vl_sync.Q_Z  (
+	.D(sl_sync),
+	.CK(DA_SCKI_c),
+	.Q(vl_sync),
+	.QN(Q_QN_5),
+	.GSR(sl_nreset)
+);
+// @18:106
+  FD1S3AX \bck_gen.vn_count_4_.Q_Z  (
+	.D(vn_count_s[4]),
+	.CK(DA_SCKI_c),
+	.Q(vn_count[4]),
+	.QN(Q_QN_6),
+	.GSR(sl_nreset)
+);
+// @18:106
+  FD1S3AX \bck_gen.vn_count_3_.Q_Z  (
+	.D(vn_count_s[3]),
+	.CK(DA_SCKI_c),
+	.Q(vn_count[3]),
+	.QN(Q_QN_7),
+	.GSR(sl_nreset)
+);
+// @18:106
+  FD1S3AX \bck_gen.vn_count_2_.Q_Z  (
+	.D(vn_count_s[2]),
+	.CK(DA_SCKI_c),
+	.Q(vn_count_0[2]),
+	.QN(Q_QN_8),
+	.GSR(sl_nreset)
+);
+// @18:106
+  FD1S3AX \bck_gen.vn_count_1_.Q_Z  (
+	.D(vn_count_s[1]),
+	.CK(DA_SCKI_c),
+	.Q(vn_count_0[1]),
+	.QN(Q_QN_9),
+	.GSR(sl_nreset)
+);
+// @18:106
+  FD1S3AX \bck_gen.vn_count_0_.Q_Z  (
+	.D(vn_count_s[0]),
+	.CK(DA_SCKI_c),
+	.Q(vn_count[0]),
+	.QN(Q_QN_10),
+	.GSR(sl_nreset)
+);
+// @24:335
+  CCU2 \bck_gen.vn_count_s_0[4]  (
+	.A0(vn_count[4]),
+	.B0(VCC),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(vn_count_cry[3]),
+	.COUT0(vn_count_s_0_COUT0[4]),
+	.COUT1(NC0),
+	.S0(vn_count_s[4]),
+	.S1(NC1)
+);
+defparam \bck_gen.vn_count_s_0[4] .INIT0=16'h5006;
+defparam \bck_gen.vn_count_s_0[4] .INIT1=16'h0000;
+defparam \bck_gen.vn_count_s_0[4] .INJECT1_0="NO";
+defparam \bck_gen.vn_count_s_0[4] .INJECT1_1="NO";
+// @24:335
+  CCU2 \bck_gen.vn_count_cry_0[2]  (
+	.A0(vn_count_0[2]),
+	.B0(VCC),
+	.C0(GND),
+	.D0(GND),
+	.A1(vn_count[3]),
+	.B1(VCC),
+	.C1(GND),
+	.D1(GND),
+	.CIN(vn_count_cry[1]),
+	.COUT0(vn_count_cry[2]),
+	.COUT1(vn_count_cry[3]),
+	.S0(vn_count_s[2]),
+	.S1(vn_count_s[3])
+);
+defparam \bck_gen.vn_count_cry_0[2] .INIT0=16'h5006;
+defparam \bck_gen.vn_count_cry_0[2] .INIT1=16'h5006;
+defparam \bck_gen.vn_count_cry_0[2] .INJECT1_0="YES";
+defparam \bck_gen.vn_count_cry_0[2] .INJECT1_1="YES";
+// @24:335
+  CCU2 \bck_gen.vn_count_cry_0[0]  (
+	.A0(vn_count[0]),
+	.B0(VCC),
+	.C0(GND),
+	.D0(GND),
+	.A1(vn_count_0[1]),
+	.B1(VCC),
+	.C1(GND),
+	.D1(GND),
+	.CIN(GND),
+	.COUT0(vn_count_cry[0]),
+	.COUT1(vn_count_cry[1]),
+	.S0(vn_count_s[0]),
+	.S1(vn_count_s[1])
+);
+defparam \bck_gen.vn_count_cry_0[0] .INIT0=16'h5006;
+defparam \bck_gen.vn_count_cry_0[0] .INIT1=16'h5006;
+defparam \bck_gen.vn_count_cry_0[0] .INJECT1_0="YES";
+defparam \bck_gen.vn_count_cry_0[0] .INJECT1_1="YES";
+assign sl_synce_0 = (un6_vn_count & ~sl_sync) | (~un6_vn_count & sl_sync);
+assign sl_bcke_0 = (DA_BCK_c & ~N_191_i) | (DA_BCK_c & ~N_191_i & ~vn_count[0]) | 
+   (DA_BCK_c & vn_count[0]) | (DA_BCK_c & ~N_191_i & vn_count[0]) | (N_191_i & 
+   vn_count[0]);
+assign N_191_i = (N_191_i_1 & un6_vn_count_2 & ~vn_count[0] & ~vn_count[4]) | 
+   (~N_191_i_1 & vn_count[0] & ~vn_count[4]);
+assign N_191_i_1 = (vn_count[0] & ~vn_count_0[1]) | (vn_count[0] & ~vn_count_0[2]) | 
+   (vn_count[0] & ~vn_count_0[1] & vn_count_0[2]) | (~vn_count[3]) | (vn_count[0] & 
+   ~vn_count_0[1] & vn_count[3]) | (vn_count[0] & ~vn_count_0[2] & vn_count[3]) | 
+   (vn_count[0] & ~vn_count_0[1] & vn_count_0[2] & vn_count[3]);
+assign N_203_i = (vn_count_0[0] & vn_count[1] & ~vn_count[2]) | (vn_count_0[0] & 
+   vn_count[1] & ~vn_count[2] & ~sl_lrck) | (vn_count_0[0] & sl_lrck) | 
+   (vn_count_0[0] & ~vn_count[1] & sl_lrck) | (vn_count[1] & sl_lrck) | 
+   (vn_count_0[0] & ~vn_count[2] & sl_lrck) | (vn_count_0[0] & ~vn_count[1] & 
+   ~vn_count[2] & sl_lrck) | (vn_count[1] & ~vn_count[2] & sl_lrck) | 
+   (vn_count[2] & sl_lrck);
+assign N_264_i_0_i = (~vn_count_0[0] & ~vn_count[1]) | (vn_count_0[0] & 
+   vn_count[1]);
+assign N_292_i = (~vn_count_0[0] & ~vn_count[1] & ~vn_count[2]) | (vn_count_0[0] & 
+   vn_count[2]) | (vn_count_0[0] & ~vn_count[1] & vn_count[2]) | (vn_count[1] & 
+   vn_count[2]);
+assign un6_vn_count = (un6_vn_count_2 & vn_count[0] & ~vn_count[3] & ~vn_count[4]);
+assign un6_vn_count_2 = (~vn_count_0[1] & ~vn_count_0[2]);
+assign un6_sl_sync = (vl_sync & ~sl_sync) | (~vl_sync & sl_sync);
+//@14:58
+//@14:58
+//@14:58
+//@14:58
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@20:62
+//@24:302
+  assign NN_1 = 1'b0;
+//@24:302
+  assign NN_2 = 1'b1;
+endmodule /* i2s_transmitter_1 */
+
+module FD1P3DX (
+  D,
+  SP,
+  CK,
+  CD,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input SP ;
+input CK ;
+input CD ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire SP ;
+wire CK ;
+wire CD ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire clr ;
+wire m ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  assign #(1)  clr = (CD  | gsrn );
+  assign #(1)  m = ((!SP & Q ) | 
+	(SP & D ) | 
+	(Q & D ));
+  reg Q_r_e_g; // dffr
+  always @(posedge CK or posedge clr ) Q_r_e_g = #1 clr ? 1'b0 : m ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* FD1P3DX */
+
+module FD1S3BX (
+  D,
+  CK,
+  PD,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input CK ;
+input PD ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire CK ;
+wire PD ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire pre ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  assign #(1)  pre = (PD  | gsrn );
+  reg Q_r_e_g; // dffs
+  always @(posedge CK or posedge pre ) Q_r_e_g = #1 pre ? 1'b1 : D;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 1; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* FD1S3BX */
+
+module FD1S3DX (
+  D,
+  CK,
+  CD,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input CK ;
+input CD ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire CK ;
+wire CD ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire clr ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  assign #(1)  clr = (CD  | gsrn );
+  reg Q_r_e_g; // dffr
+  always @(posedge CK or posedge clr ) Q_r_e_g = #1 clr ? 1'b0 : D ;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 0; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* FD1S3DX */
+
+module gain_control_1 (
+  vn_counter,
+  un16_vl_last_toggle,
+  OUTPUT_e_i_0,
+  nCS_0_sqmuxa_1,
+  un9_vl_last_toggle,
+  VCC,
+  MA_nCS_c,
+  OUTPUT_e_i,
+  vl_last_toggle,
+  g0_i_m2_L3,
+  sl_changed,
+  sl_changed_ack,
+  sl_changed_acke_0,
+  sl_nreset,
+  sl_nreset_i,
+  DA_SCKI_c,
+  GND,
+  MA_SCLK_c
+);
+output [4:0] vn_counter ;
+input un16_vl_last_toggle ;
+input OUTPUT_e_i_0 ;
+input nCS_0_sqmuxa_1 ;
+input un9_vl_last_toggle ;
+input VCC ;
+output MA_nCS_c ;
+input OUTPUT_e_i ;
+output vl_last_toggle ;
+input g0_i_m2_L3 ;
+output sl_changed ;
+output sl_changed_ack ;
+input sl_changed_acke_0 ;
+input sl_nreset ;
+input sl_nreset_i ;
+input DA_SCKI_c ;
+input GND ;
+output MA_SCLK_c ;
+wire un16_vl_last_toggle ;
+wire OUTPUT_e_i_0 ;
+wire nCS_0_sqmuxa_1 ;
+wire un9_vl_last_toggle ;
+wire VCC ;
+wire MA_nCS_c ;
+wire OUTPUT_e_i ;
+wire vl_last_toggle ;
+wire g0_i_m2_L3 ;
+wire sl_changed ;
+wire sl_changed_ack ;
+wire sl_changed_acke_0 ;
+wire sl_nreset ;
+wire sl_nreset_i ;
+wire DA_SCKI_c ;
+wire GND ;
+wire MA_SCLK_c ;
+wire [1:1] cn_toggle_count_3;
+wire [0:0] cn_toggle_count_i;
+wire [4:4] vn_counter_s_0_COUT0;
+wire [3:0] vn_counter_cry;
+wire [4:0] vn_counter_s;
+wire [4:0] vn_counter_lm;
+wire [2:0] cn_toggle_count;
+wire MA_SCLK_i ;
+wire Q_QN_11 ;
+wire Q_QN_12 ;
+wire Q_QN_13 ;
+wire Q_QN_14 ;
+wire Q_QN_15 ;
+wire Q_QN_16 ;
+wire Q_QN_17 ;
+wire Q_QN_18 ;
+wire Q_QN_19 ;
+wire Q_QN_20 ;
+wire Q_QN_21 ;
+wire Q_QN_22 ;
+wire Q_QN_23 ;
+wire Q_QN_24 ;
+wire Q_QN_25 ;
+wire NC0 ;
+wire NC1 ;
+wire nCSe_0 ;
+wire nCSe_L1 ;
+wire nCSe_L3 ;
+wire vb_overload_changed ;
+wire vb_servo_changed ;
+wire N_62_i ;
+wire un1_sl_changed_1 ;
+wire N_14_i_i ;
+wire un5_cn_toggle_count ;
+wire N_30 ;
+wire N_31 ;
+wire N_32 ;
+wire N_33 ;
+wire N_34 ;
+wire N_35 ;
+wire N_36 ;
+wire N_37 ;
+wire N_38 ;
+wire N_39 ;
+wire N_72 ;
+wire NN_1 ;
+wire NN_2 ;
+// @24:350
+  INV \proc_toggle_sig.cn_toggle_count_i[0]  (
+	.A(cn_toggle_count[0]),
+	.Z(cn_toggle_count_i[0])
+);
+// @24:350
+  INV MA_SCLK_i_cZ (
+	.A(MA_SCLK_c),
+	.Z(MA_SCLK_i)
+);
+assign cn_toggle_count_3[1] = (cn_toggle_count[1] & cn_toggle_count[0]) | 
+   (cn_toggle_count[1] & cn_toggle_count[0] & ~cn_toggle_count[2]) | (~cn_toggle_count[1] & 
+   ~cn_toggle_count[0] & cn_toggle_count[2]) | (cn_toggle_count[1] & cn_toggle_count[0] & 
+   cn_toggle_count[2]);
+// @17:66
+  FD1P3DX \sl_toggle_sig.Q_Z  (
+	.D(MA_SCLK_i),
+	.SP(un5_cn_toggle_count),
+	.CK(DA_SCKI_c),
+	.CD(sl_nreset_i),
+	.Q(MA_SCLK_c),
+	.QN(Q_QN_11),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1S3AX \sl_changed_ack.Q_Z  (
+	.D(sl_changed_acke_0),
+	.CK(DA_SCKI_c),
+	.Q(sl_changed_ack),
+	.QN(Q_QN_12),
+	.GSR(sl_nreset)
+);
+// @17:97
+  FD1P3AX \sl_changed.Q_Z  (
+	.D(N_62_i),
+	.SP(sl_nreset),
+	.CK(DA_SCKI_c),
+	.Q(sl_changed),
+	.QN(Q_QN_13),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1P3AX \proc_transmit.vn_counter_4_.Q_Z  (
+	.D(vn_counter_lm[4]),
+	.SP(g0_i_m2_L3),
+	.CK(DA_SCKI_c),
+	.Q(vn_counter[4]),
+	.QN(Q_QN_14),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1P3AX \proc_transmit.vn_counter_3_.Q_Z  (
+	.D(vn_counter_lm[3]),
+	.SP(g0_i_m2_L3),
+	.CK(DA_SCKI_c),
+	.Q(vn_counter[3]),
+	.QN(Q_QN_15),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1P3AX \proc_transmit.vn_counter_2_.Q_Z  (
+	.D(vn_counter_lm[2]),
+	.SP(g0_i_m2_L3),
+	.CK(DA_SCKI_c),
+	.Q(vn_counter[2]),
+	.QN(Q_QN_16),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1P3AX \proc_transmit.vn_counter_1_.Q_Z  (
+	.D(vn_counter_lm[1]),
+	.SP(g0_i_m2_L3),
+	.CK(DA_SCKI_c),
+	.Q(vn_counter[1]),
+	.QN(Q_QN_17),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1P3AX \proc_transmit.vn_counter_0_.Q_Z  (
+	.D(vn_counter_lm[0]),
+	.SP(g0_i_m2_L3),
+	.CK(DA_SCKI_c),
+	.Q(vn_counter[0]),
+	.QN(Q_QN_18),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1P3AX \proc_transmit.vl_last_toggle.Q_Z  (
+	.D(MA_SCLK_c),
+	.SP(sl_nreset),
+	.CK(DA_SCKI_c),
+	.Q(vl_last_toggle),
+	.QN(Q_QN_19),
+	.GSR(sl_nreset)
+);
+// @17:66
+  FD1S3BX \proc_toggle_sig.cn_toggle_count_2_.Q_Z  (
+	.D(N_14_i_i),
+	.CK(DA_SCKI_c),
+	.PD(sl_nreset_i),
+	.Q(cn_toggle_count[2]),
+	.QN(Q_QN_20),
+	.GSR(sl_nreset)
+);
+// @17:66
+  FD1S3DX \proc_toggle_sig.cn_toggle_count_1_.Q_Z  (
+	.D(cn_toggle_count_3[1]),
+	.CK(DA_SCKI_c),
+	.CD(sl_nreset_i),
+	.Q(cn_toggle_count[1]),
+	.QN(Q_QN_21),
+	.GSR(sl_nreset)
+);
+// @17:66
+  FD1S3BX \proc_toggle_sig.cn_toggle_count_0_.Q_Z  (
+	.D(cn_toggle_count_i[0]),
+	.CK(DA_SCKI_c),
+	.PD(sl_nreset_i),
+	.Q(cn_toggle_count[0]),
+	.QN(Q_QN_22),
+	.GSR(sl_nreset)
+);
+// @17:97
+  FD1P3AX \proc_change_detect.vb_servo_changed.Q_Z  (
+	.D(OUTPUT_e_i),
+	.SP(sl_nreset),
+	.CK(DA_SCKI_c),
+	.Q(vb_servo_changed),
+	.QN(Q_QN_23),
+	.GSR(sl_nreset)
+);
+// @17:97
+  FD1P3AX \proc_change_detect.vb_overload_changed.Q_Z  (
+	.D(un1_sl_changed_1),
+	.SP(sl_nreset),
+	.CK(DA_SCKI_c),
+	.Q(vb_overload_changed),
+	.QN(Q_QN_24),
+	.GSR(sl_nreset)
+);
+// @17:152
+  FD1S3AX \nCS.Q_Z  (
+	.D(nCSe_0),
+	.CK(DA_SCKI_c),
+	.Q(MA_nCS_c),
+	.QN(Q_QN_25),
+	.GSR(sl_nreset)
+);
+// @24:350
+  CCU2 \proc_transmit.vn_counter_s_0[4]  (
+	.A0(vn_counter[4]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(GND),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(vn_counter_cry[3]),
+	.COUT0(vn_counter_s_0_COUT0[4]),
+	.COUT1(NC0),
+	.S0(vn_counter_s[4]),
+	.S1(NC1)
+);
+defparam \proc_transmit.vn_counter_s_0[4] .INIT0=16'h5006;
+defparam \proc_transmit.vn_counter_s_0[4] .INIT1=16'h0000;
+defparam \proc_transmit.vn_counter_s_0[4] .INJECT1_0="NO";
+defparam \proc_transmit.vn_counter_s_0[4] .INJECT1_1="NO";
+// @24:350
+  CCU2 \proc_transmit.vn_counter_cry_0[2]  (
+	.A0(vn_counter[2]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(vn_counter[3]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(vn_counter_cry[1]),
+	.COUT0(vn_counter_cry[2]),
+	.COUT1(vn_counter_cry[3]),
+	.S0(vn_counter_s[2]),
+	.S1(vn_counter_s[3])
+);
+defparam \proc_transmit.vn_counter_cry_0[2] .INIT0=16'hf006;
+defparam \proc_transmit.vn_counter_cry_0[2] .INIT1=16'hf006;
+defparam \proc_transmit.vn_counter_cry_0[2] .INJECT1_0="NO";
+defparam \proc_transmit.vn_counter_cry_0[2] .INJECT1_1="NO";
+// @24:350
+  CCU2 \proc_transmit.vn_counter_cry_0[0]  (
+	.A0(vn_counter[0]),
+	.B0(GND),
+	.C0(GND),
+	.D0(GND),
+	.A1(vn_counter[1]),
+	.B1(GND),
+	.C1(GND),
+	.D1(GND),
+	.CIN(VCC),
+	.COUT0(vn_counter_cry[0]),
+	.COUT1(vn_counter_cry[1]),
+	.S0(vn_counter_s[0]),
+	.S1(vn_counter_s[1])
+);
+defparam \proc_transmit.vn_counter_cry_0[0] .INIT0=16'hf006;
+defparam \proc_transmit.vn_counter_cry_0[0] .INIT1=16'hf006;
+defparam \proc_transmit.vn_counter_cry_0[0] .INJECT1_0="NO";
+defparam \proc_transmit.vn_counter_cry_0[0] .INJECT1_1="NO";
+assign nCSe_0 = (MA_nCS_c & ~nCSe_L3) | (MA_nCS_c & ~nCSe_L1 & ~un9_vl_last_toggle) | 
+   (MA_nCS_c & ~nCSe_L3 & ~un9_vl_last_toggle) | (MA_nCS_c & ~nCSe_L1 & 
+   nCSe_L3 & ~un9_vl_last_toggle) | (~nCSe_L3 & un9_vl_last_toggle);
+assign nCSe_L1 = (~vn_counter[1] & ~vn_counter[2] & ~vn_counter[3] & ~vn_counter[4]);
+assign nCSe_L3 = (~MA_nCS_c & ~nCS_0_sqmuxa_1) | (~MA_nCS_c & ~vn_counter[0]) | 
+   (~MA_nCS_c & ~nCS_0_sqmuxa_1 & ~vn_counter[0]) | (nCS_0_sqmuxa_1 & 
+   ~vn_counter[0]) | (~MA_nCS_c & ~nCS_0_sqmuxa_1 & vn_counter[0]);
+assign N_62_i = (vb_overload_changed) | (vb_overload_changed & ~vb_servo_changed) | 
+   (vb_servo_changed) | (vb_overload_changed & ~sl_changed_ack) | (vb_overload_changed & 
+   ~vb_servo_changed & ~sl_changed_ack) | (vb_servo_changed & ~sl_changed_ack) | 
+   (vb_overload_changed & ~sl_changed & ~sl_changed_ack) | (vb_overload_changed & 
+   ~vb_servo_changed & ~sl_changed & ~sl_changed_ack) | (vb_servo_changed & 
+   ~sl_changed & ~sl_changed_ack) | (sl_changed & ~sl_changed_ack) | (vb_overload_changed & 
+   sl_changed_ack) | (vb_overload_changed & ~vb_servo_changed & sl_changed_ack) | 
+   (vb_servo_changed & sl_changed_ack);
+assign un1_sl_changed_1 = (~sl_changed & ~OUTPUT_e_i_0) | (sl_changed & 
+   OUTPUT_e_i_0);
+assign N_14_i_i = (~cn_toggle_count[0] & ~cn_toggle_count[1] & ~cn_toggle_count[2]) | 
+   (cn_toggle_count[0] & cn_toggle_count[2]) | (cn_toggle_count[0] & ~cn_toggle_count[1] & 
+   cn_toggle_count[2]) | (cn_toggle_count[1] & cn_toggle_count[2]);
+assign vn_counter_lm[0] = (~un16_vl_last_toggle & vn_counter_s[0] & sl_changed);
+assign vn_counter_lm[1] = (~un16_vl_last_toggle & vn_counter_s[1] & sl_changed);
+assign vn_counter_lm[2] = (nCS_0_sqmuxa_1 & un16_vl_last_toggle) | (nCS_0_sqmuxa_1 & 
+   un16_vl_last_toggle & ~sl_changed) | (nCS_0_sqmuxa_1 & un16_vl_last_toggle & 
+   sl_changed) | (nCS_0_sqmuxa_1 & un16_vl_last_toggle & ~vn_counter_s[2] & 
+   sl_changed) | (nCS_0_sqmuxa_1 & vn_counter_s[2] & sl_changed) | (~un16_vl_last_toggle & 
+   vn_counter_s[2] & sl_changed) | (nCS_0_sqmuxa_1 & un16_vl_last_toggle & 
+   vn_counter_s[2] & sl_changed);
+assign vn_counter_lm[3] = (~un16_vl_last_toggle & vn_counter_s[3] & sl_changed);
+assign vn_counter_lm[4] = (nCS_0_sqmuxa_1 & un16_vl_last_toggle) | (nCS_0_sqmuxa_1 & 
+   un16_vl_last_toggle & ~sl_changed) | (nCS_0_sqmuxa_1 & un16_vl_last_toggle & 
+   sl_changed) | (nCS_0_sqmuxa_1 & un16_vl_last_toggle & ~vn_counter_s[4] & 
+   sl_changed) | (nCS_0_sqmuxa_1 & vn_counter_s[4] & sl_changed) | (~un16_vl_last_toggle & 
+   vn_counter_s[4] & sl_changed) | (nCS_0_sqmuxa_1 & un16_vl_last_toggle & 
+   vn_counter_s[4] & sl_changed);
+assign un5_cn_toggle_count = (~cn_toggle_count[0] & ~cn_toggle_count[1] & 
+   ~cn_toggle_count[2]);
+//@18:79
+//@18:79
+//@18:79
+//@18:79
+//@18:79
+//@18:79
+//@18:79
+//@18:79
+//@18:79
+//@18:79
+//@14:58
+//@24:302
+  assign NN_1 = 1'b0;
+//@24:302
+  assign NN_2 = 1'b1;
+endmodule /* gain_control_1 */
+
+module FD1S3AY (
+  D,
+  CK,
+  Q,
+  QN,
+  GSR
+);
+input D ;
+input CK ;
+output Q ;
+output QN ;
+input GSR ;
+wire D ;
+wire CK ;
+wire Q ;
+wire QN ;
+wire GSR ;
+wire gsrn ;
+wire GND ;
+wire VCC ;
+  assign #(1)  gsrn = ~ GSR;
+  reg Q_r_e_g; // dffs
+  always @(posedge CK or posedge gsrn ) Q_r_e_g = #1 gsrn ? 1'b1 : D;
+    assign Q = Q_r_e_g;
+  initial Q_r_e_g = 1; // initial value for register/latch
+  assign #(1)  QN = ~ Q;
+//@24:302
+  assign GND = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* FD1S3AY */
+
+module segment_decoder_4 (
+  sl_nreset,
+  DA_SCKI_c,
+  GND,
+  OUTPUT_e_i_0_i,
+  OUTPUT_e_i_0
+);
+input sl_nreset ;
+input DA_SCKI_c ;
+input GND ;
+output OUTPUT_e_i_0_i ;
+output OUTPUT_e_i_0 ;
+wire sl_nreset ;
+wire DA_SCKI_c ;
+wire GND ;
+wire OUTPUT_e_i_0_i ;
+wire OUTPUT_e_i_0 ;
+wire OUTPUT_e_ie_QN ;
+wire N_25 ;
+wire NN_1 ;
+wire VCC ;
+// @20:61
+  INV OUTPUT_e_i_0_i_cZ (
+	.A(OUTPUT_e_i_0),
+	.Z(OUTPUT_e_i_0_i)
+);
+  FD1S3AY OUTPUT_e_ie_Z (
+	.D(GND),
+	.CK(DA_SCKI_c),
+	.Q(OUTPUT_e_i_0),
+	.QN(OUTPUT_e_ie_QN),
+	.GSR(sl_nreset)
+);
+//@24:414
+//@24:302
+  assign NN_1 = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* segment_decoder_4 */
+
+module segment_decoder_3_1 (
+  OUTPUT_e_i,
+  GND,
+  OUTPUT_e_i_0
+);
+output OUTPUT_e_i ;
+input GND ;
+input OUTPUT_e_i_0 ;
+wire OUTPUT_e_i ;
+wire GND ;
+wire OUTPUT_e_i_0 ;
+wire N_25 ;
+wire N_262 ;
+wire NN_1 ;
+wire VCC ;
+assign OUTPUT_e_i = (OUTPUT_e_i_0);
+//@24:447
+//@14:58
+//@24:302
+  assign NN_1 = 1'b0;
+//@24:302
+  assign VCC = 1'b1;
+endmodule /* segment_decoder_3_1 */
+
+module toplevel (
+  CLK,
+  SWITCHES,
+  BUTTONS,
+  STATUS_RED,
+  STATUS_YELLOW,
+  STATUS_GREEN,
+  SEGMENT_LED1,
+  SEGMENT_LED2,
+  SEGMENT_LED3,
+  SEGMENT_LED4,
+  BARGRAPH_LEFT,
+  BARGRAPH_RIGHT,
+  RS232_TX,
+  RS232_RX,
+  RS232_DTR,
+  RS232_DSR,
+  EXTENDER_B7,
+  EXTENDER_B5,
+  MA_ZCEN,
+  MA_nDCEN,
+  MA_nCS,
+  MA_SCLK,
+  MA_SDI,
+  MA_SDO,
+  AD_SCKI,
+  AD_LRCK,
+  AD_BCK,
+  AD_DOUT,
+  AD_FMT,
+  AD_MODE,
+  AD_BYPAS,
+  AD_OSR,
+  AD_nPDWN,
+  DA_SCKI,
+  DA_LRCK,
+  DA_BCK,
+  DA_DIN,
+  DA_nRST,
+  DA_ZEROL,
+  DA_ZEROR,
+  DA_DEMP,
+  DA_FMT,
+  DA_MUTE,
+  PA_nEN
+);
+input CLK ;
+input [7:0] SWITCHES ;
+input [7:0] BUTTONS ;
+output [2:0] STATUS_RED ;
+output [2:0] STATUS_YELLOW ;
+output [2:0] STATUS_GREEN ;
+output [7:0] SEGMENT_LED1 /* synthesis syn_tristate = 1 */;
+output [7:0] SEGMENT_LED2 /* synthesis syn_tristate = 1 */;
+output [7:0] SEGMENT_LED3 /* synthesis syn_tristate = 1 */;
+output [7:0] SEGMENT_LED4 /* synthesis syn_tristate = 1 */;
+output [7:0] BARGRAPH_LEFT /* synthesis syn_tristate = 1 */;
+output [7:0] BARGRAPH_RIGHT /* synthesis syn_tristate = 1 */;
+output RS232_TX ;
+input RS232_RX ;
+output RS232_DTR ;
+input RS232_DSR ;
+input [15:0] EXTENDER_B7 ;
+input [15:0] EXTENDER_B5 ;
+output MA_ZCEN ;
+output MA_nDCEN ;
+output MA_nCS ;
+output MA_SCLK ;
+output MA_SDI ;
+input MA_SDO ;
+output AD_SCKI ;
+input AD_LRCK ;
+input AD_BCK ;
+input AD_DOUT ;
+output [1:0] AD_FMT ;
+output [1:0] AD_MODE ;
+output AD_BYPAS ;
+output AD_OSR ;
+output AD_nPDWN ;
+output DA_SCKI ;
+output DA_LRCK ;
+output DA_BCK ;
+output DA_DIN ;
+output DA_nRST ;
+input DA_ZEROL ;
+input DA_ZEROR ;
+output [1:0] DA_DEMP ;
+output [2:0] DA_FMT ;
+output DA_MUTE ;
+output PA_nEN ;
+wire CLK ;
+wire RS232_TX ;
+wire RS232_RX ;
+wire RS232_DTR ;
+wire RS232_DSR ;
+wire MA_ZCEN ;
+wire MA_nDCEN ;
+wire MA_nCS ;
+wire MA_SCLK ;
+wire MA_SDI ;
+wire MA_SDO ;
+wire AD_SCKI ;
+wire AD_LRCK ;
+wire AD_BCK ;
+wire AD_DOUT ;
+wire AD_BYPAS ;
+wire AD_OSR ;
+wire AD_nPDWN ;
+wire DA_SCKI ;
+wire DA_LRCK ;
+wire DA_BCK ;
+wire DA_DIN ;
+wire DA_nRST ;
+wire DA_ZEROL ;
+wire DA_ZEROR ;
+wire DA_MUTE ;
+wire PA_nEN ;
+wire [4:0] \gain_control_1.proc_transmit.vn_counter ;
+wire [19:1] \reset_gen_1.reset_count.vn_count ;
+wire [32:32] \reset_gen_1.un5_vn_count_i_0 ;
+wire g0_i_m2_L3 ;
+wire g0_i_m2_L5 ;
+wire \gain_control_1.proc_transmit.un9_vl_last_toggle  ;
+wire \gain_control_1.sl_changed  ;
+wire \gain_control_1.sl_changed_acke_0  ;
+wire g0_8_x1 ;
+wire g0_x1 ;
+wire g0_10 ;
+wire g0_11 ;
+wire g0_i_m2_L1 ;
+wire \gain_control_1.proc_transmit.vl_last_toggle  ;
+wire sl_nreset ;
+wire g0_2_0 ;
+wire \gain_control_1.sl_changed_ack  ;
+wire g0_12 ;
+wire g0_13 ;
+wire g0_14 ;
+wire \gain_control_1.proc_transmit.un16_vl_last_toggle  ;
+wire \gain_control_1.nCS_0_sqmuxa_1  ;
+wire \segment_decoder_1.OUTPUT_e_i  ;
+wire \segment_decoder_1.OUTPUT_e_i_0  ;
+wire \i2s_transmitter_1.sl_lrck  ;
+wire un6_sl_sync ;
+wire CLK_c ;
+wire VCC ;
+wire MA_nCS_c ;
+wire MA_SCLK_c ;
+wire DA_SCKI_c ;
+wire DA_LRCK_c ;
+wire DA_BCK_c ;
+wire GND ;
+wire \segment_decoder_1.OUTPUT_e_i_0_i  ;
+wire sl_nreset_i ;
+// @18:192
+  OFS1P3DX i2s_transmitter_1_shift_regs_and_output_vl_lrck_Qio_Z (
+	.D(\i2s_transmitter_1.sl_lrck ),
+	.SP(un6_sl_sync),
+	.SCLK(DA_SCKI_c),
+	.CD(GND),
+	.Q(DA_LRCK_c),
+	.GSR(sl_nreset)
+);
+// @2:1
+  VLO GND_cZ (
+	.Z(GND)
+);
+// @2:1
+  VHI VCC_cZ (
+	.Z(VCC)
+);
+// @24:104
+  OB PA_nEN_pad (
+	.I(GND),
+	.O(PA_nEN)
+);
+// @24:101
+  OB DA_MUTE_pad (
+	.I(GND),
+	.O(DA_MUTE)
+);
+// @24:100
+  OB \DA_FMT_pad[2]  (
+	.I(GND),
+	.O(DA_FMT[2])
+);
+// @24:100
+  OB \DA_FMT_pad[1]  (
+	.I(GND),
+	.O(DA_FMT[1])
+);
+// @24:100
+  OB \DA_FMT_pad[0]  (
+	.I(GND),
+	.O(DA_FMT[0])
+);
+// @24:99
+  OB \DA_DEMP_pad[1]  (
+	.I(GND),
+	.O(DA_DEMP[1])
+);
+// @24:99
+  OB \DA_DEMP_pad[0]  (
+	.I(GND),
+	.O(DA_DEMP[0])
+);
+// @24:96
+  OB DA_nRST_pad (
+	.I(GND),
+	.O(DA_nRST)
+);
+// @24:95
+  OB DA_DIN_pad (
+	.I(GND),
+	.O(DA_DIN)
+);
+// @24:94
+  OB DA_BCK_pad (
+	.I(DA_BCK_c),
+	.O(DA_BCK)
+);
+// @24:93
+  OB DA_LRCK_pad (
+	.I(DA_LRCK_c),
+	.O(DA_LRCK)
+);
+// @24:92
+  OB DA_SCKI_pad (
+	.I(DA_SCKI_c),
+	.O(DA_SCKI)
+);
+// @24:89
+  OB AD_nPDWN_pad (
+	.I(GND),
+	.O(AD_nPDWN)
+);
+// @24:88
+  OB AD_OSR_pad (
+	.I(GND),
+	.O(AD_OSR)
+);
+// @24:87
+  OB AD_BYPAS_pad (
+	.I(GND),
+	.O(AD_BYPAS)
+);
+// @24:86
+  OB \AD_MODE_pad[1]  (
+	.I(GND),
+	.O(AD_MODE[1])
+);
+// @24:86
+  OB \AD_MODE_pad[0]  (
+	.I(GND),
+	.O(AD_MODE[0])
+);
+// @24:85
+  OB \AD_FMT_pad[1]  (
+	.I(GND),
+	.O(AD_FMT[1])
+);
+// @24:85
+  OB \AD_FMT_pad[0]  (
+	.I(GND),
+	.O(AD_FMT[0])
+);
+// @24:81
+  OB AD_SCKI_pad (
+	.I(DA_SCKI_c),
+	.O(AD_SCKI)
+);
+// @24:77
+  OB MA_SDI_pad (
+	.I(GND),
+	.O(MA_SDI)
+);
+// @24:76
+  OB MA_SCLK_pad (
+	.I(MA_SCLK_c),
+	.O(MA_SCLK)
+);
+// @24:75
+  OB MA_nCS_pad (
+	.I(MA_nCS_c),
+	.O(MA_nCS)
+);
+// @24:74
+  OB MA_nDCEN_pad (
+	.I(GND),
+	.O(MA_nDCEN)
+);
+// @24:73
+  OB MA_ZCEN_pad (
+	.I(VCC),
+	.O(MA_ZCEN)
+);
+// @24:59
+  OB RS232_DTR_pad (
+	.I(GND),
+	.O(RS232_DTR)
+);
+// @24:57
+  OB RS232_TX_pad (
+	.I(GND),
+	.O(RS232_TX)
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[7]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[7])
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[6]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[6])
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[5]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[5])
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[4]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[4])
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[3]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[3])
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[2]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[2])
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[1]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[1])
+);
+// @24:52
+  OBZ \BARGRAPH_RIGHT_pad[0]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_RIGHT[0])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[7]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[7])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[6]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[6])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[5]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[5])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[4]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[4])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[3]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[3])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[2]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[2])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[1]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[1])
+);
+// @24:51
+  OBZ \BARGRAPH_LEFT_pad[0]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(BARGRAPH_LEFT[0])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[7]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[7])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[6]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[6])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[5]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[5])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[4]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[4])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[3]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[3])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[2]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[2])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[1]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[1])
+);
+// @24:50
+  OBZ \SEGMENT_LED4_pad[0]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED4[0])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[7]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[7])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[6]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[6])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[5]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[5])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[4]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[4])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[3]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[3])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[2]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[2])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[1]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[1])
+);
+// @24:49
+  OBZ \SEGMENT_LED3_pad[0]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED3[0])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[7]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[7])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[6]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[6])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[5]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[5])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[4]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[4])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[3]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[3])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[2]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[2])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[1]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[1])
+);
+// @24:48
+  OBZ \SEGMENT_LED2_pad[0]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED2[0])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[7]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[7])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[6]  (
+	.I(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[6])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[5]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[5])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[4]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[4])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[3]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[3])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[2]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[2])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[1]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[1])
+);
+// @24:47
+  OBZ \SEGMENT_LED1_pad[0]  (
+	.I(GND),
+	.T(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.O(SEGMENT_LED1[0])
+);
+// @24:46
+  OB \STATUS_GREEN_pad[2]  (
+	.I(GND),
+	.O(STATUS_GREEN[2])
+);
+// @24:46
+  OB \STATUS_GREEN_pad[1]  (
+	.I(GND),
+	.O(STATUS_GREEN[1])
+);
+// @24:46
+  OB \STATUS_GREEN_pad[0]  (
+	.I(GND),
+	.O(STATUS_GREEN[0])
+);
+// @24:45
+  OB \STATUS_YELLOW_pad[2]  (
+	.I(GND),
+	.O(STATUS_YELLOW[2])
+);
+// @24:45
+  OB \STATUS_YELLOW_pad[1]  (
+	.I(GND),
+	.O(STATUS_YELLOW[1])
+);
+// @24:45
+  OB \STATUS_YELLOW_pad[0]  (
+	.I(GND),
+	.O(STATUS_YELLOW[0])
+);
+// @24:44
+  OB \STATUS_RED_pad[2]  (
+	.I(GND),
+	.O(STATUS_RED[2])
+);
+// @24:44
+  OB \STATUS_RED_pad[1]  (
+	.I(GND),
+	.O(STATUS_RED[1])
+);
+// @24:44
+  OB \STATUS_RED_pad[0]  (
+	.I(GND),
+	.O(STATUS_RED[0])
+);
+// @24:33
+  IB CLK_pad (
+	.I(CLK),
+	.O(CLK_c)
+);
+  GSR GSR_INST (
+	.GSR(sl_nreset)
+);
+assign \gain_control_1.sl_changed_acke_0  = (~g0_i_m2_L3 & ~g0_i_m2_L5) | 
+   (~g0_i_m2_L3 & ~g0_i_m2_L5 & ~\gain_control_1.sl_changed ) | (~g0_i_m2_L5 & 
+   \gain_control_1.sl_changed ) | (~g0_i_m2_L5 & ~\gain_control_1.proc_transmit.un9_vl_last_toggle  & 
+   \gain_control_1.sl_changed ) | (g0_i_m2_L3 & \gain_control_1.proc_transmit.un9_vl_last_toggle  & 
+   \gain_control_1.sl_changed ) | (~g0_i_m2_L5 & \gain_control_1.proc_transmit.un9_vl_last_toggle  & 
+   \gain_control_1.sl_changed ) | (g0_i_m2_L3 & g0_i_m2_L5 & \gain_control_1.proc_transmit.un9_vl_last_toggle  & 
+   \gain_control_1.sl_changed );
+assign \gain_control_1.proc_transmit.un9_vl_last_toggle  = (g0_8_x1 & \gain_control_1.proc_transmit.vn_counter [0]);
+assign g0_i_m2_L1 = (~\gain_control_1.proc_transmit.vn_counter [0] & ~\gain_control_1.proc_transmit.vn_counter [3] & 
+   \gain_control_1.proc_transmit.vn_counter [4]);
+assign g0_i_m2_L3 = (~MA_SCLK_c & \gain_control_1.proc_transmit.vl_last_toggle  & 
+   sl_nreset);
+assign g0_i_m2_L5 = (~g0_i_m2_L1 & ~\gain_control_1.sl_changed_ack ) | (~g0_i_m2_L3 & 
+   ~\gain_control_1.sl_changed_ack ) | (~g0_i_m2_L1 & g0_i_m2_L3 & ~\gain_control_1.sl_changed_ack ) | 
+   (~g0_2_0 & ~\gain_control_1.sl_changed_ack ) | (~g0_i_m2_L1 & g0_2_0 & 
+   ~\gain_control_1.sl_changed_ack ) | (~g0_i_m2_L3 & g0_2_0 & ~\gain_control_1.sl_changed_ack ) | 
+   (~g0_i_m2_L1 & g0_i_m2_L3 & g0_2_0 & ~\gain_control_1.sl_changed_ack );
+assign g0_8_x1 = (\gain_control_1.proc_transmit.vn_counter [1] & \gain_control_1.proc_transmit.vn_counter [2] & 
+   \gain_control_1.proc_transmit.vn_counter [3] & ~\gain_control_1.proc_transmit.vn_counter [4]);
+assign g0_x1 = (g0_12 & g0_13 & g0_14);
+assign \gain_control_1.proc_transmit.un16_vl_last_toggle  = (g0_2_0 & ~\gain_control_1.proc_transmit.vn_counter [0] & 
+   ~\gain_control_1.proc_transmit.vn_counter [3] & \gain_control_1.proc_transmit.vn_counter [4]);
+assign g0_2_0 = (~\gain_control_1.proc_transmit.vn_counter [1] & \gain_control_1.proc_transmit.vn_counter [2]);
+assign \gain_control_1.nCS_0_sqmuxa_1  = (~MA_SCLK_c & \gain_control_1.proc_transmit.vl_last_toggle  & 
+   \gain_control_1.sl_changed  & sl_nreset);
+assign g0_14 = (\reset_gen_1.reset_count.vn_count [14] & \reset_gen_1.reset_count.vn_count [15] & 
+   ~\reset_gen_1.reset_count.vn_count [17] & \reset_gen_1.un5_vn_count_i_0 [32]);
+assign g0_13 = (\reset_gen_1.reset_count.vn_count [8] & \reset_gen_1.reset_count.vn_count [10] & 
+   \reset_gen_1.reset_count.vn_count [13] & ~\reset_gen_1.reset_count.vn_count [18]);
+assign g0_12 = (\reset_gen_1.reset_count.vn_count [6] & \reset_gen_1.reset_count.vn_count [9] & 
+   \reset_gen_1.reset_count.vn_count [11] & \reset_gen_1.reset_count.vn_count [12]);
+assign g0_11 = (\reset_gen_1.reset_count.vn_count [2] & \reset_gen_1.reset_count.vn_count [5] & 
+   \reset_gen_1.reset_count.vn_count [7] & \reset_gen_1.reset_count.vn_count [16]);
+assign g0_10 = (\reset_gen_1.reset_count.vn_count [1] & \reset_gen_1.reset_count.vn_count [3] & 
+   \reset_gen_1.reset_count.vn_count [4] & \reset_gen_1.reset_count.vn_count [19]);
+// @24:302
+  clockgen_main_1 clockgen_main_1 (
+	.DA_SCKI_c(DA_SCKI_c),
+	.GND(GND),
+	.CLK_c(CLK_c)
+);
+// @24:310
+  reset_gen_1 reset_gen_1 (
+	.vn_count({\reset_gen_1.reset_count.vn_count [19], \reset_gen_1.reset_count.vn_count [18], 
+   \reset_gen_1.reset_count.vn_count [17], \reset_gen_1.reset_count.vn_count [16], 
+   \reset_gen_1.reset_count.vn_count [15], \reset_gen_1.reset_count.vn_count [14], 
+   \reset_gen_1.reset_count.vn_count [13], \reset_gen_1.reset_count.vn_count [12], 
+   \reset_gen_1.reset_count.vn_count [11], \reset_gen_1.reset_count.vn_count [10], 
+   \reset_gen_1.reset_count.vn_count [9], \reset_gen_1.reset_count.vn_count [8], 
+   \reset_gen_1.reset_count.vn_count [7], \reset_gen_1.reset_count.vn_count [6], 
+   \reset_gen_1.reset_count.vn_count [5], \reset_gen_1.reset_count.vn_count [4], 
+   \reset_gen_1.reset_count.vn_count [3], \reset_gen_1.reset_count.vn_count [2], 
+   \reset_gen_1.reset_count.vn_count [1]}),
+	.un5_vn_count_i_0(\reset_gen_1.un5_vn_count_i_0 [32]),
+	.g0_13(g0_13),
+	.g0_12(g0_12),
+	.VCC(VCC),
+	.CLK_c(CLK_c),
+	.GND(GND),
+	.g0_x1(g0_x1),
+	.g0_10(g0_10),
+	.g0_11(g0_11),
+	.sl_nreset_i(sl_nreset_i),
+	.sl_nreset(sl_nreset)
+);
+// @24:335
+  i2s_transmitter_1 i2s_transmitter_1 (
+	.VCC(VCC),
+	.DA_BCK_c(DA_BCK_c),
+	.sl_lrck(\i2s_transmitter_1.sl_lrck ),
+	.un6_sl_sync(un6_sl_sync),
+	.sl_nreset(sl_nreset),
+	.DA_SCKI_c(DA_SCKI_c),
+	.GND(GND)
+);
+// @24:350
+  gain_control_1 gain_control_1 (
+	.vn_counter({\gain_control_1.proc_transmit.vn_counter [4], \gain_control_1.proc_transmit.vn_counter [3], 
+   \gain_control_1.proc_transmit.vn_counter [2], \gain_control_1.proc_transmit.vn_counter [1], 
+   \gain_control_1.proc_transmit.vn_counter [0]}),
+	.un16_vl_last_toggle(\gain_control_1.proc_transmit.un16_vl_last_toggle ),
+	.OUTPUT_e_i_0(\segment_decoder_1.OUTPUT_e_i_0 ),
+	.nCS_0_sqmuxa_1(\gain_control_1.nCS_0_sqmuxa_1 ),
+	.un9_vl_last_toggle(\gain_control_1.proc_transmit.un9_vl_last_toggle ),
+	.VCC(VCC),
+	.MA_nCS_c(MA_nCS_c),
+	.OUTPUT_e_i(\segment_decoder_1.OUTPUT_e_i ),
+	.vl_last_toggle(\gain_control_1.proc_transmit.vl_last_toggle ),
+	.g0_i_m2_L3(g0_i_m2_L3),
+	.sl_changed(\gain_control_1.sl_changed ),
+	.sl_changed_ack(\gain_control_1.sl_changed_ack ),
+	.sl_changed_acke_0(\gain_control_1.sl_changed_acke_0 ),
+	.sl_nreset(sl_nreset),
+	.sl_nreset_i(sl_nreset_i),
+	.DA_SCKI_c(DA_SCKI_c),
+	.GND(GND),
+	.MA_SCLK_c(MA_SCLK_c)
+);
+// @24:414
+  segment_decoder_4 segment_decoder_1 (
+	.sl_nreset(sl_nreset),
+	.DA_SCKI_c(DA_SCKI_c),
+	.GND(GND),
+	.OUTPUT_e_i_0_i(\segment_decoder_1.OUTPUT_e_i_0_i ),
+	.OUTPUT_e_i_0(\segment_decoder_1.OUTPUT_e_i_0 )
+);
+// @24:447
+  segment_decoder_3_1 segment_decoder_4 (
+	.OUTPUT_e_i(\segment_decoder_1.OUTPUT_e_i ),
+	.GND(GND),
+	.OUTPUT_e_i_0(\segment_decoder_1.OUTPUT_e_i_0 )
+);
+// @24:302
+  PUR PUR_INST (
+	.PUR(VCC)
+);
+endmodule /* toplevel */
+
